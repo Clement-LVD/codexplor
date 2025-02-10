@@ -1,0 +1,23 @@
+Mettre à jour la documentation :
+
+
+roxygen2::roxygenize()
+
+Mettre à jour les dépendances :
+
+usethis::use_package("stringr") # et autres packages
+
+Exécuter les tests :
+devtools::test()
+Vérifier le package :
+
+devtools::check()
+Mettre à jour DESCRIPTION pour les vignettes (si applicable) :
+ #si il y a des vignettes
+VignetteBuilder: rmarkdown
+Mettre à jour le site web (si applicable) :
+
+r
+Copier
+Modifier
+pkgdown::build_site()
