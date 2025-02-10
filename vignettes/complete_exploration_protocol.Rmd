@@ -9,6 +9,8 @@ vignette: >
 
 Exemple minimum
 
+fn_net <- get_text_network_from_files("~")
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -18,4 +20,6 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(codexplor)
+
+# fn_net <-get_text_network_from_files("~")
 ```
