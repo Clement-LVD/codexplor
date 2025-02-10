@@ -1,5 +1,5 @@
 Mettre à jour la documentation :
-
+devtools::build_readme()
 
 roxygen2::roxygenize()
 

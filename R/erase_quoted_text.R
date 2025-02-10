@@ -34,7 +34,7 @@
 #' @export
 erase_quoted_text <- function(text, char_for_replacing_each_char = " "
 
-                              , quoting_char = '"') {
+                              , quoting_char = '"' ) {
   # Trouver les correspondances de texte entre guillemets simples
   regex_quoted_text = paste0(quoting_char, "([^", quoting_char, "]*)", quoting_char)
 
