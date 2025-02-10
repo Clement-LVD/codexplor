@@ -1,14 +1,13 @@
-#' srch_pattern_in_files_get_df :
-#' 1) take a folder path
-#' 2) read all files in the folder
-#' 3) match a pattern (regex) and return the extracted text or NA (meaning 'no match')
-#' 4) and answer a df with all the readed content
-#' Regarding the extracted content : the user have the possibility to indicate some custom pattern (regex) for matching a complete pattern and extract a part of the text
+#' srch_pattern_in_files_get_df associate a text to a file
+#' e.g., detect a file with a func' defined with 'function_name <- function'
+#'
+#' | Read files in a folder. Default are including subdir, read .R files, no match on commented lines)
+#' | Then try to extract a pattern and return the extracted text (NA meaning 'no match')
+#' | Finally answer a df with all the readed content
+#' Regarding the regex : regex prefix_to_add_to_pattern and pattern_regex_to_match_and_remove are pasted in order to match
+#'  but only the prefix is extracted as a result
 #' Regarding the returned df : the first col' is the file path of all the matched files (first regex passed to list.files)
-#' the last col is the extracted text : this will be the prefix passed by the user, only when there is a complete match
-#' the function aim is to associate a matched text to a file path
-#' typically by detecting a classic func' definition such as
-#' function_name <- function(bunch of parameter)
+#' Last col is the extracted text : this will be the prefix passed by the user, only when there is a complete match
 #'
 #' @param path_main_folder `character`
 #'   Folder where to read all files that match a pattern. Default to current working directory. The files must match the pattern_regex_list_files parameter which is passed to list.files(pattern = )
