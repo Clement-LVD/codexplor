@@ -30,7 +30,7 @@ The goal of codexplor is to Explore Your Codes Files, with a bunch of dedicated 
 
 ⏩ Made some cool dataviz' about your func' network [🔧🔨]
 
-And other features, more or less useful for coordinate large programming project, made helper func' for new colleagues and/or future you, and chill in front of cool megalomaniac dataviz about your programming work.
+And other features, more or less useful for coordinate large programming project, made helper func' for new colleagues and/or future you, and chill in front of cool megalomaniac dataviz about your programming world.
 
 ## Installation
 

@@ -1,9 +1,11 @@
 #' srch_pattern_in_files_get_df associate a text to a file
 #' e.g., detect a file with a func' defined with 'function_name <- function'
 #'
-#' | Read files in a folder. Default are including subdir, read .R files, no match on commented lines)
-#' | Then try to extract a pattern and return the extracted text (NA meaning 'no match')
-#' | Finally answer a df with all the readed content
+#' | A] Read files in a folder and answer the content readed in a df
+#' Default parameters : search into the wd() path recursively, read .R files
+#' | B] Then try to extract a pattern and return the extracted text  (no match on commented lines by default)
+#' In the 'matched text' part of the result, NA meaning 'no match'
+#' | C] Finally answer a df with all the readed content
 #' Regarding the regex : regex prefix_to_add_to_pattern and pattern_regex_to_match_and_remove are pasted in order to match
 #'  but only the prefix is extracted as a result
 #' Regarding the returned df : the first col' is the file path of all the matched files (first regex passed to list.files)
@@ -48,7 +50,7 @@ srch_pattern_in_files_get_df <- function(
     path_main_folder = getwd()
 
 
-   , pattern_regex_to_match_and_remove = "<?<- +?function"
+   , pattern_regex_to_match_and_remove = "<- +?function"
 
 
     , prefix_to_add_to_pattern = ".*" #(?<!FUN) # useless if "=" is not a valid way to define func'
@@ -94,3 +96,4 @@ content_df[[extracted_prefix_col_name]] <- extract_txt_before_regex(
 
 return(content_df)
   }
+

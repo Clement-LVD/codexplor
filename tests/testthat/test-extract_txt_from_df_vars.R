@@ -11,7 +11,7 @@ test_that("test-extract_txt_from_df_vars() returns correct results", {
   test_that("extract_txt_from_df_vars ne filtre pas les résultats vides lorsque filter_empty_results est FALSE", {
 
     # Test avec `keep_empty_results = T` pour garder toutes les lignes
-    result <- extract_txt_from_df_vars(df_test, "World", 1:2,keep_empty_results = T)
+    result <- extract_txt_from_df_vars(df_test,regex_extract_txt =  "World",cols_for_searching_text =  1:2,keep_empty_results = T)
 
     # Vérifier qu'aucune ligne n'a été filtrée
     expect_equal(nrow(result), 3)  # Il devrait y avoir 3 lignes

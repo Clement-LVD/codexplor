@@ -45,6 +45,10 @@ Only matching lines are returned (the default) or every line gived + eventually 
 # Example usage
 df <- data.frame(A = c("Hello World", "Pattern matching here", "Test123"),
                  B = c("This is a test", "Hello World again", "Pattern not found"))
-extract_txt_from_df_vars(df, "World", 1:2)
-
+extract_txt_from_df_vars(df, "World|Hello", cols_for_searching_text = 1:2)
+#If using 2 regex separated by "|"
+# It will return 5 lines : line #1 is duplicated on 2 lines (since there is 2 matches on line 1)
+# (i.e. from one single line with "Hello Word" to one line for matching 'hello' and one for 'world')
+# same for line #2, with 2 matches for 2 returned lines
+#Third line is returned despite no match, since keep_empty_results is T (default)
 }

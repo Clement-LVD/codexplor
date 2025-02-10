@@ -2,23 +2,12 @@
 % Please edit documentation in R/srch_pattern_in_files_get_df.R
 \name{srch_pattern_in_files_get_df}
 \alias{srch_pattern_in_files_get_df}
-\title{srch_pattern_in_files_get_df :
-\enumerate{
-\item take a folder path
-\item read all files in the folder
-\item match a pattern (regex) and return the extracted text or NA (meaning 'no match')
-\item and answer a df with all the readed content
-Regarding the extracted content : the user have the possibility to indicate some custom pattern (regex) for matching a complete pattern and extract a part of the text
-Regarding the returned df : the first col' is the file path of all the matched files (first regex passed to list.files)
-the last col is the extracted text : this will be the prefix passed by the user, only when there is a complete match
-the function aim is to associate a matched text to a file path
-typically by detecting a classic func' definition such as
-function_name <- function(bunch of parameter)
-}}
+\title{srch_pattern_in_files_get_df associate a text to a file
+e.g., detect a file with a func' defined with 'function_name <- function'}
 \usage{
 srch_pattern_in_files_get_df(
   path_main_folder = getwd(),
-  pattern_regex_to_match_and_remove = "<?<- +?function",
+  pattern_regex_to_match_and_remove = "<- +?function",
   prefix_to_add_to_pattern = ".*",
   recursive_search_for_files = T,
   pattern_regex_list_files = "\\\\.r$",
@@ -72,19 +61,15 @@ Column name for the extracted text (last col' of the returned df)}
 A \code{data.frame} with 4 col' : first (\code{file_path} by default) contain the file_path, then \code{line_number} (by default) contain line_number, third column (\code{content} by default) containing the readed lines from the file and the LAST ONE contain the matched text, according to the regex provided by the user
 }
 \description{
-srch_pattern_in_files_get_df :
-\enumerate{
-\item take a folder path
-\item read all files in the folder
-\item match a pattern (regex) and return the extracted text or NA (meaning 'no match')
-\item and answer a df with all the readed content
-Regarding the extracted content : the user have the possibility to indicate some custom pattern (regex) for matching a complete pattern and extract a part of the text
+| A] Read files in a folder and answer the content readed in a df
+Default parameters : search into the wd() path recursively, read .R files
+| B] Then try to extract a pattern and return the extracted text  (no match on commented lines by default)
+In the 'matched text' part of the result, NA meaning 'no match'
+| C] Finally answer a df with all the readed content
+Regarding the regex : regex prefix_to_add_to_pattern and pattern_regex_to_match_and_remove are pasted in order to match
+but only the prefix is extracted as a result
 Regarding the returned df : the first col' is the file path of all the matched files (first regex passed to list.files)
-the last col is the extracted text : this will be the prefix passed by the user, only when there is a complete match
-the function aim is to associate a matched text to a file path
-typically by detecting a classic func' definition such as
-function_name <- function(bunch of parameter)
-}
+Last col is the extracted text : this will be the prefix passed by the user, only when there is a complete match
 }
 \examples{
 #Analysing the func of the package, assuming you have installed it :
