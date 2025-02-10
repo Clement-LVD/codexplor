@@ -3,32 +3,35 @@
 
 # codexplor
 
-\[🧰🔧🔨 UNDER CONSTRUNCTION 🧰🔧🔨\] <!-- badges: start -->
-[![Lifecycle:
+🧰🔧🔨 UNDER CONSTRUNCTION 🧰🔧🔨 <!-- badges: start --> [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.org/package=codexplor)
 <!-- badges: end -->
 
-The goal of codexplor is to Explore And Dataviz’ Your Code Files with
-func’ dedicated to explore and understand your programing files. You
-should try to :
+The goal of codexplor is to Explore Your Codes Files, with a bunch of
+dedicated func’. Soon, you should try to :
 
-⏩ Get a network of the func’ in your project, looking for cascading
-dependancies.
+⏩ Get a network of the func’ in a folder with
+get_text_network_from_files()
 
-⏩ Identifying higher-level func’ and the ones they launch \[…\]
+⏩ Get metrics and identifying cascading dependancies of func’ \[🔧🔨\]
 
-⏩ Made some cool dataviz’ about your func’ network, in order to
-coordinate large programming project, made helper func’ for new
-colleagues and/or future you, and relaxing da etc.
+⏩ Identifying your higher-level func’ and visualize the ones they
+launch \[🔧🔨\]
+
+⏩ Made some cool dataviz’ about your func’ network \[🔧🔨\]
+
+And other features, more or less useful for coordinate large programming
+project, made helper func’ for new colleagues and/or future you, and
+chill in front of cool megalomaniac dataviz about your programming work.
 
 ## Installation
 
 You can’t install the development version of codexplor yet
 
 ``` r
-cat("patience")
+cat("...")
 ```
 
 ## Example
@@ -91,6 +94,7 @@ I don’t need to render `README.Rmd` regularly, since keep `README.md`
 up-to-date is near to useless. `devtools::build_readme()` is handy for
 this.
 
-I can also embed plots, for example:
+I can also embed plots but it’s cool to forget to replace the default
+url :
 
 <img src="man/figures/README-pressure-1.png" width="100%" />

@@ -1,10 +1,10 @@
 Package: codexplor
-Title: Explore And Dataviz' Your Code Files
+Title: Explore And Dataviz' Your R Code Files
 Version: 0.0.0.9000
 Authors@R: 
     person("Clément", "Laverdet", , "clementlvd@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4466-3394"))
-Description: Func' dedicated to explore and understand your programing files, e.g., get a network of the func'-cascading dependancies. Nice for identifying higher-level func' and the ones they launch [...] and showing your work to other people, coordinate large programming project, made automatic-help func', etc.
+Description: Func' dedicated to explore your codes files, e.g., get a network of the func'-cascading dependancies. Nice for identifying higher-level func' and the ones they launch [...] and showing your work to other people, coordinate large programming project, made automatic-help func', etc.
 License: Apache License (>= 2) | file LICENSE
 Suggests: 
     knitr,
