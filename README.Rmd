@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 The goal of codexplor is to Explore Your Codes Files, with a bunch of dedicated func'. Soon, you should try to :
 
-⏩ Get a network of the func’ in a folder with get_text_network_from_files()
+⏩ Get a network of func’ iby passing a folder path to get_text_network_from_files()
 
 ⏩ Get metrics and identifying cascading dependancies of func' [🔧🔨]
 
@@ -47,7 +47,7 @@ A - not so - lovely dog <3 is waiting here :
 ```{r example}
 library(codexplor)
 ## basic example code
-cat("
+dog <- c("
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣠⣤⣤⣤⣤⣤⣤⣄⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⡾⠛⠉⠉⠉⠁⠀⠀⠀⠀⠉⠉⠉⠛⠷⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⠈⠙⢿⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀

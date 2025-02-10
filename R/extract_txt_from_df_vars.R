@@ -21,9 +21,10 @@
 #' extract_txt_from_df_vars(df, "World", 1:2)
 #'
 #' @importFrom stringr str_extract_all regex
-#' @importFrom tidyr unnest
 #' @export
-extract_txt_from_df_vars <- function(df = NULL , regex_extract_txt = NULL , cols_for_searching_text = NULL, keep_empty_results = T, returned_col_name = "to"
+extract_txt_from_df_vars <- function(df = NULL , regex_extract_txt = NULL , cols_for_searching_text = NULL
+                                     , keep_empty_results = T
+                                     , returned_col_name = "to"
                                      ){
 
   if (is.null(df)) {cat("You should pass a dataframe to extract_txt_from_df_vars\n"); return(NULL)}
@@ -43,12 +44,30 @@ complete_result <- lapply(complete_result, FUN = function(x) {x <- x[!is.na(x) &
 # here we will multiply lines depending on the number of result
 # max_var_to_create <- max(unlist(lapply(complete_result , length )))
 
-#Adding some col (and multiply lines) to df passed by the user
-# expanded_df <- dplyr::mutate(df, to = complete_result) #to
-expanded_df <- df
-expanded_df[[returned_col_name]] <- complete_result
-# become a dataframe (table): lost blanc lines
-expanded_df <- tidyr::unnest(data = expanded_df, cols = !!returned_col_name, keep_empty = keep_empty_results) # to
+# adding matches to the df passed by the user
+expanded_df <- df # df with same n_row than the original one
+
+expanded_df$row_num <- 1:nrow(expanded_df) # a valid line_number
+
+expanded_df$list_of_matched_txt <- complete_result  # by default initialize the col' "to" (here we write a list in this col')
+
+# xxx verifier ici xxx
+flattened_df <- data.frame(row_num = rep(expanded_df$row_num # We REP each row until unnesting the list =>
+            , sapply(expanded_df$matches, length)),
+            # sapply(expanded_df$matches, length) give length of each sublist, used for repeating value.
+           values = unlist(expanded_df$matches)) # and finally unlist(expanded_df$matches) give a raw vector.
+
+colnames(flattened_df) <- c("row_num",   returned_col_name ) # add custom colnames
+# the df will have eventually a lines addition. Equivalent of :
+# expanded_df <- tidyr::unnest(data = expanded_df, cols = !!returned_col_name, keep_empty = keep_empty_results) # to
+
+expanded_df <- merge(expanded_df, flattened_df, by = "row_num", all = T ) # adding these lines to expanded_df
+
+# eject lines with no match (optionnal)
+if(!keep_empty_results){expanded_df <- expanded_df[which(!is.na(expanded_df[[returned_col_name]]) ) , ]}
+
+# df_new <- do.call(rbind, Map(cbind, id = df$id, df$valeurs))
+# rownames(df_new) <- NULL  # Nettoyage des noms de lignes
 
 # or we have to reduce the number of lines and join to the user dataframe
 # expanded_df <- unique(expanded_df)
