@@ -42,7 +42,15 @@ cat("...")
 
 ## Example
 
-A - not so - lovely dog <3 is waiting here :
+Assuming you have a R folder full of custom R func' :
+
+`fn_net <- get_text_network_from_files()`
+
+Will read all files in the folder, and extract all text from the 1st regex you provided, then construct a regex from the result 
+(i.e. pasted together with the "|" separator and optionnally adding a suffix and prefix defined by the user)
+Then, a 2nd search is made in the content to extract, and this lead to a network (from file path with 2nd match => to file path with first match)
+For example the default will try to catch a basic func' definition, extracting the text before this definition.
+Then, givin' the previous matches (supposed as 'function names') you'll extract all matches of these text in the original files.
 
 ```{r example}
 library(codexplor)
@@ -79,7 +87,7 @@ I don't need to render `README.Rmd` regularly, since keep `README.md` up-to-date
 I can also embed plots but it's cool to forget to replace the default url :
 
 ```{r pressure, echo = FALSE}
-plot(pressure)
+# plot(pressure)
 
 # In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
 

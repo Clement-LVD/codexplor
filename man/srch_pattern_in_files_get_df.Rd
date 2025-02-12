@@ -7,40 +7,40 @@ e.g., detect a file with a func' defined with 'function_name <- function'}
 \usage{
 srch_pattern_in_files_get_df(
   path_main_folder = getwd(),
-  pattern_regex_to_match_and_remove = "<- +?function",
-  prefix_to_add_to_pattern = ".*",
+  pattern = "\\\\b([A-Za-z0-9_\\\\.]+)(?=\\\\s*(?:<-)\\\\s*function)",
+  match_to_exclude = NULL,
+  ignore_match_less_than_nchar = 2,
   recursive_search_for_files = T,
   pattern_regex_list_files = "\\\\.r$",
   ignore_case = T,
-  clean_match_from_pattern = T,
   comments = FALSE,
   file_path_col_name = "file_path",
   content_col_name = "content",
   line_number_col_name = "line_number",
-  extracted_prefix_col_name = "matches"
+  extracted_txt_col_name = "matches"
 )
 }
 \arguments{
 \item{path_main_folder}{\code{character}
 Folder where to read all files that match a pattern. Default to current working directory. The files must match the pattern_regex_list_files parameter which is passed to list.files(pattern = )}
 
-\item{pattern_regex_to_match_and_remove}{\code{character}, default = \code{"(<-|\\\\=) +?function"}
-A regex for matching lines and extract text : this pattern will be removed from the extracted text. Typically use for finding a line where a R function is defined}
+\item{pattern}{\code{character}, default = \code{"\\\\b([A-Za-z0-9_]+)(?=\\\\s*(?:<-|=)\\\\s*(?:function|$))"}
+A regex for matching lines and extract text. Use the regex for finding a line by extracting text}
 
-\item{prefix_to_add_to_pattern}{\code{character}, default = \code{".*(?<!FUN)"}
-A regex added BEFORE the pattern_regex_to_match_and_remove : used for matching lines, not removed. This is the text you want to have in a new col'}
+\item{match_to_exclude}{\code{character} A vector of values that will not be returned such as a match.
+The rows where the \code{values} match any element in this vector will be removed.}
+
+\item{ignore_match_less_than_nchar}{\code{double}, default = 2 Excluding match depending on char. number of the matched text (strictly inferior)
+Default exclude match of 1 char such as 'x'.}
 
 \item{recursive_search_for_files}{\code{logical}, default = \code{TRUE}
 If \code{TRUE} - the default, the files will be searched recursively in the path (including subdirectories)}
 
 \item{pattern_regex_list_files}{\code{character}, default = \code{"\\\\.r$"}
-Files to read before to searching for the pattern : passed to list.files(pattern = pattern_regex_list_files). Note that it's not case sensitive}
+Files to read : passed to list.files(pattern = pattern_regex_list_files). Note that it's not case sensitive}
 
 \item{ignore_case}{\code{logical}, default = \code{TRUE}
 If \code{TRUE}, the pattern search (lines matched) will ignore case. If \code{FALSE}, the search will be case-sensitive.}
-
-\item{clean_match_from_pattern}{\code{logical}, default = \code{TRUE}
-If \code{TRUE}, the matched pattern is removed from the returned results. If \code{FALSE}, the pattern will remain in the result.}
 
 \item{comments}{\code{logical}, default = \code{FALSE}
 If \code{FALSE} - the default, the lines whith a leading # will be removed from the returned df}
@@ -54,7 +54,7 @@ Column name for the file content in the output dataframe.}
 \item{line_number_col_name}{\code{character}, default = \code{"line_number"}
 Column name for the line numbers in the output dataframe.}
 
-\item{extracted_prefix_col_name}{\code{character}, default = \code{"matches"}
+\item{extracted_txt_col_name}{\code{character}, default = \code{"matches"}
 Column name for the extracted text (last col' of the returned df)}
 }
 \value{
@@ -66,14 +66,17 @@ Default parameters : search into the wd() path recursively, read .R files
 | B] Then try to extract a pattern and return the extracted text  (no match on commented lines by default)
 In the 'matched text' part of the result, NA meaning 'no match'
 | C] Finally answer a df with all the readed content
-Regarding the regex : regex prefix_to_add_to_pattern and pattern_regex_to_match_and_remove are pasted in order to match
+Regarding the regex : regex prefix_to_add_to_pattern and pattern are pasted in order to match
 but only the prefix is extracted as a result
 Regarding the returned df : the first col' is the file path of all the matched files (first regex passed to list.files)
 Last col is the extracted text : this will be the prefix passed by the user, only when there is a complete match
 }
 \examples{
 #Analysing the func of the package, assuming you have installed it :
-pkg_path <- system.file("R", package = "tidyverse")
+pkg_path <- system.file("R")
 #lines_readed <- srch_pattern_in_files_get_df(pkg_path)
 # Return : XXX A FAIRE XXX
+}
+\seealso{
+\code{\link{readlines_in_df}}
 }

@@ -1,12 +1,87 @@
+#' Get Text Network from Files
+#'
+#' This function read files in a specified folder (default to only .R files)
+#' extracting and filtering text based on a set of criteria.
+#' It is designed to generate a network of text by cascading (regex) research :
+#' 1st the func' try to match a pattern within the files, optionnaly filter the initial results.
+#' Then, a regex-pattern is constructed by appending all the 1st match
+#' and a 2nd research extract this text and construct a network
+#' (1st match finded => exact same text matched elsewhere).
+#'
+#' @param folder_path A string representing the path to the folder containing the files
+#' to read. Default is the current working directory.
+#'
+#' @param ignore_match_less_than_nchar Integer that specifies the number of
+#' characters for the 1st match to be considered valid. The default is 3.
+#'
+#' @param first_match_to_exclude A vector of strings to exclude specific results
+#' from the original matches. For example, you can exclude results like `"server"`.
+#'
+#' @param suffix_for_regex_from_the_text A string representing the suffix (a non-letter or
+#' non-digit character) to match in the text using regular expressions. The default is an
+#' empty string.
+#'
+#' @param prefix_for_regex_from_the_text A string representing the prefix to match in the
+#' text using regular expressions. The default is an empty string.
+#'
+#' @param regex_to_exclude_files_path A regular expression pattern to exclude certain
+#' files based on their paths. For example, `"test-"` can be used to exclude files whose
+#' path includes the word "test". The default is NULL, meaning no files are excluded by path.
+#'
+#' @param filter_2nd_match_unmatched_lines A logical value indicating whether to filter
+#' lines that do not match the second pattern. The default is TRUE.
+#'
+#' @param filter_first_match_results A logical value indicating whether to apply the filter
+#' for the first match. The default is TRUE.
+#'
+#' @param filter_ego_link A logical value indicating whether to filter results based on
+#' "ego links". The default is TRUE.
+#'
+#' @param file_path_from The column name (as a string) representing the "from" file path
+#' in the result data frame. The default is 'from'.
+#'
+#' @param file_path_to The column name (as a string) representing the "to" file path in
+#' the result data frame. The default is 'to'.
+#'
+#' @param match1_colname The column name (as a string) for the first match in the result
+#' data frame. The default is 'first_match'.
+#'
+#' @param match2_colname The column name (as a string) for the second match in the result
+#' data frame. The default is 'second_match'.
+#'
+#' @param line_number_match2_colname The column name (as a string) for the line number
+#' of the second match in the result data frame. The default is 'line_number'.
+#'
+#' @param content_match1_col_name The column name (as a string) for the full content of
+#' the first match. The default is 'content_match_1'.
+#'
+#' @param content_match2_col_name The column name (as a string) for the full content of
+#' the second match. The default is 'content_match_2'.
+#'
+#' @return A data frame containing the filtered results based on the match criteria, with
+#' columns for file paths, match content, and line numbers.
+#'
+#' @examples
+#' # Example usage
+#' result <- get_text_network_from_files(folder_path = getwd(),
+#'                                       ignore_match_less_than_nchar = 1,
+#'                                       first_match_to_exclude = c("server"),
+#'                                       regex_to_exclude_files_path = "test-")
+#'
+#' # Will return a network of func' from the file path where called => to the file path were defined)
+#'
+#' @seealso \code{\link{srch_pattern_in_files_get_df}}, \code{\link{str_extract_all_to_tidy_df}}, \code{\link{fix_escaping}}
+#' @export
 get_text_network_from_files <- function(folder_path = getwd()
 
-    , filter_first_match_by_nchar = 3
+    , ignore_match_less_than_nchar = 3
 
-    , filter_original_result_not_in = "" #c("server")
+    , first_match_to_exclude = NULL
+
+   , prefix_for_regex_from_the_text = ""
 
    ,  suffix_for_regex_from_the_text = ""# pas une lettre ou un chiffre !
 
-   , prefix_for_regex_from_the_text = ""
 
   , regex_to_exclude_files_path = NULL #"test-"
 
@@ -32,10 +107,10 @@ get_text_network_from_files <- function(folder_path = getwd()
 
   ####1) Get content from R files ####
 # With the default regex of srch_pattern_in_files_get_df, fn_network indicate where the func' are defined
-fn_network <-  srch_pattern_in_files_get_df(path_main_folder = folder_path
+fn_network <-  srch_pattern_in_files_get_df(path_main_folder = folder_path, match_to_exclude = first_match_to_exclude
                                             , file_path_col_name = "file_path"
                                             , content_col_name = "content"
- , extracted_prefix_col_name = "first_match") #file with a func' defined by default
+ , extracted_txt_col_name =   "first_match", ignore_match_less_than_nchar = ignore_match_less_than_nchar) #file with a func' defined by default
 #we will retrieve this object and these var later
 
 # we have 3 informations that we used hereafter :
@@ -43,13 +118,6 @@ fn_network <-  srch_pattern_in_files_get_df(path_main_folder = folder_path
 
 #### 2) List the result ####
 fn_defined <- unique(fn_network$first_match) # it's the func' defined by default
-#by default we have the files where each func is defined
-# filter if user don't want some result + filter with nchar
-
-fn_defined <- fn_defined[!fn_defined %in% filter_original_result_not_in]
-
-# filter the previous matches according to nchar parameter
-fn_defined <- fn_defined[which(nchar(fn_defined) > filter_first_match_by_nchar)]
 
 fn_defined <- fn_defined[which(!is.na(fn_defined))]
 
@@ -58,12 +126,12 @@ fn_defined <- fn_defined[which(!is.na(fn_defined))]
 
 #### 3) Construct a regex ####
 # optionnally add a suffix (such as a filter from the user, capture-group, etc.)
-regexx <- paste0(prefix_for_regex_from_the_text, regexx, suffix_for_regex_from_the_text)
+regexx <- paste0(prefix_for_regex_from_the_text, fn_defined, suffix_for_regex_from_the_text)
 
 # made a single regex and clean it from unescaped chars
 regexx_complete <- paste0(regexx, collapse = "|")
 
-regexx_complete <- fix_escaping(regexx_complete,num_escapes = 2, special_chars = c("(", ")"))
+regexx_complete <-  fix_escaping(regexx_complete,num_escapes = 2, special_chars = c("(", ")"))
 
 #### 4) EXTRACT #2 ####
 #  match every mention of our previous matches and returning a DF
@@ -102,11 +170,11 @@ returned_network <- returned_network[, c("file_path", "defined_in", "first_match
 if(filter_ego_link){returned_network <- returned_network[ which( returned_network["file_path"] != returned_network["defined_in"]) , ] }
 
 # filter if user want to filter
+lines_to_exclude <- NULL
+if(!is.null(regex_to_exclude_files_path)){ lines_to_exclude <- grep(x = returned_network$file_path, pattern =  regex_to_exclude_files_path) }
 
-if(!is.null(regex_to_exclude_files_path)){
+if(length(lines_to_exclude) > 0){returned_network <-  returned_network[-lines_to_exclude, ] }
 
-returned_network <-  returned_network[-grep(x = returned_network$file_path, pattern =  regex_to_exclude_files_path) , ]
-}
 
 colnames(returned_network) <- c(file_path_from, file_path_to, match1_colname, match2_colname, line_number_match2_colname, content_match2_col_name,  content_match1_col_name)
 # finally givin the colname wanted by the user
