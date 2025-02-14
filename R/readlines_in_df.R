@@ -3,8 +3,7 @@
 #' This function reads the content of a text file line by line and stores it in a data frame.
 #' You must pick up the FIRST col' for the file_path readed, and the LAST col for the content readed
 #' intermediar are additionnal info, i.e. line_number
-#' @param files_to_read_path `character`
-#'   Path to the text file to read.
+#' @param files_to_read_path `character` Path to the text file to read.
 #' @param return_lowered_text `logical`, default = `FALSE`
 #'   TRUE for lowercasing the returned text. FALSE (the default) will preserve the readed text
 #' @param comments `logical`, default = `FALSE`
@@ -18,7 +17,8 @@
 #' @param line_number_col_name `character`, default = `"line_number"`
 #'   Column name for the line numbers in the output dataframe.
 #'
-#' @return A `data.frame` with 3 col' : first (`file_path` by default) contain the file_path, then `line_number` (by default) contain line_number, and LAST column (`content` by default) containing the read lines from the file.
+#' @return RETURN : `data.frame` with 3 col'. *First* col' (`file_path` by default) is the file_path (readed), then `line_number` (by default).
+#' The *last* column (`content` by default) contain the readed lines from the file.
 #' \describe{
   #'   \item{file_path}{Path of the file where the match was found.}
   #'   \item{line_number}{Line number in the file.}
