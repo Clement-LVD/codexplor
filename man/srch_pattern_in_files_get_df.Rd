@@ -6,7 +6,7 @@
 e.g., detect a file with a func' defined with 'function_name <- function'}
 \usage{
 srch_pattern_in_files_get_df(
-  path_main_folder = getwd(),
+  folder_path = getwd(),
   pattern = "\\\\b([A-Za-z0-9_\\\\.]+)(?=\\\\s*(?:<-)\\\\s*function)",
   match_to_exclude = NULL,
   ignore_match_less_than_nchar = 2,
@@ -21,7 +21,7 @@ srch_pattern_in_files_get_df(
 )
 }
 \arguments{
-\item{path_main_folder}{\code{character}
+\item{folder_path}{\code{character}
 Folder where to read all files that match a pattern. Default to current working directory. The files must match the pattern_regex_list_files parameter which is passed to list.files(pattern = )}
 
 \item{pattern}{\code{character}, default = \code{"\\\\b([A-Za-z0-9_]+)(?=\\\\s*(?:<-|=)\\\\s*(?:function|$))"}

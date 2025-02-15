@@ -13,11 +13,12 @@ II. construct a new pattern with all these *'1stly matched'* text => and then ex
 
 For example, giving a bunch of :
 
-- R codes files. In order to get a network of func'
+- R codes files. In order to get a network of func'. For example 
 
-- e-mail stored in your [gmail / thunderbird, etc.] internal folder, you maybe want to match every word with "@" character in the header part of your mails (expeditor, object, etc.), and then search for these usernnames in every e-mail header. You've just made a network of people who interact by mail, by only indicating the regex that match a character string that contain "@", with a capture-group for extracting the text before the '@'.
+> `net <- get_text_network_from_files("~",   regex_to_exclude_files_path = "test-")`
+> `get_networkd3_from_igraph(get_igraph_from_df(net) )`
 
-- recipes from the famous "Guide Culinaire" by A. Escoffier, you maybe want to extract each title of recipes names, and then search in the entire book for made a network of your favorite Escoffier recipe : get the recipes names is a very basic regex (i.e. ".*\\. -"), but you'll have some homonymes in the result (e.g., of a recipe name that you'll have in the 1st match : 'Carré. -' from a calf [p. 902] ; and then the 2nd text research will find every 'Carré', including dozens of way to cook your "Carré d'agneau" [lamb]. For know, you'll have to craft a regex, and this will not be scalable to unstrunctured content. Here, codexplor need to give you tools for re-sorting your text network, according to other rules.
+- e-mail => you maybe want to match every word with "@" character in the header part of your mails (expeditor, object, etc.), and then search for these usernnames in every e-mail header. You've just made a network of people who interact by mail, by only indicating the regex that match a character string that contain "@", with a capture-group for extracting the text before the '@'.
 
 Here, you want to extract the first text of a paragraph, everytime followed by these 2 chars : ". -")you'll typically discover that craft a lot of 'sauce' is necessary, and near to half of them need themselves a firstly prepared sauce and/or stock
 ChatGPT is bad for indicate you how to cook, giving the fact it have been trained with shitty amateur content. You should open the single "Guide Culinaire" from Escoffier and you'll certainly find that with a single source , your model will give you very good recipes (here we are gonna pretend that - near to - every recipe that is not in this book is a scam and not interest us, but feel free to add a 2nd source or even a third one ^^).

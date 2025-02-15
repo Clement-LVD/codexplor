@@ -40,7 +40,7 @@ readlines_in_df <- function(files_to_read_path,
  , content_col_name = "content"
  , line_number_col_name = "line_number"
            ) {
-
+  files_to_read_path <- files_to_read_path[!is.na(files_to_read_path)]
   n_files_to_read <- length(files_to_read_path)
 if(! n_files_to_read > 0) return(NULL) #null if no file to read :s
 
@@ -49,12 +49,18 @@ if (.verbose) {pb <- utils::txtProgressBar(min = 0, max = 100, style = 3) }
 
     #read all files and transform them in dataframe
     resultats <- do.call(rbind, lapply(seq_along(files_to_read_path), function(i) {
+
       lignes <- readLines(files_to_read_path[i], warn = FALSE)
 
       # clean com'
       lignes <- trimws(lignes)
       if (!return_lowered_text) lignes <- tolower(lignes)
       if (!comments) lignes[substr(lignes, 1, 1) == "#"] <- ""  # clean line instead of com'
+
+      # NO LINE = return empty df
+      if (length(lignes) == 0) {
+        return(data.frame(file_path = files_to_read_path[i], line_number = NA, content = NA, stringsAsFactors = FALSE))
+      }
 
       # df to create
       df <- data.frame(

@@ -107,7 +107,7 @@ get_text_network_from_files <- function(folder_path = getwd()
 
   ####1) Get content from R files ####
 # With the default regex of srch_pattern_in_files_get_df, fn_network indicate where the func' are defined
-fn_network <-  srch_pattern_in_files_get_df(path_main_folder = folder_path, match_to_exclude = first_match_to_exclude
+fn_network <-  srch_pattern_in_files_get_df(folder_path = folder_path, match_to_exclude = first_match_to_exclude
                                             , file_path_col_name = "file_path"
                                             , content_col_name = "content"
  , extracted_txt_col_name =   "first_match", ignore_match_less_than_nchar = ignore_match_less_than_nchar) #file with a func' defined by default

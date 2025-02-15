@@ -11,7 +11,7 @@
 #' Regarding the returned df : the first col' is the file path of all the matched files (first regex passed to list.files)
 #' Last col is the extracted text : this will be the prefix passed by the user, only when there is a complete match
 #'
-#' @param path_main_folder `character`
+#' @param folder_path `character`
 #'   Folder where to read all files that match a pattern. Default to current working directory. The files must match the pattern_regex_list_files parameter which is passed to list.files(pattern = )
 #' @param pattern `character`, default = `"\\b([A-Za-z0-9_]+)(?=\\s*(?:<-|=)\\s*(?:function|$))"`
 #'   A regex for matching lines and extract text. Use the regex for finding a line by extracting text
@@ -46,7 +46,7 @@
 #' @seealso \code{\link{readlines_in_df}}
 #' @export
 srch_pattern_in_files_get_df <- function(
-    path_main_folder = getwd()
+    folder_path = getwd()
 
        ,pattern = "\\b([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)"
 
@@ -68,7 +68,7 @@ srch_pattern_in_files_get_df <- function(
   ){
 
   ####1) import content ####
-fls <- list.files(path = path_main_folder, ignore.case = T
+fls <- list.files(path = folder_path, ignore.case = T
                   , all.files = T, full.names = T, recursive = recursive_search_for_files, pattern = pattern_regex_list_files)
 
 # get files content
