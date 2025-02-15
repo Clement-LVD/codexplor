@@ -15,8 +15,7 @@ readlines_in_df(
 )
 }
 \arguments{
-\item{files_to_read_path}{\code{character}
-Path to the text file to read.}
+\item{files_to_read_path}{\code{character} Path to the text file to read.}
 
 \item{return_lowered_text}{\code{logical}, default = \code{FALSE}
 TRUE for lowercasing the returned text. FALSE (the default) will preserve the readed text}
@@ -37,7 +36,8 @@ Column name for the file content in the output dataframe.}
 Column name for the line numbers in the output dataframe.}
 }
 \value{
-A \code{data.frame} with 3 col' : first (\code{file_path} by default) contain the file_path, then \code{line_number} (by default) contain line_number, and LAST column (\code{content} by default) containing the read lines from the file.
+RETURN : \code{data.frame} with 3 col'. \emph{First} col' (\code{file_path} by default) is the file_path (readed), then \code{line_number} (by default).
+The \emph{last} column (\code{content} by default) contain the readed lines from the file.
 \describe{
 \item{file_path}{Path of the file where the match was found.}
 \item{line_number}{Line number in the file.}
