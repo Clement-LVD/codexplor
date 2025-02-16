@@ -29,8 +29,7 @@ return("<style>
 
 codexplor is a R package that offers functions for explore and understand a programming project, with specialized tools for *understand quickly, analyze and visualize a programming project* (e.g., see which functions are the most used by others func' of the project, which one used others func' of the project and thus have local dependencies). 
 
-codexplor offer functions for realize a complete network analysis protocol of your R programming project, from the constitution of your corpus of documents [...] to the realization of your network analysis. It's a game changer to get rid of the global complexity of the project^[**Local complexity** is the complexity of an individual file : how long and difficult to read is each of your files ? 
-**Global complexity** means difficulty to understand the big picture : how many functions are used and what are the relationship between the various functions in this project ?].
+codexplor offer functions for realize a complete network analysis protocol of your R programming project, from the constitution of your corpus of documents [...] to the realization of your network analysis. It's a game changer to get rid of the global complexity of the project^[**Local complexity** is the complexity of an individual file (how long and difficult to read is each of your files ?). **Global complexity** is the difficulty to understand the big picture : how many functions are used and what are the relationship between the various functions in this project ?].
 
 
 ## Installation
@@ -60,7 +59,9 @@ If the project is a R public github repo :
     net <- get_text_network_from_files(paths, regex_to_exclude_files_path = "test-", ignore_match_less_than_nchar = 5)
     # Return a data.frame, an edgelist of the functions network (≃  572 obs. and 7 variables with readr repo)
 
-This step is associated with a vignette
+Here we read the files with the default parameters of [get_text_network_from_files()](vignettes/get_text_network_from_files).
+
+Next, the function have constructed a Citations Network with these functions names, thanks to a ['cascading matching'](vignettes/cascading_matching.html). Finally, this example have excluded some results from the network : every url that contain "test-" and the matches with less than 5 char, e.g., `cli()` is not matched since it's a 3 letters match). 
 
 ⏩ *3. Turn it into a directed `igraph` network object.*
 
@@ -76,14 +77,11 @@ This step is associated with a vignette
 
 Under construction [🔧🔨]
 
-**About the Citations Network construction (step 2.).** During step 2., we have readed the files with the default parameters of (get_text_network_from_files())[vignettes/get_text_network_from_files]
-
-Next, the function have constructed a Citations Network with these functions names, thanks to a ['cascading matching'](vignettes/cascading_matching.html). Finally, this example have excluded some results from the network : every url that contain "test-" and the matches with less than 5 char, e.g., `cli()` is not matched since it's a 3 letters match). 
-
-In order to use codexplor on various programming project, there is several useful parameters to take care with, depending on the languages you have to manage. Default are tunned for a R programming project.
 
 ---
-> **Usecases.** codexplor help me to priorize my time and apprehend the big picture of a large programming project quickly, with precious network analysis and dataviz'. I've really good insights about the project, when I want to find where to start a polishing loop, follow a programming projects or show a project to other people (e.g., animate dev' network).
+In order to use codexplor on various programming project, there is several useful parameters to take care with, depending on the languages you have to manage. Default are tunned for a R programming project.
+
+> **Usecases.** codexplor help me to priorize my time and apprehend the big picture of a large programming project quickly, with precious network analysis and dataviz'. I've really good insights about the project, when I want to find where to start a polishing loop, follow a programming project or show it to other (e.g., animate dev' network).
 
  
 ```{r example, eval=FALSE, include=FALSE}

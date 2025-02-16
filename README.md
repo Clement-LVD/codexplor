@@ -52,7 +52,15 @@ If the project is a R public github repo :
     net <- get_text_network_from_files(paths, regex_to_exclude_files_path = "test-", ignore_match_less_than_nchar = 5)
     # Return a data.frame, an edgelist of the functions network (≃  572 obs. and 7 variables with readr repo)
 
-This step is associated with a vignette
+Here we read the files with the default parameters of
+[get_text_network_from_files()](vignettes/get_text_network_from_files).
+
+Next, the function have constructed a Citations Network with these
+functions names, thanks to a [‘cascading
+matching’](vignettes/cascading_matching.html). Finally, this example
+have excluded some results from the network : every url that contain
+“test-” and the matches with less than 5 char, e.g., `cli()` is not
+matched since it’s a 3 letters match).
 
 ⏩ *3. Turn it into a directed `igraph` network object.*
 
@@ -68,34 +76,22 @@ This step is associated with a vignette
 
 Under construction \[🔧🔨\]
 
-**About the Citations Network construction (step 2.).** During step 2.,
-we have readed the files with the default parameters of
-(get_text_network_from_files())\[vignettes/get_text_network_from_files\]
-
-Next, the function have constructed a Citations Network with these
-functions names, thanks to a [‘cascading
-matching’](vignettes/cascading_matching.html). Finally, this example
-have excluded some results from the network : every url that contain
-“test-” and the matches with less than 5 char, e.g., `cli()` is not
-matched since it’s a 3 letters match).
+------------------------------------------------------------------------
 
 In order to use codexplor on various programming project, there is
 several useful parameters to take care with, depending on the languages
 you have to manage. Default are tunned for a R programming project.
 
-------------------------------------------------------------------------
-
 > **Usecases.** codexplor help me to priorize my time and apprehend the
 > big picture of a large programming project quickly, with precious
 > network analysis and dataviz’. I’ve really good insights about the
 > project, when I want to find where to start a polishing loop, follow a
-> programming projects or show a project to other people (e.g., animate
-> dev’ network).
+> programming project or show it to other (e.g., animate dev’ network).
 
 <!-- *Usecases of a quick programming project understanding*. codexplor goal is to *quickly* analyse your developing project, in order to *gain* time of comprehension, made your documentation, dataviz' of your project, etc. The features offered are crafted for coordinate large programming project, made helper func' for new colleagues and/or future you, formally identifying your higher-level func' and/or the most-frequently used as dependancies... and other handy features for priorizing your work by quickly figure out 'where' you have to pay attention. For example, before to change a parameter name in a func', you want to check what are the func' that used the one you want to modify. Same for changing the returned content or the behavior of a func' : you want to check which ones used this func' that you want to modify. You also want to offer an easy way to understand the chaining of your custom func'. -->
 
-[^1]: **Local complexity** is the complexity of an individual file : how
-    long and difficult to read is each of your files ? **Global
-    complexity** means difficulty to understand the big picture : how
+[^1]: **Local complexity** is the complexity of an individual file (how
+    long and difficult to read is each of your files ?). **Global
+    complexity** is the difficulty to understand the big picture : how
     many functions are used and what are the relationship between the
     various functions in this project ?
