@@ -29,7 +29,7 @@
 #'
 #' @examples
 #' \dontrun{
-#'   df <- readlines_in_df("path/to/file.txt", case.sensitive = TRUE)
+#'   df <- readlines_in_df("path/to/file.R", case.sensitive = TRUE)
 #'   contents_readed <- df[[ncol(df)]]
 #'   file_path_readed <-  df[[1]]
 #' }

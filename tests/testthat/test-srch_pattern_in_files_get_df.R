@@ -32,7 +32,7 @@ test_that("test-srch_pattern_in_files_get_df() don't match when insufficient nch
  #have returned func' name IN THE LAST COL, first line
 
 
- resulted_df <- srch_pattern_in_files_get_df(files_path = test_file, ignore_match_less_than_nchar = 100, comments = T
+ resulted_df <- srch_pattern_in_files_get_df(files_path = test_file, ignore_match_less_than_nchar = 100, keep_comments =  T
 
                                              ,content_col_name = "content")
 

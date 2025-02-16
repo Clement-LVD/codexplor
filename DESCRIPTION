@@ -18,4 +18,8 @@ VignetteBuilder: knitr
 Imports: 
     stringr,
     utils,
-    igraph
+    igraph,
+    networkD3,
+    htmlwidgets,
+    htmltools,
+    stats

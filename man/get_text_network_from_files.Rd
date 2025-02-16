@@ -5,8 +5,7 @@
 \title{Get Text Network from Files}
 \usage{
 get_text_network_from_files(
-  files_path = paste0("https://github.com/Clement-LVD/codexplor/blob/main/R/",
-    c("get_text_network_from_files", "srch_pattern_in_files_get_df"), ".R"),
+  files_path = "~",
   ignore_match_less_than_nchar = 3,
   first_match_to_exclude = NULL,
   prefix_for_regex_from_the_text = "",
@@ -21,7 +20,8 @@ get_text_network_from_files(
   match2_colname = "second_match",
   line_number_match2_colname = "line_number",
   content_match1_col_name = "content_match_1",
-  content_match2_col_name = "content_match_2"
+  content_match2_col_name = "content_match_2",
+  ...
 )
 }
 \arguments{
@@ -74,10 +74,12 @@ the first match. The default is 'content_match_1'.}
 
 \item{content_match2_col_name}{The column name (as a string) for the full content of
 the second match. The default is 'content_match_2'.}
+
+\item{...}{Parameters passed to srch_pattern_in_files_get_df(). You typically want to adjust the "pattern" parameter, or keep_comments = T}
 }
 \value{
-A data frame containing the filtered results based on the match criteria, with
-columns for file paths, match content, and line numbers.
+A data frame wich is the edgelist of the citations network
+columns 'from' and 'to' indicates the files paths or urls of the matched contents.
 }
 \description{
 This function read files in a specified folder (default to only .R files)
@@ -89,7 +91,7 @@ and a 2nd research extract this text and construct a network
 (1st match finded => exact same text matched elsewhere).
 }
 \examples{
-# Example usage
+# Example with url from github
 result <- get_text_network_from_files(
 files_path = paste0("https://github.com/Clement-LVD/codexplor/blob/main/R/",
  c("get_text_network_from_files","srch_pattern_in_files_get_df" ) , ".R"),

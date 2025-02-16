@@ -11,7 +11,7 @@ srch_pattern_in_files_get_df(
   match_to_exclude = NULL,
   ignore_match_less_than_nchar = 2,
   ignore_case = T,
-  comments = FALSE,
+  keep_comments = FALSE,
   file_path_col_name = "file_path",
   content_col_name = "content",
   line_number_col_name = "line_number",
@@ -34,7 +34,7 @@ Default exclude match of 1 char such as 'x'.}
 \item{ignore_case}{\code{logical}, default = \code{TRUE}
 If \code{TRUE}, the pattern search (lines matched) will ignore case. If \code{FALSE}, the search will be case-sensitive.}
 
-\item{comments}{\code{logical}, default = \code{FALSE}
+\item{keep_comments}{\code{logical}, default = \code{FALSE}
 If \code{FALSE} - the default, the lines whith a leading # will be removed from the returned df}
 
 \item{file_path_col_name}{\code{character}, default = \code{"file_path"}

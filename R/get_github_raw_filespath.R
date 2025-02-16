@@ -9,7 +9,7 @@
 #' @return A character vector of URLs of the matching files (https://raw.githubusercontent.com/).
 #' @examples
 #' \dontrun{
-#' readr_fp <- get_github_filespath(repo = "tidyverse/readr", pattern = "\\.R")
+#' readr_fp <- get_github_raw_filespath(repo = "tidyverse/readr", pattern = "\\.R")
 #' }
 #' @export
 get_github_raw_filespath <- function(repo = "tidyverse/ggplot", branch = "main", pattern = "\\.R") {

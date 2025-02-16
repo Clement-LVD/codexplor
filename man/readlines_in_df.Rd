@@ -7,11 +7,12 @@
 readlines_in_df(
   files_path,
   return_lowered_text = FALSE,
-  comments = FALSE,
+  keep_comments = FALSE,
   .verbose = TRUE,
   file_path_col_name = "file_path",
   content_col_name = "content",
-  line_number_col_name = "line_number"
+  line_number_col_name = "line_number",
+  char_comment = "#"
 )
 }
 \arguments{
@@ -20,8 +21,8 @@ readlines_in_df(
 \item{return_lowered_text}{\code{logical}, default = \code{FALSE}
 TRUE for lowercasing the returned text. FALSE (the default) will preserve the readed text}
 
-\item{comments}{\code{logical}, default = \code{FALSE}
-If \code{FALSE} - the default, lines starting with \verb{#} are treated as comments and ignored.}
+\item{keep_comments}{\code{logical}, default = \code{FALSE}
+If \code{FALSE} - the default, lines starting with \verb{#} are treated as keep_comments and ignored.}
 
 \item{.verbose}{\code{logical}, default = \code{TRUE}
 If \code{TRUE}, shows a progress bar while reading the file.}
@@ -34,6 +35,9 @@ Column name for the file content in the output dataframe.}
 
 \item{line_number_col_name}{\code{character}, default = \code{"line_number"}
 Column name for the line numbers in the output dataframe.}
+
+\item{char_comment}{\code{character}, default = \code{"^#"} Regex for considering that a line is a comment
+(default is '#' at the begining of a line of the files)}
 }
 \value{
 RETURN : \code{data.frame} with 3 col'. \emph{First} col' (\code{file_path} by default) is the file_path (readed), then \code{line_number} (by default).
@@ -52,7 +56,7 @@ intermediar are additionnal info, i.e. line_number
 }
 \examples{
 \dontrun{
-  df <- readlines_in_df("path/to/file.txt", case.sensitive = TRUE)
+  df <- readlines_in_df("path/to/file.R", case.sensitive = TRUE)
   contents_readed <- df[[ncol(df)]]
   file_path_readed <-  df[[1]]
 }
