@@ -1,5 +1,5 @@
 ---
-title: "Measuring Complexity Of Your Codes"
+title: "measuring_complexity_of_your_codes"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{measuring_complexity_of_your_codes}
@@ -22,8 +22,6 @@ knitr::opts_chunk$set(
 </style>
 
 ## Overview
-**The underlying analysis framework of codexplor is network theories**, more precisely a "citations network" analysis. 
-
 Regarding a network of documents such the codes files of a programming project :
 
 **Local complexity** is the complexity of an individual file : how long and difficult to read is each of your files ? 
@@ -32,6 +30,7 @@ Regarding a network of documents such the codes files of a programming project :
 
 codexplor offers methods for creating and analyzing an exhaustive *Citations Network* of your programming files. For example, you should look at some functions that used a lot of others func' and/or are used by a lot of others func' : this reveal respectively "high-level functions" and the ones which are "intensively used by other functions" (i.e. 'internal dependancies' of a programming package [or library]). 
 
+**Global complexity.** To let us analyze global complexity, codexplor is aimed to create a network from several .R codes files : the citations network associated whith a project is a way to assess global complexity (e.g. measuring in-degrees, number of nodes). 
+
 **Local complexity.** For adressing local complexity, you have to analyze the content of each files. For example there is already metrics about text-complexity, such as the classical "number of characters in a files" (these metrics will be implemented in codexplor latter).
 
-**Global complexity.** To let us analyze global complexity, codexplor is aimed to create a network from several .R codes files : the citations network parameters is a way to assess global complexity. 

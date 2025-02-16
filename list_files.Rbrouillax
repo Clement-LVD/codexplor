@@ -2,8 +2,8 @@
   ####1) import content ####
   # from github :
 
-fls <- list.files(path = folder_path, ignore.case = T
-                  , all.files = T, full.names = T, recursive = recursive_search_for_files, pattern = pattern_regex_list_files)
+fls <- list.files(path = "~/00_FONCTIONS_EN_R", ignore.case = T
+                  , all.files = T, full.names = T, recursive = T, pattern = ".R$")
 
  , recursive_search_for_files = T
 

@@ -1,47 +1,26 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # codexplor
 
-<style>
-  p {
-    text-align: justify;
-  }
-</style>
-
-🧰🔧🔨 UNDER CONSTRUCTION 🧰🔧🔨 <!-- badges: start --> [![Lifecycle:
+🧰🔧🔨 DOC. UNDER CONSTRUCTION 🧰🔧🔨 <!-- badges: start -->
+[![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+![Project
+Progress](https://img.shields.io/badge/Progress-1%2F4%20%7C%20Active_coding-orange)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.org/package=codexplor)
 <!-- badges: end -->
 
-**Abstract.** codexplor help you to understand and analysis a
-programming project with text & network analysis : from the constitution
-of your corpus of documents, to the network analysis themselves (e.g.,
-see the most important nodes and look at cool interactive dataviz’ about
-them).
+codexplor is a R package that offers functions for explore and
+understand a programming project, with specialized tools for *understand
+quickly, analyze and visualize a programming project* (e.g., see which
+functions are the most used by others func’ of the project, which one
+used others func’ of the project and thus have local dependencies).
 
-**Usecases.** codexplor is dedicated to explore code, providing tools
-for *create, analyze and visualize a programming project*. In this
-regard, codexplor first goal is to giving you tools for reduce global
-complexity (e.g., text-analysis, network-analysis & dataviz’ tools are
-offered by codexplor). Thus, codexplor help you to maintain and/or
-apprehend a large programming project quickly. In other terms, with
-network analysis and dataviz’, you should understand the big picture of
-a R programming project easily and get *insights* about the project,
-find candidates (functions) for starting a polishing loop in order to
-reduce the complexity of the project, etc.
-
-**Functionnality.** codexplor offers tools to create and analyze the
-relationships between the functions defined in a programming projet
-(e.g., which functions are the most used by others func’ of the proje,
-which one used others func’ of the project and thus have local
-dependencies, etc.). This network analysis approach is supposed to be a
-way to reduce the time lost in understanding a ‘globally complex’
-project, and metrics & dataviz’ are supposed to be useful to determine
-where you push micro-factorization too far (there is a short vignette
-about [measuring complexity of your
-codes](/articles/measuring_complexity_of_your_codes.html)).
+codexplor offer functions for realize a complete network analysis
+protocol of your R programming project, from the constitution of your
+corpus of documents \[…\] to the realization of your network analysis.
+It’s a game changer to get rid of the global complexity of the
+project[^1].
 
 ## Installation
 
@@ -53,48 +32,70 @@ devtools::install_github("clement-LVD/codexplor")
 
 ## Example
 
-⏩ First, you want to constitute your corpus (i.e. creating a list of
-files path and/or url to read )
+Hereafter we use the default parameters, dedicated to analyze .R codes
+files.
 
-For example by providing a github repo to
-`codexplor::get_github_raw_filespath(repo)`
+⏩ *1. Create a corpus as a list of files path and/or url.*
 
-`paths <- get_github_raw_filespath(repo = "tidyverse/readr", pattern = "\\.R")`
+If the project is on your local machine, you should use :
 
-⏩ Get a network of func’ from a list of paths and/or url :
+    paths <- list.files(path = "~/", ignore.case = T, all.files = T, full.names = T, recursive = T, pattern = ".R$") 
 
-`net <- get_text_network_from_files(paths, regex_to_exclude_files_path = "test-", ignore_match_less_than_nchar = 5)`
+If the project is a R public github repo :
 
-Here, you want to associate a first text label to each files, since the
-content of each files don’t refer to “`path/R/my_file_name.R`” but
-instead to `function_name()`.
+    paths <- get_github_raw_filespath(repo = "tidyverse/readr", pattern = "\\.R")
+    #  Return characters list with ≃ 75 url of .R files 
 
-The user have to indicate a 1st regular expression that lead to extract
-the initially-matched text as a new ‘definition’ of the path of the file
-: hereabove we 1st extract every text *before* “\<- function” \[the
-default regex-pattern used by `get_text_network_from_files()`, crafted
-for matching the R programming language func’ definition\]; and then we
-remove the matches with less than 5 char (e.g., we don’t match `cli()`
-since it’s a 3 letters match). Then a 2nd text extraction is made with
-this term, considered now as equivalent as the original file path were
-we find the 1st match. This result in a standardized way of constructing
-the typical *edgeslist* of a citations network (i.e. from the file path
-or url of the func’ that mention the name of another func’ =\> to the
-file path or url of the files where this func’ is defined).
+⏩ *2. Read the files and get a citations network of func’.*
 
-There is several useful parameters for craft your [‘cascading
-matching’](vignettes/cascading_matching.html) ).
+    # [assuming `paths` is a list of files path and/or url]
+    net <- get_text_network_from_files(paths, regex_to_exclude_files_path = "test-", ignore_match_less_than_nchar = 5)
+    # Return a data.frame, an edgelist of the functions network (≃  572 obs. and 7 variables with readr repo)
 
-⏩ Turn it into a directed `igraph` network object
+This step is associated with a vignette
 
-`netig <- get_igraph_from_df(net )`
+⏩ *3. Turn it into a directed `igraph` network object.*
 
-⏩ Turn this igraph object into an interactive `networkD3` JS object  
+    netig <- get_igraph_from_df(net) 
+    # return an 'igraph' object from our edgelist with 18 links and 19 nodes (files path are in relationship)
 
-`get_networkd3_from_igraph(netig)`
+⏩ *4. Get an interactive `networkD3` JS object.*
 
-⏩ Get metrics and identifying cascading dependancies of func’
+    get_networkd3_from_igraph(netig) 
+    #return a networkD3 object, an interactive network dataviz'
 
-\[🔧🔨\]
+⏩ *5. Get metrics and identifying cascading dependancies of func’*
+
+Under construction \[🔧🔨\]
+
+**About the Citations Network construction (step 2.).** During step 2.,
+we have readed the files with the default parameters of
+(get_text_network_from_files())\[vignettes/get_text_network_from_files\]
+
+Next, the function have constructed a Citations Network with these
+functions names, thanks to a [‘cascading
+matching’](vignettes/cascading_matching.html). Finally, this example
+have excluded some results from the network : every url that contain
+“test-” and the matches with less than 5 char, e.g., `cli()` is not
+matched since it’s a 3 letters match).
+
+In order to use codexplor on various programming project, there is
+several useful parameters to take care with, depending on the languages
+you have to manage. Default are tunned for a R programming project.
+
+------------------------------------------------------------------------
+
+> **Usecases.** codexplor help me to priorize my time and apprehend the
+> big picture of a large programming project quickly, with precious
+> network analysis and dataviz’. I’ve really good insights about the
+> project, when I want to find where to start a polishing loop, follow a
+> programming projects or show a project to other people (e.g., animate
+> dev’ network).
 
 <!-- *Usecases of a quick programming project understanding*. codexplor goal is to *quickly* analyse your developing project, in order to *gain* time of comprehension, made your documentation, dataviz' of your project, etc. The features offered are crafted for coordinate large programming project, made helper func' for new colleagues and/or future you, formally identifying your higher-level func' and/or the most-frequently used as dependancies... and other handy features for priorizing your work by quickly figure out 'where' you have to pay attention. For example, before to change a parameter name in a func', you want to check what are the func' that used the one you want to modify. Same for changing the returned content or the behavior of a func' : you want to check which ones used this func' that you want to modify. You also want to offer an easy way to understand the chaining of your custom func'. -->
+
+[^1]: **Local complexity** is the complexity of an individual file : how
+    long and difficult to read is each of your files ? **Global
+    complexity** means difficulty to understand the big picture : how
+    many functions are used and what are the relationship between the
+    various functions in this project ?

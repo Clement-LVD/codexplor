@@ -16,7 +16,8 @@
 #'   Column name for the file content in the output dataframe.
 #' @param line_number_col_name `character`, default = `"line_number"`
 #'   Column name for the line numbers in the output dataframe.
-#'
+#' @param char_comment  `character`, default = `"^#"` Regex for considering that a line is a comment
+#' (default is '#' at the begining of a line of the files)
 #' @return RETURN : `data.frame` with 3 col'. *First* col' (`file_path` by default) is the file_path (readed), then `line_number` (by default).
 #' The *last* column (`content` by default) contain the readed lines from the file.
 #' \describe{
@@ -39,7 +40,8 @@ readlines_in_df <- function(files_path,
   , file_path_col_name = "file_path"
  , content_col_name = "content"
  , line_number_col_name = "line_number"
-           ) {
+ , char_comment =  "#"
+ ) {
   files_path <- files_path[!is.na(files_path)]
   n_files_to_read <- length(files_path)
 if(! n_files_to_read > 0) return(NULL) #null if no file to read :s
@@ -55,7 +57,7 @@ if (.verbose) {pb <- utils::txtProgressBar(min = 0, max = 100, style = 3) }
       # clean com'
       lignes <- trimws(lignes)
       if (!return_lowered_text) lignes <- tolower(lignes)
-      if (!keep_comments) lignes[substr(lignes, 1, 1) == "#"] <- ""  # clean line instead of com'
+      if (!keep_comments) lignes[grep(x = lignes, char_comment)] <- ""  # clean line instead of com'
 
       # NO LINE = return empty df
       if (length(lignes) == 0) {
