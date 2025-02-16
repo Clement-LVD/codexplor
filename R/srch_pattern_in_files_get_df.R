@@ -59,7 +59,7 @@ srch_pattern_in_files_get_df <- function(
 
 # get files content
 content_df <-  readlines_in_df(files_path = files_path,
-                               return_lowered_text = F, keep_keep_comments = keep_comments # skip comment by default
+                               return_lowered_text = F, keep_comments = keep_comments # skip comment by default
                                ,file_path_col_name = file_path_col_name, content_col_name = content_col_name
                                , line_number_col_name = line_number_col_name
                               ,    .verbose = T
