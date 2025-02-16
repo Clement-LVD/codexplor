@@ -5,7 +5,8 @@
 \title{Get Text Network from Files}
 \usage{
 get_text_network_from_files(
-  folder_path = getwd(),
+  files_path = paste0("https://github.com/Clement-LVD/codexplor/blob/main/R/",
+    c("get_text_network_from_files", "srch_pattern_in_files_get_df"), ".R"),
   ignore_match_less_than_nchar = 3,
   first_match_to_exclude = NULL,
   prefix_for_regex_from_the_text = "",
@@ -14,8 +15,8 @@ get_text_network_from_files(
   filter_2nd_match_unmatched_lines = T,
   filter_first_match_results = T,
   filter_ego_link = T,
-  file_path_from = "from",
-  file_path_to = "to",
+  file_path_from_colname = "from",
+  file_path_to_colname = "to",
   match1_colname = "first_match",
   match2_colname = "second_match",
   line_number_match2_colname = "line_number",
@@ -24,8 +25,8 @@ get_text_network_from_files(
 )
 }
 \arguments{
-\item{folder_path}{A string representing the path to the folder containing the files
-to read. Default is the current working directory.}
+\item{files_path}{A string representing the path and/or url of the files
+to read.}
 
 \item{ignore_match_less_than_nchar}{Integer that specifies the number of
 characters for the 1st match to be considered valid. The default is 3.}
@@ -53,10 +54,10 @@ for the first match. The default is TRUE.}
 \item{filter_ego_link}{A logical value indicating whether to filter results based on
 "ego links". The default is TRUE.}
 
-\item{file_path_from}{The column name (as a string) representing the "from" file path
+\item{file_path_from_colname}{The column name (as a string) representing the "from" file path
 in the result data frame. The default is 'from'.}
 
-\item{file_path_to}{The column name (as a string) representing the "to" file path in
+\item{file_path_to_colname}{The column name (as a string) representing the "to" file path in
 the result data frame. The default is 'to'.}
 
 \item{match1_colname}{The column name (as a string) for the first match in the result
@@ -89,7 +90,9 @@ and a 2nd research extract this text and construct a network
 }
 \examples{
 # Example usage
-result <- get_text_network_from_files(folder_path = getwd(),
+result <- get_text_network_from_files(
+files_path = paste0("https://github.com/Clement-LVD/codexplor/blob/main/R/",
+ c("get_text_network_from_files","srch_pattern_in_files_get_df" ) , ".R"),
                                       ignore_match_less_than_nchar = 1,
                                       first_match_to_exclude = c("server"),
                                       regex_to_exclude_files_path = "test-")

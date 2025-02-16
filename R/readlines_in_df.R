@@ -3,11 +3,11 @@
 #' This function reads the content of a text file line by line and stores it in a data frame.
 #' You must pick up the FIRST col' for the file_path readed, and the LAST col for the content readed
 #' intermediar are additionnal info, i.e. line_number
-#' @param files_to_read_path `character` Path to the text file to read.
+#' @param files_path `character` Path(s) or url(s) to the text files to read.
 #' @param return_lowered_text `logical`, default = `FALSE`
 #'   TRUE for lowercasing the returned text. FALSE (the default) will preserve the readed text
-#' @param comments `logical`, default = `FALSE`
-#'   If `FALSE` - the default, lines starting with `#` are treated as comments and ignored.
+#' @param keep_comments `logical`, default = `FALSE`
+#'   If `FALSE` - the default, lines starting with `#` are treated as keep_comments and ignored.
 #' @param .verbose `logical`, default = `TRUE`
 #'   If `TRUE`, shows a progress bar while reading the file.
 #' @param file_path_col_name `character`, default = `"file_path"`
@@ -34,37 +34,37 @@
 #' }
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @export
-readlines_in_df <- function(files_to_read_path,
-                            return_lowered_text = FALSE, comments = FALSE, .verbose = TRUE
+readlines_in_df <- function(files_path,
+                            return_lowered_text = FALSE, keep_comments = FALSE, .verbose = TRUE
   , file_path_col_name = "file_path"
  , content_col_name = "content"
  , line_number_col_name = "line_number"
            ) {
-  files_to_read_path <- files_to_read_path[!is.na(files_to_read_path)]
-  n_files_to_read <- length(files_to_read_path)
+  files_path <- files_path[!is.na(files_path)]
+  n_files_to_read <- length(files_path)
 if(! n_files_to_read > 0) return(NULL) #null if no file to read :s
 
   # Progress bar
 if (.verbose) {pb <- utils::txtProgressBar(min = 0, max = 100, style = 3) }
 
     #read all files and transform them in dataframe
-    resultats <- do.call(rbind, lapply(seq_along(files_to_read_path), function(i) {
+    resultats <- do.call(rbind, lapply(seq_along(files_path), function(i) {
 
-      lignes <- readLines(files_to_read_path[i], warn = FALSE)
+      lignes <- readLines(files_path[i], warn = FALSE)
 
       # clean com'
       lignes <- trimws(lignes)
       if (!return_lowered_text) lignes <- tolower(lignes)
-      if (!comments) lignes[substr(lignes, 1, 1) == "#"] <- ""  # clean line instead of com'
+      if (!keep_comments) lignes[substr(lignes, 1, 1) == "#"] <- ""  # clean line instead of com'
 
       # NO LINE = return empty df
       if (length(lignes) == 0) {
-        return(data.frame(file_path = files_to_read_path[i], line_number = NA, content = NA, stringsAsFactors = FALSE))
+        return(data.frame(file_path = files_path[i], line_number = NA, content = NA, stringsAsFactors = FALSE))
       }
 
       # df to create
       df <- data.frame(
-        file_path = files_to_read_path[i],
+        file_path = files_path[i],
         line_number = seq_along(lignes),
         content = lignes,
         stringsAsFactors = FALSE

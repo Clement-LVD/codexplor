@@ -6,17 +6,33 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-Cascading text research basically consist in :
+Cascading text research basically consisting in searching in a document, in order to identify synonym of the doc' name (for example "name of a recipe").
+
+codexplor offer supervised way of find these synonym (i.e. by indicating a regex, which heavily rely on the presence of a precise pattern)
+
+and replace the names of a document by another term, then search for this term and consider it as a synonym of your formal document name.
 
 I. try to extract a *1st matched* content from a first pattern
 II. construct a new pattern with all these *'1stly matched'* text => and then extract these pattern by searching the same content again. 
 
 For example, giving a bunch of :
 
-- R codes files. In order to get a network of func'. For example 
+- R codes files path and/or url, you should first read all the content and get a network of func'.
 
 > `net <- get_text_network_from_files("~",   regex_to_exclude_files_path = "test-")`
 > `get_networkd3_from_igraph(get_igraph_from_df(net) )`
+
+The citations-network we made here is directed. 
+
+- indegrees of a node is 'how many functions use this precise func'. 
+- Outdegree of a node is "how many functions are used by this precise function". 
+- ⟲ auto-mentioning basically reveal 'recursivity' (removed from the networks created by codexplor, by default)
+
+The "false positive" matches are, for example, the lines where you use the name of another function in a message, e.g. `cat("my_func() is deprecated. You should use this_function() instead)`. 
+
+`get_text_network_from_files` offer several parameters for deal with your style of writing, if you really need to write functions names in other files than the ones that define the func'.
+
+
 
 - e-mail => you maybe want to match every word with "@" character in the header part of your mails (expeditor, object, etc.), and then search for these usernnames in every e-mail header. You've just made a network of people who interact by mail, by only indicating the regex that match a character string that contain "@", with a capture-group for extracting the text before the '@'.
 

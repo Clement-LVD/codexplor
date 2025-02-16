@@ -5,7 +5,7 @@
 \title{Read text file with readLines and answer a df}
 \usage{
 readlines_in_df(
-  files_to_read_path,
+  files_path,
   return_lowered_text = FALSE,
   comments = FALSE,
   .verbose = TRUE,
@@ -15,7 +15,7 @@ readlines_in_df(
 )
 }
 \arguments{
-\item{files_to_read_path}{\code{character} Path to the text file to read.}
+\item{files_path}{\code{character} Path(s) or url(s) to the text files to read.}
 
 \item{return_lowered_text}{\code{logical}, default = \code{FALSE}
 TRUE for lowercasing the returned text. FALSE (the default) will preserve the readed text}

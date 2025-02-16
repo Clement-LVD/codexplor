@@ -1,33 +1,25 @@
 #' srch_pattern_in_files_get_df associate a text to a file
 #' e.g., detect a file with a func' defined with 'function_name <- function'
 #'
-#' | A] Read files in a folder and answer the content readed in a df
-#' Default parameters : search into the wd() path recursively, read .R files
+#' | A] Read a bunch of files and answer the content readed in a df
 #' | B] Then try to extract a pattern and return the extracted text  (no match on commented lines by default)
 #' In the 'matched text' part of the result, NA meaning 'no match'
 #' | C] Finally answer a df with all the readed content
-#' Regarding the regex : regex prefix_to_add_to_pattern and pattern are pasted in order to match
-#'  but only the prefix is extracted as a result
 #' Regarding the returned df : the first col' is the file path of all the matched files (first regex passed to list.files)
 #' Last col is the extracted text : this will be the prefix passed by the user, only when there is a complete match
 #'
-#' @param folder_path `character`
-#'   Folder where to read all files that match a pattern. Default to current working directory. The files must match the pattern_regex_list_files parameter which is passed to list.files(pattern = )
+#' @param files_path `character`
+#'   A vector of files path path and/or url.
 #' @param pattern `character`, default = `"\\b([A-Za-z0-9_]+)(?=\\s*(?:<-|=)\\s*(?:function|$))"`
 #'   A regex for matching lines and extract text. Use the regex for finding a line by extracting text
 #' @param match_to_exclude `character` A vector of values that will not be returned such as a match.
 #' The rows where the `values` match any element in this vector will be removed.
 #' @param  ignore_match_less_than_nchar `double`, default = 2 Excluding match depending on char. number of the matched text (strictly inferior)
 #' Default exclude match of 1 char such as 'x'.
-#' @param recursive_search_for_files `logical`, default = `TRUE`
-#' If `TRUE` - the default, the files will be searched recursively in the path (including subdirectories)
-#' @param pattern_regex_list_files `character`, default = `"\\.r$"`
-#'  Files to read : passed to list.files(pattern = pattern_regex_list_files). Note that it's not case sensitive
 #' @param  ignore_case `logical`, default = `TRUE`
 #' If `TRUE`, the pattern search (lines matched) will ignore case. If `FALSE`, the search will be case-sensitive.
-#' @param comments `logical`, default = `FALSE`
+#' @param keep_comments `logical`, default = `FALSE`
 #' If `FALSE` - the default, the lines whith a leading # will be removed from the returned df
-#'
 #' @param file_path_col_name `character`, default = `"file_path"`
 #'   Column name for the file path in the output dataframe (first col' of the returned df)
 #' @param content_col_name `character`, default = `"content"`
@@ -40,13 +32,13 @@
 #' @return A `data.frame` with 4 col' : first (`file_path` by default) contain the file_path, then `line_number` (by default) contain line_number, third column (`content` by default) containing the readed lines from the file and the LAST ONE contain the matched text, according to the regex provided by the user
 #' @examples
 #' #Analysing the func of the package, assuming you have installed it :
-#' pkg_path <- system.file("R")
-#' #lines_readed <- srch_pattern_in_files_get_df(pkg_path)
-#' # Return : XXX A FAIRE XXX
+#' pkg_path <- list.files("~", pattern = ".R$",  recursive = TRUE , full.names = TRUE  )
+#' lines_readed <- srch_pattern_in_files_get_df(pkg_path)
+#' # Return : a dataframe of links, according to - default - pattern
 #' @seealso \code{\link{readlines_in_df}}
 #' @export
 srch_pattern_in_files_get_df <- function(
-    folder_path = getwd()
+    files_path = NULL
 
        ,pattern = "\\b([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)"
 
@@ -55,25 +47,19 @@ srch_pattern_in_files_get_df <- function(
 
    , ignore_match_less_than_nchar = 2
 # ?=look ahead
-    , recursive_search_for_files = T
 
-    ,     pattern_regex_list_files  = "\\.r$" #fichiers à lire identifiés avec list.files : not case sensitive
 
     ,    ignore_case   = T
 
-    ,  comments = FALSE # on dégage les lignes commentées
+    ,  keep_comments = FALSE # on dégage les lignes commentées
 
    , file_path_col_name = "file_path", content_col_name = "content", line_number_col_name = "line_number"
 , extracted_txt_col_name = "matches"
   ){
 
-  ####1) import content ####
-fls <- list.files(path = folder_path, ignore.case = T
-                  , all.files = T, full.names = T, recursive = recursive_search_for_files, pattern = pattern_regex_list_files)
-
 # get files content
-content_df <-  readlines_in_df(files_to_read_path = fls,
-                               return_lowered_text = F, comments = comments # skip comment by default
+content_df <-  readlines_in_df(files_path = files_path,
+                               return_lowered_text = F, keep_keep_comments = keep_comments # skip comment by default
                                ,file_path_col_name = file_path_col_name, content_col_name = content_col_name
                                , line_number_col_name = line_number_col_name
                               ,    .verbose = T

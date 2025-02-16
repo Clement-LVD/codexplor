@@ -8,8 +8,8 @@
 #' and a 2nd research extract this text and construct a network
 #' (1st match finded => exact same text matched elsewhere).
 #'
-#' @param folder_path A string representing the path to the folder containing the files
-#' to read. Default is the current working directory.
+#' @param files_path A string representing the path and/or url of the files
+#' to read.
 #'
 #' @param ignore_match_less_than_nchar Integer that specifies the number of
 #' characters for the 1st match to be considered valid. The default is 3.
@@ -37,10 +37,10 @@
 #' @param filter_ego_link A logical value indicating whether to filter results based on
 #' "ego links". The default is TRUE.
 #'
-#' @param file_path_from The column name (as a string) representing the "from" file path
+#' @param file_path_from_colname The column name (as a string) representing the "from" file path
 #' in the result data frame. The default is 'from'.
 #'
-#' @param file_path_to The column name (as a string) representing the "to" file path in
+#' @param file_path_to_colname The column name (as a string) representing the "to" file path in
 #' the result data frame. The default is 'to'.
 #'
 #' @param match1_colname The column name (as a string) for the first match in the result
@@ -58,12 +58,17 @@
 #' @param content_match2_col_name The column name (as a string) for the full content of
 #' the second match. The default is 'content_match_2'.
 #'
-#' @return A data frame containing the filtered results based on the match criteria, with
-#' columns for file paths, match content, and line numbers.
+#' @param ... Parameters passed to srch_pattern_in_files_get_df(). You typically want to adjust the "pattern" parameter, or keep_comments = T
+#'
+#' @return A data frame wich is the edgelist of the citations network
+#' columns 'from' and 'to' indicates the files paths or urls of the matched contents.
+# ' There is other infos (line numbers, precise line matched for verification, etc.)
 #'
 #' @examples
-#' # Example usage
-#' result <- get_text_network_from_files(folder_path = getwd(),
+#' # Example with url from github
+#' result <- get_text_network_from_files(
+#' files_path = paste0("https://github.com/Clement-LVD/codexplor/blob/main/R/",
+#'  c("get_text_network_from_files","srch_pattern_in_files_get_df" ) , ".R"),
 #'                                       ignore_match_less_than_nchar = 1,
 #'                                       first_match_to_exclude = c("server"),
 #'                                       regex_to_exclude_files_path = "test-")
@@ -72,7 +77,7 @@
 #'
 #' @seealso \code{\link{srch_pattern_in_files_get_df}}, \code{\link{str_extract_all_to_tidy_df}}, \code{\link{fix_escaping}}
 #' @export
-get_text_network_from_files <- function(folder_path = getwd()
+get_text_network_from_files <- function(files_path = "~"
 
     , ignore_match_less_than_nchar = 3
 
@@ -91,8 +96,8 @@ get_text_network_from_files <- function(folder_path = getwd()
 
    , filter_ego_link = T
 
- , file_path_from = 'from'
- , file_path_to = 'to'
+ , file_path_from_colname = 'from'
+ , file_path_to_colname = 'to'
  , match1_colname =  "first_match"
 
  ,  match2_colname ="second_match"
@@ -101,16 +106,17 @@ get_text_network_from_files <- function(folder_path = getwd()
 
  , content_match2_col_name = "content_match_2" # we want to keep the full content very available
 
+ , ...
   ){
 
  # we will rename in the end so var' names are hardcoded hereafter :
 
   ####1) Get content from R files ####
 # With the default regex of srch_pattern_in_files_get_df, fn_network indicate where the func' are defined
-fn_network <-  srch_pattern_in_files_get_df(folder_path = folder_path, match_to_exclude = first_match_to_exclude
+fn_network <-  srch_pattern_in_files_get_df(files_path = files_path, match_to_exclude = first_match_to_exclude
                                             , file_path_col_name = "file_path"
                                             , content_col_name = "content"
- , extracted_txt_col_name =   "first_match", ignore_match_less_than_nchar = ignore_match_less_than_nchar) #file with a func' defined by default
+ , extracted_txt_col_name =   "first_match", ignore_match_less_than_nchar = ignore_match_less_than_nchar, ...) #file with a func' defined by default
 #we will retrieve this object and these var later
 
 # we have 3 informations that we used hereafter :
@@ -176,7 +182,7 @@ if(!is.null(regex_to_exclude_files_path)){ lines_to_exclude <- grep(x = returned
 if(length(lines_to_exclude) > 0){returned_network <-  returned_network[-lines_to_exclude, ] }
 
 
-colnames(returned_network) <- c(file_path_from, file_path_to, match1_colname, match2_colname, line_number_match2_colname, content_match2_col_name,  content_match1_col_name)
+colnames(returned_network) <- c(file_path_from_colname, file_path_to_colname, match1_colname, match2_colname, line_number_match2_colname, content_match2_col_name,  content_match1_col_name)
 # finally givin the colname wanted by the user
 
 return(returned_network)

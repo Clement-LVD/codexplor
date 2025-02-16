@@ -6,12 +6,10 @@
 e.g., detect a file with a func' defined with 'function_name <- function'}
 \usage{
 srch_pattern_in_files_get_df(
-  folder_path = getwd(),
+  files_path = NULL,
   pattern = "\\\\b([A-Za-z0-9_\\\\.]+)(?=\\\\s*(?:<-)\\\\s*function)",
   match_to_exclude = NULL,
   ignore_match_less_than_nchar = 2,
-  recursive_search_for_files = T,
-  pattern_regex_list_files = "\\\\.r$",
   ignore_case = T,
   comments = FALSE,
   file_path_col_name = "file_path",
@@ -21,8 +19,8 @@ srch_pattern_in_files_get_df(
 )
 }
 \arguments{
-\item{folder_path}{\code{character}
-Folder where to read all files that match a pattern. Default to current working directory. The files must match the pattern_regex_list_files parameter which is passed to list.files(pattern = )}
+\item{files_path}{\code{character}
+A vector of files path path and/or url.}
 
 \item{pattern}{\code{character}, default = \code{"\\\\b([A-Za-z0-9_]+)(?=\\\\s*(?:<-|=)\\\\s*(?:function|$))"}
 A regex for matching lines and extract text. Use the regex for finding a line by extracting text}
@@ -32,12 +30,6 @@ The rows where the \code{values} match any element in this vector will be remove
 
 \item{ignore_match_less_than_nchar}{\code{double}, default = 2 Excluding match depending on char. number of the matched text (strictly inferior)
 Default exclude match of 1 char such as 'x'.}
-
-\item{recursive_search_for_files}{\code{logical}, default = \code{TRUE}
-If \code{TRUE} - the default, the files will be searched recursively in the path (including subdirectories)}
-
-\item{pattern_regex_list_files}{\code{character}, default = \code{"\\\\.r$"}
-Files to read : passed to list.files(pattern = pattern_regex_list_files). Note that it's not case sensitive}
 
 \item{ignore_case}{\code{logical}, default = \code{TRUE}
 If \code{TRUE}, the pattern search (lines matched) will ignore case. If \code{FALSE}, the search will be case-sensitive.}
@@ -61,21 +53,18 @@ Column name for the extracted text (last col' of the returned df)}
 A \code{data.frame} with 4 col' : first (\code{file_path} by default) contain the file_path, then \code{line_number} (by default) contain line_number, third column (\code{content} by default) containing the readed lines from the file and the LAST ONE contain the matched text, according to the regex provided by the user
 }
 \description{
-| A] Read files in a folder and answer the content readed in a df
-Default parameters : search into the wd() path recursively, read .R files
+| A] Read a bunch of files and answer the content readed in a df
 | B] Then try to extract a pattern and return the extracted text  (no match on commented lines by default)
 In the 'matched text' part of the result, NA meaning 'no match'
 | C] Finally answer a df with all the readed content
-Regarding the regex : regex prefix_to_add_to_pattern and pattern are pasted in order to match
-but only the prefix is extracted as a result
 Regarding the returned df : the first col' is the file path of all the matched files (first regex passed to list.files)
 Last col is the extracted text : this will be the prefix passed by the user, only when there is a complete match
 }
 \examples{
 #Analysing the func of the package, assuming you have installed it :
-pkg_path <- system.file("R")
-#lines_readed <- srch_pattern_in_files_get_df(pkg_path)
-# Return : XXX A FAIRE XXX
+pkg_path <- list.files("~", pattern = ".R$",  recursive = TRUE , full.names = TRUE  )
+lines_readed <- srch_pattern_in_files_get_df(pkg_path)
+# Return : a dataframe of links, according to - default - pattern
 }
 \seealso{
 \code{\link{readlines_in_df}}
