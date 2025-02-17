@@ -37,8 +37,8 @@ devtools::install_github("clement-LVD/codexplor")
 
 ## Short Example
 
-1.  Constitute your ‘corpus’ of local files and/or urls, eventually from
-    a github repo with
+1.  List the project’ files path and/or urls, eventually from a github
+    repo with
     ![.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=get-github-raw-filespath()&labelColor=green&color=black)
 
 2.  Compute a Citations Network by passing files path and/or urls to
