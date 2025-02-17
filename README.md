@@ -86,12 +86,12 @@ Assuming the user provide a list of files paths and/or url,
   parameters a regex will extract R functions names as soon as they are
   defined within a file).
 - search for these pattern (functions names by default) in the contents
-  of the files, in order to constitute a Citations Network - a
-  ‘directed’ type of network.
-- return the edgelist, with some filters (hereabove, we ask for exclude
-  files that contain “test-” and the matches with less than 5 char from
-  the edgelist, e.g., `cli()` will not be matched since it’s a 3 letters
-  function name).
+  of the files, in order to constitute a Citations Network - a directed
+  type of network.
+- return the edgelist, with some filters (hereabove, we exclude files
+  with “test-” in the filepath, and the matches with less than 5 char’,
+  e.g., `cli()` will not be matched since it’s a 3 letters function
+  name).
 
 ⏩ **3. Get a directed `igraph` network object.**
 

@@ -89,9 +89,9 @@ And/or from public github repo :
 
 Assuming the user provide a list of files paths and/or url, `get_text_network_from_files()` will :
 
-- read the files and extract a first pattern (e.g., with the defaults parameters a regex will extract R functions names as soon as they are defined within a file). 
-- search for these pattern (functions names by default) in the contents of the files, in order to constitute a Citations Network - a 'directed' type of network.
-- return the edgelist, with some filters (hereabove, we ask for exclude files that contain "test-" and the matches with less than 5 char from the edgelist, e.g., `cli()` will not be matched since it's a 3 letters function name). 
+- read the files, trying to extract a first pattern (e.g., defaults parameters will extract R functions names as soon as they are defined within a file). 
+- search for these patterns (functions names by default) in the contents of the files, in order to constitute a Citations Network (a directed type of document network).
+- return the edgelist of the network (hereabove, we exclude files with "test-" in the file path and the matches with less than 5 char', e.g., `cli()` will not be matched since it's a 3 letters function name). 
 
 ⏩ **3. Get a directed `igraph` network object.**
 
