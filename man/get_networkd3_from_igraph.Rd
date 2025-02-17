@@ -14,7 +14,7 @@ get_networkd3_from_igraph(
   color_for_na_link = colors_for_nodes[[1]],
   add_html_div_code_before_graph = NULL,
   ...,
-  charge = -100
+  charge = -200
 )
 }
 \arguments{
@@ -39,7 +39,7 @@ Default is \code{NULL} (no additional HTML).}
 
 \item{...}{optional parameter passed to \code{networkD3::forceNetwork}}
 
-\item{charge}{\code{integer}, default = \code{-100} Numeric value indicating
+\item{charge}{\code{integer}, default = \code{-200} Numeric value indicating
 either the strength of the node repulsion (negative value) or attraction (positive value).
 Passed to \code{networkD3::forceNetwork}.}
 }

@@ -8,9 +8,6 @@ get_igraph_from_df(
   edgelist,
   directed = T,
   filter_min_centrality = 0,
-  made_subgraph_from_a_regex = NULL,
-  x_level_out_subgraph = 5,
-  y_level_in_subgraph = 2,
   clean_egolink = T,
   ...
 )
@@ -22,30 +19,22 @@ A data frame containing at least two columns representing the edges (source and 
 \item{directed}{\code{logical}, default = \code{TRUE}
 Indicates whether the graph should be directed (\code{TRUE}) or undirected (\code{FALSE}).}
 
-\item{filter_min_centrality}{\code{numeric}, default = \code{0}
-Minimum total degree (sum of in-degree and out-degree) required to keep a node in the graph.}
-
-\item{made_subgraph_from_a_regex}{\code{character}, default = \code{NULL}
-A regex pattern used to select a starting node for subgraph extraction.
-If \code{NULL}, no subgraph extraction is performed.}
-
-\item{x_level_out_subgraph}{\code{integer}, default = \code{5}
-Number of levels outward to include when extracting a subgraph.}
-
-\item{y_level_in_subgraph}{\code{integer}, default = \code{2}
-Number of levels inward to include when extracting a subgraph.}
+\item{filter_min_centrality}{\code{numeric}, default = \code{0} (filter of the orphans)
+Strict minimum total degree (sum of in-degree and out-degree) required to keep a node.
+You have to indicate \code{-1} for keep the orphans (i.e. with degree = '0')}
 
 \item{clean_egolink}{\code{logical}, default = \code{TRUE}
 If \code{TRUE}, self-loops (edges where \code{from == to}) are removed from the edge list before processing.}
 
-\item{...}{Additional arguments passed to \code{grep} for node selection (e.g., \code{ignore.case = TRUE}).}
+\item{...}{Additional arguments passed to \code{igraph::graph_from_dataframe} for node selection (e.g., \code{ignore.case = TRUE}).}
 }
 \value{
 An \code{igraph} object representing the processed graph.
 }
 \description{
 This function takes a data frame representing an edge list and converts it into an \code{igraph} object.
-It allows filtering nodes based on centrality and extracting subgraphs based on a regular expression.
+It allows filtering nodes based on centrality (filter orphan by default).
+It construct a directed network
 }
 \details{
 \itemize{
@@ -66,7 +55,4 @@ g <- get_igraph_from_df(edgelist, directed = TRUE)
 # Create an undirected graph with a degree filter
 g <- get_igraph_from_df(edgelist, directed = FALSE, filter_min_centrality = 2)
 
-# Extract a subgraph based on a regex
-g_out <- get_igraph_from_df(edgelist, made_subgraph_from_a_regex = "B", x_level_out_subgraph = 0)
-g_in <- get_igraph_from_df(edgelist, made_subgraph_from_a_regex = "B", y_level_in_subgraph =0)
 }

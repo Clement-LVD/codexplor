@@ -31,10 +31,10 @@
 #' @param filter_2nd_match_unmatched_lines A logical value indicating whether to filter
 #' lines that do not match the second pattern. The default is TRUE.
 #'
-#' @param filter_first_match_results A logical value indicating whether to apply the filter
+#' @param filter_first_match_results `logical`, default = `TRUE` A logical value indicating whether to apply the filter
 #' for the first match. The default is TRUE.
 #'
-#' @param filter_ego_link A logical value indicating whether to filter results based on
+#' @param filter_egolink_within_a_file A logical value indicating whether to filter results based on
 #' "ego links". The default is TRUE.
 #'
 #' @param file_path_from_colname The column name (as a string) representing the "from" file path
@@ -57,8 +57,10 @@
 #'
 #' @param content_match2_col_name The column name (as a string) for the full content of
 #' the second match. The default is 'content_match_2'.
-#'
-#' @param ... Parameters passed to srch_pattern_in_files_get_df(). You typically want to adjust the "pattern" parameter, or keep_comments = T
+#' @param pattern_to_remove `character` , default = `'https://raw.githubusercontent.com/'`
+#' Pattern (regex) to remove from the names of the nodes (col' 1 & 2 of the edgelist)
+#' @param ... Parameters passed to srch_pattern_in_files_get_df().
+#' You typically want to adjust the "pattern" parameter, or keep_comments = T
 #'
 #' @return A data frame wich is the edgelist of the citations network
 #' columns 'from' and 'to' indicates the files paths or urls of the matched contents.
@@ -67,11 +69,10 @@
 #' @examples
 #' # Example with url from github
 #' result <- get_text_network_from_files(
-#' files_path = paste0("https://github.com/Clement-LVD/codexplor/blob/main/R/",
-#'  c("get_text_network_from_files","srch_pattern_in_files_get_df" ) , ".R"),
-#'                                       ignore_match_less_than_nchar = 1,
-#'                                       first_match_to_exclude = c("server"),
-#'                                       regex_to_exclude_files_path = "test-")
+#' files_path = list.files("~", recursive = TRUE, full.name = TRUE, pattern = ".R$")
+#'   , ignore_match_less_than_nchar = 3, #'ui()', 'cli()', etc. are removed
+#' first_match_to_exclude = c( "server"), # exclude 'server'
+#'  regex_to_exclude_files_path = "test-")
 #'
 #' # Will return a network of func' from the file path where called => to the file path were defined)
 #'
@@ -83,18 +84,18 @@ get_text_network_from_files <- function(files_path = "~"
 
     , first_match_to_exclude = NULL
 
-   , prefix_for_regex_from_the_text = ""
+   , prefix_for_regex_from_the_text = "" # text before the 1st match
 
-   ,  suffix_for_regex_from_the_text = ""# pas une lettre ou un chiffre !
+   ,  suffix_for_regex_from_the_text = ""# add text after the 1st match
 
 
   , regex_to_exclude_files_path = NULL #"test-"
 
- , filter_2nd_match_unmatched_lines = T
+ , filter_2nd_match_unmatched_lines = TRUE
 
-   , filter_first_match_results = T
+   , filter_first_match_results = TRUE
 
-   , filter_ego_link = T
+   , filter_egolink_within_a_file = TRUE
 
  , file_path_from_colname = 'from'
  , file_path_to_colname = 'to'
@@ -105,6 +106,8 @@ get_text_network_from_files <- function(files_path = "~"
  , content_match1_col_name = "content_match_1" # we want to keep the full content very available
 
  , content_match2_col_name = "content_match_2" # we want to keep the full content very available
+
+ , pattern_to_remove = "https://raw.githubusercontent.com/"
 
  , ...
   ){
@@ -165,7 +168,7 @@ if(filter_first_match_results){complete_network <- complete_network[ which(is.na
 origines_files <- unique(fn_network[which(!is.na(fn_network$first_match)), c("first_match","file_path", "content")])
 colnames( origines_files ) <- c("function", "defined_in", "definition_content") # renaming for hereafter
 
-# take original files - begining of the code - for adding the path where a func' is defined
+# take original files - begining of the code - for adding the path where a func' is defined and the name
 returned_network <- merge(complete_network, origines_files
                           , by.x = "second_match"
                           , by.y = "function" # it was also 'first_match' so we've renamed
@@ -173,9 +176,9 @@ returned_network <- merge(complete_network, origines_files
 
 returned_network <- returned_network[, c("file_path", "defined_in", "first_match", "second_match", "line_number", "content",  "definition_content")]
 
-if(filter_ego_link){returned_network <- returned_network[ which( returned_network["file_path"] != returned_network["defined_in"]) , ] }
+if(filter_egolink_within_a_file){returned_network <- returned_network[ which( returned_network["file_path"] != returned_network["defined_in"]) , ] }
 
-# filter if user want to filter
+# filter if user want to filter with a regex
 lines_to_exclude <- NULL
 if(!is.null(regex_to_exclude_files_path)){ lines_to_exclude <- grep(x = returned_network$file_path, pattern =  regex_to_exclude_files_path) }
 
@@ -184,6 +187,9 @@ if(length(lines_to_exclude) > 0){returned_network <-  returned_network[-lines_to
 
 colnames(returned_network) <- c(file_path_from_colname, file_path_to_colname, match1_colname, match2_colname, line_number_match2_colname, content_match2_col_name,  content_match1_col_name)
 # finally givin the colname wanted by the user
+
+# force remove a pattern
+returned_network[, 1:2] <- lapply(returned_network[, 1:2], function(col) gsub(pattern = pattern_to_remove, "", x = col))
 
 return(returned_network)
 

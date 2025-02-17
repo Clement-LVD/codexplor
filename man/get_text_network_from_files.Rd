@@ -11,9 +11,9 @@ get_text_network_from_files(
   prefix_for_regex_from_the_text = "",
   suffix_for_regex_from_the_text = "",
   regex_to_exclude_files_path = NULL,
-  filter_2nd_match_unmatched_lines = T,
-  filter_first_match_results = T,
-  filter_ego_link = T,
+  filter_2nd_match_unmatched_lines = TRUE,
+  filter_first_match_results = TRUE,
+  filter_egolink_within_a_file = TRUE,
   file_path_from_colname = "from",
   file_path_to_colname = "to",
   match1_colname = "first_match",
@@ -21,6 +21,7 @@ get_text_network_from_files(
   line_number_match2_colname = "line_number",
   content_match1_col_name = "content_match_1",
   content_match2_col_name = "content_match_2",
+  pattern_to_remove = "https://raw.githubusercontent.com/",
   ...
 )
 }
@@ -48,10 +49,10 @@ path includes the word "test". The default is NULL, meaning no files are exclude
 \item{filter_2nd_match_unmatched_lines}{A logical value indicating whether to filter
 lines that do not match the second pattern. The default is TRUE.}
 
-\item{filter_first_match_results}{A logical value indicating whether to apply the filter
+\item{filter_first_match_results}{\code{logical}, default = \code{TRUE} A logical value indicating whether to apply the filter
 for the first match. The default is TRUE.}
 
-\item{filter_ego_link}{A logical value indicating whether to filter results based on
+\item{filter_egolink_within_a_file}{A logical value indicating whether to filter results based on
 "ego links". The default is TRUE.}
 
 \item{file_path_from_colname}{The column name (as a string) representing the "from" file path
@@ -75,7 +76,11 @@ the first match. The default is 'content_match_1'.}
 \item{content_match2_col_name}{The column name (as a string) for the full content of
 the second match. The default is 'content_match_2'.}
 
-\item{...}{Parameters passed to srch_pattern_in_files_get_df(). You typically want to adjust the "pattern" parameter, or keep_comments = T}
+\item{pattern_to_remove}{\code{character} , default = \code{'https://raw.githubusercontent.com/'}
+Pattern (regex) to remove from the names of the nodes (col' 1 & 2 of the edgelist)}
+
+\item{...}{Parameters passed to srch_pattern_in_files_get_df().
+You typically want to adjust the "pattern" parameter, or keep_comments = T}
 }
 \value{
 A data frame wich is the edgelist of the citations network
@@ -93,11 +98,10 @@ and a 2nd research extract this text and construct a network
 \examples{
 # Example with url from github
 result <- get_text_network_from_files(
-files_path = paste0("https://github.com/Clement-LVD/codexplor/blob/main/R/",
- c("get_text_network_from_files","srch_pattern_in_files_get_df" ) , ".R"),
-                                      ignore_match_less_than_nchar = 1,
-                                      first_match_to_exclude = c("server"),
-                                      regex_to_exclude_files_path = "test-")
+files_path = list.files("~", recursive = TRUE, full.name = TRUE, pattern = ".R$")
+  , ignore_match_less_than_nchar = 3, #'ui()', 'cli()', etc. are removed
+first_match_to_exclude = c( "server"), # exclude 'server'
+ regex_to_exclude_files_path = "test-")
 
 # Will return a network of func' from the file path where called => to the file path were defined)
 

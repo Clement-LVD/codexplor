@@ -23,17 +23,12 @@ test_that("Self-loops are removed when requested", {
 })
 
 test_that("Filter by centrality correctly removes low-degree nodes", {
-  g <- get_igraph_from_df(df_base, filter_min_centrality =2, x_level_out_subgraph = 1, y_level_in_subgraph = 1)
+  g <- get_igraph_from_df(df_base, filter_min_centrality =2)
 
   node_degrees <- degree(g, mode = "total")
   expect_true("A" == names(node_degrees))  # Tous les nœuds doivent avoir un degré ≥ 2
 })
 
-test_that("Regex-based subgraph extraction works", {
-  g <- get_igraph_from_df(df_base, made_subgraph_from_a_regex = "D", x_level_out_subgraph = 0, y_level_in_subgraph = 1)
-
-  expect_true(all(grepl("B|D", names(V(g)))))  # Vérifie que seuls A et B restent
-})
 
 test_that("Invalid inputs trigger errors", {
   expect_error(get_igraph_from_df(NULL))  # NULL doit lever une erreur
