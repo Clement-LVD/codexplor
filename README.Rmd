@@ -28,7 +28,7 @@ return("<style>
 
 🧰🔧🔨 UNDER CONSTRUCTION 🧰🔧🔨
 
-`codexplor` offers R functions for explore and monitor a programming project with text-mining methods : get a deep understanding of the programming project by analyze and visualize it with text-mining metrics, network analysis & dataviz'. 
+`codexplor` offers R functions for explore and monitor a programming project with text-mining methods : analyze and visualize your programming project with text-mining metrics, network analysis & dataviz'. Get a deep understanding and get rid of complexity. 
 
 
 
@@ -40,21 +40,21 @@ devtools::install_github("clement-LVD/codexplor")
 ```
 
 ## Features
-- **Appreciate global complexity of a project with a network of internal dependencies.** 
-    - **Citations Network** Get metrics & dataviz' about the functions defined in the project (e.g. explore global structure or zoom on major internal dependancies^[functions that are called by others functions of the project]).
+- **Appreciate global complexity of a project with a Citations Network of internal dependencies.** 
+    - Get metrics & dataviz' about the functions defined in the project (e.g. explore global structure or zoom on major internal dependancies^[functions that are called by others functions of the project]).
 - **Assess local complexity with text-Mining metrics.** 
   - Compute document-level metrics (e.g., files readability)
 - ...
 
 ## Short Example
-1. List the project' files path and/or urls, eventually from a github repo with ![.](https://img.shields.io/badge/{Method}-bold?style=flat&logoColor=black&logoSize=2&label=get-github-raw-filespath()&labelColor=green&color=black)
+1. List the project' files path and/or urls, eventually from a github repo with ![.](https://img.shields.io/badge/{Scraping}-bold?style=flat&logoColor=black&logoSize=2&label=get-github-raw-filespath()&labelColor=green&color=black)
 
 2. Compute a Citations Network by passing files path and/or urls to   ![.](https://img.shields.io/badge/{Method}-bold?style=flat&logoColor=black&logoSize=2&label=get-text-network-from-files()&labelColor=yellow&color=black)
 
-3. Get a directed network with `igraph` by passing an edgelist to  ![1.](https://img.shields.io/badge/{Method}-bold?style=flat&logoColor=black&logoSize=2&label=get-igraph-from-df()&labelColor=yellow&color=black)
+3. Get a directed network with `igraph` by passing an edgelist to  ![1.](https://img.shields.io/badge/{igraph}-bold?style=flat&logoColor=black&logoSize=2&label=get-igraph-from-df()&labelColor=green&color=black)
 
 5. Optionnaly zoom on a precise function with 
-![](https://img.shields.io/badge/{Function}-bold?style=flat&logoColor=black&logoSize=2&label=filter-igraph-egonetwork()&labelColor=green&color=black)
+![](https://img.shields.io/badge/{igraph}-bold?style=flat&logoColor=black&logoSize=2&label=filter-igraph-egonetwork()&labelColor=green&color=black)
 
 4. Look at a quick dataviz' with `networkD3` : ![](https://img.shields.io/badge/{Dataviz}-bold?style=flat&logoColor=black&logoSize=2&label=get-networkd3-from_igraph()&labelColor=yellow&color=black)
 
@@ -73,7 +73,8 @@ Hereafter we use the default parameters, dedicated to analyze .R codes files.
 
 List .R files, from url and/or on your locale machine :
 
-    paths <- list.files(path = "~/", ignore.case = T, all.files = T, full.names = T, recursive = T, pattern = ".R$") 
+    paths <- list.files(path = "~/", pattern = ".R$"
+    , ignore.case = T, full.names = T, recursive = T) 
 
 And/or from public github repo :
 
@@ -100,7 +101,7 @@ Assuming the user provide a list of files paths and/or url, `get_text_network_fr
 
 ⏩ **4. Get an interactive `networkD3` HTML object**
 
-    get_networkd3_from_igraph(netig) 
+    codexplor::get_networkd3_from_igraph(netig) 
  
 Return a list of 2 objects : 
 

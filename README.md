@@ -12,9 +12,9 @@ status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.
 🧰🔧🔨 UNDER CONSTRUCTION 🧰🔧🔨
 
 `codexplor` offers R functions for explore and monitor a programming
-project with text-mining methods : get a deep understanding of the
-programming project by analyze and visualize it with text-mining
-metrics, network analysis & dataviz’.
+project with text-mining methods : analyze and visualize your
+programming project with text-mining metrics, network analysis &
+dataviz’. Get a deep understanding and get rid of complexity.
 
 ## Installation
 
@@ -26,11 +26,11 @@ devtools::install_github("clement-LVD/codexplor")
 
 ## Features
 
-- **Appreciate global complexity of a project with a network of internal
-  dependencies.**
-  - **Citations Network** Get metrics & dataviz’ about the functions
-    defined in the project (e.g. explore global structure or zoom on
-    major internal dependancies[^1]).
+- **Appreciate global complexity of a project with a Citations Network
+  of internal dependencies.**
+  - Get metrics & dataviz’ about the functions defined in the project
+    (e.g. explore global structure or zoom on major internal
+    dependancies[^1]).
 - **Assess local complexity with text-Mining metrics.**
   - Compute document-level metrics (e.g., files readability)
 - …
@@ -39,16 +39,16 @@ devtools::install_github("clement-LVD/codexplor")
 
 1.  List the project’ files path and/or urls, eventually from a github
     repo with
-    ![.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=get-github-raw-filespath()&labelColor=green&color=black)
+    ![.](https://img.shields.io/badge/%7BScraping%7D-bold?style=flat&logoColor=black&logoSize=2&label=get-github-raw-filespath()&labelColor=green&color=black)
 
 2.  Compute a Citations Network by passing files path and/or urls to
     ![.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=get-text-network-from-files()&labelColor=yellow&color=black)
 
 3.  Get a directed network with `igraph` by passing an edgelist to
-    ![1.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=get-igraph-from-df()&labelColor=yellow&color=black)
+    ![1.](https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&logoColor=black&logoSize=2&label=get-igraph-from-df()&labelColor=green&color=black)
 
 4.  Optionnaly zoom on a precise function with
-    ![](https://img.shields.io/badge/%7BFunction%7D-bold?style=flat&logoColor=black&logoSize=2&label=filter-igraph-egonetwork()&labelColor=green&color=black)
+    ![](https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&logoColor=black&logoSize=2&label=filter-igraph-egonetwork()&labelColor=green&color=black)
 
 5.  Look at a quick dataviz’ with `networkD3` :
     ![](https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&logoColor=black&logoSize=2&label=get-networkd3-from_igraph()&labelColor=yellow&color=black)
@@ -66,7 +66,8 @@ files.
 
 List .R files, from url and/or on your locale machine :
 
-    paths <- list.files(path = "~/", ignore.case = T, all.files = T, full.names = T, recursive = T, pattern = ".R$") 
+    paths <- list.files(path = "~/", pattern = ".R$"
+    , ignore.case = T, full.names = T, recursive = T) 
 
 And/or from public github repo :
 
@@ -82,16 +83,15 @@ And/or from public github repo :
 Assuming the user provide a list of files paths and/or url,
 `get_text_network_from_files()` will :
 
-- read the files and extract a first pattern (e.g., with the defaults
-  parameters a regex will extract R functions names as soon as they are
-  defined within a file).
-- search for these pattern (functions names by default) in the contents
-  of the files, in order to constitute a Citations Network - a directed
-  type of network.
-- return the edgelist, with some filters (hereabove, we exclude files
-  with “test-” in the filepath, and the matches with less than 5 char’,
-  e.g., `cli()` will not be matched since it’s a 3 letters function
-  name).
+- read the files, trying to extract a first pattern (e.g., defaults
+  parameters will extract R functions names as soon as they are defined
+  within a file).
+- search for these patterns (functions names by default) in the contents
+  of the files, in order to constitute a Citations Network (a directed
+  type of document network).
+- return the edgelist of the network (hereabove, we exclude files with
+  “test-” in the file path and the matches with less than 5 char’, e.g.,
+  `cli()` will not be matched since it’s a 3 letters function name).
 
 ⏩ **3. Get a directed `igraph` network object.**
 
@@ -100,7 +100,7 @@ Assuming the user provide a list of files paths and/or url,
 
 ⏩ **4. Get an interactive `networkD3` HTML object**
 
-    get_networkd3_from_igraph(netig) 
+    codexplor::get_networkd3_from_igraph(netig) 
 
 Return a list of 2 objects :
 
