@@ -12,9 +12,9 @@ status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.
 🧰🔧🔨 UNDER CONSTRUCTION 🧰🔧🔨
 
 `codexplor` offers R functions for explore and monitor a programming
-project with text-mining methods : analyze and visualize your
-programming project with text-mining metrics, network analysis &
-dataviz’. Get a deep understanding and get rid of complexity.
+project with text-mining methods : analyze and visualize the project
+with text-mining metrics, network analysis & dataviz’. Get a deep
+understanding and get rid of complexity.
 
 ## Installation
 
