@@ -14,22 +14,19 @@ knitr::opts_chunk$set(
 )
 ```
 
-Assuming you have a bunch of path and/or url from a programming project, `codexplor::get_text_network_from_files()` made a cascading research. The returned network represents Citations Network of your *programming project* :
+Assuming you have a bunch of path and/or url from a programming project, `codexplor::get_text_network_from_files()` will compute a Citations Network of your *programming project* :
 
 - the network is directed,
 - indegrees of a node is 'how many functions of the project uses this precise func'. 
 - Outdegree of a node is "how many functions of the project are used by this precise function". 
 - ⟲ auto-mentioning typically reveal 'recursivity', once a func' call itself more than one times (1st mention is usually for define the func' name)
 
-Under the hood, `codexplor::get_text_network_from_files()` will :
 
-1. use `codexplor::srch_pattern_in_files_get_df()` to read  the files and realize a 1st text extraction. By default, the func' `get_text_network_from_files` read the content with `readlines` and extract every text *before* "<- function". This way, we have func' names as they are defined at the end of these 1st matches.
+ Assuming the user pass a list of files paths and/or url, `codexplor::get_text_network_from_files()` will :
 
-<!--1². a planned functionnality : recursive searching of files path^[Please note that an - optionnal - recursive package or library researches method' will be implemented here, after the 1st reading of the content since it's in the content that we will find stuff like package and other external depandancies.]-->
-
-2. these matches are turned into a new pattern, and this pattern is searched in the content initially readed.
-
-That's all : you have now turned your programming project into a 'Citations Network', by considering that the path of the files where a 2nd matches occur is the "from" part of an *edgelist*, and the files associated with the 1st matches are the "to" part of the *edgelist*. 
+⏩ Read the files, trying to extract a 1st pattern (e.g., defaults parameters will extract R functions names, when a func' is defined within a file). 
+⏩ Search for these patterns (functions names by default) in the initial content, in order to constitute a Citations Network.
+- return the edgelist of the network of *documents*.
 
 For example, giving a bunch of .R codes files path and/or url, you should first read all the content and get a network of func' :
 
@@ -39,6 +36,6 @@ For example, giving a bunch of .R codes files path and/or url, you should first 
     # these func' are tunned for detecting R func' by default
     get_networkd3_from_igraph(codexplor::get_igraph_from_df(net) )
 
-There is sometimes a false positive nodes that need to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `cat("my_func() is deprecated. You should use this_function() instead)`. `get_text_network_from_files` offer several parameters for deal with your style of programming, if you really need to write functions names in other files than the ones that define the func'. 
+There is sometimes a false positive nodes that need to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `cat("my_func() is deprecated. You should use this_function() instead)`. `get_text_network_from_files` offer several parameters for deal with your style of programming.
 
 
