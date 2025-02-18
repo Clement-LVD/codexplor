@@ -12,9 +12,9 @@ status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.
 🧰🔧🔨 UNDER CONSTRUCTION 🧰🔧🔨
 
 `codexplor` offers R functions for explore and monitor a programming
-project with standardized methods : get immediate insights with
-text-mining metrics, network analysis & dataviz’. Get rid of complexity
-with a broader perspective on the project !
+project : get immediate insights with text-mining metrics, network
+analysis & dataviz’. Get rid of complexity with a broader perspective on
+the project !
 
 ## Installation
 
@@ -26,20 +26,22 @@ devtools::install_github("clement-LVD/codexplor")
 
 ## Features
 
+![](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=Citations%20Network%20of%20internal%20dependencies&labelColor=black&color=green)
+
 Given a programming project with .R files :
 
-- Appreciate global complexity with a
-  ![](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=Citations%20Network%20of%20internal%20dependencies&labelColor=black&color=green)
+- Appreciate global complexity with a **Citations Network of internal
+  dependencies**
   - Get network metrics & dataviz’ about the functions defined in the
     project (e.g. explore global structure or zoom on major internal
     dependancies[^1]).
-- *\[planned feature\]* Assess local complexity with
-  ![](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=Text-mining%20metrics&labelColor=grey&color=yellow)
+- *\[planned feature\]* Assess local complexity with **Text-mining
+  metrics**
   - Get document-level metrics (e.g., files readability)
 - …
 
 Planned features :
-
+![](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=Text-mining%20metrics&labelColor=grey&color=orange)
 ![](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Reporting&labelColor=orange&color=black)
 ![](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Network-advanced&labelColor=orange&color=black)
 
