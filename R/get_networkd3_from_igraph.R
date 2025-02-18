@@ -50,7 +50,7 @@ get_networkd3_from_igraph <- function(graph_igraph
 ){
 
   # Supposons que tu aies un graph `g`
-  graph_igraph <- simplify(graph_igraph, remove.multiple = TRUE, remove.loops = TRUE)
+  graph_igraph <- igraph::simplify(graph_igraph, remove.multiple = TRUE, remove.loops = TRUE)
 
   #### A. Compute degrees ####
   # 1. Convert to `networkD3`
@@ -68,14 +68,15 @@ if(color_outdeg_instead_of_indeg){ values_to_cut <-  "outdegree"; other_value = 
 breaks <- unique(stats::quantile(unique(net3d$nodes[[values_to_cut]])
                           , probs = seq(0, 1, length.out =  length(colors_for_nodes) + 1)))
 
+# number of interval we will cut hereafter :
 leng_intervals <- length(unique(cut(net3d$nodes[[values_to_cut]], breaks = breaks)))
 
-adjust_leng = 1
-if(leng_intervals == 1){adjust_leng= -1} # cut is awful and need +1 color OR no adjustment :s
+adjust_leng = -1
+# if(leng_intervals == 1){adjust_leng= -1} # cut is awful and need +1 color OR no adjustment :s
 # give color for node according to values_to_cut (indegrees or outdegrees)
-    net3d$nodes$color_deg  <- cut(net3d$nodes[[values_to_cut]], breaks = breaks,
+    net3d$nodes$color_deg  <- cut(net3d$nodes[[values_to_cut]], breaks = breaks
                                 , labels = colors_for_nodes[seq_len(leng_intervals - adjust_leng)]
-                                , include.lowest = TRUE, right = TRUE)
+                                , include.lowest = F, right = TRUE)
 
 
 # we have a node coloring factor
@@ -119,7 +120,7 @@ net3d$links$color_deg <- sapply(1:nrow(net3d$links),  FUN = function(i) {
    not3D_colourscale_JS = networkD3::JS(paste0('d3.scaleLinear().domain([', range_qq_txt
                                               , ']).range(['
                                               , paste0('"', colors_for_nodes, collapse = '", ' )
-                                              , '"]);') )
+                                              , '"]).clamp(true);') )
 
 #if ordinal scale needed : networkD3::JS('d3.scaleOrdinal(d3.schemeCategory10)')
 
