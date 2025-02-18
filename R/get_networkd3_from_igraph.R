@@ -33,7 +33,7 @@
 #' @importFrom networkD3 igraph_to_networkD3 JS forceNetwork
 #' @importFrom htmlwidgets prependContent appendContent
 #' @importFrom htmltools tags HTML
-#' @importFrom stats quantile
+#' @importFrom scales col_numeric
 #' @export
 get_networkd3_from_igraph <- function(graph_igraph
                                      , title_h1 = "networkD3"
@@ -49,7 +49,7 @@ get_networkd3_from_igraph <- function(graph_igraph
 
 ){
 
-  # Supposons que tu aies un graph `g`
+  # simplified subgraph `g`
   graph_igraph <- igraph::simplify(graph_igraph, remove.multiple = TRUE, remove.loops = TRUE)
 
   #### A. Compute degrees ####
@@ -60,33 +60,22 @@ get_networkd3_from_igraph <- function(graph_igraph
    net3d$nodes$indegree <- igraph::degree(graph_igraph, mode = "in")
    net3d$nodes$outdegree <-  igraph::degree(graph_igraph, mode = "out")
 
-##### B. Add colors depending of a degrees ####
-
 values_to_cut <-  "indegree" ; other_value = "outdegree"# values used in the legend in the end!
 if(color_outdeg_instead_of_indeg){ values_to_cut <-  "outdegree"; other_value = "indegree" }
 
-breaks <- unique(stats::quantile(unique(net3d$nodes[[values_to_cut]])
-                          , probs = seq(0, 1, length.out =  length(colors_for_nodes) + 1)))
+##### B. Add colors depending of a degrees ####
 
-# number of interval we will cut hereafter :
-leng_intervals <- length(unique(cut(net3d$nodes[[values_to_cut]], breaks = breaks)))
+   #scales:: function -> colors vector
+color_fun <- scales::col_bin(  palette = colors_for_nodes     # COLOR pal
+   ,  domain = range(net3d$nodes[[values_to_cut]]   , na.rm = TRUE) )# range
 
-adjust_leng = -1
-# if(leng_intervals == 1){adjust_leng= -1} # cut is awful and need +1 color OR no adjustment :s
-# give color for node according to values_to_cut (indegrees or outdegrees)
-    net3d$nodes$color_deg  <- cut(net3d$nodes[[values_to_cut]], breaks = breaks
-                                , labels = colors_for_nodes[seq_len(leng_intervals - adjust_leng)]
-                                , include.lowest = F, right = TRUE)
-
+net3d$nodes$color_deg <- color_fun(net3d$nodes[[values_to_cut]])
 
 # we have a node coloring factor
   node_colors <- net3d$nodes$color_deg
   names(node_colors) <- as.character(rownames(net3d$nodes))
 
-  # here a factor of node color !
-  # node_colors <- append(factor(levels =color_for_na_link ))
-
-  #### C. COLORING EDGES #####
+#### C. COLORING EDGES #####
 # we apply same color of the 'source' node if we color outdeg
   # and color of the target node for indeg coloring
 if(values_to_cut ==  "indegree") {considered_node = "target"
@@ -95,12 +84,12 @@ if(values_to_cut ==  "outdegree"){considered_node = "source"; alt_node  = "targe
 
 net3d$links$color_deg = NA
 
+# render3d sometimes return a "0" as a node id so if it's a 0 we should adjust +1
 adjustment_of_networkd3 = ifelse(min(c(net3d$links$source, net3d$links$target)) == 0, 1, 0)
 
 net3d$links$color_deg <- sapply(1:nrow(net3d$links),  FUN = function(i) {
     # for each link we take the num of corresponding node (target or source) :
     num_node_with_color <- net3d$links[[considered_node]][[i]] +adjustment_of_networkd3
-    #hereabove render3d sometimes return a "0" as a node id!
 
 # we retrieve the color and send a character
     corresp_color <- as.character(node_colors[[which(names(node_colors) == num_node_with_color)]])
@@ -115,7 +104,16 @@ net3d$links$color_deg <- sapply(1:nrow(net3d$links),  FUN = function(i) {
   if(any(na_idx)){ net3d$links$color_deg[na_idx] <- color_for_na_link }
 
 #### D. Craft Javascript colorscale ####
-  range_qq_txt <- paste0(round(unique(breaks)), collapse = ", ")
+  # Définition du nombre d'intervalles pour le scale
+n_intervals <- length(colors_for_nodes)
+
+  breaks <- round(seq(min(net3d$nodes[[values_to_cut]]  , na.rm = TRUE)
+                      , max(net3d$nodes[[values_to_cut]]  , na.rm = TRUE), length.out = n_intervals))
+
+  # Supp duplicated
+  breaks <- unique(breaks)
+
+ range_qq_txt <- paste0(round(unique(breaks)), collapse = ", ")
   # tweak network with js code :
    not3D_colourscale_JS = networkD3::JS(paste0('d3.scaleLinear().domain([', range_qq_txt
                                               , ']).range(['
@@ -142,7 +140,7 @@ net3d$links$color_deg <- sapply(1:nrow(net3d$links),  FUN = function(i) {
                                             , opacity =1,
                                             bounded = T
                                             , zoom = TRUE
-                                           , colourScale = not3D_colourscale_JS
+                                            , colourScale = not3D_colourscale_JS
                                            , ...)
 
 #### F. Add html content (legend, etc.) ####

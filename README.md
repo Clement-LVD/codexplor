@@ -12,9 +12,8 @@ status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.
 🧰🔧🔨 UNDER CONSTRUCTION 🧰🔧🔨
 
 `codexplor` offers R functions for explore and monitor a programming
-project with text-mining methods : analyze and visualize the project
-with text-mining metrics, network analysis & dataviz’. Get a deep
-understanding and get rid of complexity.
+project with standardized methods : get immediate insights with
+text-mining metrics, network analysis & dataviz’.
 
 ## Installation
 
@@ -26,6 +25,8 @@ devtools::install_github("clement-LVD/codexplor")
 
 ## Features
 
+The default parameters are dedicated to analyze .R codes files.
+
 - **Appreciate global complexity of a project with a Citations Network
   of internal dependencies.**
   - Get metrics & dataviz’ about the functions defined in the project
@@ -35,74 +36,62 @@ devtools::install_github("clement-LVD/codexplor")
   - Compute document-level metrics (e.g., files readability)
 - …
 
-## Short Example
+### Example : Citations Network of Documents
 
-1.  List the project’ files path and/or urls, eventually from a github
-    repo with
+1.  List the project’ files path and/or urls, eventually with
     ![.](https://img.shields.io/badge/%7BScraping%7D-bold?style=flat&logoColor=black&logoSize=2&label=get-github-raw-filespath()&labelColor=green&color=black)
 
-2.  Compute a Citations Network by passing files path and/or urls to
+         paths <- codexplor::get_github_raw_filespath(repo = "tidyverse/stringr", pattern = "\\.R")
+         #  Return a list of char. => url of .R files from https://raw.githubusercontent.com/ 
+
+2.  Compute a Citations Network of the functions with
     ![.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=get-text-network-from-files()&labelColor=yellow&color=black)
 
-3.  Get a directed network with `igraph` by passing an edgelist to
+         net <- codexplor::get_text_network_from_files(paths,  regex_to_exclude_files_path = "test-", ignore_match_less_than_nchar = 5)
+         # Return a data.frame, edgelist of a citations network
+
+3.  Turn it into a directed `igraph` network with
     ![1.](https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&logoColor=black&logoSize=2&label=get-igraph-from-df()&labelColor=green&color=black)
 
-4.  Optionnaly zoom on a precise function with
+         netig <- codexplor::get_igraph_from_df(net) 
+
+4.  Optionally zoom on a precise function with
     ![](https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&logoColor=black&logoSize=2&label=filter-igraph-egonetwork()&labelColor=green&color=black)
 
-5.  Look at a quick dataviz’ with `networkD3` :
+5.  Look an interactive dataviz’ with `networkD3` :
     ![](https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&logoColor=black&logoSize=2&label=get-networkd3-from_igraph()&labelColor=yellow&color=black)
+
+        codexplor::get_networkd3_from_igraph(netig) 
+
+![](man/figures/example_net3d_dataviz.png)
+
+We see what are the most-common local dependancy
+(`compat-types-check.R`).
+
+------------------------------------------------------------------------
 
 Planned features :
 ![](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=Text-mining&labelColor=orange&color=black)
 ![](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Reporting&labelColor=orange&color=black)
+![](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Network-advanced&labelColor=orange&color=black)
 
 ## Complete Example
 
-Hereafter we use the default parameters, dedicated to analyze .R codes
-files.
-
-⏩ **1. Create a corpus a list of files path and/or url.**
-
-List .R files, from url and/or on your locale machine :
-
-    paths <- list.files(path = "~/", pattern = ".R$"
-    , ignore.case = T, full.names = T, recursive = T) 
-
-And/or from public github repo :
-
-    paths <- codexplor::get_github_raw_filespath(repo = "tidyverse/readr", pattern = "\\.R")
-    #  Return characters list of url of .R files from https://raw.githubusercontent.com/
-
-⏩ **2. Read the files and get a citations network of func’.**
-
-    net <- codexplor::get_text_network_from_files(paths, 
-    regex_to_exclude_files_path = "test-", ignore_match_less_than_nchar = 5)
-    # Return a data.frame, edgelist of the functions citations network
-
-Assuming the user provide a list of files paths and/or url,
+⏩ **2. Read the files and get a citations network of func’.** Assuming
+the user provide a list of files paths and/or url,
 `get_text_network_from_files()` will :
 
 - read the files, trying to extract a first pattern (e.g., defaults
-  parameters will extract R functions names as soon as they are defined
+  parameters will extract R functions names, when a func’ is defined
   within a file).
 - search for these patterns (functions names by default) in the contents
   of the files, in order to constitute a Citations Network (a directed
   type of document network).
-- return the edgelist of the network (hereabove, we exclude files with
-  “test-” in the file path and the matches with less than 5 char’, e.g.,
-  `cli()` will not be matched since it’s a 3 letters function name).
-
-⏩ **3. Get a directed `igraph` network object.**
-
-    netig <- codexplor::get_igraph_from_df(net) 
-    # return a directed 'igraph' object from our edgelist
+- return the edgelist of the network of *documents*.
 
 ⏩ **4. Get an interactive `networkD3` HTML object**
 
-    codexplor::get_networkd3_from_igraph(netig) 
-
-Return a list of 2 objects :
+`get_networkd3_from_igraph()` Return a list of 2 objects :
 
 1.  a list named `'net3d'` with 2 data.frames, with the data used by
     `networkD3` (`'nodes'` and `'edges'`)
@@ -115,12 +104,7 @@ their outdegrees :
 
      get_networkd3_from_igraph(netig, color_outdeg_instead_of_indeg = T) 
 
-<figure>
-<img src="man/figures/example_net3d_dataviz.png"
-alt="The interactive network dataviz’" />
-<figcaption aria-hidden="true">The interactive network
-dataviz’</figcaption>
-</figure>
+![](man/figures/example_net3d_dataviz2.png)
 
 ⏩ **5. Get metrics and identifying cascading dependancies of func’**
 
@@ -128,8 +112,9 @@ Under construction \[🔧🔨\]
 
 ------------------------------------------------------------------------
 
-There is several useful parameters to take care with, depending on the
-languages you have to manage. Default is for a R programming project.
+There is several useful parameters to take care with. Depending on the
+languages you have to manage, you’ll want to tweak the ‘pattern’ used
+for match a function definition.
 
 <!--
 > `codexplor` help you to manage and analyze a programming project, giving you tools to figure out the big picture and to find the little wrench in the (net)work. 
