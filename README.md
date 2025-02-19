@@ -30,15 +30,12 @@ devtools::install_github("clement-LVD/codexplor")
 
 Given a programming project with .R files :
 
-- Appreciate global complexity with a **Citations Network of internal
-  dependencies**
-  - Get network metrics & dataviz’ about the functions defined in the
-    project (e.g. explore global structure or zoom on major internal
-    dependancies[^1]).
-- *\[planned feature\]* Assess local complexity with **Text-mining
-  metrics**
-  - Get document-level metrics (e.g., files readability)
-- …
+⏩ Appreciate global complexity with a **Citations Network of internal
+dependencies** - Get network metrics & dataviz’ about the functions
+defined in the project (e.g. explore global structure or zoom on major
+internal dependancies[^1]). ⏩ Assess local complexity with
+**Text-mining metrics** *\[planned feature\]* - Get document-level
+metrics (e.g., files readability) - …
 
 Planned features :
 ![](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=Text-mining%20metrics&labelColor=grey&color=orange)
@@ -47,27 +44,23 @@ Planned features :
 
 ### Example : Explore a Citations Network
 
-1.  List the project’ files path and/or urls, eventually with
-    ![.](https://img.shields.io/badge/%7BScraping%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_github_raw_filespath()&labelColor=green&color=black)
+1.  Give some folders path(s) and/or urls, compute a Citations Network
+    of the functions with
+    ![.](https://img.shields.io/badge/%7BScraping%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_text_network_from_project()&labelColor=yellow&color=black)
 
-         paths <- codexplor::get_github_raw_filespath(repo = "tidyverse/stringr", pattern = "\\.R")
-         #  Return a list of char. => url of .R files from https://raw.githubusercontent.com/ 
-
-2.  Compute a Citations Network of the functions with
-    ![.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_text_network_from_files()&labelColor=yellow&color=black)
-
-         net <- codexplor::get_text_network_from_files(paths,  regex_to_exclude_files_path = "test-", ignore_match_less_than_nchar = 5)
+         net <- get_text_network_from_project(repos = "tidyverse/stringr"
+         ,  regex_to_exclude_files_path = "test-", ignore_match_less_than_nchar = 5)
          # Return a data.frame, edgelist of a citations network
 
-3.  Turn it into a directed `igraph` network with
+2.  Turn it into a directed `igraph` network with
     ![1.](https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_igraph_from_df()&labelColor=green&color=black)
 
          netig <- codexplor::get_igraph_from_df(net) 
 
-4.  Optionally zoom on a precise function with
+3.  Optionally zoom on a precise function with
     ![](https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&logoColor=black&logoSize=2&label=filter_igraph_egonetwork()&labelColor=green&color=black)
 
-5.  Look an interactive dataviz’ with `networkD3` :
+4.  Look an interactive dataviz’ with `networkD3` :
     ![](https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_networkd3_from_igraph()&labelColor=yellow&color=black)
 
         codexplor::get_networkd3_from_igraph(netig) 
@@ -76,7 +69,7 @@ Planned features :
 
 The func’ used by others func’ are colorized, such as their ingoing
 links. For ex. we quicky see the most-common local dependancy
-(i.e. `compat-types-check.R`).
+(i.e. `compat-types-check.R` for the tidyverse/stringr repo).
 
 Play with the parameters reveal others infos, e.g., coloring nodes
 depending on their outdegrees :

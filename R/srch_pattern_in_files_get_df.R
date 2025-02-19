@@ -45,7 +45,7 @@ srch_pattern_in_files_get_df <- function(
 
    , match_to_exclude = NULL# "error"  e.g., for "error" (?<!error\\s*)
 
-   , ignore_match_less_than_nchar = 2
+   , ignore_match_less_than_nchar = 3
 # ?=look ahead
 
 

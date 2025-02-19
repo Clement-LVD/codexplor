@@ -9,7 +9,7 @@ srch_pattern_in_files_get_df(
   files_path = NULL,
   pattern = "\\\\b([A-Za-z0-9_\\\\.]+)(?=\\\\s*(?:<-)\\\\s*function)",
   match_to_exclude = NULL,
-  ignore_match_less_than_nchar = 2,
+  ignore_match_less_than_nchar = 3,
   ignore_case = T,
   keep_comments = FALSE,
   file_path_col_name = "file_path",

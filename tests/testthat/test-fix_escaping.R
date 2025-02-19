@@ -24,10 +24,11 @@ test_that("fix_escaping works with 3 levels of escaping", {
 test_that("fix_escaping returns input unchanged if no special characters", {
   expect_equal(fix_escaping("Just text", special_chars = c("(", ")"), num_escapes = 2),
                "Just text")
-})
 
-test_that("fix_escaping throws errors on invalid input", {
-  expect_error(fix_escaping(42, special_chars = c("("), num_escapes = 2))
-  expect_error(fix_escaping("Test", special_chars = character(0), num_escapes = 2))
+expect_equal(fix_escaping(42, special_chars = c("("), num_escapes = 2), "42")
+  })
+
+ test_that("fix_escaping throws errors on invalid input", {
+   expect_error(fix_escaping("Test", special_chars = character(0), num_escapes = 2))
   expect_error(fix_escaping("Test", special_chars = c("("), num_escapes = -1))
 })

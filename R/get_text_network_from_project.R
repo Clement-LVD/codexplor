@@ -1,4 +1,4 @@
-#' Get Text Network from Files
+#' Get Text Network from folder path(s) and/or github repos
 #'
 #' This function read files in a specified folder (default to only .R files)
 #' extracting and filtering text based on a set of criteria.
@@ -8,9 +8,9 @@
 #' and a 2nd research extract this text and construct a network
 #' (1st match finded => exact same text matched elsewhere).
 #'
-#' @param files_path A string representing the path and/or url of the files
-#' to read.
-#'
+#' @param folder_path A string or list representing the path(s) and/or url of local folders path to read.
+#' @param repos A string or list representing the name(s) of github repos (e.g., tidyverse/stringr).
+
 #' @param ignore_match_less_than_nchar Integer that specifies the number of
 #' characters for the 1st match to be considered valid. The default is 3.
 #'
@@ -59,7 +59,7 @@
 #' the second match. The default is 'content_match_2'.
 #' @param pattern_to_remove `character` , default = `'https://raw.githubusercontent.com/'`
 #' Pattern (regex) to remove from the names of the nodes (col' 1 & 2 of the edgelist)
-#' @param ... Parameters passed to srch_pattern_in_files_get_df().
+#' @param ... Parameters passed to `construct_corpus()` and `srch_pattern_in_files_get_df()`
 #' You typically want to adjust the "pattern" parameter, or keep_comments = T
 #'
 #' @return A data frame wich is the edgelist of the citations network
@@ -68,28 +68,27 @@
 #'
 #' @examples
 #' # Example with url from github
-#' result <- get_text_network_from_files(
-#' files_path = list.files("~", recursive = TRUE, full.name = TRUE, pattern = ".R$")
-#'   , ignore_match_less_than_nchar = 3, #'ui()', 'cli()', etc. are removed
+#' result <- get_text_network_from_project(
+#' folder_path =  "~",    ignore_match_less_than_nchar = 3, #'ui()', 'cli()', etc. are removed
 #' first_match_to_exclude = c( "server"), # exclude 'server'
 #'  regex_to_exclude_files_path = "test-")
 #'
 #' # Will return a network of func' from the file path where called => to the file path were defined)
 #'
-#' @seealso \code{\link{srch_pattern_in_files_get_df}}, \code{\link{str_extract_all_to_tidy_df}}, \code{\link{fix_escaping}}
+#' @seealso \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_files_get_df}}
 #' @export
-get_text_network_from_files <- function(files_path = "~"
+get_text_network_from_project <- function(folder_path = NULL, repos = NULL
 
     , ignore_match_less_than_nchar = 3
 
     , first_match_to_exclude = NULL
 
-   , prefix_for_regex_from_the_text = "" # text before the 1st match
+   , prefix_for_regex_from_the_text = "\\b" # text before the 1st match
 
    ,  suffix_for_regex_from_the_text = ""# add text after the 1st match
 
 
-  , regex_to_exclude_files_path = NULL #"test-"
+  , regex_to_exclude_files_path = "test-"
 
  , filter_2nd_match_unmatched_lines = TRUE
 
@@ -113,34 +112,16 @@ get_text_network_from_files <- function(files_path = "~"
   ){
 
  # we will rename in the end so var' names are hardcoded hereafter :
+fn_network <- construct_corpus(local_folders_paths = folder_path,   repos = repos , file_path_col_name = "file_path"
+                                            , content_col_name = "content", match_to_exclude = first_match_to_exclude
+ , extracted_txt_col_name =   "first_match", ignore_match_less_than_nchar = ignore_match_less_than_nchar, ...)
 
-  ####1) Get content from R files ####
-# With the default regex of srch_pattern_in_files_get_df, fn_network indicate where the func' are defined
-fn_network <-  srch_pattern_in_files_get_df(files_path = files_path, match_to_exclude = first_match_to_exclude
-                                            , file_path_col_name = "file_path"
-                                            , content_col_name = "content"
- , extracted_txt_col_name =   "first_match", ignore_match_less_than_nchar = ignore_match_less_than_nchar, ...) #file with a func' defined by default
+
 #we will retrieve this object and these var later
 
 # we have 3 informations that we used hereafter :
 # full content + path + a first match (default try to match each func' definition)
-
-#### 2) List the result ####
-fn_defined <- unique(fn_network$first_match) # it's the func' defined by default
-
-fn_defined <- fn_defined[which(!is.na(fn_defined))]
-
-# clean undesired char that will bug stringi.r
-# regexx <-  escape_unescaped_chars(fn_defined)
-
-#### 3) Construct a regex ####
-# optionnally add a suffix (such as a filter from the user, capture-group, etc.)
-regexx <- paste0(prefix_for_regex_from_the_text, fn_defined, suffix_for_regex_from_the_text)
-
-# made a single regex and clean it from unescaped chars
-regexx_complete <- paste0(regexx, collapse = "|")
-
-regexx_complete <-  fix_escaping(regexx_complete,num_escapes = 2, special_chars = c("(", ")"))
+regexx_complete <-get_regex_from_vector(fn_network$first_match,prefix_for_regex_from_the_text,suffix_for_regex_from_the_text, fix_escaping = T  )
 
 #### 4) EXTRACT #2 ####
 #  match every mention of our previous matches and returning a DF

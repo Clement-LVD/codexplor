@@ -52,7 +52,7 @@ if (.verbose) {pb <- utils::txtProgressBar(min = 0, max = 100, style = 3) }
     #read all files and transform them in dataframe
     resultats <- do.call(rbind, lapply(seq_along(files_path), function(i) {
 
-      lignes <- readLines(files_path[i], warn = FALSE)
+      lignes <- tryCatch(readLines(files_path[i], warn = FALSE), error = function(e) e$message)
 
       # clean com'
       lignes <- trimws(lignes)
