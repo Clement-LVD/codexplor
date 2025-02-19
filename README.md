@@ -33,22 +33,25 @@ Given a programming project with .R files :
 ⏩ Appreciate global complexity with a **Citations Network of internal
 dependencies** - Get network metrics & dataviz’ about the functions
 defined in the project (e.g. explore global structure or zoom on major
-internal dependancies[^1]). ⏩ Assess local complexity with
-**Text-mining metrics** *\[planned feature\]* - Get document-level
-metrics (e.g., files readability) - …
+internal dependancies[^1]).
+
+⏩ Assess local complexity with **Text-mining metrics** *\[planned
+feature\]* - Get document-level metrics (e.g., files readability)
+
+⏩ …
 
 Planned features :
 ![](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=Text-mining%20metrics&labelColor=grey&color=orange)
-![](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Reporting&labelColor=orange&color=black)
-![](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Network-advanced&labelColor=orange&color=black)
+![](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Reporting&labelColor=grey&color=orange)
+![](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Network-advanced&labelColor=grey&color=orange)
 
 ### Example : Explore a Citations Network
 
-1.  Give some folders path(s) and/or urls, compute a Citations Network
-    of the functions with
-    ![.](https://img.shields.io/badge/%7BScraping%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_text_network_from_project()&labelColor=yellow&color=black)
+1.  Given some folders path(s) and/or urls, get a Citations Network of
+    the functions with
+    ![.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_text_network_from_project()&labelColor=yellow&color=black)
 
-         net <- get_text_network_from_project(repos = "tidyverse/stringr"
+         net <- get_text_network_from_project("~",repos = "tidyverse/stringr"
          ,  regex_to_exclude_files_path = "test-", ignore_match_less_than_nchar = 5)
          # Return a data.frame, edgelist of a citations network
 
