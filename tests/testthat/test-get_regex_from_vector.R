@@ -12,7 +12,7 @@ test_that("get_regex_from_vector fonctionne avec des préfixes et suffixes simpl
 # Test special char to escape
 test_that("get_regex_from_vector échappe les caractères spéciaux", {
   words <- c("foo(bar)", "baz(qux)")
-  result <- get_regex_from_vector(words, "^", "$", c("(", ")"))
+  result <- get_regex_from_vector(words, prefix_for_regex = "^",suffix_for_regex =  "$")
   # Résultat attendu : "^foo\\(bar\\)$|^baz\\(qux\\)$"
   expected <- "^foo\\(bar\\)$|^baz\\(qux\\)$"
   expect_equal(result, expected)

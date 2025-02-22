@@ -8,8 +8,8 @@ get_regex_from_vector(
   vector,
   prefix_for_regex = "",
   suffix_for_regex = "",
-  special_chars_to_escape = c("(", ")", "."),
-  fix_escaping = TRUE
+  fix_escaping = TRUE,
+  ...
 )
 }
 \arguments{
@@ -19,16 +19,23 @@ get_regex_from_vector(
 
 \item{suffix_for_regex}{A string to append to each element of the vector in the regex pattern.}
 
-\item{special_chars_to_escape}{A character vector of special characters that should be escaped in the regex pattern. Default is \code{c("(", ")")}.}
-
 \item{fix_escaping}{A boolean, indicating if escaping should be fixed. Default is TRUE}
+
+\item{...}{Passed to fix_escaping}
 }
 \value{
-A single character string containing the regular expression pattern created by concatenating all elements from the input vector, with the specified prefix and suffix applied, and special characters escaped.
+A single character string containing the regular expression pattern
+created by concatenating all elements from the input vector,
+with the specified prefix and suffix applied, and special characters escaped.
 }
 \description{
 This function takes a vector of strings and returns a concatenated regular expression pattern.
 It allows adding a prefix and/or suffix to each element and escaping special characters.
+}
+\details{
+such as a list of \code{special_chars_to_escape},
+a number of escaping char. to add (default is \code{num_escapes = 2}),
+the escaping char. to consider, etc.
 }
 \examples{
 # Example 1: Create a regex pattern for a vector of words
@@ -40,4 +47,7 @@ words <- c("foo(bar)", "baz(qux)")
 rgx <- get_regex_from_vector(words, "(", ")?", c("(", ")"), fix_escaping = TRUE)
 #here we don't escape our custom pattern "(" and ")?" even if escaping of other will be fixed
 
+}
+\seealso{
+\code{\link{fix_escaping}},
 }

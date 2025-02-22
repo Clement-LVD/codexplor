@@ -24,7 +24,7 @@ function_def_regex_by_language <- function(...) {
 #### 1) define function regex => core behavior is catching func' names ####
 functions_def_by_language_regex_pattern <- list(
   R = list(
-    fn_regex = "\\b([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)",
+    fn_regex = "(^| \\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)",
     file_extension = ".R"
     , pattern_to_exlude = "\\.Rcheck|test-"
   ),

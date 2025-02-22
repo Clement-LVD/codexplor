@@ -67,14 +67,14 @@
 #'
 #' @examples
 #' # Example with url from github
-#' result <- get_text_network_from_project(
-#' folder_path =  "~",    ignore_match_less_than_nchar = 3, #'ui()', 'cli()', etc. are removed
-#' first_match_to_exclude = c( "server") )
+#' result <- get_text_network_from_project( folder_path =  "~" )
 #'
-#' # Will return a network of func' from the file path where called => to the file path were defined)
+#' # Will return a network of functions
+#' # (from the file where a function is call => to the file were defined)
 #'
 #' @seealso \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_files_get_df}}
-#' @seealso [vignette("get_text_network_from_project")]
+#' @seealso
+#'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html}
 #' @export
 get_text_network_from_project <- function(folder_path = NULL, repos = NULL
 

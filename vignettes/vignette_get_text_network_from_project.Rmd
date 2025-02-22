@@ -21,7 +21,7 @@ Assuming you have folder path(s) and/or public github repo(s) from a programming
 - Outdegree of a node is "how many functions of the project are used by this precise function". 
 - ⟲ auto-mentioning typically reveal 'recursivity', once a func' call itself more than one times (1st mention is usually for define the func' name)
 
-Assuming the user have indicated a list of folders paths and/or github repo(s), `codexplor::get_text_network_from_project()` will :
+Assuming the user have indicated folder(s) and/or github repo(s), `codexplor::get_text_network_from_project()` will :
 
 ⏩ Read the files, trying to extract a 1st pattern (e.g., defaults parameters will extract R functions names, when a func' is defined within a file). 
 ⏩ Search for these patterns (functions names by default) in the initial content, in order to constitute a Citations Network.

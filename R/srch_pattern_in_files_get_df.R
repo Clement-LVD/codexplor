@@ -40,8 +40,8 @@
 srch_pattern_in_files_get_df <- function(
     files_path = NULL
 
-       ,pattern = "\\b([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)"
-
+       ,pattern = "(^| \\.|\\b)([\\.A-Za-z0-9_]+)(?=\\s*(?:<-)\\s*function)"
+# a caveat here is the func' that not start from the 1st char : not easy to catch
 
    , match_to_exclude = NULL# "error"  e.g., for "error" (?<!error\\s*)
 
@@ -71,11 +71,12 @@ if(is.null(content_df)) return(NULL)
 content_df$row_num <- 1:nrow(content_df)
 
 # extract alltext (base R)
-les_matches <- regmatches(content_df[[content_col_name]], gregexpr(pattern, content_df[[content_col_name]], perl = TRUE))
+
+first_matches <- regmatches(content_df[[content_col_name]], gregexpr(pattern, content_df[[content_col_name]], perl = TRUE))
 # Unnest with base R
-flattened_df <- data.frame(row_num = rep( 1:length(les_matches)
-                                         , sapply(les_matches, length)),
-                           values = unlist(les_matches) )# and unlist give a raw vector.
+flattened_df <- data.frame(row_num = rep( 1:length(first_matches)
+                                         , sapply(first_matches, length)),
+                           values = unlist(first_matches) )# and unlist give a raw vector.
  # We REP each row number until unnesting the list
 # sapply(expanded_df$matches, length) give length of each sublist, used for repeating value (sometimes 0 times when no match)
 

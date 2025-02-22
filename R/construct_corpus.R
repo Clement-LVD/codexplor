@@ -15,7 +15,7 @@
 #' @param autoclean_filespath `logical`. Default = `TRUE`.
 #' Codexplor try to exclude testing files *before* to read the files of a project ; and it will try to clean the urls of the returned df
 #' By default, typical testing-purpose .R files are excluded
-#' (i.e. "`r function_def_regex_by_language(languages)$pattern_to_exclude`")
+#' (i.e. "`r codexplor::function_def_regex_by_language("R")$pattern_to_exclude`")
 #' , in addition to an optional `pattern_to_exclude_path` passed by the user.
 #' @param ignore_match_less_than_nchar `integer`. Default = `3`. Number of characters for the 1st match to be considered valid.
 #' @param pattern_to_remove `character` Default = `'https://raw.githubusercontent.com/'`

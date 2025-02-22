@@ -1,4 +1,10 @@
+name: codexplor
 url: https://clement-lvd.github.io/codexplor/
 template:
   bootstrap: 5
-
+navbar:
+    structure:
+      - left: [home, articles, reference]
+      - right: [github, search]                # Ajoute des liens vers GitHub et une barre de recherche
+    title: "codexplor"                        # Titre du site
+    # logo: "inst/app/www/logo.png"               # Logo du sit

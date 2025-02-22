@@ -4,12 +4,17 @@
 \alias{fix_escaping}
 \title{fix_escaping ensure correct escaping of special characters in a string}
 \usage{
-fix_escaping(text, special_chars = c("(", ")"), num_escapes = 2, use.names = F)
+fix_escaping(
+  text,
+  special_chars = c("(", ")", ".", "{", "}", "[", "]"),
+  num_escapes = 2,
+  use.names = F
+)
 }
 \arguments{
 \item{text}{A character string to process.}
 
-\item{special_chars}{A character vector of special characters that need escaping. Default is "(" and  ")"}
+\item{special_chars}{A character vector of special characters that need escaping. Defaults are "\code{.}", "\code{(}",   "\verb{\{}","\verb{\}}",  "\code{[}", "\verb{]}", and "\verb{)}"}
 
 \item{num_escapes}{Integer. Required number of \verb{\\} before special character.}
 
@@ -22,7 +27,6 @@ A corrected string with the right number of escape characters.
 This function adds the designated number of escape characters (\verb{\\}) before special characters.
 }
 \examples{
-rgx <- fix_escaping("This \\\\\\\\(is\\\\) (a\\\\\\\\\\\\) test?"
-, special_chars = c("(", ")", "?"), num_escapes = 4)
-# Returns: "This \\\\(is\\\\) \\\\(a\\\\) test\\\\?"
+rgx <- fix_escaping("This (is) (a) test.", special_chars = c("(", ")", "?"), num_escapes = 4)
+# Returns: "This \\\\(is\\\\) \\\\(a\\\\) test."
 }

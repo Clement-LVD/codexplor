@@ -5,7 +5,7 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-![R Project](https://img.shields.io/badge/R-black) [![CRAN
+![R](https://img.shields.io/badge/R-black) [![CRAN
 status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.org/package=codexplor)
 <!-- badges: end -->
 
@@ -13,45 +13,43 @@ status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.
 
 `codexplor` offers R functions for explore and monitor a programming
 project : get immediate insights on a programming project with
-text-mining metrics, network analysis & dataviz’. Get rid of complexity
-with a broader perspective on the project !
+text-mining metrics, network analysis & dataviz’.
 
-## Installation
-
-You can install the development version of codexplor with
+**Installation.** You can install the development version of codexplor
+with
 
 ``` r
 devtools::install_github("clement-LVD/codexplor")
 ```
 
-## Features
+### Features
 
-![](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=Citations%20Network%20of%20internal%20dependencies&labelColor=black&color=green)
+<figure>
+<img
+src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Citations%20Network%20of%20internal%20dependencies&amp;labelColor=black&amp;color=green"
+alt="↓ Given a programming project :" />
+<figcaption aria-hidden="true">↓ Given a programming project
+:</figcaption>
+</figure>
 
-Given a programming project :
+⏩ Assess global complexity with a **Citations Network of internal
+dependencies**, and get rid of the complexity with network metrics &
+dataviz’ , e.g., quickly identify the internal dependancies[^1].
 
-⏩ Appreciate global complexity with a **Citations Network of internal
-dependencies** - Get network metrics & dataviz’ about the functions
-defined in the project (e.g. explore global structure or zoom on major
-internal dependancies[^1]).
+⏩ Assess local complexity with **Text-mining** and document-level
+metrics, e.g., length and files readability.
 
-⏩ Assess local complexity with **Text-mining metrics** *\[WIP\]* - Get
-document-level metrics (e.g., files readability)
+**Supported programming languages :**
+![.](https://img.shields.io/badge/R-green)
 
-⏩ …
+Other languages are planned[^2].
 
-Planned features :
-![](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=Text-mining%20metrics&labelColor=grey&color=orange)
-![](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Reporting&labelColor=grey&color=orange)
-![](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Network-advanced&labelColor=grey&color=orange)
+**Planned features.**
+![.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=Text-mining%20metrics&labelColor=grey&color=orange)
+![.](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Reporting&labelColor=grey&color=orange)
+![.](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Network-advanced&labelColor=grey&color=orange)
 
-## Supported languages
-
-Currently `codexplor` support the
-![](https://img.shields.io/badge/R-yellow) programming language. Planned
-languages are : R, Python, JavaScript, Java, C, Cpp, Go.
-
-### Example : Explore your internal-dependancies with a Citations Network
+### Example : Explore a network of internal dependancies
 
 1.  Given folders path(s) and/or github repo(s), get a Citations Network
     of the functions with
@@ -61,44 +59,48 @@ languages are : R, Python, JavaScript, Java, C, Cpp, Go.
          # Return a data.frame, edgelist of a citations network
 
 2.  Look an interactive dataviz’ with `networkD3` :
-    ![](https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_networkd3_from_igraph()&labelColor=yellow&color=black)
+    ![.](https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_networkd3_from_igraph()&labelColor=yellow&color=black)
 
         codexplor::get_networkd3_from_igraph(net) 
 
-![](man/figures/example_net3d_dataviz.png)
+<figure>
+<img src="man/figures/example_net3d_dataviz.png" alt="." />
+<figcaption aria-hidden="true">.</figcaption>
+</figure>
 
 Here, ingoing links are colorized, in order to reveal the functions used
 by others functions *aka* local dependancies of the project. e.g.,. we
 see that the most-common local dependancy inside the tidyverse/stringr
-repo is `compat-types-check.R`, and that some codexplor functions are
-relying on stringr:: functions.
+repo is `compat-types-check.R`, and that one of the codexplor functions
+actually rely on a stringr::extract.R function (codexplor functions
+network is truncated on the herabove picture).
 
 Play with the parameters reveal others infos, e.g., you should try to
 color nodes accordingly to their outdegrees - the number of functions
 they call, in order to reveal the “high-level functions’.
 
-------------------------------------------------------------------------
+Get rid of complexity with a broader perspective on the project !
 
 `codexplor` offers several protocols & parameters to take care with. See
-the vignettes :
+the vignettes about the text-analysis protocols offered by `codexplor`,
+such as :
 
-- Apply a precise text-analysis protocol, such as [turning your
-  programming project into a
-  text-network](../vignettes/Turn%20a%20programming%20project%20into%20a%20text-network)
+- [Turning a programming project into a
+  text-network](https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html)
 
-- [Turn a programming project folder(s) into a corpus with
-  construct_corpus()](../vignettes/construct_a_corpus)
+Or familiarize yourself with the specialized tools offered by
+`codexplor`, such as :
 
+- [Turn a programming project into a corpus with
+  construct_corpus()](https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html)
 - [Turn it into an igraph object, filter and manage it with helper
-  functions](../vignettes/manage_igraph_object)
+  functions](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html)
 
 Depending on the languages you have to manage, you’ll want to tweak the
 ‘pattern’ used for match a function definition. The user must be
 familiar with text-mining & network methods since - for now -
 `codexplor` only support the R programming language (other languages are
 planned).
-
-------------------------------------------------------------------------
 
 <!--
 ⏩ **4. Get an interactive `networkD3` HTML object**
@@ -122,3 +124,6 @@ Under construction \[🔧🔨\]
 <!-- *Usecases of a quick programming project understanding*. codexplor goal is to *quickly* analyse your developing project, in order to *gain* time of comprehension, made your documentation, dataviz' of your project, etc. The features offered are crafted for coordinate large programming project, made helper func' for new colleagues and/or future you, formally identifying your higher-level func' and/or the most-frequently used as dependancies... and other handy features for priorizing your work by quickly figure out 'where' you have to pay attention. For example, before to change a parameter name in a func', you want to check what are the func' that used the one you want to modify. Same for changing the returned content or the behavior of a func' : you want to check which ones used this func' that you want to modify. You also want to offer an easy way to understand the chaining of your custom func'. -->
 
 [^1]: functions that are called by others functions of the project
+
+[^2]: Current list of planned supported languages is : R, Python,
+    JavaScript, Java, C, Cpp, Go
