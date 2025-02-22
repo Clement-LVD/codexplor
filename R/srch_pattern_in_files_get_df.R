@@ -31,7 +31,7 @@
 #' @examples
 #' #Analysing the func of the package, assuming you have installed it :
 #' pkg_path <- list.files("~", pattern = ".R$",  recursive = TRUE , full.names = TRUE  )
-#' lines_readed <- srch_pattern_in_files_get_df(pkg_path)
+#' lines_readed <- srch_pattern_in_files_get_df(pkg_path, .verbose = FALSE)
 #' # Return : a dataframe of links, according to - default - pattern
 #' @seealso \code{\link{readlines_in_df}}
 #' @export

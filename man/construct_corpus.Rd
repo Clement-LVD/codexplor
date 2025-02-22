@@ -37,7 +37,7 @@ By default, typical testing-purpose .R files are excluded
 A pattern (regex) to remove from the files path of the edgelist (columns 1 & 2)}
 
 \item{...}{Additional arguments passed to \code{srch_pattern_in_files_get_df}
-(e.g., filtering criteria, depth of folder scanning, names of returned df col').}
+(filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).}
 }
 \value{
 A data frame containing the corpus of collected files. The data frame typically includes columns such as:
@@ -48,8 +48,8 @@ A data frame containing the corpus of collected files. The data frame typically 
 \description{
 This function builds a structured data frame containing code files
 from either GitHub repositories or local folder paths.
-Then it \strong{try to extract function names} according to a dictionary
-of functions definition.
+Then it try to extract function names in the lines previously readed
+, according to the default pattern designed for matching functions names.
 The resulting data frame provides an overview of the collected content,
 including file paths, URLs (if applicable), and languages.
 }
@@ -62,13 +62,13 @@ including file paths, URLs (if applicable), and languages.
 }
 \examples{
 # Example 1: Construct a corpus from local folders
-corp_myself <- construct_corpus(local_folders_paths = "~", languages = c("R", "Python"))
+cr1 <- construct_corpus("~", languages = c("R", "Python"), .verbose = FALSE)
 
 # Example 2: Construct a corpus from GitHub repositories
-corp_strreadr <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr"), "R")
+cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr"), .verbose = FALSE)
 
 # Example 3: Combine local folders and GitHub repositories
-corp_me_and_dplyr <- construct_corpus(c("~", getwd()), repos = "tidyverse/dplyr", c("R", "Cpp"))
+cr3 <- construct_corpus("~", c("R", "Cpp"), "tidyverse/dplyr", .verbose = FALSE)
 
 }
 \seealso{

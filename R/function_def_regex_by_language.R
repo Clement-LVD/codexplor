@@ -64,8 +64,10 @@ functions_def_by_language_regex_pattern <- list(
 
   available_languages <- tolower(names(functions_def_by_language_regex_pattern))
 
-   if (!all(languages %in% available_languages)) {
-    stop("Unsupported language(s) ! Available languages => ",
+non_available <- languages[!languages %in% available_languages]
+
+if(length(non_available) > 1) {
+    stop("Unsupported language(s) (" , paste0(collapse = ", ", non_available), ") !\n Available languages => ",
          paste(names(functions_def_by_language_regex_pattern), collapse = ", "))
   }
 

@@ -10,12 +10,11 @@ srch_pattern_in_files_get_df(
   pattern = "(^| \\\\.|\\\\b)([\\\\.A-Za-z0-9_]+)(?=\\\\s*(?:<-)\\\\s*function)",
   match_to_exclude = NULL,
   ignore_match_less_than_nchar = 3,
-  ignore_case = T,
-  keep_comments = FALSE,
   file_path_col_name = "file_path",
   content_col_name = "content",
   line_number_col_name = "line_number",
-  extracted_txt_col_name = "matches"
+  extracted_txt_col_name = "matches",
+  ...
 )
 }
 \arguments{
@@ -31,12 +30,6 @@ The rows where the \code{values} match any element in this vector will be remove
 \item{ignore_match_less_than_nchar}{\code{double}, default = 2 Excluding match depending on char. number of the matched text (strictly inferior)
 Default exclude match of 1 char such as 'x'.}
 
-\item{ignore_case}{\code{logical}, default = \code{TRUE}
-If \code{TRUE}, the pattern search (lines matched) will ignore case. If \code{FALSE}, the search will be case-sensitive.}
-
-\item{keep_comments}{\code{logical}, default = \code{FALSE}
-If \code{FALSE} - the default, the lines whith a leading # will be removed from the returned df}
-
 \item{file_path_col_name}{\code{character}, default = \code{"file_path"}
 Column name for the file path in the output dataframe (first col' of the returned df)}
 
@@ -48,6 +41,9 @@ Column name for the line numbers in the output dataframe.}
 
 \item{extracted_txt_col_name}{\code{character}, default = \code{"matches"}
 Column name for the extracted text (last col' of the returned df)}
+
+\item{...}{Additional arguments passed to \code{readlines_in_df}
+For example, keep_comments (\code{logical}, default = \code{FALSE}) for taking into account the commented lines of the files}
 }
 \value{
 A \code{data.frame} with 4 col' : first (\code{file_path} by default) contain the file_path, then \code{line_number} (by default) contain line_number, third column (\code{content} by default) containing the readed lines from the file and the LAST ONE contain the matched text, according to the regex provided by the user
@@ -63,7 +59,7 @@ Last col is the extracted text : this will be the prefix passed by the user, onl
 \examples{
 #Analysing the func of the package, assuming you have installed it :
 pkg_path <- list.files("~", pattern = ".R$",  recursive = TRUE , full.names = TRUE  )
-lines_readed <- srch_pattern_in_files_get_df(pkg_path)
+lines_readed <- srch_pattern_in_files_get_df(pkg_path, .verbose = FALSE)
 # Return : a dataframe of links, according to - default - pattern
 }
 \seealso{

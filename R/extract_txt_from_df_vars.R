@@ -70,8 +70,6 @@ expanded_df$row_num <- 1:nrow(expanded_df) # a valid line_number
 
 expanded_df$list_of_matched_txt <- complete_result  # by default initialize the col' "to" (here we write a list in this col')
 
-# expanded_df$list_of_matched_txt <- lapply(expanded_df$list_of_matched_txt, function(x) if (is.null(x)) integer(0) else x)
-
 if(max_lines_to_create == 0){expanded_df$list_of_matched_txt <- NA}
 # Fill the "list_of_matched_txt" col' in order to prevent some bug if there is no result (no match)
 
@@ -89,12 +87,6 @@ expanded_df <- merge(expanded_df, flattened_df, by = "row_num", all = T ) # addi
 
 # eject lines with no match (optionnal)
 if(!keep_empty_results){expanded_df <- expanded_df[which(!is.na(expanded_df[[returned_col_name]]) ) , ]}
-
-# df_new <- do.call(rbind, Map(cbind, id = df$id, df$valeurs))
-# rownames(df_new) <- NULL  # Nettoyage des noms de lignes
-
-# or we have to reduce the number of lines and join to the user dataframe
-# expanded_df <- unique(expanded_df)
 
 return(expanded_df)
 }
