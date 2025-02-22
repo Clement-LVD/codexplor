@@ -1,9 +1,10 @@
 #' Extracts specified patterns from a dataframe column and returns the corresponding lines of the dataframe
-#' In case of several pattern gived by the user, line will be multiplied if there is several matches on a line
+
 #' This function allows the extraction of a specified pattern from selected columns of a dataframe.
 #' The pattern extraction is applied to each row, and the results are returned as a new dataframe with
 #' the extracted patterns as a list in a new column. The function handles multiple patterns and
 #' will expand the dataframe by adding rows if necessary.
+#' In case of several pattern gived by the user, line will be multiplied if there is several matches on a line
 #' Only matching lines are returned (the default) or every line gived + eventually some new lines refleting several matches on a line
 
 #'
