@@ -1,0 +1,26 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://clement-lvd.github.io/codexplor/404.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/LICENSE-text.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/LICENSE.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/articles/get_text_network_from_project.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/articles/index.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/authors.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/index.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/construct_corpus.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/extract_txt_from_df_vars.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/filter_igraph_egonetwork.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/fix_escaping.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/function_def_regex_by_language.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/get_github_raw_filespath.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/get_igraph_from_df.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/get_networkd3_from_igraph.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/get_regex_from_vector.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/get_text_network_from_project.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/index.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/readlines_in_df.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/srch_pattern_in_files_get_df.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/str_extract_all_to_tidy_df.html</loc></url>
+</urlset>
+
