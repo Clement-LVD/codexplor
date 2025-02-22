@@ -28,7 +28,7 @@ For example, giving a bunch of .R project and/or repos :
     #get a networkD3 dataviz' from this edgelist :
     get_networkd3_from_igraph(net)
 
-![.](man/figures/example_net3d_dataviz.png)
+![.](../man/figures/example_net3d_dataviz.png)
 
 **Network properties.**
 The returned network is a document-to-document Citations network. 
