@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Explore And Dataviz' Your R Code Files • codexplor</title>
+<title>Explore And Dataviz' a Programming Project • codexplor</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Explore And Dataviz' Your R Code Files">
-<meta name="description" content="Explore your codes files, get a network of the func relationship. Nice for identifying higher-level func, dependancies [...] and showing your work to other people, coordinate large programming project, made automatic-help func', etc.">
-<meta property="og:description" content="Explore your codes files, get a network of the func relationship. Nice for identifying higher-level func, dependancies [...] and showing your work to other people, coordinate large programming project, made automatic-help func', etc.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Explore And Dataviz' a Programming Project">
+<meta name="description" content="Get text-mining and network metrics about a programming project (e.g., network of the internal functions relationship). Nice for identifying higher-level func, dependancies [...] and showing your work to other people, coordinate large programming project, made automatic-help func, etc.">
+<meta property="og:description" content="Get text-mining and network metrics about a programming project (e.g., network of the internal functions relationship). Nice for identifying higher-level func, dependancies [...] and showing your work to other people, coordinate large programming project, made automatic-help func, etc.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -35,9 +35,9 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/construct_a_corpus.html">constructing_a_corpus</a></li>
-    <li><a class="dropdown-item" href="articles/get_text_network_from_project.html">Turn a programming project into a text-network</a></li>
-    <li><a class="dropdown-item" href="articles/manage_igraph_object.html">manage_igraph_object</a></li>
+<li><a class="dropdown-item" href="articles/construct_a_corpus.html">Turn a programming project into a corpus</a></li>
+    <li><a class="dropdown-item" href="articles/manage_igraph_object.html">Helper functions to create and filter igraph objects</a></li>
+    <li><a class="dropdown-item" href="articles/vignette_get_text_network_from_project.html">Turn a programming project into a text-network</a></li>
   </ul>
 </li>
       </ul>
@@ -58,30 +58,23 @@
 <!-- badges: start -->
 
 <p>🧰🔧🔨 UNDER CONSTRUCTION 🧰🔧🔨</p>
-<p><code>codexplor</code> offers R functions for explore and monitor a programming project : get immediate insights on a programming project with text-mining metrics, network analysis &amp; dataviz’. Get rid of complexity with a broader perspective on the project !</p>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
-<p>You can install the development version of codexplor with</p>
+<p><code>codexplor</code> offers R functions for explore and monitor a programming project : get immediate insights on a programming project with text-mining metrics, network analysis &amp; dataviz’.</p>
+<p><strong>Installation.</strong> You can install the development version of codexplor with</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"clement-LVD/codexplor"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
-</h2>
-<p><img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Citations%20Network%20of%20internal%20dependencies&amp;labelColor=black&amp;color=green"></p>
-<p>Given a programming project :</p>
-<p>⏩ Appreciate global complexity with a <strong>Citations Network of internal dependencies</strong> - Get network metrics &amp; dataviz’ about the functions defined in the project (e.g. explore global structure or zoom on major internal dependancies<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;functions that are called by others functions of the project&lt;/p&gt;"><sup>1</sup></a>).</p>
-<p>⏩ Assess local complexity with <strong>Text-mining metrics</strong> <em>[WIP]</em> - Get document-level metrics (e.g., files readability)</p>
-<p>⏩ …</p>
-<p>Planned features : <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Text-mining%20metrics&amp;labelColor=grey&amp;color=orange"><img src="https://img.shields.io/badge/%7BExport%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Reporting&amp;labelColor=grey&amp;color=orange"><img src="https://img.shields.io/badge/%7BExport%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Network-advanced&amp;labelColor=grey&amp;color=orange"></p>
-</div>
-<div class="section level2">
-<h2 id="supported-languages">Supported languages<a class="anchor" aria-label="anchor" href="#supported-languages"></a>
-</h2>
-<p>Currently <code>codexplor</code> support the <img src="https://img.shields.io/badge/R-yellow"> programming language. Planned languages are : R, Python, JavaScript, Java, C, Cpp, Go.</p>
 <div class="section level3">
-<h3 id="example--explore-your-internal-dependancies-with-a-citations-network">Example : Explore your internal-dependancies with a Citations Network<a class="anchor" aria-label="anchor" href="#example--explore-your-internal-dependancies-with-a-citations-network"></a>
+<h3 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
+</h3>
+<figure><img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Citations%20Network%20of%20internal%20dependencies&amp;labelColor=black&amp;color=green" alt="↓ Given a programming project :"><figcaption aria-hidden="true">
+↓ Given a programming project :
+</figcaption></figure><p>⏩ Assess global complexity with a <strong>Citations Network of internal dependencies</strong>, and get rid of the complexity with network metrics &amp; dataviz’ , e.g., quickly identify the internal dependancies<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;functions that are called by others functions of the project&lt;/p&gt;"><sup>1</sup></a>.</p>
+<p>⏩ Assess local complexity with <strong>Text-mining</strong> and document-level metrics, e.g., length and files readability.</p>
+<p><strong>Supported programming languages :</strong> <img src="https://img.shields.io/badge/R-green" alt="."></p>
+<p>Other languages are planned<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Current list of planned supported languages is : R, Python, JavaScript, Java, C, Cpp, Go&lt;/p&gt;"><sup>2</sup></a>.</p>
+<p><strong>Planned features.</strong> <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Text-mining%20metrics&amp;labelColor=grey&amp;color=orange" alt="."><img src="https://img.shields.io/badge/%7BExport%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Reporting&amp;labelColor=grey&amp;color=orange" alt="."><img src="https://img.shields.io/badge/%7BExport%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Network-advanced&amp;labelColor=grey&amp;color=orange" alt="."></p>
+</div>
+<div class="section level3">
+<h3 id="example--explore-a-network-of-internal-dependancies">Example : Explore a network of internal dependancies<a class="anchor" aria-label="anchor" href="#example--explore-a-network-of-internal-dependancies"></a>
 </h3>
 <ol style="list-style-type: decimal">
 <li>
@@ -90,29 +83,33 @@
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a> <span class="co"># Return a data.frame, edgelist of a citations network</span></span></code></pre></div>
 </li>
 <li>
-<p>Look an interactive dataviz’ with <code>networkD3</code> : <img src="https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_networkd3_from_igraph()&amp;labelColor=yellow&amp;color=black"></p>
+<p>Look an interactive dataviz’ with <code>networkD3</code> : <img src="https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_networkd3_from_igraph()&amp;labelColor=yellow&amp;color=black" alt="."></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>codexplor<span class="sc">::</span><span class="fu">get_networkd3_from_igraph</span>(net) </span></code></pre></div>
 </li>
 </ol>
-<p><img src="reference/figures/example_net3d_dataviz.png"></p>
-<p>Here, ingoing links are colorized, in order to reveal the functions used by others functions <em>aka</em> local dependancies of the project. e.g.,. we see that the most-common local dependancy inside the tidyverse/stringr repo is <code>compat-types-check.R</code>, and that some codexplor functions are relying on stringr:: functions.</p>
+<figure><img src="reference/figures/example_net3d_dataviz.png" alt="."><figcaption aria-hidden="true">
+.
+</figcaption></figure><p>Here, ingoing links are colorized, in order to reveal the functions used by others functions <em>aka</em> local dependancies of the project. e.g.,. we see that the most-common local dependancy inside the tidyverse/stringr repo is <code>compat-types-check.R</code>, and that one of the codexplor functions actually rely on a stringr::extract.R function (codexplor functions network is truncated on the herabove picture).</p>
 <p>Play with the parameters reveal others infos, e.g., you should try to color nodes accordingly to their outdegrees - the number of functions they call, in order to reveal the “high-level functions’.</p>
-<hr>
-<p><code>codexplor</code> offers several protocols &amp; parameters to take care with. See the vignettes :</p>
+<p>Get rid of complexity with a broader perspective on the project !</p>
+<p><code>codexplor</code> offers several protocols &amp; parameters to take care with. See the vignettes about the text-analysis protocols offered by <code>codexplor</code>, such as :</p>
 <ul>
-<li><p>Apply a precise text-analysis protocol, such as <a href="../vignettes/Turn%20a%20programming%20project%20into%20a%20text-network">turning your programming project into a text-network</a></p></li>
-<li><p><a href="../vignettes/construct_a_corpus">Turn a programming project folder(s) into a corpus with construct_corpus()</a></p></li>
-<li><p><a href="../vignettes/manage_igraph_object">Turn it into an igraph object, filter and manage it with helper functions</a></p></li>
+<li><a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html">Turning a programming project into a text-network</a></li>
+</ul>
+<p>Or familiarize yourself with the specialized tools offered by <code>codexplor</code>, such as :</p>
+<ul>
+<li><a href="https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html">Turn a programming project into a corpus with construct_corpus()</a></li>
+<li><a href="https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html">Turn it into an igraph object, filter and manage it with helper functions</a></li>
 </ul>
 <p>Depending on the languages you have to manage, you’ll want to tweak the ‘pattern’ used for match a function definition. The user must be familiar with text-mining &amp; network methods since - for now - <code>codexplor</code> only support the R programming language (other languages are planned).</p>
-<hr>
 <!--
 ⏩ **4. Get an interactive `networkD3` HTML object**
 &#10;
 `get_networkd3_from_igraph()` Return a list of 2 objects :
 &#10;1. a list named `'net3d'` with 2 data.frames, with the data used by `networkD3` (`'nodes'` and `'edges'`)
 &#10;2. a networkD3::forceNetwork S3 class object named `'forcenetwork'`, an html interactive network dataviz'
-&#10;--><p>⏩ <em>Get metrics and identifying problematic patterns (e.g., cascading dependancies of func’)</em></p>
+&#10;-->
+<p>⏩ <em>Get metrics and identifying problematic patterns (e.g., cascading dependancies of func’)</em></p>
 <p>Under construction [🔧🔨]</p>
 <!--
 > `codexplor` help you to manage and analyze a programming project, giving you tools to figure out the big picture and to find the little wrench in the (net)work.
@@ -121,7 +118,6 @@
 &#10;> **Usecases 3.** codexplor add insights on a particular function, as an help for the dev' when it come back on a project after a while (e.g., list all the local dependancies of a function and the functions that call it as a local dependancy).
 &#10;-->
 <!-- *Usecases of a quick programming project understanding*. codexplor goal is to *quickly* analyse your developing project, in order to *gain* time of comprehension, made your documentation, dataviz' of your project, etc. The features offered are crafted for coordinate large programming project, made helper func' for new colleagues and/or future you, formally identifying your higher-level func' and/or the most-frequently used as dependancies... and other handy features for priorizing your work by quickly figure out 'where' you have to pay attention. For example, before to change a parameter name in a func', you want to check what are the func' that used the one you want to modify. Same for changing the returned content or the behavior of a func' : you want to check which ones used this func' that you want to modify. You also want to offer an easy way to understand the chaining of your custom func'. -->
-</div>
 </div>
 </div>
 
