@@ -28,7 +28,7 @@ return("<style>
 
 🧰🔧🔨 UNDER CONSTRUCTION 🧰🔧🔨
 
-`codexplor` offers R functions for explore and monitor a programming project : get immediate insights on a programming project with text-mining metrics, network analysis & dataviz'. Get rid of complexity with a broader perspective on the project !
+`codexplor` offers R functions for explore and monitor a programming project : get immediate insights on a programming project with text-mining metrics, network analysis & dataviz'. 
 
 ## Installation
 You can install the development version of codexplor with
@@ -81,6 +81,7 @@ Here, ingoing links are colorized, in order to reveal the functions used by othe
 Play with the parameters reveal others infos, e.g., you should try to color nodes accordingly to their outdegrees - the number of functions they call, in order to reveal the "high-level functions'.
 
 ---
+Get rid of complexity with a broader perspective on the project !
 
 `codexplor` offers several protocols & parameters to take care with. See the vignettes :
 
