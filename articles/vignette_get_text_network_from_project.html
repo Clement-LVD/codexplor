@@ -87,24 +87,24 @@ give a basic understanding of such a network.</p>
 </div>
 <p><strong>Network properties.</strong> The returned network is a
 document-to-document Citations network.</p>
-<p>Such a network have already a lot of mathematical properties that we
-don’t cover here (e.g., a Citations Network is always a directed
-network).</p>
+<p>Such a network have basic properties that we don’t cover here (e.g.,
+a Citations Network is always a directed network).</p>
 <p>Regarding the network computed by
 <code><a href="../reference/get_text_network_from_project.html">codexplor::get_text_network_from_project()</a></code> :</p>
 <ul>
-<li>A node is one of the programming files (exclusively .R files by
-default).</li>
-<li>An edge is symbolizing a link from a file that calls a function to
-the file where the function is defined.</li>
+<li>A node is one of the programming files (default is a network of .R
+files).</li>
+<li>An edge is linkink a file that call a function to the file where
+this function is defined.</li>
 </ul>
-<p>Thus :</p>
+<p>For example, in a typical programming project :</p>
 <ul>
-<li>Indegrees of a node is ‘how many functions of the project uses this
-func’.</li>
-<li>Outdegree of a node is “how many functions of the project are used
-by this precise function”.</li>
-<li>⟲ auto-mentioning typically reveal ‘recursivity’, once a func’ call
+<li>nodes are mostly functions</li>
+<li>Indegrees of a node is how many other functions of the project this
+function is using.</li>
+<li>Outdegree of a node is how many functions of the project are used by
+this function.</li>
+<li>⟲ auto-mentioning typically reveal recursivity, once a func’ call
 itself more than one times (1st mention is usually for define the func’
 name)</li>
 </ul>
@@ -120,11 +120,9 @@ perform a ‘cascading matching’ :</p>
 <p>⏩ Read the files, trying to extract a 1st pattern (e.g., defaults
 parameters will extract R functions names, when a func’ is defined
 within a file).</p>
-<p>⏩ Search for these patterns (functions names by default) in the
-initial content, in order to constitute a Citations Network.</p>
-<p>🎁 Return the edgelist of the network of <em>documents</em>
-(i.e. files path with the 2nd match =&gt; files path with the 1st match
-[where the function is defined])</p>
+<p>⏩ Search for these patterns in the initial content, in order to
+constitute a Citations Network.</p>
+<p>🎁 Return the edgelist of the network of <em>documents</em></p>
 </div>
 <div class="section level3">
 <h3 id="filter-undesired-match">Filter undesired match<a class="anchor" aria-label="anchor" href="#filter-undesired-match"></a>
@@ -134,7 +132,7 @@ positive” matches are the lines where you use the name of another
 function in a message,
 e.g. <code>message("my_func() is deprecated. You should use this_function() instead)</code>.
 <code>get_text_network_from_files</code> offer several parameters for
-deal with your style of programming.</p>
+dealing with your style of programming.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
