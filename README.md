@@ -11,9 +11,12 @@ status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.
 
 🧰🔧🔨 UNDER CONSTRUCTION 🧰🔧🔨
 
-`codexplor` offers R functions for explore and monitor a programming
-project : get immediate insights on a programming project with
-text-mining metrics, network analysis & dataviz’.
+`codexplor` offers R functions for explore, analyze and monitor a
+programming project as a network of documents 🖧.
+
+> Get a standardized report with immediate insights on a given
+> programming project, thanks to text-mining and network metrics, deep
+> analysis & cool dataviz’.
 
 **Installation.** You can install the development version of codexplor
 with
@@ -32,11 +35,13 @@ alt="↓ Given a programming project :" />
 :</figcaption>
 </figure>
 
-⏩ Get rid of global complexity with **network metrics & dataviz’**,
-such as a network of internal dependencies[^1].
+Get rid of :
 
-⏩ Assess local complexity with **Text-mining** and document-level
-metrics, e.g., length and files readability.
+⏩ Global complexity with **network metrics & dataviz’**, such as a
+network of internal dependencies[^1].
+
+⏩ Local complexity with **text-mining** and document-level metrics
+(e.g., length and files readability).
 
 **Supported programming languages :**
 ![.](https://img.shields.io/badge/R-green)
@@ -50,14 +55,14 @@ Other languages are planned[^2].
 
 ### Example : Explore a network of internal dependancies
 
-1.  Given folders path(s) and/or github repo(s), get a Citations Network
-    of the functions with
+1.  Given folders path(s) and/or github repo(s), get a *citations
+    network* of the functions with
     ![.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_text_network_from_project()&labelColor=yellow&color=black)
 
          net <-  get_text_network_from_project(repos = c("tidyverse/stringr", "clement-LVD/codexplor") )
          # Return a data.frame, edgelist of a citations network
 
-2.  Look an interactive dataviz’ with `networkD3` :
+2.  Look an *interactive dataviz’* with `networkD3` :
     ![.](https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_networkd3_from_igraph()&labelColor=yellow&color=black)
 
         codexplor::get_networkd3_from_igraph(net) 
@@ -67,13 +72,14 @@ Other languages are planned[^2].
 <figcaption aria-hidden="true">.</figcaption>
 </figure>
 
-By default, ingoing links are colorized on this dataviz, in order to
-reveal the local dependancies of the project (i.e. functions used by
-others files of the project). Hereabove, we see that the most-common
-local dependancy inside the tidyverse/stringr repo is
-`compat-types-check.R`. One of the codexplor functions actually rely on
-a stringr/extract.R function - codexplor functions network is truncated
-on the herabove picture, but the opposite is not true.
+By default, nodes are colorized accordingly to their indegrees
+(i.e. number of ingoing links), in order to reveal the local
+dependancies of the project (i.e. functions used by others files of the
+project). Hereabove, we see that the most-common local dependancy inside
+the tidyverse/stringr repo is `compat-types-check.R`. One of the
+codexplor functions actually rely on a stringr/extract.R function -
+codexplor functions network is truncated on the herabove picture, but
+the opposite is not true.
 
 Play with the parameters reveal others insights, e.g., you should try to
 color nodes accordingly to their outdegrees - the number of functions
@@ -99,10 +105,8 @@ Or familiarize yourself with the specialized tools offered by
   functions](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html)
 
 Depending on the languages you have to manage, you’ll want to tweak the
-‘pattern’ used for match a function definition. The user must be
-familiar with text-mining & network methods since - for now -
-`codexplor` only support the R programming language (other languages are
-planned).
+‘pattern’ used for match a function definition : for now - `codexplor`
+only support the R programming language (other languages are planned).
 
 <!--
 ⏩ **4. Get an interactive `networkD3` HTML object**
