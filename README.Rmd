@@ -28,7 +28,7 @@ return("<style>
 
 🧰🔧🔨 UNDER CONSTRUCTION 🧰🔧🔨
 
-`codexplor` offers R functions for explore and monitor a programming project : simply indicate your project(s) path(s) and get immediate insights with text-mining metrics, network analysis & dataviz'. Get rid of complexity with a broader perspective on the project !
+`codexplor` offers R functions for explore and monitor a programming project : get immediate insights on a programming project with text-mining metrics, network analysis & dataviz'. Get rid of complexity with a broader perspective on the project !
 
 ## Installation
 You can install the development version of codexplor with
