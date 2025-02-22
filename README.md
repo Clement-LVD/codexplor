@@ -16,9 +16,9 @@ programming project. These tools are aimed to manage a programming
 project as a network of documents, with text-mining and network metrics
 & dataviz’.
 
-> Thanks to the immediate insights, dataviz’ and deep reports offered by
-> `codexplor`, I understand the big picture of a programming project
-> more efficiently.
+> The immediate insights and deep reports offered by `codexplor` will
+> help you to understand the big picture of a programming project
+> faster, but also to manage it more efficiently.
 
 ### Installation
 
