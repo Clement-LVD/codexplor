@@ -58,7 +58,10 @@
 <!-- badges: start -->
 
 <p>🧰🔧🔨 UNDER CONSTRUCTION 🧰🔧🔨</p>
-<p><code>codexplor</code> offers R functions for explore and monitor a programming project : get immediate insights on a programming project with text-mining metrics, network analysis &amp; dataviz’.</p>
+<p><code>codexplor</code> offers R functions for explore, analyze and monitor a programming project as a network of documents 🖧.</p>
+<blockquote>
+<p>Get a standardized report with immediate insights on a given programming project, thanks to text-mining and network metrics, deep analysis &amp; cool dataviz’.</p>
+</blockquote>
 <p><strong>Installation.</strong> You can install the development version of codexplor with</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"clement-LVD/codexplor"</span><span class="op">)</span></span></code></pre></div>
@@ -67,8 +70,9 @@
 </h3>
 <figure><img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Citations%20Network%20of%20internal%20dependencies&amp;labelColor=black&amp;color=green" alt="↓ Given a programming project :"><figcaption aria-hidden="true">
 ↓ Given a programming project :
-</figcaption></figure><p>⏩ Get rid of global complexity with <strong>network metrics &amp; dataviz’</strong>, such as a network of internal dependencies<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;functions that are called by others functions of the project&lt;/p&gt;"><sup>1</sup></a>.</p>
-<p>⏩ Assess local complexity with <strong>Text-mining</strong> and document-level metrics, e.g., length and files readability.</p>
+</figcaption></figure><p>Get rid of :</p>
+<p>⏩ Global complexity with <strong>network metrics &amp; dataviz’</strong>, such as a network of internal dependencies<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;functions that are called by others functions of the project&lt;/p&gt;"><sup>1</sup></a>.</p>
+<p>⏩ Local complexity with <strong>text-mining</strong> and document-level metrics (e.g., length and files readability).</p>
 <p><strong>Supported programming languages :</strong> <img src="https://img.shields.io/badge/R-green" alt="."></p>
 <p>Other languages are planned<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Current list of planned supported languages is : R, Python, JavaScript, Java, C, Cpp, Go&lt;/p&gt;"><sup>2</sup></a>.</p>
 <p><strong>Planned features.</strong> <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Text-mining%20metrics&amp;labelColor=grey&amp;color=orange" alt="."><img src="https://img.shields.io/badge/%7BExport%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Reporting&amp;labelColor=grey&amp;color=orange" alt="."><img src="https://img.shields.io/badge/%7BExport%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Network-advanced&amp;labelColor=grey&amp;color=orange" alt="."></p>
@@ -78,18 +82,18 @@
 </h3>
 <ol style="list-style-type: decimal">
 <li>
-<p>Given folders path(s) and/or github repo(s), get a Citations Network of the functions with <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_text_network_from_project()&amp;labelColor=yellow&amp;color=black" alt="."></p>
+<p>Given folders path(s) and/or github repo(s), get a <em>citations network</em> of the functions with <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_text_network_from_project()&amp;labelColor=yellow&amp;color=black" alt="."></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a> net <span class="ot">&lt;-</span>  <span class="fu">get_text_network_from_project</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="st">"tidyverse/stringr"</span>, <span class="st">"clement-LVD/codexplor"</span>) )</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a> <span class="co"># Return a data.frame, edgelist of a citations network</span></span></code></pre></div>
 </li>
 <li>
-<p>Look an interactive dataviz’ with <code>networkD3</code> : <img src="https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_networkd3_from_igraph()&amp;labelColor=yellow&amp;color=black" alt="."></p>
+<p>Look an <em>interactive dataviz’</em> with <code>networkD3</code> : <img src="https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_networkd3_from_igraph()&amp;labelColor=yellow&amp;color=black" alt="."></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>codexplor<span class="sc">::</span><span class="fu">get_networkd3_from_igraph</span>(net) </span></code></pre></div>
 </li>
 </ol>
 <figure><img src="reference/figures/example_net3d_dataviz.png" alt="."><figcaption aria-hidden="true">
 .
-</figcaption></figure><p>By default, ingoing links are colorized on this dataviz, in order to reveal the local dependancies of the project (i.e. functions used by others files of the project). Hereabove, we see that the most-common local dependancy inside the tidyverse/stringr repo is <code>compat-types-check.R</code>. One of the codexplor functions actually rely on a stringr/extract.R function - codexplor functions network is truncated on the herabove picture, but the opposite is not true.</p>
+</figcaption></figure><p>By default, nodes are colorized accordingly to their indegrees (i.e. number of ingoing links), in order to reveal the local dependancies of the project (i.e. functions used by others files of the project). Hereabove, we see that the most-common local dependancy inside the tidyverse/stringr repo is <code>compat-types-check.R</code>. One of the codexplor functions actually rely on a stringr/extract.R function - codexplor functions network is truncated on the herabove picture, but the opposite is not true.</p>
 <p>Play with the parameters reveal others insights, e.g., you should try to color nodes accordingly to their outdegrees - the number of functions they call, in order to reveal the high-level files of the project.</p>
 <blockquote>
 <p>Get rid of complexity with a broader perspective on the project !</p>
@@ -107,7 +111,7 @@
 <li><a href="https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html">Turn a programming project into a corpus with construct_corpus()</a></li>
 <li><a href="https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html">Turn it into an igraph object, filter and manage it with helper functions</a></li>
 </ul>
-<p>Depending on the languages you have to manage, you’ll want to tweak the ‘pattern’ used for match a function definition. The user must be familiar with text-mining &amp; network methods since - for now - <code>codexplor</code> only support the R programming language (other languages are planned).</p>
+<p>Depending on the languages you have to manage, you’ll want to tweak the ‘pattern’ used for match a function definition : for now - <code>codexplor</code> only support the R programming language (other languages are planned).</p>
 <!--
 ⏩ **4. Get an interactive `networkD3` HTML object**
 &#10;
