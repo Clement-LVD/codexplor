@@ -87,7 +87,6 @@ if(autoclean_filespath){ # use the pattern from our dictionnary (e.g., exclude "
 # 2-B} Get content from R files
 complete_content <-  srch_pattern_in_files_get_df(files_path = files_path,
                                ,pattern = paste0(lang_desired$fn_regex, collapse = "|")
-                               , ignore_case = F
                                , ...)
 
 # in this stage we need  to clean the files path before claiming that it's a 'cool corpus to analyze'

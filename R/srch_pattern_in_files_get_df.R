@@ -16,10 +16,8 @@
 #' The rows where the `values` match any element in this vector will be removed.
 #' @param  ignore_match_less_than_nchar `double`, default = 2 Excluding match depending on char. number of the matched text (strictly inferior)
 #' Default exclude match of 1 char such as 'x'.
-#' @param  ignore_case `logical`, default = `TRUE`
-#' If `TRUE`, the pattern search (lines matched) will ignore case. If `FALSE`, the search will be case-sensitive.
-#' @param keep_comments `logical`, default = `FALSE`
-#' If `FALSE` - the default, the lines whith a leading # will be removed from the returned df
+#' @param ... Additional arguments passed to `readlines_in_df`
+#' For example, keep_comments (`logical`, default = `FALSE`) for taking into account the commented lines of the files
 #' @param file_path_col_name `character`, default = `"file_path"`
 #'   Column name for the file path in the output dataframe (first col' of the returned df)
 #' @param content_col_name `character`, default = `"content"`
@@ -48,21 +46,17 @@ srch_pattern_in_files_get_df <- function(
    , ignore_match_less_than_nchar = 3
 # ?=look ahead
 
-
-    ,    ignore_case   = T
-
-    ,  keep_comments = FALSE # on dégage les lignes commentées
-
    , file_path_col_name = "file_path", content_col_name = "content", line_number_col_name = "line_number"
 , extracted_txt_col_name = "matches"
+, ...
   ){
 
 # get files content
 content_df <-  readlines_in_df(files_path = files_path,
-                               return_lowered_text = F, keep_comments = keep_comments # skip comment by default
+
 # the colnames are customizable
 ,file_path_col_name = file_path_col_name, content_col_name = content_col_name, line_number_col_name = line_number_col_name
-
+, ...
                                )
 
 if(is.null(content_df)) return(NULL)
