@@ -48,6 +48,18 @@ get_networkd3_from_igraph <- function(graph_igraph
                                      , charge = -200
 
 ){
+  # try to get an igraph object from an edgelist
+  if (!inherits(graph_igraph, "igraph")) {
+    result <- tryCatch(
+      {
+        graph_igraph <- codexplor::get_igraph_from_df(graph_igraph)
+      },
+      error = function(e) {
+        cat("get_networkd3_from_igraph => igraph => ", e$message, "\n")
+        NULL  # here we rely on igraph:: messages
+      }
+    )
+  }
 
   # simplified subgraph `g`
   graph_igraph <- igraph::simplify(graph_igraph, remove.multiple = TRUE, remove.loops = TRUE)

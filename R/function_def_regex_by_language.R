@@ -26,30 +26,36 @@ functions_def_by_language_regex_pattern <- list(
   R = list(
     fn_regex = "\\b([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)",
     file_extension = ".R"
+    , pattern_to_exlude = "\\.Rcheck|test-"
   ),
   Python = list(
     fn_regex = "^\\s*def\\s+([\\w_]+)\\s*\\(",
     file_extension = ".py"
-  ),
+    , pattern_to_exlude = ""),
   JavaScript = list(
     fn_regex = "^\\s*function\\s+([\\w_]+)\\s*\\(",
     file_extension = ".js"
+    , pattern_to_exlude = ""
   ),
   Java = list(
     fn_regex = "^\\s*(public|private|protected)?\\s*\\w+\\s+([\\w_]+)\\s*\\(",
     file_extension = ".java"
+    , pattern_to_exlude = ""
   ),
   C = list(
     fn_regex = "^\\s*\\w+\\s+([\\w_]+)\\s*\\(",
     file_extension = ".c"
+    , pattern_to_exlude = ""
   ),
   Cpp = list(
     fn_regex = "^\\s*\\w+(<.*>)?\\s+([\\w_]+)\\s*\\(",
     file_extension = ".cpp"
+    , pattern_to_exlude = ""
   ),
   Go = list(
     fn_regex = "^\\s*func\\s+([\\w_]+)\\s*\\(",
     file_extension = ".go"
+    , pattern_to_exlude = ""
   )
 )
 
@@ -69,10 +75,13 @@ lang_df <- do.call(rbind, lapply(names(returned), function(lang) {
   data.frame(language = lang,
              fn_regex = returned[[lang]]$fn_regex,
              file_ext = returned[[lang]]$file_extension,
-             stringsAsFactors = FALSE)
+             pattern_to_exclude = returned[[lang]]$pattern_to_exlude
+             ,stringsAsFactors = FALSE)
 }))
+# RETURN A LIST IF NO ARG PASSED !
+if(is.null(lang_df)){return(functions_def_by_language_regex_pattern)}
 
-lang_df$local_file_ext <- paste0(lang_df$file_ext, "$" )
+  lang_df$local_file_ext <- paste0(lang_df$file_ext, "$" )
 
 return(lang_df )
 

@@ -7,9 +7,19 @@
 #' The resulting data frame provides an overview of the collected content,
 #'  including file paths, URLs (if applicable), and languages.
 #'
-#' @param local_folders_paths A character vector of local folder paths to scan for code files. Default is `NULL`.
-#' @param languages A character vector specifying the programming language(s) to include in the corpus. Default is `"R"`.
-#' @param repos A character vector of GitHub repository URLs or repository identifiers (e.g., `"user/repo"`) to extract files from. Default is `NULL`.
+#' @param local_folders_paths `character`. Default = `NULL`. A character vector of local folder paths to scan for code files.
+#' @param languages `character`. Default = `"R"`. A character vector specifying the programming language(s) to include in the corpus.
+#' @param repos `character`. Default = `NULL`. A character vector of GitHub repository URLs or repository identifiers to extract files from (e.g., `"user/repo"`).
+#' @param pattern_to_exclude_path `character`. A regular expression pattern to exclude files by scanning their full names (path/filename.ext).
+#' Default is `NULL` (no files are excluded).
+#' @param autoclean_filespath `logical`. Default = `TRUE`.
+#' Codexplor try to exclude testing files *before* to read the files of a project ; and it will try to clean the urls of the returned df
+#' By default, typical testing-purpose .R files are excluded
+#' (i.e. "`r function_def_regex_by_language(languages)$pattern_to_exclude`")
+#' , in addition to an optional `pattern_to_exclude_path` passed by the user.
+#' @param ignore_match_less_than_nchar `integer`. Default = `3`. Number of characters for the 1st match to be considered valid.
+#' @param pattern_to_remove `character` Default = `'https://raw.githubusercontent.com/'`
+#' A pattern (regex) to remove from the files path of the edgelist (columns 1 & 2)
 #' @param ... Additional arguments passed to `srch_pattern_in_files_get_df`
 #' (e.g., filtering criteria, depth of folder scanning, names of returned df col').
 #'
@@ -31,12 +41,16 @@
 #' corp_strreadr <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr"), "R")
 #'
 #' # Example 3: Combine local folders and GitHub repositories
-#' corp_me_and_dplyr <- construct_corpus("~", repos = "tidyverse/dplyr", c("R", "Cpp"))
+#' corp_me_and_dplyr <- construct_corpus(c("~", getwd()), repos = "tidyverse/dplyr", c("R", "Cpp"))
 #'
 #' @export
 construct_corpus <- function( local_folders_paths = NULL
 , languages = "R"
  , repos = NULL
+, pattern_to_exclude_path = NULL
+, autoclean_filespath = TRUE
+, ignore_match_less_than_nchar = 3
+, pattern_to_remove = "https://raw.githubusercontent.com/"
 , ...
 ){
 
@@ -44,10 +58,10 @@ construct_corpus <- function( local_folders_paths = NULL
 urls = NULL
 files_path = NULL
 
-# get regex of func' definition AND pattern of the files
+# 1) get regex of func' definition AND pattern of the files
 lang_desired <- function_def_regex_by_language(languages)
 
-# 1-A} get urls from github 1st
+# 2-A} get urls from github 1st
 if(!is.null(repos)){ urls <- get_github_raw_filespath(repo = repos, pattern = lang_desired$file_ext) }
 
 if(!is.null(local_folders_paths)){ #get local filepaths
@@ -58,16 +72,33 @@ files_path <- unlist(sapply(local_folders_paths, FUN = function(path){ list.file
 
 }
 
-files_path <- as.character(c(files_path, urls)) #the files.path + url
+files_path <- as.character(unlist(c(files_path, urls)) )#the files.path + url
 
-#### 1-B} Get content from R files ####
+# eliminate some patterns (e.g., '.Rcheck' for R project)
+files_to_exclude = NULL
+if(autoclean_filespath){ # use the pattern from our dictionnary (e.g., exclude ".Rcheck" if R language)
+  files_to_exclude = grep(x=files_path, pattern = paste0(lang_desired$pattern_to_exclude , collapse = "|")  )
+}
+  if(!is.null(pattern_to_exclude_path)) files_to_exclude = grep(x=files_path, pattern = pattern_to_exclude_path)
+
+  if(length(files_to_exclude)>0) files_path <- files_path[-files_to_exclude]
+
+
+# 2-B} Get content from R files
 complete_content <-  srch_pattern_in_files_get_df(files_path = files_path,
                                ,pattern = paste0(lang_desired$fn_regex, collapse = "|")
+                               , ignore_case = F
                                , ...)
 
+# in this stage we need  to clean the files path before claiming that it's a 'cool corpus to analyze'
+if(is.character(pattern_to_remove)){
+
+  # force remove a pattern
+  complete_content[, 1:2] <- lapply(complete_content[, 1:2], function(col) gsub(pattern = pattern_to_remove, "", x = col))
+
+}
  # (DEFINITION of func' according to the lang desired regex = function name are matched)
 
-#### GET A 2nd match from the 1st ####
 return(complete_content)
 
 }

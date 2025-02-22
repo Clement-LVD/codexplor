@@ -56,7 +56,7 @@ if (.verbose) {pb <- utils::txtProgressBar(min = 0, max = 100, style = 3) }
 
       # clean com'
       lignes <- trimws(lignes)
-      if (!return_lowered_text) lignes <- tolower(lignes)
+      if (return_lowered_text) lignes <- tolower(lignes)
       if (!keep_comments) lignes[grep(x = lignes, char_comment)] <- ""  # clean line instead of com'
 
       # NO LINE = return empty df

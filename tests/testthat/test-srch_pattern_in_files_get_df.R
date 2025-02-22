@@ -22,7 +22,7 @@ test_that("test-srch_pattern_in_files_get_df() returns correct results", {
 
    testthat::expect_equal(resulted_df$line_number, 1:3  ) # have returned a line number for each line
 
- testthat::expect_equal(resulted_df$content, gsub(x = tolower(readLines(test_file) ), pattern = "#.*", "" )) # have returned the full text
+ testthat::expect_equal(resulted_df$content, gsub(x =readLines(test_file) , pattern = "#.*", "" )) # have returned the full text
 
   testthat::expect_equal(resulted_df[[ncol(resulted_df)]], c("my_func" , NA, NA) ) #match a func name when a func is defined
 
@@ -39,7 +39,7 @@ test_that("test-srch_pattern_in_files_get_df() don't match when insufficient nch
 
  testthat::expect_equal(resulted_df[[ncol(resulted_df)]], as.character(c(NA , NA, NA) ) ) # NO matching since we filter for  match > 100 char
 
- testthat::expect_equal(resulted_df$content, tolower(readLines(test_file) )) # return exactly same content, lowered
+ testthat::expect_equal(resulted_df$content, readLines(test_file) ) # return exactly same content, lowered
 
 })
 

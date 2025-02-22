@@ -8,15 +8,33 @@ construct_corpus(
   local_folders_paths = NULL,
   languages = "R",
   repos = NULL,
+  pattern_to_exclude_path = NULL,
+  autoclean_filespath = TRUE,
+  ignore_match_less_than_nchar = 3,
+  pattern_to_remove = "https://raw.githubusercontent.com/",
   ...
 )
 }
 \arguments{
-\item{local_folders_paths}{A character vector of local folder paths to scan for code files. Default is \code{NULL}.}
+\item{local_folders_paths}{\code{character}. Default = \code{NULL}. A character vector of local folder paths to scan for code files.}
 
-\item{languages}{A character vector specifying the programming language(s) to include in the corpus. Default is \code{"R"}.}
+\item{languages}{\code{character}. Default = \code{"R"}. A character vector specifying the programming language(s) to include in the corpus.}
 
-\item{repos}{A character vector of GitHub repository URLs or repository identifiers (e.g., \code{"user/repo"}) to extract files from. Default is \code{NULL}.}
+\item{repos}{\code{character}. Default = \code{NULL}. A character vector of GitHub repository URLs or repository identifiers to extract files from (e.g., \code{"user/repo"}).}
+
+\item{pattern_to_exclude_path}{\code{character}. A regular expression pattern to exclude files by scanning their full names (path/filename.ext).
+Default is \code{NULL} (no files are excluded).}
+
+\item{autoclean_filespath}{\code{logical}. Default = \code{TRUE}.
+Codexplor try to exclude testing files \emph{before} to read the files of a project ; and it will try to clean the urls of the returned df
+By default, typical testing-purpose .R files are excluded
+(i.e. "\.Rcheck|test-")
+, in addition to an optional \code{pattern_to_exclude_path} passed by the user.}
+
+\item{ignore_match_less_than_nchar}{\code{integer}. Default = \code{3}. Number of characters for the 1st match to be considered valid.}
+
+\item{pattern_to_remove}{\code{character} Default = \code{'https://raw.githubusercontent.com/'}
+A pattern (regex) to remove from the files path of the edgelist (columns 1 & 2)}
 
 \item{...}{Additional arguments passed to \code{srch_pattern_in_files_get_df}
 (e.g., filtering criteria, depth of folder scanning, names of returned df col').}
@@ -50,7 +68,7 @@ corp_myself <- construct_corpus(local_folders_paths = "~", languages = c("R", "P
 corp_strreadr <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr"), "R")
 
 # Example 3: Combine local folders and GitHub repositories
-corp_me_and_dplyr <- construct_corpus("~", repos = "tidyverse/dplyr", c("R", "Cpp"))
+corp_me_and_dplyr <- construct_corpus(c("~", getwd()), repos = "tidyverse/dplyr", c("R", "Cpp"))
 
 }
 \seealso{

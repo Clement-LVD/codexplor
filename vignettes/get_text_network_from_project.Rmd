@@ -1,0 +1,40 @@
+---
+title: "Turn a programming project into a text-network"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Turn a programming project into a text-network}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Assuming you have folder path(s) and/or public github repo(s) from a programming project, `codexplor::get_text_network_from_project` will compute a Citations Network of the *programming project(s)* :
+
+- the network is directed,
+- indegrees of a node is 'how many functions of the project uses this precise func'. 
+- Outdegree of a node is "how many functions of the project are used by this precise function". 
+- ⟲ auto-mentioning typically reveal 'recursivity', once a func' call itself more than one times (1st mention is usually for define the func' name)
+
+Assuming the user have indicated a list of folders paths and/or github repo(s), `codexplor::get_text_network_from_project()` will :
+
+⏩ Read the files, trying to extract a 1st pattern (e.g., defaults parameters will extract R functions names, when a func' is defined within a file). 
+⏩ Search for these patterns (functions names by default) in the initial content, in order to constitute a Citations Network.
+🎁 Return the edgelist of the network of *documents* (i.e. files path with the 2nd match => files path with the 1st match [where the function is defined])
+
+For example, giving a bunch of .R codes files path and/or url :
+
+    net <- get_text_network_from_project(repos =  c("tidyverse/stringr", "clement-lvd/codexplor"), regex_to_exclude_files_path = "test-")
+    # these func' are tunned for detecting R func' by default
+    get_networkd3_from_igraph(codexplor::get_igraph_from_df(net) )
+
+For ex. we see that `codexplor` rely on `stringr` functions. The opposite is not true.
+
+There is sometimes a false positive nodes that need to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. `get_text_network_from_files` offer several parameters for deal with your style of programming.
+
+

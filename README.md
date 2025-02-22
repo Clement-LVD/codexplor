@@ -5,16 +5,16 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-![Project Progress](https://img.shields.io/badge/R-black) [![CRAN
+![R Project](https://img.shields.io/badge/R-black) [![CRAN
 status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.org/package=codexplor)
 <!-- badges: end -->
 
 🧰🔧🔨 UNDER CONSTRUCTION 🧰🔧🔨
 
 `codexplor` offers R functions for explore and monitor a programming
-project : get immediate insights with text-mining metrics, network
-analysis & dataviz’. Get rid of complexity with a broader perspective on
-the project !
+project : simply indicate your project(s) path(s) and get immediate
+insights with text-mining metrics, network analysis & dataviz’. Get rid
+of complexity with a broader perspective on the project !
 
 ## Installation
 
@@ -28,15 +28,15 @@ devtools::install_github("clement-LVD/codexplor")
 
 ![](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=Citations%20Network%20of%20internal%20dependencies&labelColor=black&color=green)
 
-Given a programming project with .R files :
+Given a programming project :
 
 ⏩ Appreciate global complexity with a **Citations Network of internal
 dependencies** - Get network metrics & dataviz’ about the functions
 defined in the project (e.g. explore global structure or zoom on major
 internal dependancies[^1]).
 
-⏩ Assess local complexity with **Text-mining metrics** *\[planned
-feature\]* - Get document-level metrics (e.g., files readability)
+⏩ Assess local complexity with **Text-mining metrics** *\[WIP\]* - Get
+document-level metrics (e.g., files readability)
 
 ⏩ …
 
@@ -45,50 +45,58 @@ Planned features :
 ![](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Reporting&labelColor=grey&color=orange)
 ![](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Network-advanced&labelColor=grey&color=orange)
 
-### Example : Explore a Citations Network
+## Supported languages
 
-1.  Given some folders path(s) and/or urls, get a Citations Network of
-    the functions with
+Currently `codexplor` support the
+![](https://img.shields.io/badge/R-yellow) programming language. Planned
+languages are : R, Python, JavaScript, Java, C, Cpp, Go.
+
+### Example : Explore your internal-dependancies with a Citations Network
+
+1.  Given folders path(s) and/or github repo(s), get a Citations Network
+    of the functions with
     ![.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_text_network_from_project()&labelColor=yellow&color=black)
 
-         net <- get_text_network_from_project("~",repos = "tidyverse/stringr"
-         ,  regex_to_exclude_files_path = "test-", ignore_match_less_than_nchar = 5)
+         net <-  get_text_network_from_project(repos = c("tidyverse/stringr", "clement-LVD/codexplor") )
          # Return a data.frame, edgelist of a citations network
 
-2.  Turn it into a directed `igraph` network with
-    ![1.](https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_igraph_from_df()&labelColor=green&color=black)
-
-         netig <- codexplor::get_igraph_from_df(net) 
-
-3.  Optionally zoom on a precise function with
-    ![](https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&logoColor=black&logoSize=2&label=filter_igraph_egonetwork()&labelColor=green&color=black)
-
-4.  Look an interactive dataviz’ with `networkD3` :
+2.  Look an interactive dataviz’ with `networkD3` :
     ![](https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_networkd3_from_igraph()&labelColor=yellow&color=black)
 
-        codexplor::get_networkd3_from_igraph(netig) 
+        codexplor::get_networkd3_from_igraph(net) 
 
 ![](man/figures/example_net3d_dataviz.png)
 
-The func’ used by others func’ are colorized, such as their ingoing
-links. For ex. we quicky see the most-common local dependancy
-(i.e. `compat-types-check.R` for the tidyverse/stringr repo).
+Here, ingoing links are colorized, in order to reveal the functions used
+by others functions *aka* local dependancies of the project. e.g.,. we
+see that the most-common local dependancy inside the tidyverse/stringr
+repo is `compat-types-check.R`, and that some codexplor functions are
+relying on stringr:: functions.
 
-Play with the parameters reveal others infos, e.g., coloring nodes
-depending on their outdegrees :
-
-     get_networkd3_from_igraph(netig, color_outdeg_instead_of_indeg = T) 
-
-![](man/figures/example_net3d_dataviz2.png)
-
-The func’ that used others func’ in their code are colorized, such as
-their outgoing links.
+Play with the parameters reveal others infos, e.g., you should try to
+color nodes accordingly to their outdegrees - the number of functions
+they call, in order to reveal the “high-level functions’.
 
 ------------------------------------------------------------------------
 
-There is several useful parameters to take care with. Depending on the
-languages you have to manage, you’ll want to tweak the ‘pattern’ used
-for match a function definition.
+`codexplor` offers several protocols & parameters to take care with. See
+the vignettes :
+
+- Apply a precise text-analysis protocol, such as [turning your
+  programming project into a
+  text-network](../vignettes/Turn%20a%20programming%20project%20into%20a%20text-network)
+
+- [Turn a programming project folder(s) into a corpus with
+  construct_corpus()](../vignettes/construct_a_corpus)
+
+- [Turn it into an igraph object, filter and manage it with helper
+  functions](../vignettes/manage_igraph_object)
+
+Depending on the languages you have to manage, you’ll want to tweak the
+‘pattern’ used for match a function definition. The user must be
+familiar with text-mining & network methods since - for now -
+`codexplor` only support the R programming language (other languages are
+planned).
 
 ------------------------------------------------------------------------
 

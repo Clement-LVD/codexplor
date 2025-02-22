@@ -1,0 +1,32 @@
+---
+title: "constructing_a_corpus"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{constructing_a_corpus}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Constructing your corpus
+`codexplor` offering functions to turn a bunch of files from a programming project into a corpus : 
+
+- provide folder(s) path(s) and/or github repo(s), and one or several languages to `construct_corpus`
+
+    corpus <- codexplor::construct_corpus("~", "tidyverse/stringr", languages = "R")
+    nrow(corpus); length(unique(corpus$matches)) # content + a 1st matched pattern
+    
+- `construct_corpus` return the full content as a `df`. Some *1st matches* are realized : these 1st matches are the names of functions defined in the files of the project. Here, the user is not supposed to define several function in the same line (otherwise lines will be duplicated). 
+
+Indicating a language give `construct_corpus` a precise file extension and a match function definition accordingly : `construct_corpus` rely on a regex for each language, in order to match the functions names accordingly with standard of each language. Planned languages are :
+
+- `r paste0(collapse = "<br>• ", names(codexplor::function_def_regex_by_language()))`
+
+
+

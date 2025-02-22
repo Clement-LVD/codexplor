@@ -7,82 +7,72 @@
 get_text_network_from_project(
   folder_path = NULL,
   repos = NULL,
-  ignore_match_less_than_nchar = 3,
   first_match_to_exclude = NULL,
   prefix_for_regex_from_the_text = "\\\\b",
-  suffix_for_regex_from_the_text = "",
-  regex_to_exclude_files_path = "test-",
+  suffix_for_regex_from_the_text = "\\\\(",
   filter_2nd_match_unmatched_lines = TRUE,
   filter_first_match_results = TRUE,
   filter_egolink_within_a_file = TRUE,
+  ...,
   file_path_from_colname = "from",
   file_path_to_colname = "to",
   match1_colname = "first_match",
   match2_colname = "second_match",
   line_number_match2_colname = "line_number",
   content_match1_col_name = "content_match_1",
-  content_match2_col_name = "content_match_2",
-  pattern_to_remove = "https://raw.githubusercontent.com/",
-  ...
+  content_match2_col_name = "content_match_2"
 )
 }
 \arguments{
-\item{folder_path}{A string or list representing the path(s) and/or url of local folders path to read.}
+\item{folder_path}{\code{character} A string or list representing the path(s) and/or url of local folders path to read.}
 
-\item{repos}{A string or list representing the name(s) of github repos (e.g., tidyverse/stringr).}
+\item{repos}{\code{character} A string or list representing the name(s) of github repos (e.g., 'tidyverse/stringr').}
 
-\item{ignore_match_less_than_nchar}{Integer that specifies the number of
-characters for the 1st match to be considered valid. The default is 3.}
-
-\item{first_match_to_exclude}{A vector of strings to exclude specific results
+\item{first_match_to_exclude}{\code{character} A vector of strings to exclude specific results
 from the original matches. For example, you can exclude results like \code{"server"}.}
 
-\item{prefix_for_regex_from_the_text}{A string representing the prefix to match in the
-text using regular expressions. The default is an empty string.}
+\item{prefix_for_regex_from_the_text}{\code{character} A string representing the prefix to add
+to each 1st match that will be turned into a new regular expressions. The default is an empty string.}
 
-\item{suffix_for_regex_from_the_text}{A string representing the suffix (a non-letter or
-non-digit character) to match in the text using regular expressions. The default is an
-empty string.}
+\item{suffix_for_regex_from_the_text}{\code{character} A string representing a regex to add as a suffix
+of each match, in order to have a complete regular expression. The default is an empty string.}
 
-\item{regex_to_exclude_files_path}{A regular expression pattern to exclude certain
-files based on their paths. For example, \code{"test-"} can be used to exclude files whose
-path includes the word "test". The default is NULL, meaning no files are excluded by path.}
-
-\item{filter_2nd_match_unmatched_lines}{A logical value indicating whether to filter
-lines that do not match the second pattern. The default is TRUE.}
+\item{filter_2nd_match_unmatched_lines}{\code{logical} Default = \code{TRUE} A logical value indicating whether to keep only lines
+that match with the second pattern if set to \code{TRUE}, or keep all lines if set to \code{FALSE.}}
 
 \item{filter_first_match_results}{\code{logical}, default = \code{TRUE} A logical value indicating whether to apply the filter
 for the first match. The default is TRUE.}
 
-\item{filter_egolink_within_a_file}{A logical value indicating whether to filter results based on
-"ego links". The default is TRUE.}
+\item{filter_egolink_within_a_file}{\code{logical} Default = \code{TRUE}. A logical value indicating whether to filter results based on
+"ego links" (a document referring to itself)}
 
-\item{file_path_from_colname}{The column name (as a string) representing the "from" file path
-in the result data frame. The default is 'from'.}
+\item{...}{Parameters passed to \code{construct_corpus()} and \code{srch_pattern_in_files_get_df()}. These parameters are
+\itemize{
+\item characters values, e.g., adjusting yourself the "\code{pattern}" parameter that will be matched
+\item logical values, e.g., "\code{keep_comments = T}"
+\item integer values such as \code{ignore_match_less_than_nchar}, etc.
+}}
 
-\item{file_path_to_colname}{The column name (as a string) representing the "to" file path in
-the result data frame. The default is 'to'.}
+\item{file_path_from_colname}{\code{character} Default = \code{'from'} The column name (as a string) representing the "from" file path
+in the result data frame.}
 
-\item{match1_colname}{The column name (as a string) for the first match in the result
-data frame. The default is 'first_match'.}
+\item{file_path_to_colname}{\code{character} Default = \code{'to'} The column name (as a string) representing the "to" file path in
+the result data frame.}
 
-\item{match2_colname}{The column name (as a string) for the second match in the result
-data frame. The default is 'second_match'.}
+\item{match1_colname}{\code{character} Default = \code{'first_match'} The column name (as a string) for the first match in the result
+data frame.}
 
-\item{line_number_match2_colname}{The column name (as a string) for the line number
-of the second match in the result data frame. The default is 'line_number'.}
+\item{match2_colname}{\code{character} Default = \code{'second_match'} The column name (as a string) for the second match in the result
+data frame.}
 
-\item{content_match1_col_name}{The column name (as a string) for the full content of
-the first match. The default is 'content_match_1'.}
+\item{line_number_match2_colname}{\code{character} Default = \code{'line_number'}  The column name (as a string) for the line number
+of the second match in the result data frame.}
 
-\item{content_match2_col_name}{The column name (as a string) for the full content of
-the second match. The default is 'content_match_2'.}
+\item{content_match1_col_name}{\code{character} Default = \code{'content_match_1'} The column name (as a string) for the full content of
+the first match.}
 
-\item{pattern_to_remove}{\code{character} , default = \code{'https://raw.githubusercontent.com/'}
-Pattern (regex) to remove from the names of the nodes (col' 1 & 2 of the edgelist)}
-
-\item{...}{Parameters passed to \code{construct_corpus()} and \code{srch_pattern_in_files_get_df()}
-You typically want to adjust the "pattern" parameter, or keep_comments = T}
+\item{content_match2_col_name}{\code{character} Default = \code{'content_match_2'}  The column name (as a string) for the full content of
+the second match.}
 }
 \value{
 A data frame wich is the edgelist of the citations network
@@ -91,18 +81,22 @@ columns 'from' and 'to' indicates the files paths or urls of the matched content
 \description{
 This function read files in a specified folder (default to only .R files)
 extracting and filtering text based on a set of criteria.
-It is designed to generate a network of text by cascading (regex) research :
+}
+\details{
+It is designed to generate a network of text by cascading text research :
+
 1st the func' try to match a pattern within the files, optionnaly filter the initial results.
+
 Then, a regex-pattern is constructed by appending all the 1st match
-and a 2nd research extract this text and construct a network
-(1st match finded => exact same text matched elsewhere).
+
+and a 2nd research extract this pattern, and construct a network
+(document with the 2nd match => document with the 1st match)
 }
 \examples{
 # Example with url from github
 result <- get_text_network_from_project(
 folder_path =  "~",    ignore_match_less_than_nchar = 3, #'ui()', 'cli()', etc. are removed
-first_match_to_exclude = c( "server"), # exclude 'server'
- regex_to_exclude_files_path = "test-")
+first_match_to_exclude = c( "server") )
 
 # Will return a network of func' from the file path where called => to the file path were defined)
 

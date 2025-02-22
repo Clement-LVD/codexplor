@@ -8,7 +8,7 @@ get_regex_from_vector(
   vector,
   prefix_for_regex = "",
   suffix_for_regex = "",
-  special_chars_to_escape = c("(", ")"),
+  special_chars_to_escape = c("(", ")", "."),
   fix_escaping = TRUE
 )
 }

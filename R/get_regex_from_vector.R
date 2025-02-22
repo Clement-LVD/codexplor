@@ -21,7 +21,7 @@
 #' #here we don't escape our custom pattern "(" and ")?" even if escaping of other will be fixed
 #'
 #' @export
-get_regex_from_vector <- function(vector, prefix_for_regex = "", suffix_for_regex ="", special_chars_to_escape = c("(", ")"), fix_escaping = TRUE
+get_regex_from_vector <- function(vector, prefix_for_regex = "", suffix_for_regex ="", special_chars_to_escape = c("(", ")", "."), fix_escaping = TRUE
     ){
   if(length(vector) == 0) return("")
 #### 1) List the result ####
