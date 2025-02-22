@@ -33,18 +33,19 @@ For example, giving a bunch of .R project and/or repos :
 **Network properties.**
 The returned network is a document-to-document Citations network. 
 
-Such a network have already a lot of mathematical properties that we don't cover here (e.g., a Citations Network is always a directed network).
+Such a network have basic properties that we don't cover here (e.g., a Citations Network is always a directed network).
 
 Regarding the network computed by `codexplor::get_text_network_from_project()` :
 
-- A node is one of the programming files (exclusively .R files by default). 
-- An edge is symbolizing a link from a file that calls a function to the file where the function is defined.
+- A node is one of the programming files (default is a network of .R files). 
+- An edge is linkink a file that call a function to the file where this function is defined.
 
-Thus :
+For example, in a typical programming project :
 
-- Indegrees of a node is 'how many functions of the project uses this func'. 
-- Outdegree of a node is "how many functions of the project are used by this precise function". 
-- ⟲ auto-mentioning typically reveal 'recursivity', once a func' call itself more than one times (1st mention is usually for define the func' name)
+- nodes are mostly functions
+- Indegrees of a node is how many other functions of the project this function is using. 
+- Outdegree of a node is how many functions of the project are used by this function. 
+- ⟲ auto-mentioning typically reveal recursivity, once a func' call itself more than one times (1st mention is usually for define the func' name)
 
 ### Cascading matching operated
 `codexplor` default pattern are aimed to extract functions names from the files of a *programming* project.
@@ -53,11 +54,11 @@ Assuming the user have indicated folder(s) and/or github repo(s), `codexplor::ge
 
 ⏩ Read the files, trying to extract a 1st pattern (e.g., defaults parameters will extract R functions names, when a func' is defined within a file). 
 
-⏩ Search for these patterns (functions names by default) in the initial content, in order to constitute a Citations Network.
+⏩ Search for these patterns in the initial content, in order to constitute a Citations Network.
 
-🎁 Return the edgelist of the network of *documents* (i.e. files path with the 2nd match => files path with the 1st match [where the function is defined])
+🎁 Return the edgelist of the network of *documents*
 
 ### Filter undesired match
-Junk nodes needs to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. `get_text_network_from_files` offer several parameters for deal with your style of programming.
+Junk nodes needs to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. `get_text_network_from_files` offer several parameters for dealing with your style of programming.
 
 
