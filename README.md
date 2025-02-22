@@ -32,9 +32,8 @@ alt="↓ Given a programming project :" />
 :</figcaption>
 </figure>
 
-⏩ Assess global complexity with a **Citations Network of internal
-dependencies**, and get rid of the complexity with network metrics &
-dataviz’ , e.g., quickly identify the internal dependancies[^1].
+⏩ Get rid of global complexity with **network metrics & dataviz’**,
+such as a network of internal dependencies[^1].
 
 ⏩ Assess local complexity with **Text-mining** and document-level
 metrics, e.g., length and files readability.
@@ -68,18 +67,21 @@ Other languages are planned[^2].
 <figcaption aria-hidden="true">.</figcaption>
 </figure>
 
-Here, ingoing links are colorized, in order to reveal the functions used
-by others functions *aka* local dependancies of the project. e.g.,. we
-see that the most-common local dependancy inside the tidyverse/stringr
-repo is `compat-types-check.R`, and that one of the codexplor functions
-actually rely on a stringr::extract.R function (codexplor functions
-network is truncated on the herabove picture).
+By default, ingoing links are colorized on this dataviz, in order to
+reveal the local dependancies of the project (i.e. functions used by
+others files of the project). Hereabove, we see that the most-common
+local dependancy inside the tidyverse/stringr repo is
+`compat-types-check.R`. One of the codexplor functions actually rely on
+a stringr/extract.R function - codexplor functions network is truncated
+on the herabove picture, but the opposite is not true.
 
-Play with the parameters reveal others infos, e.g., you should try to
+Play with the parameters reveal others insights, e.g., you should try to
 color nodes accordingly to their outdegrees - the number of functions
-they call, in order to reveal the “high-level functions’.
+they call, in order to reveal the high-level files of the project.
 
-Get rid of complexity with a broader perspective on the project !
+> Get rid of complexity with a broader perspective on the project !
+
+## Vignettes
 
 `codexplor` offers several protocols & parameters to take care with. See
 the vignettes about the text-analysis protocols offered by `codexplor`,
