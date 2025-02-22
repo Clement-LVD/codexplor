@@ -12,11 +12,13 @@ status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.
 🧰🔧🔨 `codexplor` is a WIP 🧰🔧🔨
 
 `codexplor` offers R functions for explore, analyze and monitor a
-programming project, by turning it into a network of documents.
+programming project. These tools are aimed to manage a programming
+project as a network of documents, with text-mining and network metrics
+& dataviz’.
 
-> 🖧 Construct a standardized report and get immediate insights on a
-> given programming project, thanks to text-mining and network metrics,
-> deep analysis & cool dataviz’.
+> Thanks to the immediate insights, dataviz’ and deep reports offered by
+> `codexplor`, I understand the big picture of a programming project
+> more efficiently.
 
 ### Installation
 
@@ -47,12 +49,15 @@ Other languages are planned[^2].
 
 ### Example : Explore a network of internal dependancies
 
-1.  Given folders path(s) and/or github repo(s), get a *citations
+1.  Given folders path(s) and/or github repo(s), compute a *citations
     network* of the functions with
     ![.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_text_network_from_project()&labelColor=yellow&color=black)
 
          net <-  get_text_network_from_project(repos = c("tidyverse/stringr", "clement-LVD/codexplor") )
          # Return a data.frame, edgelist of a citations network
+
+- See the vignette of
+  [get_text_network_from_project()](https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html)
 
 2.  Look an *interactive dataviz’* with `networkD3` :
     ![.](https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_networkd3_from_igraph()&labelColor=yellow&color=black)
@@ -60,9 +65,9 @@ Other languages are planned[^2].
         codexplor::get_networkd3_from_igraph(net)
         # Return an interactive dataviz' from networkD3
 
-By default, nodes are colorized accordingly to their indegrees (number
-of ingoing links), revealing the local dependancies of the programming
-project (i.e. functions used by others files of the project).
+By default, nodes are colorized accordingly to their indegrees, in order
+to reveal the local dependancies of the programming project
+(i.e. functions used by others files of the project).
 
 <figure>
 <img src="man/figures/example_net3d_dataviz.png" alt="." />
@@ -73,8 +78,9 @@ project (i.e. functions used by others files of the project).
 
 Hereabove, we see that the most-common local dependancy inside the
 tidyverse/stringr repo is `compat-types-check.R`. One of the `codexplor`
-functions actually rely on `stringr/extract.R` function , but the
-opposite is not true.
+file actually rely on a `stringr`method, but the opposite is not true
+(i.e. `codexplor::str_extract_all_to_tidy_df.R` rely on
+`stringr/extract.R`, but no file of stringr rely on codexplor).
 
 Play with the parameters reveal others insights, e.g., you should try to
 color nodes accordingly to their outdegrees, in order to reveal the
@@ -84,22 +90,15 @@ high-level files of the project.
 
 ## Vignettes
 
-`codexplor` offers several protocols & parameters to take care with. See
-the vignettes about the text-analysis protocols offered by `codexplor`,
-such as :
+`codexplor` offers text-mining protocols, but also tools for managing
+your own analysis. See the vignettes about :
 
-- [Understand how codexplor will turn a programming project into a
-  network of
-  documents](https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html)
+⏩ Turning a programming project into a corpus with
+[construct_corpus()](https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html)
 
-Or familiarize yourself with the specialized tools offered by
-`codexplor`, such as :
-
-⏩ [Turn a programming project into a corpus with
-construct_corpus()](https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html)
-
-⏩ [Turn it into an igraph object, filter and manage it with helper
-functions](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html)
+⏩ Turning an edgelist into an igraph object and filter it with [helper
+functions for manage igraph
+objects](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html)
 
 ⏩ *Get metrics and identifying problematic patterns (e.g., cascading
 dependancies of func’)*

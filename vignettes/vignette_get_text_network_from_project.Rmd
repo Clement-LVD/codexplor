@@ -14,16 +14,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette explain the network returned by `codexplor::get_text_network_from_project`. This function will compute a Citations Network of *programming project(s)*, from local folder path(s) and/or public github repo(s). This Vignette give a basic understanding of such a network.
+This Vignette give a basic understanding of the network computed by `codexplor::get_text_network_from_project` : a Citations Network of functions within *programming project(s)*.
 
 ### Example
-For example, giving a bunch of .R project and/or repos :
 
     net <- get_text_network_from_project(repos =  c("tidyverse/stringr", "clement-lvd/codexplor"))
-    # codexplor functions will deal with a R project by default
+    # by default, codexplor deal with R project
     
     # get an igraph object from this edgelist, and optionnaly filter it :
-    codexplor::get_igraph_from_df(net) 
+    igraph_network <- codexplor::get_igraph_from_df(net) 
     
     #get a networkD3 dataviz' from this edgelist :
     get_networkd3_from_igraph(net)
@@ -31,34 +30,34 @@ For example, giving a bunch of .R project and/or repos :
 ![.](../man/figures/example_net3d_dataviz.png)
 
 **Network properties.**
-The returned network is a document-to-document Citations network. 
+The returned network is a document-to-document citations network. 
 
-Such a network have basic properties that we don't cover here (e.g., a Citations Network is always a directed network).
+These networks have basic properties, not covered here (e.g., a citations network is a directed network).
 
 Regarding the network computed by `codexplor::get_text_network_from_project()` :
 
-- A node is one of the programming files (default is a network of .R files). 
-- An edge is linkink a file that call a function to the file where this function is defined.
+- Nodes are the programming files, default is a network of .R files. 
+- Edges go from the file that calls a function to the file where the function is defined.
 
-For example, in a typical programming project :
+Thus, in a typical programming project :
 
-- nodes are mostly functions
-- Indegrees of a node is how many other functions of the project this function is using. 
-- Outdegree of a node is how many functions of the project are used by this function. 
-- ⟲ auto-mentioning typically reveal recursivity, once a func' call itself more than one times (1st mention is usually for define the func' name)
+- Nodes are mostly - or only - functions
+- °← Indegree of a node is how many other functions of the project this function is using 
+- °→ Outdegree of a node is how many functions of the project are used by this function. 
+- ⟲ Auto-mentioning refear to 'recursivity', once a func' call itself more than one times (1st mention is usually for define the func' name)
 
 ### Cascading matching operated
 `codexplor` default pattern are aimed to extract functions names from the files of a *programming* project.
 
 Assuming the user have indicated folder(s) and/or github repo(s), `codexplor::get_text_network_from_project()` will try to perform a 'cascading matching' :
 
-⏩ Read the files, trying to extract a 1st pattern (e.g., defaults parameters will extract R functions names, when a func' is defined within a file). 
+⏩ Read the files and extract a 1st pattern, e.g., default try to extract *R functions names*. 
 
 ⏩ Search for these patterns in the initial content, in order to constitute a Citations Network.
 
-🎁 Return the edgelist of the network of *documents*
+🎁 Return the edgelist of the network of *documents* (document that call a function => file where this function is defined)
 
 ### Filter undesired match
-Junk nodes needs to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. `get_text_network_from_files` offer several parameters for dealing with your style of programming.
+Junk nodes needs to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. `get_text_network_from_files` offer several parameters for dealing with your style of writing a program.
 
 
