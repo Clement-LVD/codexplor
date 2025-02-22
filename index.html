@@ -58,9 +58,9 @@
 <!-- badges: start -->
 
 <p>🧰🔧🔨 <code>codexplor</code> is a WIP 🧰🔧🔨</p>
-<p><code>codexplor</code> offers R functions for explore, analyze and monitor a programming project, by turning it into a network of documents.</p>
+<p><code>codexplor</code> offers R functions for explore, analyze and monitor a programming project. These tools are aimed to manage a programming project as a network of documents, with text-mining and network metrics &amp; dataviz’.</p>
 <blockquote>
-<p>🖧 Construct a standardized report and get immediate insights on a given programming project, thanks to text-mining and network metrics, deep analysis &amp; cool dataviz’.</p>
+<p>Thanks to the immediate insights, dataviz’ and deep reports offered by <code>codexplor</code>, I understand the big picture of a programming project more efficiently.</p>
 </blockquote>
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -99,21 +99,27 @@
 </h3>
 <ol style="list-style-type: decimal">
 <li>
-<p>Given folders path(s) and/or github repo(s), get a <em>citations network</em> of the functions with <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_text_network_from_project()&amp;labelColor=yellow&amp;color=black" alt="."></p>
+<p>Given folders path(s) and/or github repo(s), compute a <em>citations network</em> of the functions with <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_text_network_from_project()&amp;labelColor=yellow&amp;color=black" alt="."></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a> net <span class="ot">&lt;-</span>  <span class="fu">get_text_network_from_project</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="st">"tidyverse/stringr"</span>, <span class="st">"clement-LVD/codexplor"</span>) )</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a> <span class="co"># Return a data.frame, edgelist of a citations network</span></span></code></pre></div>
 </li>
+</ol>
+<ul>
+<li>See the vignette of <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html">get_text_network_from_project()</a>
+</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
 <li>
 <p>Look an <em>interactive dataviz’</em> with <code>networkD3</code> : <img src="https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_networkd3_from_igraph()&amp;labelColor=yellow&amp;color=black" alt="."></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>codexplor<span class="sc">::</span><span class="fu">get_networkd3_from_igraph</span>(net)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># Return an interactive dataviz' from networkD3</span></span></code></pre></div>
 </li>
 </ol>
-<p>By default, nodes are colorized accordingly to their indegrees (number of ingoing links), revealing the local dependancies of the programming project (i.e. functions used by others files of the project).</p>
+<p>By default, nodes are colorized accordingly to their indegrees, in order to reveal the local dependancies of the programming project (i.e. functions used by others files of the project).</p>
 <figure><img src="reference/figures/example_net3d_dataviz.png" alt="."><figcaption aria-hidden="true">
 .
 </figcaption></figure><p><em>(codexplor functions network are truncated)</em></p>
-<p>Hereabove, we see that the most-common local dependancy inside the tidyverse/stringr repo is <code>compat-types-check.R</code>. One of the <code>codexplor</code> functions actually rely on <code>stringr/extract.R</code> function , but the opposite is not true.</p>
+<p>Hereabove, we see that the most-common local dependancy inside the tidyverse/stringr repo is <code>compat-types-check.R</code>. One of the <code>codexplor</code> file actually rely on a <code>stringr</code>method, but the opposite is not true (i.e. <code>codexplor::str_extract_all_to_tidy_df.R</code> rely on <code>stringr/extract.R</code>, but no file of stringr rely on codexplor).</p>
 <p>Play with the parameters reveal others insights, e.g., you should try to color nodes accordingly to their outdegrees, in order to reveal the high-level files of the project.</p>
 <blockquote>
 <p>Get rid of complexity with a broader perspective on the project !</p>
@@ -122,13 +128,9 @@
 <div class="section level2">
 <h2 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
 </h2>
-<p><code>codexplor</code> offers several protocols &amp; parameters to take care with. See the vignettes about the text-analysis protocols offered by <code>codexplor</code>, such as :</p>
-<ul>
-<li><a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html">Understand how codexplor will turn a programming project into a network of documents</a></li>
-</ul>
-<p>Or familiarize yourself with the specialized tools offered by <code>codexplor</code>, such as :</p>
-<p>⏩ <a href="https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html">Turn a programming project into a corpus with construct_corpus()</a></p>
-<p>⏩ <a href="https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html">Turn it into an igraph object, filter and manage it with helper functions</a></p>
+<p><code>codexplor</code> offers text-mining protocols, but also tools for managing your own analysis. See the vignettes about :</p>
+<p>⏩ Turning a programming project into a corpus with <a href="https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html">construct_corpus()</a></p>
+<p>⏩ Turning an edgelist into an igraph object and filter it with <a href="https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html">helper functions for manage igraph objects</a></p>
 <p>⏩ <em>Get metrics and identifying problematic patterns (e.g., cascading dependancies of func’)</em></p>
 <p><em>WIP</em> [🔧🔨]</p>
 <div class="section level3">

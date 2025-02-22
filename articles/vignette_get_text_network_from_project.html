@@ -65,20 +65,17 @@
 
     
     
-<p>This vignette explain the network returned by
-<code><a href="../reference/get_text_network_from_project.html">codexplor::get_text_network_from_project</a></code>. This function
-will compute a Citations Network of <em>programming project(s)</em>,
-from local folder path(s) and/or public github repo(s). This Vignette
-give a basic understanding of such a network.</p>
+<p>This Vignette give a basic understanding of the network computed by
+<code><a href="../reference/get_text_network_from_project.html">codexplor::get_text_network_from_project</a></code> : a Citations
+Network of functions within <em>programming project(s)</em>.</p>
 <div class="section level3">
 <h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h3>
-<p>For example, giving a bunch of .R project and/or repos :</p>
 <pre><code><span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_text_network_from_project.html">get_text_network_from_project</a></span><span class="op">(</span>repos <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tidyverse/stringr"</span>, <span class="st">"clement-lvd/codexplor"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># codexplor functions will deal with a R project by default</span></span>
+<span><span class="co"># by default, codexplor deal with R project</span></span>
 <span></span>
 <span><span class="co"># get an igraph object from this edgelist, and optionnaly filter it :</span></span>
-<span><span class="fu">codexplor</span><span class="fu">::</span><span class="fu"><a href="../reference/get_igraph_from_df.html">get_igraph_from_df</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span> </span>
+<span><span class="va">igraph_network</span> <span class="op">&lt;-</span> <span class="fu">codexplor</span><span class="fu">::</span><span class="fu"><a href="../reference/get_igraph_from_df.html">get_igraph_from_df</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="co">#get a networkD3 dataviz' from this edgelist :</span></span>
 <span><span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span></span></code></pre>
@@ -86,26 +83,26 @@ give a basic understanding of such a network.</p>
 <img src="../reference/figures/example_net3d_dataviz.png" alt="."><div class="figcaption">.</div>
 </div>
 <p><strong>Network properties.</strong> The returned network is a
-document-to-document Citations network.</p>
-<p>Such a network have basic properties that we don’t cover here (e.g.,
-a Citations Network is always a directed network).</p>
+document-to-document citations network.</p>
+<p>These networks have basic properties, not covered here (e.g., a
+citations network is a directed network).</p>
 <p>Regarding the network computed by
 <code><a href="../reference/get_text_network_from_project.html">codexplor::get_text_network_from_project()</a></code> :</p>
 <ul>
-<li>A node is one of the programming files (default is a network of .R
-files).</li>
-<li>An edge is linkink a file that call a function to the file where
-this function is defined.</li>
+<li>Nodes are the programming files, default is a network of .R
+files.</li>
+<li>Edges go from the file that calls a function to the file where the
+function is defined.</li>
 </ul>
-<p>For example, in a typical programming project :</p>
+<p>Thus, in a typical programming project :</p>
 <ul>
-<li>nodes are mostly functions</li>
-<li>Indegrees of a node is how many other functions of the project this
-function is using.</li>
-<li>Outdegree of a node is how many functions of the project are used by
-this function.</li>
-<li>⟲ auto-mentioning typically reveal recursivity, once a func’ call
-itself more than one times (1st mention is usually for define the func’
+<li>Nodes are mostly - or only - functions</li>
+<li>°← Indegree of a node is how many other functions of the project
+this function is using</li>
+<li>°→ Outdegree of a node is how many functions of the project are used
+by this function.</li>
+<li>⟲ Auto-mentioning refear to ‘recursivity’, once a func’ call itself
+more than one times (1st mention is usually for define the func’
 name)</li>
 </ul>
 </div>
@@ -117,12 +114,12 @@ names from the files of a <em>programming</em> project.</p>
 <p>Assuming the user have indicated folder(s) and/or github repo(s),
 <code><a href="../reference/get_text_network_from_project.html">codexplor::get_text_network_from_project()</a></code> will try to
 perform a ‘cascading matching’ :</p>
-<p>⏩ Read the files, trying to extract a 1st pattern (e.g., defaults
-parameters will extract R functions names, when a func’ is defined
-within a file).</p>
+<p>⏩ Read the files and extract a 1st pattern, e.g., default try to
+extract <em>R functions names</em>.</p>
 <p>⏩ Search for these patterns in the initial content, in order to
 constitute a Citations Network.</p>
-<p>🎁 Return the edgelist of the network of <em>documents</em></p>
+<p>🎁 Return the edgelist of the network of <em>documents</em> (document
+that call a function =&gt; file where this function is defined)</p>
 </div>
 <div class="section level3">
 <h3 id="filter-undesired-match">Filter undesired match<a class="anchor" aria-label="anchor" href="#filter-undesired-match"></a>
@@ -132,7 +129,7 @@ positive” matches are the lines where you use the name of another
 function in a message,
 e.g. <code>message("my_func() is deprecated. You should use this_function() instead)</code>.
 <code>get_text_network_from_files</code> offer several parameters for
-dealing with your style of programming.</p>
+dealing with your style of writing a program.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
