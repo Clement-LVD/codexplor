@@ -19,11 +19,31 @@ mining metrics and dataviz’ about the project : get rid of global
 complexity with a global network of local dependancies, and assess local
 complexity with document-level metrics.
 
-> `codexplor` help me to figure out the big picture of a programming
-> project faster, and to manage it more efficiently. I’ve used it, for
-> example, to pinpoint where to start a polishing loop, to identify all
-> the functions impacted by upcoming changes, or to assess the impact of
-> the dev loop on the project.
+<head>
+<style>
+    .quote-style { 
+  max-width: 800px;
+  margin: 5px auto;
+  padding: 5px 30px;
+  background: #f9f9f9;
+  font-size: 14px;
+  text-alignment: justify;
+  border-left: 5px solid #3498db;
+  border-radius: 10px;
+  font-style: italic;
+  color: #555;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+  font-family: 'Times New Roman', serif;
+}
+  </style>
+</head>
+
+<div class="quote-style">
+
+`codexplor` help me to figure out the big picture of a programming
+project faster, and to manage it more efficiently.
+
+</div>
 
 ### Installation
 
@@ -33,6 +53,8 @@ You can install the development version of codexplor with
 devtools::install_github("clement-LVD/codexplor")
 ```
 
+------------------------------------------------------------------------
+
 ### Example : dataviz’ of internal dependancies
 
      net <- get_text_network_from_project(repos = "clement-LVD/codexplor")
@@ -40,11 +62,21 @@ devtools::install_github("clement-LVD/codexplor")
          
      get_networkd3_from_igraph(net) # Produce an interactive dataviz'
 
-Will return an interactive dataviz’ of the internal dependancies within
+Return an interactive dataviz’ of the internal dependancies within
 `codexplor` :
 
 <img src="man/figures/network_codexplor_fn.png" width="90%"  height="300px" alt = ""/>
 <!-- ![.](man/figures/network_codexplor_fn.png) -->
+
+<div class="quote-style">
+
+These dataviz are useful for pinpointing where to start a polishing
+loop, identifying all the functions impacted by upcoming changes, \[…\]
+or assessing the impact of a new dev loop on the project’s complexity.
+
+</div>
+
+------------------------------------------------------------------------
 
 ### Features
 
