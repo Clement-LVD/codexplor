@@ -68,26 +68,27 @@
 <div class="section level2">
 <h2 id="constructing-your-corpus">Constructing your corpus<a class="anchor" aria-label="anchor" href="#constructing-your-corpus"></a>
 </h2>
-<p><code>codexplor</code> offering functions to turn a bunch of files
-from a programming project into a corpus and filter it before to process
-an analysis.</p>
-<p>You should provide folder(s) path(s) and/or github repo(s), and one
-or several languages to <code>construct_corpus</code></p>
+<p><code>codexplor</code> offering functions to turn a programming
+project into a corpus by providing folder(s) path(s) and/or github
+repo(s).</p>
 <pre><code><span><span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu">codexplor</span><span class="fu">::</span><span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span><span class="st">"~"</span>, <span class="st">"tidyverse/stringr"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">corpus</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">corpus</span><span class="op">$</span><span class="va">matches</span><span class="op">)</span><span class="op">)</span> <span class="co"># content + a 1st matched pattern</span></span></code></pre>
+<p>By default <code>construct_corpus</code> is tunned for the R
+programming language. One or several <code>languages</code> could be
+passed to <code>construct_corpus</code>, e.g., in order to read the
+programming files accordingly to their extensions.</p>
 <ul>
 <li>
 <code>construct_corpus</code> return the full content as a
-<code>df</code>. Some <em>1st matches</em> are already realized since
-the names of functions defined in the files of the project are extracted
-in a column of the returned <code>df</code> (the user is not supposed to
-define several function in the same line, otherwise lines will be
-duplicated).</li>
+<code>df</code>. Some <em>1st matches</em> are realized : the names of
+functions defined in the files of the project are extracted in a column
+of the returned <code>df</code>. It’s assumed that no file have several
+function within the same line, otherwise lines of the returned
+<code>df</code> will be duplicated. This matching of functions names
+rely on a regex, for each of the <code>languages</code> supported by
+<code>construct_corpus</code> (i.e. R, Python, JavaScript, Java, C, Cpp,
+Go).</li>
 </ul>
-<p>Indicating a language to <code>construct_corpus</code> is needed,
-e.g., in order to read the programming files accordingly to their
-extensions. In order to extract the “functions names”,
-<code>construct_corpus</code> rely on a regex for each language.</p>
 </div>
   </main>
 </div>
