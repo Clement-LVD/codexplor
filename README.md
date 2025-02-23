@@ -43,7 +43,7 @@ devtools::install_github("clement-LVD/codexplor")
 Will return an interactive dataviz’ of the internal dependancies within
 `codexplor` :
 
-<img src="man/figures/network_codexplor_fn.png" width="90%"  height="300px" />
+<img src="man/figures/network_codexplor_fn.png" width="90%"  height="300px" alt = ""/>
 <!-- ![.](man/figures/network_codexplor_fn.png) -->
 
 ### Features

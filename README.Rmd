@@ -63,7 +63,7 @@ netd3 <- get_networkd3_from_igraph(fn_net, linkDistance = 40, charge = -100, leg
 
 Will return an interactive dataviz' of the internal dependancies within `codexplor` :
 
-<img src="man/figures/network_codexplor_fn.png" width="90%"  height="300px" />
+<img src="man/figures/network_codexplor_fn.png" width="90%"  height="300px" alt = ""/>
 <!-- ![.](man/figures/network_codexplor_fn.png) -->
 
 ### Features 
