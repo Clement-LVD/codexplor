@@ -17,7 +17,7 @@ including file paths, URLs (if applicable), and languages."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">codexplor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.91</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,7 +95,7 @@ Default is <code>NULL</code> (no files are excluded).</p></dd>
 <dd><p><code>logical</code>. Default = <code>TRUE</code>.
 Codexplor try to exclude testing files <em>before</em> to read the files of a project ; and it will try to clean the urls of the returned df
 By default, typical testing-purpose .R files are excluded
-(i.e. "\.Rcheck|test-")
+(i.e. "<code>r codexplor::function_def_regex_by_language("R")$pattern_to_exclude</code>")
 , in addition to an optional <code>pattern_to_exclude_path</code> passed by the user.</p></dd>
 
 
