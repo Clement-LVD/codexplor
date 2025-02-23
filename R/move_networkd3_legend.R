@@ -1,4 +1,4 @@
-#' Add a responsive legend to a networkD3 plot with vertical or horizontal orientation
+#' Move the responsive legend of a networkD3 plot and set vertical or horizontal orientation
 #'
 #' This function allows you to dynamically position the legend of a networkD3 plot.
 #' The legend is positioned as a percentage of the x and y coordinates relative to the

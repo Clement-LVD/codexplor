@@ -3,7 +3,6 @@
 export(construct_corpus)
 export(filter_igraph_egonetwork)
 export(fix_escaping)
-export(function_def_regex_by_language)
 export(get_github_raw_filespath)
 export(get_igraph_from_df)
 export(get_networkd3_from_igraph)

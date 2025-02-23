@@ -2,7 +2,7 @@
 % Please edit documentation in R/srch_pattern_in_files_get_df.R
 \name{srch_pattern_in_files_get_df}
 \alias{srch_pattern_in_files_get_df}
-\title{srch_pattern_in_files_get_df associate a text to a file
+\title{Read some files and answer a df, optionnaly try to match a text pattern
 e.g., detect a file with a func' defined with 'function_name <- function'}
 \usage{
 srch_pattern_in_files_get_df(

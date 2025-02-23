@@ -24,9 +24,7 @@ You should provide folder(s) path(s) and/or github repo(s), and one or several l
     
 - `construct_corpus` return the full content as a `df`. Some *1st matches* are already realized since the names of functions defined in the files of the project are extracted in a column of the returned `df` (the user is not supposed to define several function in the same line, otherwise lines will be duplicated). 
 
-Indicating a language to `construct_corpus` is needed, e.g., in order to read the programming files accordingly to their extensions. In order to extract the "functions names", `construct_corpus` rely on a regex for each language. Planned languages are :
-
-- `r paste0(collapse = "<br>• ", names(codexplor::function_def_regex_by_language()))`
+Indicating a language to `construct_corpus` is needed, e.g., in order to read the programming files accordingly to their extensions. In order to extract the "functions names", `construct_corpus` rely on a regex for each language. 
 
 
 

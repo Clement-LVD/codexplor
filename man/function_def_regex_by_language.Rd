@@ -27,7 +27,7 @@ This function supports multiple programming languages in a single call.
 Language names are case-insensitive.
 }
 \examples{
-fn_def <-function_def_regex_by_language("Python", "R")
-fn_def <- function_def_regex_by_language("Go", "C", "JavaScript")
+# fn_def <-function_def_regex_by_language("Python", "R")
+# fn_def <- function_def_regex_by_language("Go", "C", "JavaScript")
 
 }

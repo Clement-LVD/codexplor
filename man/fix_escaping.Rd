@@ -2,7 +2,7 @@
 % Please edit documentation in R/fix_escaping.R
 \name{fix_escaping}
 \alias{fix_escaping}
-\title{fix_escaping ensure correct escaping of special characters in a string}
+\title{Escape the special characters in a string}
 \usage{
 fix_escaping(
   text,

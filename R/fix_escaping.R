@@ -1,4 +1,4 @@
-#' fix_escaping ensure correct escaping of special characters in a string
+#' Escape the special characters in a string
 #'
 #' This function adds the designated number of escape characters (`\`) before special characters.
 #'

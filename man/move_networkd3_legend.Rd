@@ -2,7 +2,7 @@
 % Please edit documentation in R/move_networkd3_legend.R
 \name{move_networkd3_legend}
 \alias{move_networkd3_legend}
-\title{Add a responsive legend to a networkD3 plot with vertical or horizontal orientation}
+\title{Move the responsive legend of a networkD3 plot and set vertical or horizontal orientation}
 \usage{
 move_networkd3_legend(
   netd3,

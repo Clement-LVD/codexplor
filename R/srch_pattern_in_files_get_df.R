@@ -1,4 +1,4 @@
-#' srch_pattern_in_files_get_df associate a text to a file
+#' Read some files and answer a df, optionnaly try to match a text pattern
 #' e.g., detect a file with a func' defined with 'function_name <- function'
 #'
 #' | A] Read a bunch of files and answer the content readed in a df
