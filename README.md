@@ -16,7 +16,7 @@ monitor a programming project.
 
 Given a programming project, `codexplor` compute standardized text
 mining metrics and dataviz’ about the project : get rid of global
-complexity with a global network of local dependancies, and assess local
+complexity with a network of local dependancies, and assess local
 complexity with document-level metrics.
 
 <head>
