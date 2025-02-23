@@ -168,13 +168,12 @@ fn_segmentation <- data.frame(
                               )
 )
 
-names(fn_segmentation) <- c("Analyze a programming project (High-level functions)" , "Low-level & helper functions" )
+names(fn_segmentation) <- c("Analyze a programming project" , "Helper functions" )
 
 knitr::kable(fn_segmentation)
 
 
 ```
-
 
 
 ```{r pressure, eval=FALSE, include=FALSE}

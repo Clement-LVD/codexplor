@@ -105,7 +105,7 @@ project, accordingly to several tools that perform a part of the
 analysis. `codexplor` also offers helper functions, e.g., for create and
 filter a network with the `igraph` package.
 
-| Analyze a programming project (High-level functions) | Low-level & helper functions |
+| Analyze a programming project | Helper functions |
 |:---|:---|
 | Construct a network of internal dependancies : [vignette of `get_text_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html) |
 |  | Manage and filter `igraph` object : [vignette of helper functions for igraph object](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html) |
