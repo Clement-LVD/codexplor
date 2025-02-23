@@ -65,14 +65,13 @@
 
     
     
-<div class="section level2">
-<h2 id="managing-igraph-object">Managing igraph object<a class="anchor" aria-label="anchor" href="#managing-igraph-object"></a>
-</h2>
 <p><code>codexplor</code> offering functions to manage
-<code>igraph</code> object. turn an edgelist into an igraph object, and
-filter it across the way.</p>
-<p>Once you have a network such as a network of internal dependancies
-within a project (see <code>get_text_network_from_project</code>)</p>
+<code>igraph</code> object : turn an edgelist into an igraph object,
+filter some nodes accordingly to their indegrees or outdegrees, etc.</p>
+<p>Once you have a network as the network of internal dependancies
+within a project computed by <code>get_text_network_from_project</code>
+(see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html">vignette
+of <code>get_text_network_from_project</code></a>)</p>
 <ul>
 <li>
 <p>Turn your Citations Network into a directed <code>igraph</code>
@@ -82,15 +81,17 @@ network with <img src="https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat
 <li>
 <p>Once you have an igraph object, zoom on a precise function with
 <img src="https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=filter_igraph_egonetwork()&amp;labelColor=green&amp;color=black" alt="."></p>
-<pre><code><span><span class="fu"><a href="../reference/filter_igraph_egonetwork.html">filter_igraph_egonetwork</a></span><span class="op">(</span><span class="va">netig</span>, <span class="st">"a_node"</span><span class="op">)</span></span></code></pre>
+<pre><code><span><span class="va">filter_net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_igraph_egonetwork.html">filter_igraph_egonetwork</a></span><span class="op">(</span><span class="va">netig</span>, <span class="st">"an_interesting_function"</span><span class="op">)</span></span></code></pre>
 </li>
-<li><p>Turn it into an interactive <code>networkD3</code> dataviz with
-<img src="https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_networkd3_from_igraph()&amp;labelColor=green&amp;color=black" alt="."></p></li>
-<li><p>And manage the interactive <code>networkD3</code> dataviz with
-<img src="https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_networkd3_from_igraph()&amp;labelColor=green&amp;color=black" alt="."></p></li>
-</ul>
-</div>
-  </main>
+<li>
+<p>Turn it into an interactive <code>networkD3</code> dataviz with
+<img src="https://img.shields.io/badge/%7BnetworkD3%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_networkd3_from_igraph()&amp;labelColor=green&amp;color=black" alt="."></p>
+<p>get_networkd3_from_igraph(filter_net)</p>
+</li>
+<li><p>And tweak the legend of the interactive <code>networkD3</code>
+dataviz with <img src="https://img.shields.io/badge/%7BnetworkD3%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=move_networkd3_legend()&amp;labelColor=green&amp;color=black" alt="."></p></li>
+<li><p>…</p></li>
+</ul></main>
 </div>
 
 
