@@ -71,19 +71,37 @@ Network of functions within <em>programming project(s)</em>.</p>
 <div class="section level3">
 <h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h3>
-<pre><code><span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_text_network_from_project.html">get_text_network_from_project</a></span><span class="op">(</span>repos <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tidyverse/stringr"</span>, <span class="st">"clement-lvd/codexplor"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># by default, codexplor deal with R project</span></span>
-<span></span>
-<span><span class="co"># get an igraph object from this edgelist, and optionnaly filter it :</span></span>
-<span><span class="va">igraph_network</span> <span class="op">&lt;-</span> <span class="fu">codexplor</span><span class="fu">::</span><span class="fu"><a href="../reference/get_igraph_from_df.html">get_igraph_from_df</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span> </span>
-<span></span>
-<span><span class="co">#get a networkD3 dataviz' from this edgelist :</span></span>
-<span><span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span></span></code></pre>
+<p>Given folders path(s) and/or github repo(s), compute a <em>citations
+network</em> of the functions with <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_text_network_from_project()&amp;labelColor=yellow&amp;color=black" alt="."></p>
+<pre><code><span>    <span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_text_network_from_project.html">get_text_network_from_project</a></span><span class="op">(</span>repos <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tidyverse/stringr"</span>, <span class="st">"clement-lvd/codexplor"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="co"># by default, codexplor deal with R project</span></span>
+<span>    </span></code></pre>
+<p>Then turn this edgelist into an interactive dataviz’ with
+<code>networkD3</code> :</p>
+<pre><code><span>    <span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span></span>
+<span>    <span class="co"># Return an interactive dataviz' from networkD3</span></span></code></pre>
+<p>By default, <code>get_networkd3_from_igraph</code> will colorize the
+nodes accordingly to their indegrees. This will reveal the local
+dependancies of the programming project (i.e. functions used by others
+files of the project).</p>
 <div class="float">
-<img src="../reference/figures/example_net3d_dataviz.png" alt="."><div class="figcaption">.</div>
+<img src="../reference/figures/example_net3d_dataviz.png" style="width:90.0%" alt="."><div class="figcaption">.</div>
 </div>
-<p><strong>Network properties.</strong> The returned network is a
-document-to-document citations network.</p>
+<p><em>(codexplor functions network is truncated)</em></p>
+<p>For example, the most-common local dependancy inside the
+tidyverse/stringr repo is <code>compat-types-check.R</code>, […] and we
+see that one of the <code>codexplor</code> file actually rely on a
+<code>stringr</code>method
+(i.e. <code>codexplor::str_extract_all_to_tidy_df.R</code> rely on
+<code>stringr/extract.R</code>). The opposite is not true.</p>
+<p>Playing with the parameters will reveal others insights, e.g., you
+should try to color nodes accordingly to their outdegrees, in order to
+reveal the high-level files of the project.</p>
+</div>
+<div class="section level3">
+<h3 id="network-properties">Network properties<a class="anchor" aria-label="anchor" href="#network-properties"></a>
+</h3>
+<p>The returned network is a document-to-document citations network.</p>
 <p>These networks have basic properties, not covered here (e.g., a
 citations network is a directed network).</p>
 <p>Regarding the network computed by
@@ -96,18 +114,19 @@ function is defined.</li>
 </ul>
 <p>Thus, in a typical programming project :</p>
 <ul>
-<li>Nodes are mostly - or only - functions</li>
-<li>°← Indegree of a node is how many other functions of the project
-this function is using</li>
-<li>°→ Outdegree of a node is how many functions of the project are used
-by this function.</li>
+<li>Nodes are files, so mostly - or only - functions ;</li>
+<li>°← Indegree of a file is “how many files are calling the function(s)
+defined in this file” ;</li>
+<li>°→ Outdegree of a file is “how many functions are used by this file”
+;</li>
 <li>⟲ Auto-mentioning refear to ‘recursivity’, once a func’ call itself
 more than one times (1st mention is usually for define the func’
-name)</li>
+name).</li>
 </ul>
 </div>
 <div class="section level3">
-<h3 id="cascading-matching-operated">Cascading matching operated<a class="anchor" aria-label="anchor" href="#cascading-matching-operated"></a>
+<h3 id="cascading-matching-operated-by-get_text_network_from_project">Cascading matching operated by
+<code>get_text_network_from_project</code><a class="anchor" aria-label="anchor" href="#cascading-matching-operated-by-get_text_network_from_project"></a>
 </h3>
 <p><code>codexplor</code> default pattern are aimed to extract functions
 names from the files of a <em>programming</em> project.</p>
@@ -130,6 +149,15 @@ function in a message,
 e.g. <code>message("my_func() is deprecated. You should use this_function() instead)</code>.
 <code>get_text_network_from_files</code> offer several parameters for
 dealing with your style of writing a program.</p>
+</div>
+<div class="section level3">
+<h3 id="crafting-your-own-corpus-with-codexplor">Crafting your own corpus with codexplor<a class="anchor" aria-label="anchor" href="#crafting-your-own-corpus-with-codexplor"></a>
+</h3>
+<p>Depending on the languages you have to manage, you’ll want to tweak
+the ‘pattern’ used for match a function definition, since for now
+<code>codexplor</code> support only the R programming language (other
+languages are planned). See the <a href="https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html">vignette
+of <code>construct_corpus</code></a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

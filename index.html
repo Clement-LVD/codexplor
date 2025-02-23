@@ -58,9 +58,10 @@
 <!-- badges: start -->
 
 <p>🧰🔧🔨 <code>codexplor</code> is a WIP 🧰🔧🔨</p>
-<p><code>codexplor</code> offers R functions for explore, analyze and monitor a programming project. These tools are aimed to manage a programming project as a network of documents, with text-mining and network metrics &amp; dataviz’.</p>
+<p><code>codexplor</code> offers R functions dedicated to explore, analyze and monitor a programming project.</p>
+<p>Given a programming project, <code>codexplor</code> compute standardized text mining metrics and dataviz’ about the project : get rid of global complexity with a global network of local dependancies, and assess local complexity with document-level metrics.</p>
 <blockquote>
-<p>The immediate insights and deep reports offered by <code>codexplor</code> will help you to understand the big picture of a programming project faster, but also to manage it more efficiently.</p>
+<p><code>codexplor</code> help me to figure out the big picture of a programming project faster, and to manage it more efficiently. I’ve used it, for example, to pinpoint where to start a polishing loop, to identify all the functions impacted by upcoming changes, or to assess the impact of the dev loop on the project.</p>
 </blockquote>
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -70,9 +71,19 @@
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"clement-LVD/codexplor"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
+<h3 id="example--dataviz-of-internal-dependancies">Example : dataviz’ of internal dependancies<a class="anchor" aria-label="anchor" href="#example--dataviz-of-internal-dependancies"></a>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a> net <span class="ot">&lt;-</span> <span class="fu">get_text_network_from_project</span>(<span class="at">repos =</span> <span class="st">"clement-LVD/codexplor"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>     <span class="co"># Turn a github repo into a network of internal dependancies</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>     </span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a> <span class="fu">get_networkd3_from_igraph</span>(net) <span class="co"># Produce an interactive dataviz'</span></span></code></pre></div>
+<p>Will return an interactive dataviz’ of the internal dependancies within <code>codexplor</code> :</p>
+<p><img src="reference/figures/network_codexplor_fn.png" width="90%" height="300px"><!-- ![.](man/figures/network_codexplor_fn.png) --></p>
+</div>
+<div class="section level3">
 <h3 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
 </h3>
-<p><strong>Available feature :</strong> <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Citations%20Network%20of%20internal%20dependencies&amp;labelColor=black&amp;color=green" alt="."></p>
+<p><code>codexplor</code> will compute several metrics on a programming project in order to gain global and local insights.</p>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -80,78 +91,68 @@
 <col width="33%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">Feature</th>
-<th align="left">↓ Given a programming project :</th>
-<th align="left">↓ Given a precise file :</th>
+<th align="left">Computed Methods</th>
+<th align="left">Global insights</th>
+<th align="left">Local insights on files</th>
 </tr></thead>
-<tbody><tr class="odd">
-<td align="left">Network of internal dependencies</td>
-<td align="left">⏩ Get rid of global complexity with <strong>network metrics &amp; dataviz’</strong> (e.g., network of internal dependencies<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Local dependencies are functions that are called by others functions of the project&lt;/p&gt;"><sup>1</sup></a>).</td>
-<td align="left">⏩ Identify local complexity with <strong>text-mining</strong> and document-level metrics (e.g., length and files readability).</td>
-</tr></tbody>
+<tbody>
+<tr class="odd">
+<td align="left"><img src="https://img.shields.io/badge/%E2%9C%94%EF%B8%8F-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Network%20of%20internal%20dependencies&amp;labelColor=black&amp;color=green" alt="."></td>
+<td align="left">Appreciate global complexity and figure out the pig picture</td>
+<td align="left">Reveal critical files, e.g., major internal dependancies</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://img.shields.io/badge/%7B%F0%9F%9A%A7%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Document-level%20metrics&amp;labelColor=grey&amp;color=orange" alt="."></td>
+<td align="left">Reveal clusters of ‘difficult-to-read’ files</td>
+<td align="left">Assess each file with text-mining metrics, e.g., length and files readability</td>
+</tr>
+</tbody>
 </table>
-<p><strong>Planned features :</strong> <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Text-mining%20metrics&amp;labelColor=grey&amp;color=orange" alt="."><img src="https://img.shields.io/badge/%7BExport%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Reporting&amp;labelColor=grey&amp;color=orange" alt="."><img src="https://img.shields.io/badge/%7BExport%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Network-advanced&amp;labelColor=grey&amp;color=orange" alt="."></p>
-<p><strong>Supported programming languages :</strong> <img src="https://img.shields.io/badge/R-green" alt="."></p>
-<p>Other languages are planned<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Current list of planned supported languages is : R, Python, JavaScript, Java, C, Cpp, Go&lt;/p&gt;"><sup>2</sup></a>.</p>
+<!-- FEATURES are on 3 flex-columns : --><div style="display: flex;font-size: 12px;">
+<div style="flex: 35%; padding: 10px; border: 2px solid #000; border-radius: 10px; margin-right: 8px;">
+<p><strong>Available feature :</strong></p>
+<p><img src="https://img.shields.io/badge/%7BConstruct--corpus%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Read%20files%20from%20github%20and/or%20locally&amp;labelColor=black&amp;color=green" alt=" "><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Compute%20a%20network%20of%20internal%20dependencies&amp;labelColor=black&amp;color=green" alt=" "><img src="https://img.shields.io/badge/%7BnetworkD3%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Get%20dataviz'%20from%20a%20network&amp;labelColor=black&amp;color=green" alt=" "></p>
+</div>
+<div style="flex: 40%; padding: 10px; border: 2px solid #000; border-radius: 10px; margin-right: 8px;">
+<p><strong>Planned features :</strong></p>
+<p><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Document-level%20metrics&amp;labelColor=grey&amp;color=orange" alt="."><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Global%20text-mining%20metrics&amp;labelColor=grey&amp;color=orange" alt="."><img src="https://img.shields.io/badge/%7BExport%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Reporting&amp;labelColor=grey&amp;color=orange" alt="."><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Advanced%20network%20metrics&amp;labelColor=grey&amp;color=orange" alt="."></p>
+</div>
+<div style="flex: 20%; padding: 10px; border: 2px solid #000; border-radius: 20px">
+<p><strong>Supported language(s) :</strong></p>
+<figure><img src="https://img.shields.io/badge/R-green" alt=" "><figcaption aria-hidden="true">
+ 
+</figcaption></figure><p>Other languages are planned<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Current list of planned supported languages is : R, Python, JavaScript, Java, C, Cpp, Go&lt;/p&gt;"><sup>1</sup></a></p>
+</div>
+</div>
 </div>
 <div class="section level3">
-<h3 id="example--explore-a-network-of-internal-dependancies">Example : Explore a network of internal dependancies<a class="anchor" aria-label="anchor" href="#example--explore-a-network-of-internal-dependancies"></a>
+<h3 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
 </h3>
-<ol style="list-style-type: decimal">
-<li>
-<p>Given folders path(s) and/or github repo(s), compute a <em>citations network</em> of the functions with <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_text_network_from_project()&amp;labelColor=yellow&amp;color=black" alt="."></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a> net <span class="ot">&lt;-</span>  <span class="fu">get_text_network_from_project</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="st">"tidyverse/stringr"</span>, <span class="st">"clement-LVD/codexplor"</span>) )</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a> <span class="co"># Return a data.frame, edgelist of a citations network</span></span></code></pre></div>
-</li>
-</ol>
-<ul>
-<li>See the vignette of <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html">get_text_network_from_project()</a>
-</li>
-</ul>
-<ol start="2" style="list-style-type: decimal">
-<li>
-<p>Look an <em>interactive dataviz’</em> with <code>networkD3</code> : <img src="https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_networkd3_from_igraph()&amp;labelColor=yellow&amp;color=black" alt="."></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>codexplor<span class="sc">::</span><span class="fu">get_networkd3_from_igraph</span>(net)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># Return an interactive dataviz' from networkD3</span></span></code></pre></div>
-</li>
-</ol>
-<p>By default, nodes are colorized accordingly to their indegrees, in order to reveal the local dependancies of the programming project (i.e. functions used by others files of the project).</p>
-<figure><img src="reference/figures/example_net3d_dataviz.png" alt="."><figcaption aria-hidden="true">
-.
-</figcaption></figure><p><em>(codexplor functions network are truncated)</em></p>
-<p>Hereabove, we see that the most-common local dependancy inside the tidyverse/stringr repo is <code>compat-types-check.R</code>. One of the <code>codexplor</code> file actually rely on a <code>stringr</code>method, but the opposite is not true (i.e. <code>codexplor::str_extract_all_to_tidy_df.R</code> rely on <code>stringr/extract.R</code>, but no file of stringr rely on codexplor).</p>
-<p>Play with the parameters reveal others insights, e.g., you should try to color nodes accordingly to their outdegrees, in order to reveal the high-level files of the project.</p>
-<blockquote>
-<p>Get rid of complexity with a broader perspective on the project !</p>
-</blockquote>
-</div>
-<div class="section level2">
-<h2 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
-</h2>
-<p><code>codexplor</code> offers text-mining protocols, but also tools for managing your own analysis. See the vignettes about :</p>
-<p>⏩ Turning a programming project into a corpus with <a href="https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html">construct_corpus()</a></p>
-<p>⏩ Turning an edgelist into an igraph object and filter it with <a href="https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html">helper functions for manage igraph objects</a></p>
-<p>⏩ <em>Get metrics and identifying problematic patterns (e.g., cascading dependancies of func’)</em></p>
 <p><em>WIP</em> [🔧🔨]</p>
-<div class="section level3">
-<h3 id="crafting-your-own-corpus-with-codexplor">Crafting your own corpus with codexplor<a class="anchor" aria-label="anchor" href="#crafting-your-own-corpus-with-codexplor"></a>
-</h3>
-<p>Depending on the languages you have to manage, you’ll want to tweak the ‘pattern’ used for match a function definition, since for now <code>codexplor</code> support only the R programming language (other languages are planned).</p>
-<!--
-⏩ **4. Get an interactive `networkD3` HTML object**
-&#10;
-`get_networkd3_from_igraph()` Return a list of 2 objects :
-&#10;1. a list named `'net3d'` with 2 data.frames, with the data used by `networkD3` (`'nodes'` and `'edges'`)
-&#10;2. a networkD3::forceNetwork S3 class object named `'forcenetwork'`, an html interactive network dataviz'
-&#10;-->
-<!--
-> `codexplor` help you to manage and analyze a programming project, giving you tools to figure out the big picture and to find the little wrench in the (net)work.
-&#10;> **Usecases 1.** As a head of a dozens of persons (non-tech) team', I have to dev' actively on the long run. codexplor help me to get the big picture of a large programming project quickly, with instant metrics & insights. Thanks to the network analysis and dataviz', I have deep insights about the project, such as for identifying theoritical vulnerability, for choosing where to start a polishing loop, but also for following a programming project over the long run.
-&#10;> **Usecases 2.** I can show the network or a small part of the network to the dev' and tech' profiles during our meetings or event prez'.
-&#10;> **Usecases 3.** codexplor add insights on a particular function, as an help for the dev' when it come back on a project after a while (e.g., list all the local dependancies of a function and the functions that call it as a local dependancy).
-&#10;-->
-<!-- *Usecases of a quick programming project understanding*. codexplor goal is to *quickly* analyse your developing project, in order to *gain* time of comprehension, made your documentation, dataviz' of your project, etc. The features offered are crafted for coordinate large programming project, made helper func' for new colleagues and/or future you, formally identifying your higher-level func' and/or the most-frequently used as dependancies... and other handy features for priorizing your work by quickly figure out 'where' you have to pay attention. For example, before to change a parameter name in a func', you want to check what are the func' that used the one you want to modify. Same for changing the returned content or the behavior of a func' : you want to check which ones used this func' that you want to modify. You also want to offer an easy way to understand the chaining of your custom func'. -->
-</div>
+<p><code>codexplor</code> offers functions that are dedicated to analyze a programming project, accordingly to several tools that perform a part of the analysis. <code>codexplor</code> also offers helper functions, e.g., for create and filter a network with the <code>igraph</code> package.</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Analyze a programming project (High-level functions)</th>
+<th align="left">Low-level &amp; helper functions</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Construct a network of internal dependancies : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html">vignette of <code>get_text_network_from_project</code></a>
+</td>
+<td align="left">Construct a corpus : <a href="https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html">vignette of <code>construct_corpus</code></a>
+</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">Manage and filter <code>igraph</code> object : <a href="https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html">vignette of helper functions for igraph object</a>
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
