@@ -5,14 +5,14 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-![R](https://img.shields.io/badge/R-black) [![CRAN
+[![CRAN
 status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.org/package=codexplor)
 <!-- badges: end -->
 
 🧰🔧🔨 `codexplor` is a WIP 🧰🔧🔨
 
-`codexplor` offers R functions dedicated to explore, analyze and monitor
-a programming project.
+`codexplor` offers **R** functions dedicated to explore, analyze and
+monitor a programming project.
 
 Given a programming project, `codexplor` compute standardized text
 mining metrics and dataviz’ about the project : get rid of global
@@ -141,6 +141,9 @@ filter a network with the `igraph` package.
 |:---|:---|
 | Construct a network of internal dependancies : [vignette of `get_text_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html) |
 |  | Manage and filter `igraph` object : [vignette of helper functions for igraph object](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html) |
+
+The default settings of `codexplor` are optimized for analyzing a
+project in ![R](https://img.shields.io/badge/R-black) language.
 
 [^1]: Current list of planned supported languages is : R, Python,
     JavaScript, Java, C, Cpp, Go

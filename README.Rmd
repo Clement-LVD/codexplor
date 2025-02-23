@@ -22,13 +22,12 @@ return("<style>
 # codexplor
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-![R](https://img.shields.io/badge/R-black)
 [![CRAN status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.org/package=codexplor)
 <!-- badges: end -->
 
 🧰🔧🔨 `codexplor` is a WIP 🧰🔧🔨
 
-`codexplor` offers R functions dedicated to explore, analyze and monitor a programming project. 
+`codexplor` offers **R** functions dedicated to explore, analyze and monitor a programming project.
 
 Given a programming project, `codexplor` compute standardized text mining metrics and dataviz' about the project : get rid of global complexity with a global network of local dependancies, and assess local complexity with document-level metrics.
 
@@ -100,7 +99,7 @@ These dataviz are useful for pinpointing where to start a polishing loop, identi
 ---
 
 ### Features 
-`codexplor` will compute several metrics on a programming project in order to gain global and local insights.
+`codexplor` will compute several metrics on a programming project in order to gain global and local insights. 
 
 ```{r table-features, echo=FALSE}
 # library(knitr)
@@ -207,6 +206,7 @@ knitr::kable(fn_segmentation)
 
 ```
 
+The default settings of `codexplor` are optimized for analyzing a project in ![R](https://img.shields.io/badge/R-black) language.
 
 ```{r pressure, eval=FALSE, include=FALSE}
 # plot(pressure)
