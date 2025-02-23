@@ -6,8 +6,8 @@
 #'
 #' @param graph_igraph An igraph object representing the graph.
 #' @param regex `character` A character string representing the regex pattern to filter nodes.
-#' @param degrees_in_filter `integer`, default = `2` An integer specifying the depth of inward reachable nodes (default is 2).
-#' @param degrees_out_filter `integer`, default = `2` An integer specifying the depth of outward reachable nodes (default is 2).
+#' @param degrees_in_filter `integer`, default = `2`. An integer specifying the depth of inward reachable nodes (default is 2).
+#' @param degrees_out_filter `integer`, default = `2`. An integer specifying the depth of outward reachable nodes (default is 2).
 #' @return An igraph object representing the filtered subgraph.
 #' @importFrom igraph ego induced_subgraph V
 #'

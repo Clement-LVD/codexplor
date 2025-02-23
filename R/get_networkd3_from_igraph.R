@@ -4,15 +4,15 @@
 #' It allows customization of titles, node colors, missing link colors, and additional HTML code insertion.
 #'
 #' @param graph_igraph An `igraph` object representing the network.
-#' @param title_h1 Character. The main title (HTML `<h1>`) displayed above the graph. Default is `"networkD3"`.
-#' @param subtitle_h2 Character (optional). The subtitle (HTML `<h2>`) displayed below the main title. Default is `NULL` (no subtitle).
-#' @param endnotes_h3 Character (optional). A description or note (HTML `<h3>`) displayed after the network. Default is `NULL` (no text).
-#' @param colors_for_nodes Character vector. Specifies colors for nodes based on their degree and also number of separation
+#' @param title_h1 `character`. The main title (HTML `<h1>`) displayed above the graph. Default is `"networkD3"`.
+#' @param subtitle_h2 `character` (optional). The subtitle (HTML `<h2>`) displayed below the main title. Default is `NULL` (no subtitle).
+#' @param endnotes_h3 `character` (optional). A description or note (HTML `<h3>`) displayed after the network. Default is `NULL` (no text).
+#' @param colors_for_nodes  `character` vector. Specifies colors for nodes based on their degree and also number of separation
 #' the func' will try to realize (based on indegrees or outdegrees). Default is `c("green", "grey", "black", "red")`.
-#' @param color_outdeg_instead_of_indeg Logical. If `TRUE`, node colors are assigned based on out-degree instead of in-degree. Default is `FALSE`.
-#' @param color_for_na_link Character. Color assigned to links when data is missing.
+#' @param color_outdeg_instead_of_indeg `logical`. If `TRUE`, node colors are assigned based on out-degree instead of in-degree. Default is `FALSE`.
+#' @param color_for_na_link `character`. Color assigned to links when data is missing.
 #'  Default is the 1st color of `colors_for_node` (`"green"`).
-#' @param add_html_div_code_before_graph Character (optional). Custom HTML code inserted after the end of the network.
+#' @param add_html_div_code_before_graph `character` (optional). Custom HTML code inserted after the end of the network.
 #' Default is `NULL` (no additional HTML).
 #' @param charge `integer`, default = `-200` Numeric value indicating
 #' either the strength of the node repulsion (negative value) or attraction (positive value).
@@ -22,13 +22,7 @@
 #' library(igraph)
 #' g <- make_ring(10)
 #' get_networkd3_from_igraph(g, title_h1 = "My Network")
-#' @return A list with the net3d usual object from `networkD3::` and the html object from `networkD3::forceNetwork` :
-#' \describe{
-#'   \item{net3d}{networkD3 usual list}
-#'     \item{$links}{$links is the 1st entry of a networkD3 usual list with 'source' and 'target' vectors}
-#'     \item{$nodes}{$nodes is the 2nd entry of a networkD3 usual list, with the 'name' of the nodes vector}
-#'   \item{forcenetwork}{networkD3::forceNetwork usual html object for interactive network visualization}
-#'   }
+#' @return A "`forceNetwork`" & "`htmlwidget`" object, i.e. a list that symbolize an html object from `networkD3::forceNetwork`
 #' @importFrom igraph V degree simplify
 #' @importFrom networkD3 igraph_to_networkD3 JS forceNetwork
 #' @importFrom htmlwidgets prependContent appendContent
@@ -135,7 +129,7 @@ n_intervals <- length(colors_for_nodes)
 #if ordinal scale needed : networkD3::JS('d3.scaleOrdinal(d3.schemeCategory10)')
 
   #### E. Craft FORCE NETWORK ####
-  dataviz_network = networkD3::forceNetwork( legend = T
+  dataviz_network = networkD3::forceNetwork(
 
                                             ,  opacityNoHover = 0.9  # Empêche le changement de flou à l'hover
 
@@ -162,22 +156,24 @@ n_intervals <- length(colors_for_nodes)
     dataviz_network <-   htmlwidgets::prependContent(dataviz_network  , htmltools::tags$h2(subtitle_h2 ) )
   }
 
-  #   construct an html code legend for explain node coloring
+  #   construct an html code legend for explain node coloring as a note after the graph ! but not if there is a custom handnote
   legend_html <- paste0("<div style='position:floating; top:10px; left:10px; background:white; padding:10px; border:0px;'>
   <strong>Colors (", values_to_cut,")</strong><br></div>")
-  dataviz_network <- htmlwidgets::prependContent(dataviz_network,  htmltools::HTML(legend_html))
 
+  if(is.null(endnotes_h3) ){
+  dataviz_network <- htmlwidgets::appendContent(dataviz_network,  htmltools::HTML(legend_html))
+}
 ### add elements after graph ###
     if(!is.null(endnotes_h3) ){
     dataviz_network <-  htmlwidgets::appendContent(dataviz_network  ,htmltools::tags$h3(endnotes_h3) )
   }
  # dataviz_network$x$html
-  #optionnal) add custom html code before graph :
+  #optionnal) add custom html code after graph :
 if(!is.null(add_html_div_code_before_graph)) dataviz_network <- htmlwidgets::appendContent(dataviz_network, htmltools::HTML(add_html_div_code_before_graph))
 # user should pass custom div style as :
   # "<div style='display:flex; align-items:center;'><div style='width:15px; height:15px; background:grey; margin-right:5px;'></div> texte du user</div>"
 
   # return a list and our dataviz (html widget)
-  return(list(net3d = net3d, forcenetwork = dataviz_network))
+  return(dataviz_network)
 
 }

@@ -1,15 +1,22 @@
 #' Extract regex matches from a string and return a tidy dataframe
 #'
 #' This function applies `stringr::str_extract_all()` to a string, extracts regex matches,
-#' and returns an unested dataframe with customizable column names.
-#' Option offered : filtering of unmatched result (default)
+#' and returns a 2 columns unested dataframe :
+#' 1st column is the matched text
+#' or a `NA` value if no match (default will filter out these non-matched lines)
+#' 2nd column is the corresponding position index
+#' Option offered : customizable column names and filtering of unmatched result (default)
 #'
-#' @param string A character vector containing the input text.
-#' @param pattern A regex pattern to extract matches.
-#' @param filter_unmatched Logical (default `TRUE`); if `TRUE`, removes unmatched values from the output.
-#' @param matches_colname A string specifying the column name for extracted matches (default: `"matches"`).
-#' @param row_number_colname A string specifying the column name for row numbers (default: `"row_number"`).
+#' @param string `character` vector. A character vector containing the input text.
+#' @param pattern `character`. A regex pattern to extract matches.
+#' @param filter_unmatched `logical` (default `TRUE`). If `TRUE`, removes unmatched values from the output.
+#' @param matches_colname `character`. A string specifying the column name for extracted matches (default: `"matches"`).
+#' @param row_number_colname `character`. A string specifying the column name for row numbers (default: `"row_number"`).
 #' @return A dataframe with the extracted matches and their corresponding row numbers.
+#' \describe{
+#'   \item{matches_colname}{Name of the 1st col' - matched-text - correspond to the `matches_colname` parameter (default is 'matches')}
+#'   \item{row_number_colname}{Name of the 2nd col correspond to the `row_number_colname` parameter (default is 'row_number')}
+#'   }
 #' @examples
 #' text_data <- c("Here is funcA and funcB", "Nothing here", "funcC is present")
 #' pattern <- "func[A-C]"

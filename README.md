@@ -11,14 +11,19 @@ status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.
 
 🧰🔧🔨 `codexplor` is a WIP 🧰🔧🔨
 
-`codexplor` offers R functions for explore, analyze and monitor a
-programming project. These tools are aimed to manage a programming
-project as a network of documents, with text-mining and network metrics
-& dataviz’.
+`codexplor` offers R functions dedicated to explore, analyze and monitor
+a programming project.
 
-> The immediate insights and deep reports offered by `codexplor` will
-> help you to understand the big picture of a programming project
-> faster, but also to manage it more efficiently.
+Given a programming project, `codexplor` compute standardized text
+mining metrics and dataviz’ about the project : get rid of global
+complexity with a global network of local dependancies, and assess local
+complexity with document-level metrics.
+
+> `codexplor` help me to figure out the big picture of a programming
+> project faster, and to manage it more efficiently. I’ve used it, for
+> example, to pinpoint where to start a polishing loop, to identify all
+> the functions impacted by upcoming changes, or to assess the impact of
+> the dev loop on the project.
 
 ### Installation
 
@@ -28,107 +33,82 @@ You can install the development version of codexplor with
 devtools::install_github("clement-LVD/codexplor")
 ```
 
+### Example : dataviz’ of internal dependancies
+
+     net <- get_text_network_from_project(repos = "clement-LVD/codexplor")
+         # Turn a github repo into a network of internal dependancies
+         
+     get_networkd3_from_igraph(net) # Produce an interactive dataviz'
+
+Will return an interactive dataviz’ of the internal dependancies within
+`codexplor` :
+
+<img src="man/figures/network_codexplor_fn.png" width="90%"  height="300px" />
+<!-- ![.](man/figures/network_codexplor_fn.png) -->
+
 ### Features
 
-**Available feature :**
-![.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=Citations%20Network%20of%20internal%20dependencies&labelColor=black&color=green)
+`codexplor` will compute several metrics on a programming project in
+order to gain global and local insights.
 
-| Feature | ↓ Given a programming project : | ↓ Given a precise file : |
+| Computed Methods | Global insights | Local insights on files |
 |:---|:---|:---|
-| Network of internal dependencies | ⏩ Get rid of global complexity with **network metrics & dataviz’** (e.g., network of internal dependencies[^1]). | ⏩ Identify local complexity with **text-mining** and document-level metrics (e.g., length and files readability). |
+| ![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network%20of%20internal%20dependencies&labelColor=black&color=green) | Appreciate global complexity and figure out the pig picture | Reveal critical files, e.g., major internal dependancies |
+| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=orange) | Reveal clusters of ‘difficult-to-read’ files | Assess each file with text-mining metrics, e.g., length and files readability |
+
+<!-- FEATURES are on 3 flex-columns : -->
+
+<div style="display: flex;font-size: 12px;">
+
+<div style="flex: 35%; padding: 10px; border: 2px solid #000; border-radius: 10px; margin-right: 8px;">
+
+**Available feature :**
+
+![ ](https://img.shields.io/badge/%7BConstruct--corpus%7D-bold?style=flat&logoColor=black&logoSize=2&label=Read%20files%20from%20github%20and/or%20locally&labelColor=black&color=green)
+![ ](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Compute%20a%20network%20of%20internal%20dependencies&labelColor=black&color=green)
+![ ](https://img.shields.io/badge/%7BnetworkD3%7D-bold?style=flat&logoColor=black&logoSize=2&label=Get%20dataviz'%20from%20a%20network&labelColor=black&color=green)
+
+</div>
+
+<div style="flex: 40%; padding: 10px; border: 2px solid #000; border-radius: 10px; margin-right: 8px;">
 
 **Planned features :**
-![.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=Text-mining%20metrics&labelColor=grey&color=orange)
+
+![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=orange)
+![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Global%20text-mining%20metrics&labelColor=grey&color=orange)
 ![.](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Reporting&labelColor=grey&color=orange)
-![.](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Network-advanced&labelColor=grey&color=orange)
+![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Advanced%20network%20metrics&labelColor=grey&color=orange)
 
-**Supported programming languages :**
-![.](https://img.shields.io/badge/R-green)
+</div>
 
-Other languages are planned[^2].
+<div style="flex: 20%; padding: 10px; border: 2px solid #000; border-radius: 20px">
 
-### Example : Explore a network of internal dependancies
-
-1.  Given folders path(s) and/or github repo(s), compute a *citations
-    network* of the functions with
-    ![.](https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_text_network_from_project()&labelColor=yellow&color=black)
-
-         net <-  get_text_network_from_project(repos = c("tidyverse/stringr", "clement-LVD/codexplor") )
-         # Return a data.frame, edgelist of a citations network
-
-- See the vignette of
-  [get_text_network_from_project()](https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html)
-
-2.  Look an *interactive dataviz’* with `networkD3` :
-    ![.](https://img.shields.io/badge/%7BDataviz%7D-bold?style=flat&logoColor=black&logoSize=2&label=get_networkd3_from_igraph()&labelColor=yellow&color=black)
-
-        codexplor::get_networkd3_from_igraph(net)
-        # Return an interactive dataviz' from networkD3
-
-By default, nodes are colorized accordingly to their indegrees, in order
-to reveal the local dependancies of the programming project
-(i.e. functions used by others files of the project).
+**Supported language(s) :**
 
 <figure>
-<img src="man/figures/example_net3d_dataviz.png" alt="." />
-<figcaption aria-hidden="true">.</figcaption>
+<img src="https://img.shields.io/badge/R-green" alt=" " />
+<figcaption aria-hidden="true"> </figcaption>
 </figure>
 
-*(codexplor functions network are truncated)*
+Other languages are planned[^1]
 
-Hereabove, we see that the most-common local dependancy inside the
-tidyverse/stringr repo is `compat-types-check.R`. One of the `codexplor`
-file actually rely on a `stringr`method, but the opposite is not true
-(i.e. `codexplor::str_extract_all_to_tidy_df.R` rely on
-`stringr/extract.R`, but no file of stringr rely on codexplor).
+</div>
 
-Play with the parameters reveal others insights, e.g., you should try to
-color nodes accordingly to their outdegrees, in order to reveal the
-high-level files of the project.
+</div>
 
-> Get rid of complexity with a broader perspective on the project !
-
-## Vignettes
-
-`codexplor` offers text-mining protocols, but also tools for managing
-your own analysis. See the vignettes about :
-
-⏩ Turning a programming project into a corpus with
-[construct_corpus()](https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html)
-
-⏩ Turning an edgelist into an igraph object and filter it with [helper
-functions for manage igraph
-objects](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html)
-
-⏩ *Get metrics and identifying problematic patterns (e.g., cascading
-dependancies of func’)*
+### Vignettes
 
 *WIP* \[🔧🔨\]
 
-### Crafting your own corpus with codexplor
+`codexplor` offers functions that are dedicated to analyze a programming
+project, accordingly to several tools that perform a part of the
+analysis. `codexplor` also offers helper functions, e.g., for create and
+filter a network with the `igraph` package.
 
-Depending on the languages you have to manage, you’ll want to tweak the
-‘pattern’ used for match a function definition, since for now
-`codexplor` support only the R programming language (other languages are
-planned).
+| Analyze a programming project (High-level functions) | Low-level & helper functions |
+|:---|:---|
+| Construct a network of internal dependancies : [vignette of `get_text_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html) |
+|  | Manage and filter `igraph` object : [vignette of helper functions for igraph object](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html) |
 
-<!--
-⏩ **4. Get an interactive `networkD3` HTML object**
-&#10; 
-`get_networkd3_from_igraph()` Return a list of 2 objects : 
-&#10;1. a list named `'net3d'` with 2 data.frames, with the data used by `networkD3` (`'nodes'` and `'edges'`)
-&#10;2. a networkD3::forceNetwork S3 class object named `'forcenetwork'`, an html interactive network dataviz'
-&#10;-->
-<!--
-> `codexplor` help you to manage and analyze a programming project, giving you tools to figure out the big picture and to find the little wrench in the (net)work. 
-&#10;> **Usecases 1.** As a head of a dozens of persons (non-tech) team', I have to dev' actively on the long run. codexplor help me to get the big picture of a large programming project quickly, with instant metrics & insights. Thanks to the network analysis and dataviz', I have deep insights about the project, such as for identifying theoritical vulnerability, for choosing where to start a polishing loop, but also for following a programming project over the long run. 
-&#10;> **Usecases 2.** I can show the network or a small part of the network to the dev' and tech' profiles during our meetings or event prez'.
-&#10;> **Usecases 3.** codexplor add insights on a particular function, as an help for the dev' when it come back on a project after a while (e.g., list all the local dependancies of a function and the functions that call it as a local dependancy).
-&#10;-->
-<!-- *Usecases of a quick programming project understanding*. codexplor goal is to *quickly* analyse your developing project, in order to *gain* time of comprehension, made your documentation, dataviz' of your project, etc. The features offered are crafted for coordinate large programming project, made helper func' for new colleagues and/or future you, formally identifying your higher-level func' and/or the most-frequently used as dependancies... and other handy features for priorizing your work by quickly figure out 'where' you have to pay attention. For example, before to change a parameter name in a func', you want to check what are the func' that used the one you want to modify. Same for changing the returned content or the behavior of a func' : you want to check which ones used this func' that you want to modify. You also want to offer an easy way to understand the chaining of your custom func'. -->
-
-[^1]: Local dependencies are functions that are called by others
-    functions of the project
-
-[^2]: Current list of planned supported languages is : R, Python,
+[^1]: Current list of planned supported languages is : R, Python,
     JavaScript, Java, C, Cpp, Go

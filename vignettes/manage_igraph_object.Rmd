@@ -19,12 +19,16 @@ knitr::opts_chunk$set(
 
 Once you have a network such as a network of internal dependancies within a project (see `get_text_network_from_project`)
 
-- Turn your Citations Network into a directed `igraph`  network with ![wip](https://img.shields.io/badge/{igraph}-bold?style=flat&logoColor=black&logoSize=2&label=get_igraph_from_df()&labelColor=green&color=black)
+- Turn your Citations Network into a directed `igraph`  network with ![.](https://img.shields.io/badge/{igraph}-bold?style=flat&logoColor=black&logoSize=2&label=get_igraph_from_df()&labelColor=green&color=black)
 
         netig <- codexplor::get_igraph_from_df(net) 
         
 - Once you have an igraph object, zoom on a precise function with 
-![wip](https://img.shields.io/badge/{igraph}-bold?style=flat&logoColor=black&logoSize=2&label=filter_igraph_egonetwork()&labelColor=green&color=black)
+![.](https://img.shields.io/badge/{igraph}-bold?style=flat&logoColor=black&logoSize=2&label=filter_igraph_egonetwork()&labelColor=green&color=black)
 
+      filter_igraph_egonetwork(netig, "a_node")
 
+- Turn it into an interactive `networkD3` dataviz with ![.](https://img.shields.io/badge/{igraph}-bold?style=flat&logoColor=black&logoSize=2&label=get_networkd3_from_igraph()&labelColor=green&color=black)
+
+- And manage the interactive `networkD3` dataviz with ![.](https://img.shields.io/badge/{igraph}-bold?style=flat&logoColor=black&logoSize=2&label=get_networkd3_from_igraph()&labelColor=green&color=black)
 

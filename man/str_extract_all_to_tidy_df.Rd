@@ -13,23 +13,30 @@ str_extract_all_to_tidy_df(
 )
 }
 \arguments{
-\item{string}{A character vector containing the input text.}
+\item{string}{\code{character} vector. A character vector containing the input text.}
 
-\item{pattern}{A regex pattern to extract matches.}
+\item{pattern}{\code{character}. A regex pattern to extract matches.}
 
-\item{filter_unmatched}{Logical (default \code{TRUE}); if \code{TRUE}, removes unmatched values from the output.}
+\item{filter_unmatched}{\code{logical} (default \code{TRUE}). If \code{TRUE}, removes unmatched values from the output.}
 
-\item{matches_colname}{A string specifying the column name for extracted matches (default: \code{"matches"}).}
+\item{matches_colname}{\code{character}. A string specifying the column name for extracted matches (default: \code{"matches"}).}
 
-\item{row_number_colname}{A string specifying the column name for row numbers (default: \code{"row_number"}).}
+\item{row_number_colname}{\code{character}. A string specifying the column name for row numbers (default: \code{"row_number"}).}
 }
 \value{
 A dataframe with the extracted matches and their corresponding row numbers.
+\describe{
+\item{matches_colname}{Name of the 1st col' - matched-text - correspond to the \code{matches_colname} parameter (default is 'matches')}
+\item{row_number_colname}{Name of the 2nd col correspond to the \code{row_number_colname} parameter (default is 'row_number')}
+}
 }
 \description{
 This function applies \code{stringr::str_extract_all()} to a string, extracts regex matches,
-and returns an unested dataframe with customizable column names.
-Option offered : filtering of unmatched result (default)
+and returns a 2 columns unested dataframe :
+1st column is the matched text
+or a \code{NA} value if no match (default will filter out these non-matched lines)
+2nd column is the corresponding position index
+Option offered : customizable column names and filtering of unmatched result (default)
 }
 \examples{
 text_data <- c("Here is funcA and funcB", "Nothing here", "funcC is present")

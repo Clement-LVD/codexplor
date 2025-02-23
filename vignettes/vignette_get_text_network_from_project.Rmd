@@ -17,19 +17,28 @@ knitr::opts_chunk$set(
 This Vignette give a basic understanding of the network computed by `codexplor::get_text_network_from_project` : a Citations Network of functions within *programming project(s)*.
 
 ### Example
+Given folders path(s) and/or github repo(s), compute a *citations network* of the functions with   ![.](https://img.shields.io/badge/{Method}-bold?style=flat&logoColor=black&logoSize=2&label=get_text_network_from_project()&labelColor=yellow&color=black)
 
-    net <- get_text_network_from_project(repos =  c("tidyverse/stringr", "clement-lvd/codexplor"))
-    # by default, codexplor deal with R project
-    
-    # get an igraph object from this edgelist, and optionnaly filter it :
-    igraph_network <- codexplor::get_igraph_from_df(net) 
-    
-    #get a networkD3 dataviz' from this edgelist :
-    get_networkd3_from_igraph(net)
 
-![.](../man/figures/example_net3d_dataviz.png)
+        net <- get_text_network_from_project(repos =  c("tidyverse/stringr", "clement-lvd/codexplor"))
+        # by default, codexplor deal with R project
+        
+Then turn this edgelist into an interactive dataviz' with `networkD3` :
 
-**Network properties.**
+        get_networkd3_from_igraph(net)
+        # Return an interactive dataviz' from networkD3
+
+By default, `get_networkd3_from_igraph` will colorize the nodes accordingly to their indegrees. This will reveal the local dependancies of the programming project (i.e. functions used by others files of the project). 
+
+![.](../man/figures/example_net3d_dataviz.png){width=90%}
+
+*(codexplor functions network is truncated)*
+
+For example, the most-common local dependancy inside the tidyverse/stringr repo is `compat-types-check.R`, [...] and we see that one of the `codexplor` file actually rely on a `stringr`method (i.e. `codexplor::str_extract_all_to_tidy_df.R` rely on `stringr/extract.R`). The opposite is not true.
+
+Playing with the parameters will reveal others insights, e.g., you should try to color nodes accordingly to their outdegrees, in order to reveal the high-level files of the project.
+
+### Network properties
 The returned network is a document-to-document citations network. 
 
 These networks have basic properties, not covered here (e.g., a citations network is a directed network).
@@ -41,12 +50,12 @@ Regarding the network computed by `codexplor::get_text_network_from_project()` :
 
 Thus, in a typical programming project :
 
-- Nodes are mostly - or only - functions
-- °← Indegree of a node is how many other functions of the project this function is using 
-- °→ Outdegree of a node is how many functions of the project are used by this function. 
-- ⟲ Auto-mentioning refear to 'recursivity', once a func' call itself more than one times (1st mention is usually for define the func' name)
+- Nodes are files, so mostly - or only - functions ;
+- °← Indegree of a file is "how many files are calling the function(s) defined in this file" ;
+- °→ Outdegree of a file is "how many functions are used by this file" ; 
+- ⟲ Auto-mentioning refear to 'recursivity', once a func' call itself more than one times (1st mention is usually for define the func' name).
 
-### Cascading matching operated
+### Cascading matching operated by `get_text_network_from_project`
 `codexplor` default pattern are aimed to extract functions names from the files of a *programming* project.
 
 Assuming the user have indicated folder(s) and/or github repo(s), `codexplor::get_text_network_from_project()` will try to perform a 'cascading matching' :
@@ -59,5 +68,9 @@ Assuming the user have indicated folder(s) and/or github repo(s), `codexplor::ge
 
 ### Filter undesired match
 Junk nodes needs to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. `get_text_network_from_files` offer several parameters for dealing with your style of writing a program.
+
+
+### Crafting your own corpus with codexplor
+Depending on the languages you have to manage, you'll want to tweak the 'pattern' used for match a function definition, since for now `codexplor` support only the R programming language (other languages are planned). See the [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html).
 
 

@@ -16,9 +16,9 @@ filter_igraph_egonetwork(
 
 \item{regex}{\code{character} A character string representing the regex pattern to filter nodes.}
 
-\item{degrees_in_filter}{\code{integer}, default = \code{2} An integer specifying the depth of inward reachable nodes (default is 2).}
+\item{degrees_in_filter}{\code{integer}, default = \code{2}. An integer specifying the depth of inward reachable nodes (default is 2).}
 
-\item{degrees_out_filter}{\code{integer}, default = \code{2} An integer specifying the depth of outward reachable nodes (default is 2).}
+\item{degrees_out_filter}{\code{integer}, default = \code{2}. An integer specifying the depth of outward reachable nodes (default is 2).}
 }
 \value{
 An igraph object representing the filtered subgraph.

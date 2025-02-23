@@ -20,21 +20,21 @@ get_networkd3_from_igraph(
 \arguments{
 \item{graph_igraph}{An \code{igraph} object representing the network.}
 
-\item{title_h1}{Character. The main title (HTML \verb{<h1>}) displayed above the graph. Default is \code{"networkD3"}.}
+\item{title_h1}{\code{character}. The main title (HTML \verb{<h1>}) displayed above the graph. Default is \code{"networkD3"}.}
 
-\item{subtitle_h2}{Character (optional). The subtitle (HTML \verb{<h2>}) displayed below the main title. Default is \code{NULL} (no subtitle).}
+\item{subtitle_h2}{\code{character} (optional). The subtitle (HTML \verb{<h2>}) displayed below the main title. Default is \code{NULL} (no subtitle).}
 
-\item{endnotes_h3}{Character (optional). A description or note (HTML \verb{<h3>}) displayed after the network. Default is \code{NULL} (no text).}
+\item{endnotes_h3}{\code{character} (optional). A description or note (HTML \verb{<h3>}) displayed after the network. Default is \code{NULL} (no text).}
 
-\item{colors_for_nodes}{Character vector. Specifies colors for nodes based on their degree and also number of separation
+\item{colors_for_nodes}{\code{character} vector. Specifies colors for nodes based on their degree and also number of separation
 the func' will try to realize (based on indegrees or outdegrees). Default is \code{c("green", "grey", "black", "red")}.}
 
-\item{color_outdeg_instead_of_indeg}{Logical. If \code{TRUE}, node colors are assigned based on out-degree instead of in-degree. Default is \code{FALSE}.}
+\item{color_outdeg_instead_of_indeg}{\code{logical}. If \code{TRUE}, node colors are assigned based on out-degree instead of in-degree. Default is \code{FALSE}.}
 
-\item{color_for_na_link}{Character. Color assigned to links when data is missing.
+\item{color_for_na_link}{\code{character}. Color assigned to links when data is missing.
 Default is the 1st color of \code{colors_for_node} (\code{"green"}).}
 
-\item{add_html_div_code_before_graph}{Character (optional). Custom HTML code inserted after the end of the network.
+\item{add_html_div_code_before_graph}{\code{character} (optional). Custom HTML code inserted after the end of the network.
 Default is \code{NULL} (no additional HTML).}
 
 \item{...}{optional parameter passed to \code{networkD3::forceNetwork}}
@@ -44,13 +44,7 @@ either the strength of the node repulsion (negative value) or attraction (positi
 Passed to \code{networkD3::forceNetwork}.}
 }
 \value{
-A list with the net3d usual object from \verb{networkD3::} and the html object from \code{networkD3::forceNetwork} :
-\describe{
-\item{net3d}{networkD3 usual list}
-\item{$links}{$links is the 1st entry of a networkD3 usual list with 'source' and 'target' vectors}
-\item{$nodes}{$nodes is the 2nd entry of a networkD3 usual list, with the 'name' of the nodes vector}
-\item{forcenetwork}{networkD3::forceNetwork usual html object for interactive network visualization}
-}
+A "\code{forceNetwork}" & "\code{htmlwidget}" object, i.e. a list that symbolize an html object from \code{networkD3::forceNetwork}
 }
 \description{
 This function transforms an \code{igraph} graph object into a \code{networkD3} interactive visualization.

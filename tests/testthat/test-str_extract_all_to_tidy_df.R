@@ -1,7 +1,7 @@
 # tests/testthat/test-extract_txt_before_regex.R
 # library(testthat)
 
-test_that("test-str_extract_all_to_tidy_df() returns correct results", {
+
 text_data <- c("funcA funcB", "funcC", "Nothing here", "funcD funcE")
   pattern <- "func[A-E]"
 
@@ -49,5 +49,4 @@ test_that("str_extract_all_to_tidy_df correctly assigns custom column names", {
 
   expected_colnames <- c("extracted", "index")
   expect_equal(colnames(result), expected_colnames)
-})
 })
