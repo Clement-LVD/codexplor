@@ -107,9 +107,9 @@ Other languages are planned[^1]
 *WIP* \[🔧🔨\]
 
 `codexplor` offers functions that are dedicated to analyze a programming
-project, accordingly to several tools that perform a part of the
-analysis. `codexplor` also offers helper functions, e.g., for create and
-filter a network with the `igraph` package.
+project, accordingly to several analysis tools. `codexplor` also offers
+helper functions, e.g., for create and filter a network with the
+`igraph` package.
 
 | Analyze a programming project | Helper functions |
 |:---|:---|
