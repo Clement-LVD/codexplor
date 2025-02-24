@@ -95,7 +95,7 @@ Default is <code>NULL</code> (no files are excluded).</p></dd>
 <dd><p><code>logical</code>. Default = <code>TRUE</code>.
 Codexplor try to exclude testing files <em>before</em> to read the files of a project ; and it will try to clean the urls of the returned df
 By default, typical testing-purpose .R files are excluded
-(i.e. "<code>r codexplor::function_def_regex_by_language("R")$pattern_to_exclude</code>")
+(i.e. "\.Rcheck|test-")
 , in addition to an optional <code>pattern_to_exclude_path</code> passed by the user.</p></dd>
 
 
