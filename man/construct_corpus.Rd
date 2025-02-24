@@ -28,7 +28,7 @@ Default is \code{NULL} (no files are excluded).}
 \item{autoclean_filespath}{\code{logical}. Default = \code{TRUE}.
 Codexplor try to exclude testing files \emph{before} to read the files of a project ; and it will try to clean the urls of the returned df
 By default, typical testing-purpose .R files are excluded
-(i.e. "\verb{r codexplor::function_def_regex_by_language("R")$pattern_to_exclude}")
+(i.e. "\.Rcheck|test-")
 , in addition to an optional \code{pattern_to_exclude_path} passed by the user.}
 
 \item{ignore_match_less_than_nchar}{\code{integer}. Default = \code{3}. Number of characters for the 1st match to be considered valid.}

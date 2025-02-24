@@ -7,20 +7,15 @@
 get_text_network_from_project(
   folder_path = NULL,
   repos = NULL,
-  first_match_to_exclude = NULL,
   prefix_for_regex_from_the_text = "\\\\b",
   suffix_for_regex_from_the_text = "\\\\(",
-  filter_2nd_match_unmatched_lines = TRUE,
-  filter_first_match_results = TRUE,
   filter_egolink_within_a_file = TRUE,
   ...,
   file_path_from_colname = "from",
   file_path_to_colname = "to",
-  match1_colname = "first_match",
-  match2_colname = "second_match",
-  line_number_match2_colname = "line_number",
-  content_match1_col_name = "content_match_1",
-  content_match2_col_name = "content_match_2"
+  function_matched_colname = "function",
+  line_number_matched_colname = "line_number",
+  content_matched_colname = "content_matched"
 )
 }
 \arguments{
@@ -28,51 +23,36 @@ get_text_network_from_project(
 
 \item{repos}{\code{character} A string or list representing the name(s) of github repos (e.g., 'tidyverse/stringr').}
 
-\item{first_match_to_exclude}{\code{character} A vector of strings to exclude specific results
-from the original matches. For example, you can exclude results like \code{"server"}.}
-
 \item{prefix_for_regex_from_the_text}{\code{character} A string representing the prefix to add
 to each 1st match that will be turned into a new regular expressions. The default is an empty string.}
 
 \item{suffix_for_regex_from_the_text}{\code{character} A string representing a regex to add as a suffix
 of each match, in order to have a complete regular expression. The default is an empty string.}
 
-\item{filter_2nd_match_unmatched_lines}{\code{logical} Default = \code{TRUE} A logical value indicating whether to keep only lines
-that match with the second pattern if set to \code{TRUE}, or keep all lines if set to \code{FALSE.}}
-
-\item{filter_first_match_results}{\code{logical}, default = \code{TRUE} A logical value indicating whether to apply the filter
-for the first match. The default is TRUE.}
-
-\item{filter_egolink_within_a_file}{\code{logical} Default = \code{TRUE}. A logical value indicating whether to filter results based on
+\item{filter_egolink_within_a_file}{\code{logical}, default = \code{TRUE}. A logical value indicating whether to filter results based on
 "ego links" (a document referring to itself)}
 
 \item{...}{Parameters passed to \code{construct_corpus()} and \code{srch_pattern_in_files_get_df()}. These parameters are
 \itemize{
-\item characters values, e.g., adjusting yourself the "\code{pattern}" parameter that will be matched
+\item characters values, e.g., filter results with \code{match_to_exclude}, adjust the "\code{pattern}" parameter for matching functions names, etc.
 \item logical values, e.g., "\code{keep_comments = T}"
 \item integer values such as \code{ignore_match_less_than_nchar}, etc.
 }}
 
-\item{file_path_from_colname}{\code{character} Default = \code{'from'} The column name (as a string) representing the "from" file path
+\item{file_path_from_colname}{\code{character}, default = \code{'from'} The column name (as a string) representing the "from" file path
 in the result data frame.}
 
-\item{file_path_to_colname}{\code{character} Default = \code{'to'} The column name (as a string) representing the "to" file path in
+\item{file_path_to_colname}{\code{character}, default = \code{'to'} The column name (as a string) representing the "to" file path in
 the result data frame.}
 
-\item{match1_colname}{\code{character} Default = \code{'first_match'} The column name (as a string) for the first match in the result
-data frame.}
+\item{function_matched_colname}{\code{character}, default = \code{'function'} The column name for the matched text
+(default is a function name) in the result data frame.}
 
-\item{match2_colname}{\code{character} Default = \code{'second_match'} The column name (as a string) for the second match in the result
-data frame.}
-
-\item{line_number_match2_colname}{\code{character} Default = \code{'line_number'}  The column name (as a string) for the line number
+\item{line_number_matched_colname}{\code{character}, default = \code{'line_number'}  The column name (as a string) for the line number
 of the second match in the result data frame.}
 
-\item{content_match1_col_name}{\code{character} Default = \code{'content_match_1'} The column name (as a string) for the full content of
-the first match.}
-
-\item{content_match2_col_name}{\code{character} Default = \code{'content_match_2'}  The column name (as a string) for the full content of
-the second match.}
+\item{content_matched_colname}{\code{character}, default = \code{'content_matched'} The column name (as a string)
+for the full line where a match have occured.}
 }
 \value{
 A data frame wich is the edgelist of the citations network
@@ -101,7 +81,7 @@ result <- get_text_network_from_project( folder_path =  "~" )
 
 }
 \seealso{
-\code{\link{construct_corpus}}, \code{\link{srch_pattern_in_files_get_df}}
+\code{\link{construct_corpus}}, \code{\link{srch_pattern_in_files_get_df}}, \code{\link{get_citations_network_from_df}}
 
 \url{https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html}
 }

@@ -54,8 +54,8 @@ Return an interactive dataviz’ of the internal dependancies within
 
 ### Features
 
-`codexplor` will compute several metrics on a programming project in
-order to gain global and local insights.
+`codexplor` will compute several metrics, in order to gain global and
+local insights on a programming project.
 
 | Computed Methods | Global insights | Local insights on files |
 |:---|:---|:---|

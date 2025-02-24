@@ -52,7 +52,7 @@ srch_pattern_in_files_get_df <- function(
   ){
 
 # get files content
-content_df <-  readlines_in_df(files_path = files_path,
+content_df <-  readlines_in_df(files_path = files_path
 
 # the colnames are customizable
 ,file_path_col_name = file_path_col_name, content_col_name = content_col_name, line_number_col_name = line_number_col_name

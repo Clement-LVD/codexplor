@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
  
 By default `construct_corpus` is tunned for the R programming language. One or several `languages` could be passed to `construct_corpus`, e.g., in order to read the programming files accordingly to their extensions.
     
-- `construct_corpus` return the full content as a `df`. Some *1st matches* are realized : the names of functions defined in the files of the project are extracted in a column of the returned `df`. It's assumed that no file have several function within the same line, otherwise lines of the returned `df` will be duplicated. This matching of functions names rely on a regex, for each of the `languages` supported by `construct_corpus` (i.e. `r paste0(collapse = ", ", names(codexplor:::function_def_regex_by_language()))`).
+- `construct_corpus` return the full content as a `df`. Some *1st matches* are realized : the names of functions defined in the files of the project are extracted in a column of the returned `df`. It's assumed that no file have several function within the same line, otherwise lines of the returned `df` will be duplicated. This matching of functions names rely on a regex, for each of the `languages` supported by `construct_corpus` (i.e. `r paste0(collapse = ", ", names(codexplor::function_def_regex_by_language()))`).
 
 
 

@@ -44,7 +44,10 @@ readlines_in_df <- function(files_path,
  ) {
   files_path <- files_path[!is.na(files_path)]
   n_files_to_read <- length(files_path)
-if(! n_files_to_read > 0) return(NULL) #null if no file to read :s
+
+  if(! n_files_to_read > 0) return(NULL) #null if no file to read :s
+
+  names_of_var <- c(file_path_col_name, line_number_col_name, content_col_name)
 
   # Progress bar
 if (.verbose) {pb <- utils::txtProgressBar(min = 0, max = 100, style = 3) }
@@ -61,20 +64,19 @@ if (.verbose) {pb <- utils::txtProgressBar(min = 0, max = 100, style = 3) }
 
       # NO LINE = return empty df
       if (length(lignes) == 0) {
-        return(data.frame(file_path = files_path[i], line_number = NA, content = NA, stringsAsFactors = FALSE))
+        return(structure(data.frame(file_path = files_path[i], line_number = NA, content = NA, stringsAsFactors = FALSE)
+                         , names = names_of_var)
+               )
       }
 
       # df to create
-      df <- data.frame(
+      df <- structure(data.frame(
         file_path = files_path[i],
         line_number = seq_along(lignes),
         content = lignes,
         stringsAsFactors = FALSE
-      )
-
-      # colnames stability
-      colnames(df) <- c(file_path_col_name, line_number_col_name, content_col_name)
-
+      ) , names = names_of_var# colnames customization
+)
       # update progress bar
       if (.verbose) utils::setTxtProgressBar(pb, i / n_files_to_read*100 )
 

@@ -73,7 +73,7 @@ Return an interactive dataviz' of the internal dependancies within `codexplor` :
 ---
 
 ### Features 
-`codexplor` will compute several metrics on a programming project in order to gain global and local insights. 
+`codexplor` will compute several metrics, in order to gain global and local insights on a programming project. 
 
 ```{r table-features, echo=FALSE}
 # library(knitr)
@@ -142,7 +142,7 @@ knitr::kable(features)
 
 ![ ](https://img.shields.io/badge/R-green)
 
-Other languages are planned^[Current list of planned supported languages is : `r paste0(collapse = ", ", names(codexplor:::function_def_regex_by_language()))`]
+Other languages are planned^[Current list of planned supported languages is : `r paste0(collapse = ", ", names(codexplor::function_def_regex_by_language()))`]
 
 </div>
 
