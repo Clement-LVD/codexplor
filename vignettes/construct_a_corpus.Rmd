@@ -17,13 +17,13 @@ knitr::opts_chunk$set(
 # Constructing your corpus
 `codexplor` offering functions to turn a programming project into a corpus by providing folder(s) path(s) and/or github repo(s). 
 
-
     corpus <- codexplor::construct_corpus("~", "tidyverse/stringr", languages = "R")
-    nrow(corpus); length(unique(corpus$matches)) # content + a 1st matched pattern
- 
+
 By default `construct_corpus` is tunned for the R programming language. One or several `languages` could be passed to `construct_corpus`, e.g., in order to read the programming files accordingly to their extensions.
     
-- `construct_corpus` return the full content as a `df`. Some *1st matches* are realized : the names of functions defined in the files of the project are extracted in a column of the returned `df`. It's assumed that no file have several function within the same line, otherwise lines of the returned `df` will be duplicated. This matching of functions names rely on a regex, for each of the `languages` supported by `construct_corpus`.
+- `construct_corpus` return the content as a `df`, comments are wiped (by default)
+- *1st matches* are realized accordingly to the pattern provided by the user 
+- *1st matches* are extracted in a column of the returned `df`. By default, the names of functions defined in the files of the project are extracted^[If a file have several function defined *within the same line*, lines of the returned `df` will be duplicated.].
+- Then, 2 nchar values are computed are computed for each line (nchar and nchar without space).
 
-
-
+These default match rely on a regex, for each of the `languages` supported by `construct_corpus`.
