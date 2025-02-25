@@ -9,10 +9,12 @@
 <url><loc>https://clement-lvd.github.io/codexplor/authors.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/index.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/construct_corpus.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/extract_nested_blocks_from_text.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/filter_igraph_egonetwork.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/fix_escaping.html</loc></url>
-<url><loc>https://clement-lvd.github.io/codexplor/reference/function_def_regex_by_language.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/gather_df_lines.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/get_citations_network_from_df.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/get_def_regex_by_language.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/get_github_raw_filespath.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/get_igraph_from_df.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/get_networkd3_from_igraph.html</loc></url>

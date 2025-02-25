@@ -69,12 +69,12 @@ Then these pattern are searched in the <code>content_varname</code> column, retu
 
 
 <dt id="arg-content-varname">content_varname<a class="anchor" aria-label="anchor" href="#arg-content-varname"></a></dt>
-<dd><p><code>character</code>, default = <code>"content"</code>  A character string <strong>specifying the name of the column containing the text to be searched</strong>.
+<dd><p><code>character</code>, default = <code>"content"</code> A character string <em>specifying the name of the column containing the text to be searched</em>.
 Default is "content".</p></dd>
 
 
 <dt id="arg-pattern-varname-">pattern_varname, <a class="anchor" aria-label="anchor" href="#arg-pattern-varname-"></a></dt>
-<dd><p>default = <code>"first_match"</code> A character string <strong>specifying the name of the column containing the patterns that will be matched</strong>.
+<dd><p>default = <code>"first_match"</code> A character string <em>specifying the name of the column containing the patterns that will be matched</em>.
 Default is "first_match".</p></dd>
 
 
@@ -87,8 +87,8 @@ Default is "first_match".</p></dd>
 
 
 <dt id="arg-keep-only-row-without-a-pattern">keep_only_row_without_a_pattern<a class="anchor" aria-label="anchor" href="#arg-keep-only-row-without-a-pattern"></a></dt>
-<dd><p><code>logical</code>, default = <code>TRUE</code>, if TRUE, keeps only rows with an initial entry for constructing the pattern
-(i.e. lines with a character in the <code>pattern_varname</code> column of the passed df will be filter out)</p></dd>
+<dd><p><code>logical</code>, default = <code>TRUE</code> If <code>TRUE</code>, keeps only rows with an initial entry for constructing the pattern
+(i.e. lines with a character in the <code>pattern_varname</code> column of the df passed by the user will be filter out)</p></dd>
 
 
 <dt id="arg-varname-for-matches">varname_for_matches<a class="anchor" aria-label="anchor" href="#arg-varname-for-matches"></a></dt>
@@ -102,24 +102,28 @@ Default is "first_match".</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The returned data frame has 5 columns:</p><dl><dt><code>row_number</code></dt>
-<dd><p>The row number of the original data frame where the citation was found.</p></dd>
+<dd><p>The row number of the original data frame where the text is matched.</p></dd>
 
 <dt><code>matches</code></dt>
-<dd><p>The text matched e.g., name of a person.</p></dd>
+<dd><p>The text matched by the pattern, e.g., name of a person.</p></dd>
 
 <dt><code>content</code></dt>
-<dd><p>The original text content where the pattern was searched and matched.</p></dd>
+<dd><p>The text content where the pattern was searched, i.e. the column that is identified with <code>content_varname</code></p></dd>
 
 <dt><code>first_match</code></dt>
-<dd><p>The original pattern searched for, will be full of NA if keep_only_row_without_a_pattern is <code>TRUE</code></p></dd>
+<dd><p>The original pattern searched for (will be full of NA if keep_only_row_without_a_pattern is <code>TRUE</code>)</p></dd>
 
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="get_regex_from_vector.html">get_regex_from_vector</a></code>, <code><a href="str_extract_all_to_tidy_df.html">str_extract_all_to_tidy_df</a></code></p></div>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>content <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Citation (Bob, 2021)"</span>, <span class="st">"Another Bob"</span><span class="op">)</span>, first_match <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Bob"</span> , <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">get_citations_network_from_df</span><span class="op">(</span><span class="va">df</span>  <span class="op">)</span> <span class="co">#will return only the 2nd line (matching 'Bob')</span></span></span>
+<span class="r-in"><span><span class="fu">get_citations_network_from_df</span><span class="op">(</span><span class="va">df</span>  <span class="op">)</span> <span class="co"># Return only the 2nd line (match 'Bob')</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   row_number matches     content first_match</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2          2     Bob Another Bob        &lt;NA&gt;</span>
 <span class="r-in"><span><span class="fu">get_citations_network_from_df</span><span class="op">(</span><span class="va">df</span>,  keep_only_row_without_a_pattern <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
