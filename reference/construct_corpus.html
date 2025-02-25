@@ -95,7 +95,7 @@ Default is <code>NULL</code> (no files are excluded).</p></dd>
 <dd><p><code>logical</code>. Default = <code>TRUE</code>.
 Codexplor try to exclude testing files <em>before</em> to read the files of a project ; and it will try to clean the urls of the returned df
 By default, typical testing-purpose .R files are excluded
-(i.e. "\.Rcheck|test-")
+(i.e. "\.Rcheck|test-|Vignette")
 , in addition to an optional <code>pattern_to_exclude_path</code> passed by the user.</p></dd>
 
 
@@ -116,7 +116,23 @@ A pattern (regex) to remove from the files path of the edgelist (columns 1 &amp;
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A data frame containing the corpus of collected files. The data frame typically includes columns such as:</p><dl><dt><code>file_path</code></dt>
-<dd><p>Character. The local file path or constructed GitHub URL.</p></dd>
+<dd><p><code>character</code> The local file path or constructed GitHub URL.</p></dd>
+
+<dt><code>line_number</code></dt>
+<dd><p><code>integer</code> The local file path or constructed GitHub URL.</p></dd>
+
+<dt><code>content</code></dt>
+<dd><p><code>character</code> The local file path or constructed GitHub URL.</p></dd>
+
+<dt><code>n_char_line</code></dt>
+<dd><p><code>integer</code> Total nchar of a line, including spacing.</p></dd>
+
+<dt><code>n_char_wo_space_line</code></dt>
+<dd><p><code>integer</code> Total nchar of a line, <em>without</em> spacing.</p></dd>
+
+<dt><code>nchar_wo_space_in_file</code></dt>
+<dd><p><code>integer</code> Sum of n_char_wo_space_line for a given file path
+(same value is repeated for each file path)</p></dd>
 
 
 </dl></div>
@@ -136,13 +152,14 @@ A pattern (regex) to remove from the files path of the edgelist (columns 1 &amp;
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example 1: Construct a corpus from local folders</span></span></span>
 <span class="r-in"><span><span class="va">cr1</span> <span class="op">&lt;-</span> <span class="fu">construct_corpus</span><span class="op">(</span><span class="st">"~"</span>, languages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"R"</span>, <span class="st">"Python"</span><span class="op">)</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in sub(re, "", x, perl = TRUE):</span> input string 8 is invalid UTF-8</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># Example 2: Construct a corpus from GitHub repositories</span></span></span>
 <span class="r-in"><span><span class="va">cr2</span> <span class="op">&lt;-</span> <span class="fu">construct_corpus</span><span class="op">(</span>repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tidyverse/stringr"</span>, <span class="st">"tidyverse/readr"</span><span class="op">)</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 3: Combine local folders and GitHub repositories</span></span></span>
 <span class="r-in"><span><span class="va">cr3</span> <span class="op">&lt;-</span> <span class="fu">construct_corpus</span><span class="op">(</span><span class="st">"~"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"R"</span>, <span class="st">"Cpp"</span><span class="op">)</span>, <span class="st">"tidyverse/dplyr"</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

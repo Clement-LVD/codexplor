@@ -122,7 +122,18 @@ For example, keep_comments (<code>logical</code>, default = <code>FALSE</code>) 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>data.frame</code> with 4 col' : first (<code>file_path</code> by default) contain the file_path, then <code>line_number</code> (by default) contain line_number, third column (<code>content</code> by default) containing the readed lines from the file and the LAST ONE contain the matched text, according to the regex provided by the user</p>
+    <p>A <code>data.frame</code> with 4 col' :</p><dl><dt><code>file_path</code></dt>
+<dd><p><code>character</code> The local file path or constructed GitHub URL.</p></dd>
+
+<dt><code>line_number</code></dt>
+<dd><p><code>integer</code> The line number within the file.</p></dd>
+
+<dt><code>content</code></dt>
+<dd><p><code>character</code> A line from the file</p></dd>
+
+
+</dl><p>first (<code>file_path</code> by default) contain the file_path, then <code>line_number</code> (by default) , third column (<code>content</code> by default)
+and the LAST ONE contain the matched text, according to the regex provided by the user</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -132,8 +143,8 @@ For example, keep_comments (<code>logical</code>, default = <code>FALSE</code>) 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#Analysing the func of the package, assuming you have installed it :</span></span></span>
-<span class="r-in"><span><span class="va">pkg_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">"~"</span>, pattern <span class="op">=</span> <span class="st">".R$"</span>,  recursive <span class="op">=</span> <span class="cn">TRUE</span> , full.names <span class="op">=</span> <span class="cn">TRUE</span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">lines_readed</span> <span class="op">&lt;-</span> <span class="fu">srch_pattern_in_files_get_df</span><span class="op">(</span><span class="va">pkg_path</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">"~"</span>, pattern <span class="op">=</span> <span class="st">".R$"</span>,  recursive <span class="op">=</span> <span class="cn">TRUE</span> , full.names <span class="op">=</span> <span class="cn">TRUE</span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lines_readed</span> <span class="op">&lt;-</span> <span class="fu">srch_pattern_in_files_get_df</span><span class="op">(</span><span class="va">p_path</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in sub(re, "", x, perl = TRUE):</span> input string 8 is invalid UTF-8</span>
 <span class="r-in"><span><span class="co"># Return : a dataframe of links, according to - default - pattern</span></span></span>
 </code></pre></div>

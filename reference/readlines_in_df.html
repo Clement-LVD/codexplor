@@ -108,16 +108,13 @@ Column name for the line numbers in the output dataframe.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>RETURN : <code>data.frame</code> with 3 col'. <em>First</em> col' (<code>file_path</code> by default) is the file_path (readed), then <code>line_number</code> (by default).
 The <em>last</em> column (<code>content</code> by default) contain the readed lines from the file.</p><dl><dt>file_path</dt>
-<dd><p>Path of the file where the match was found.</p></dd>
+<dd><p><code>character</code> Path of the file where the match was found.</p></dd>
 
 <dt>line_number</dt>
-<dd><p>Line number in the file.</p></dd>
+<dd><p><code>integer</code> Line number in the file.</p></dd>
 
 <dt>content</dt>
-<dd><p>Full content of the matched line.</p></dd>
-
-<dt>matches</dt>
-<dd><p>Extracted function name or matched pattern.</p></dd>
+<dd><p><code>character</code> Full content of the matched line.</p></dd>
 
 
 </dl></div>
