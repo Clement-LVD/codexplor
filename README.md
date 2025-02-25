@@ -43,7 +43,6 @@ Return an interactive dataviz’ of the internal dependancies within
 `codexplor` :
 
 <img src="man/figures/network_codexplor_fn.png" width="90%"  height="300px" alt = ""/>
-<!-- ![.](man/figures/network_codexplor_fn.png) -->
 
 > These dataviz are useful for pinpointing where to start a polishing
 > loop, identifying all the functions impacted by upcoming changes,
@@ -96,7 +95,7 @@ local insights on a programming project.
 <figcaption aria-hidden="true"> </figcaption>
 </figure>
 
-Other languages are planned[^1]
+Other languages are planned.
 
 </div>
 
@@ -118,6 +117,3 @@ helper functions, e.g., for create and filter a network with the
 
 The default settings of `codexplor` are optimized for analyzing a
 project in ![R](https://img.shields.io/badge/R-black) language.
-
-[^1]: Current list of planned supported languages is : R, Python,
-    JavaScript, Java, C, Cpp, Go

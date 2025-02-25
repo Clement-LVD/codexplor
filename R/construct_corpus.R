@@ -15,7 +15,7 @@
 #' @param autoclean_filespath `logical`. Default = `TRUE`.
 #' Codexplor try to exclude testing files *before* to read the files of a project ; and it will try to clean the urls of the returned df
 #' By default, typical testing-purpose .R files are excluded
-#' (i.e. "`r function_def_regex_by_language("R")$pattern_to_exclude`")
+#' (i.e. "`r get_def_regex_by_language("R")$pattern_to_exclude`")
 #' , in addition to an optional `pattern_to_exclude_path` passed by the user.
 #' @param ignore_match_less_than_nchar `integer`. Default = `3`. Number of characters for the 1st match to be considered valid.
 #' @param pattern_to_remove `character` Default = `'https://raw.githubusercontent.com/'`
@@ -27,7 +27,7 @@
 #' \describe{
 #'   \item{\code{file_path}}{Character. The local file path or constructed GitHub URL.}
 #' }
-#' @seealso \code{\link{srch_pattern_in_files_get_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{function_def_regex_by_language}}
+#' @seealso \code{\link{srch_pattern_in_files_get_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}
 #' @details
 #' - If `local_folders_paths` is provided (one or a list), the function scans the directories and retrieves file paths matching the specified languages.
 #' - If `repos` is provided (one or a list), it constructs URLs to the raw content of files from the specified GitHub repositories.
@@ -59,7 +59,7 @@ urls = NULL
 files_path = NULL
 
 # 1) get regex of func' definition AND pattern of the files
-lang_desired <- codexplor::function_def_regex_by_language(languages)
+lang_desired <- codexplor::get_def_regex_by_language(languages)
 
 # 2-A} get urls from github 1st
 if(!is.null(repos)){ urls <- get_github_raw_filespath(repo = repos, pattern = lang_desired$file_ext) }

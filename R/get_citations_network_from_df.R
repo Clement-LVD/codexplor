@@ -5,29 +5,28 @@
 #' Then these pattern are searched in the `content_varname` column, returning a df with "line number" where match have occured
 #'
 #' @param df A data frame containing the data to be processed.
-#' @param content_varname `character`, default = `"content"`  A character string **specifying the name of the column containing the text to be searched**.
+#' @param content_varname `character`, default = `"content"` A character string *specifying the name of the column containing the text to be searched*.
 #' Default is "content".
-#' @param pattern_varname, default = `"first_match"` A character string **specifying the name of the column containing the patterns that will be matched**.
+#' @param pattern_varname, default = `"first_match"` A character string *specifying the name of the column containing the patterns that will be matched*.
 #'  Default is "first_match".
 #' @param prefix_for_regex_from_string `character`, default = `""` A character string to be used as a prefix in the regex pattern.
 #' @param suffix_for_regex_from_string `character`, default =  `""` A character string to be used as a suffix in the regex pattern.
-#' @param keep_only_row_without_a_pattern `logical`, default = `TRUE`, if TRUE, keeps only rows with an initial entry for constructing the pattern
-#'  (i.e. lines with a character in the `pattern_varname` column of the passed df will be filter out)
+#' @param keep_only_row_without_a_pattern `logical`, default = `TRUE` If `TRUE`, keeps only rows with an initial entry for constructing the pattern
+#'  (i.e. lines with a character in the `pattern_varname` column of the df passed by the user will be filter out)
 #' @param varname_for_matches `character`, default = `"matches"` A character string specifying the name of the column of matches in the returned df.
+#' @return A data frame with the extracted citations network.
 #' @details
 #' The returned data frame has 5 columns:
 #' \describe{
-#'   \item{\code{row_number}}{The row number of the original data frame where the citation was found.}
-#'   \item{\code{matches}}{The text matched e.g., name of a person.}
-#'   \item{\code{content}}{The original text content where the pattern was searched and matched.}
-#'   \item{\code{first_match}}{The original pattern searched for, will be full of NA if keep_only_row_without_a_pattern is `TRUE`}
+#'   \item{\code{row_number}}{The row number of the original data frame where the text is matched.}
+#'   \item{\code{matches}}{The text matched by the pattern, e.g., name of a person.}
+#'   \item{\code{content}}{The text content where the pattern was searched, i.e. the column that is identified with `content_varname`}
+#'   \item{\code{first_match}}{The original pattern searched for (will be full of NA if keep_only_row_without_a_pattern is `TRUE`)}
 #' }
-#'
-#' @return A data frame with the extracted citations network.
-#'
+#' @seealso \code{\link{get_regex_from_vector}}, \code{\link{str_extract_all_to_tidy_df}}
 #' @examples
 #' df <- data.frame(content = c("Citation (Bob, 2021)", "Another Bob"), first_match = c("Bob" , NA))
-#' get_citations_network_from_df(df  ) #will return only the 2nd line (matching 'Bob')
+#' get_citations_network_from_df(df  ) # Return only the 2nd line (match 'Bob')
 #' get_citations_network_from_df(df,  keep_only_row_without_a_pattern = FALSE)
 #' #will return the lines (matching 'Bob')
 #' @export

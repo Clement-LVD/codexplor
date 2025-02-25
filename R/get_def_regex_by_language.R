@@ -1,9 +1,9 @@
-#' Retrieve function definition regex patterns by programming language
+#' Retrieve function definition regex patterns by programming language(s)
 #'
 #' This function returns a df with regex patterns and file extensions associated with function definitions
 #' for one or more specified programming languages.
 #'
-#' @param ... One or more programming language names (character strings).
+#' @param ... `character` One or more programming language names (character strings).
 #'
 #' @return A dataframe where each row corresponds to a language and contains:
 #'   -  `language`: The name (e.g., 'R')
@@ -12,14 +12,13 @@
 #'   - `local_file_ext`: The typical file extension for the language + a $ (regex for end of line).
 #'
 #' @details
-#' This function supports multiple programming languages in a single call.
+#' This function supports multiple languages in a single call.
 #' Language names are case-insensitive.
-#'
 #' @examples
-#' # fn_def <-function_def_regex_by_language("Python", "R")
-#' # fn_def <- function_def_regex_by_language("Go", "C", "JavaScript")
+#' # fn_def <- get_def_regex_by_language("Python", "R" , "Go", "C", "JavaScript")
+#'
 #' @export
-function_def_regex_by_language <- function(...) {
+get_def_regex_by_language <- function(...) {
 #### 1) define function regex => core behavior is catching func' names ####
 functions_def_by_language_regex_pattern <- list(
   R = list(

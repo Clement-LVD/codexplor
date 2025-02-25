@@ -47,11 +47,10 @@
 #' @return A data frame wich is the edgelist of the citations network
 #' columns 'from' and 'to' indicates the files paths or urls of the matched contents.
 # ' There is other infos (line numbers, precise line matched for verification, etc.)
-#'
+
 #' @examples
 #' # Example with url from github
-#' result <- get_text_network_from_project( folder_path =  "~" )
-#'
+#' result <- get_text_network_from_project(folder_path =  "~" )
 #' # Will return a network of functions
 #' # (from the file where a function is call => to the file were defined)
 #'
@@ -85,7 +84,7 @@ fn_network <- construct_corpus(local_folders_paths = folder_path,   repos = repo
                                             , content_col_name = "content"
  , extracted_txt_col_name =   "function_definition",  ...)
 
-#we have a complete fn_network of file_path and w'eve we've matched func' definition - by default
+#we have a complete fn_network of file_path and we've matched func' definition - by default
 # 2) create a nodelist : lines of the corpus where the functions are defined
 origines_files <- unique(fn_network[which(!is.na(fn_network$function_definition)), c("function_definition","file_path")])
 names(origines_files)[names(origines_files) == "file_path"] <- "to"
@@ -106,7 +105,7 @@ names(fn_2nd_match)[names(fn_2nd_match) == "file_path"] <- "from"
 # take original files - begining of the code - for adding the path where a func' is defined and the name
 returned_network <- merge(fn_2nd_match, origines_files #we just add a single column here : defined_in !
                           , by.x = c("function")
-                          , by.y = c("function_definition" )# it was also 'first_match' so we've renamed
+                          , by.y = c("function_definition" )# here we've renamed
                           , all.x = TRUE)
 
 returned_network <- returned_network[, c("from", "to",  "function", "content", "row_number")]

@@ -74,8 +74,7 @@ and a 2nd research extract this pattern, and construct a network
 }
 \examples{
 # Example with url from github
-result <- get_text_network_from_project( folder_path =  "~" )
-
+result <- get_text_network_from_project(folder_path =  "~" )
 # Will return a network of functions
 # (from the file where a function is call => to the file were defined)
 
