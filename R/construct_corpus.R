@@ -2,10 +2,10 @@
 #'
 #' This function builds a structured data frame containing code files
 #' from either GitHub repositories or local folder paths.
-#' Then it try to extract function names in the lines previously readed
-#' , according to the default pattern designed for matching functions names.
+#' Then it try to extract a pattern in the lines previously readed
+#' (the default pattern provided is designed for matching functions names).
 #' The resulting data frame provides an overview of the collected content,
-#'  including file paths, URLs (if applicable), and languages.
+#'  including file paths and/or URLs.
 #'
 #' @param local_folders_paths `character`. Default = `NULL`. A character vector of local folder paths to scan for code files.
 #' @param languages `character`. Default = `"R"`. A character vector specifying the programming language(s) to include in the corpus.

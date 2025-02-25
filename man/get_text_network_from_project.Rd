@@ -15,7 +15,8 @@ get_text_network_from_project(
   file_path_to_colname = "to",
   function_matched_colname = "function",
   line_number_matched_colname = "line_number",
-  content_matched_colname = "content_matched"
+  content_matched_colname = "content_matched",
+  return_corpus = F
 )
 }
 \arguments{
@@ -53,10 +54,21 @@ of the second match in the result data frame.}
 
 \item{content_matched_colname}{\code{character}, default = \code{'content_matched'} The column name (as a string)
 for the full line where a match have occured.}
+
+\item{return_corpus}{\code{logical}, default = \code{FALSE} If set to \code{TRUE}, a list with the edgelist \emph{and} the corpus be returned}
 }
 \value{
-A data frame wich is the edgelist of the citations network
-columns 'from' and 'to' indicates the files paths or urls of the matched contents.
+A \code{dataframe} symbolizing the edgelist of a document-to-document citations network
+\describe{
+\item{\code{file_path}}{\code{character} The local file path or constructed GitHub URL.}
+\item{\code{line_number}}{\code{integer} The line number within the file.}
+\item{\code{content}}{\code{character} The content from a line.}
+\item{\code{match}}{\code{character} The matched text on this line, \code{NA} if there is no match.}
+}
+Note that a list with 2 entries is returned if the user indicates \code{return_corpus} = \code{TRUE}
+1st entry is the \code{dataframe} described hereabove. The 2nd entry is the corpus, see \code{\link{construct_corpus}}
+Columns 'from' and 'to' indicates the files paths or urls of the matched contents.
+There is other infos (line numbers, line matched and content for verification)
 }
 \description{
 This function read files in a specified folder (default to only .R files)

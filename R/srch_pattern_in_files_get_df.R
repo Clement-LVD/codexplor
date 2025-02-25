@@ -31,10 +31,9 @@
 #' \describe{
 #'   \item{\code{file_path}}{`character` The local file path or constructed GitHub URL.}
 #'   \item{\code{line_number}}{`integer` The line number within the file.}
-#'   \item{\code{content}}{`character` A line from the file}
+#'   \item{\code{content}}{`character` The content from a line.}
+#'   \item{\code{match}}{`character` The matched text on this line, `NA` if there is no match.}
 #' }
-#'  first (`file_path` by default) contain the file_path, then `line_number` (by default) , third column (`content` by default)
-#'  and the LAST ONE contain the matched text, according to the regex provided by the user
 #' @examples
 #' #Analysing the func of the package, assuming you have installed it :
 #' p_path <- list.files("~", pattern = ".R$",  recursive = TRUE , full.names = TRUE  )

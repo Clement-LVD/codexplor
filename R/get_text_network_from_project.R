@@ -43,11 +43,19 @@
 #'
 #' @param content_matched_colname `character`, default = `'content_matched'` The column name (as a string)
 #' for the full line where a match have occured.
+#' @param return_corpus `logical`, default = `FALSE` If set to `TRUE`, a list with the edgelist *and* the corpus be returned
 #'
-#' @return A data frame wich is the edgelist of the citations network
-#' columns 'from' and 'to' indicates the files paths or urls of the matched contents.
-# ' There is other infos (line numbers, precise line matched for verification, etc.)
-
+#' @return A `dataframe` symbolizing the edgelist of a document-to-document citations network
+#' \describe{
+#'   \item{\code{file_path}}{`character` The local file path or constructed GitHub URL.}
+#'   \item{\code{line_number}}{`integer` The line number within the file.}
+#'   \item{\code{content}}{`character` The content from a line.}
+#'   \item{\code{match}}{`character` The matched text on this line, `NA` if there is no match.}
+#' }
+#' Note that a list with 2 entries is returned if the user indicates `return_corpus` = `TRUE`
+#' 1st entry is the `dataframe` described hereabove. The 2nd entry is the corpus, see \code{\link{construct_corpus}}
+#' Columns 'from' and 'to' indicates the files paths or urls of the matched contents.
+#' There is other infos (line numbers, line matched and content for verification)
 #' @examples
 #' # Example with url from github
 #' result <- get_text_network_from_project(folder_path =  "~" )
@@ -75,6 +83,7 @@ get_text_network_from_project <- function(folder_path = NULL, repos = NULL
  , line_number_matched_colname = "line_number"
  , content_matched_colname = "content_matched" # we want to keep the full content available
 
+ , return_corpus = F
   ){
 
 
@@ -124,6 +133,8 @@ if(filter_egolink_within_a_file){returned_network <- returned_network[ which( re
 
 colnames(returned_network) <- c(file_path_from_colname, file_path_to_colname, function_matched_colname, content_matched_colname,  line_number_matched_colname)
 # finally givin the colname wanted by the user
+
+if(return_corpus) return(list(edgelist = returned_network, corpus = fn_network))
 
 return(returned_network)
 

@@ -1,5 +1,6 @@
 #' Read text file with readLines and answer a df
 #'
+#'
 #' This function reads the content of a text file line by line and stores it in a data frame.
 #' You must pick up the FIRST col' for the file_path readed, and the LAST col for the content readed
 #' intermediar are additionnal info, i.e. line_number

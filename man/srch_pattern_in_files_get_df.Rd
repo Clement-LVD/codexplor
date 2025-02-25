@@ -50,10 +50,9 @@ A \code{data.frame} with 4 col' :
 \describe{
 \item{\code{file_path}}{\code{character} The local file path or constructed GitHub URL.}
 \item{\code{line_number}}{\code{integer} The line number within the file.}
-\item{\code{content}}{\code{character} A line from the file}
+\item{\code{content}}{\code{character} The content from a line.}
+\item{\code{match}}{\code{character} The matched text on this line, \code{NA} if there is no match.}
 }
-first (\code{file_path} by default) contain the file_path, then \code{line_number} (by default) , third column (\code{content} by default)
-and the LAST ONE contain the matched text, according to the regex provided by the user
 }
 \description{
 | A] Read a bunch of files and answer the content readed in a df
