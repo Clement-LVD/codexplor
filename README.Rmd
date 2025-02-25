@@ -49,7 +49,7 @@ devtools::install_github("clement-LVD/codexplor")
 ```{r compute-picture-network-of-func, eval=FALSE, include=FALSE}
 require(htmlwidgets); require(webshot2)
 
-fn_net <-  get_networkd3_from_igraph(codexplor::get_text_network_from_project(repos = "clement-LVD/codexplor")
+fn_net <-  get_networkd3_from_igraph(codexplor::get_text_network_from_project(repos = "clement-LVD/codexplor"))
 
 netd3 <- get_networkd3_from_igraph(fn_net, linkDistance = 40, charge = -100, legend = F , title_h1 = NULL, subtitle_h2 = NULL, endnotes_h3 = NULL)
 
@@ -63,7 +63,7 @@ netd3 <- get_networkd3_from_igraph(fn_net, linkDistance = 40, charge = -100, leg
 
 Return an interactive dataviz' of the internal dependancies within `codexplor` :
 
-<img src="man/figures/network_codexplor_fn.png" width="90%"  height="300px" alt = ""/>
+<img src="man/figures/network_codexplor_fn.png" width="90%"  height="80%" alt = ""/>
 
 > These dataviz are useful for pinpointing where to start a polishing loop, identifying all the functions impacted by upcoming changes, [...] or assessing the impact of a new dev loop on the project's complexity.
 
