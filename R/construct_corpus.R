@@ -1,8 +1,8 @@
 #' Construct a Data Frame of Code Files from Local GitHub Repositories and/or Local Folders
 #'
-#' This function builds a structured data frame containing code files
+#' Build a structured data frame containing code files
 #' from either GitHub repositories or local folder paths.
-#' Then it try to extract a pattern in the lines previously readed
+#' Then extract a pattern in the lines previously readed
 #' (the default pattern provided is designed for matching functions names).
 #' The resulting data frame provides an overview of the collected content,
 #'  including file paths and/or URLs.
