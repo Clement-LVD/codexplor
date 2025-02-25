@@ -46,7 +46,14 @@ Column name for the extracted text (last col' of the returned df)}
 For example, keep_comments (\code{logical}, default = \code{FALSE}) for taking into account the commented lines of the files}
 }
 \value{
-A \code{data.frame} with 4 col' : first (\code{file_path} by default) contain the file_path, then \code{line_number} (by default) contain line_number, third column (\code{content} by default) containing the readed lines from the file and the LAST ONE contain the matched text, according to the regex provided by the user
+A \code{data.frame} with 4 col' :
+\describe{
+\item{\code{file_path}}{\code{character} The local file path or constructed GitHub URL.}
+\item{\code{line_number}}{\code{integer} The line number within the file.}
+\item{\code{content}}{\code{character} A line from the file}
+}
+first (\code{file_path} by default) contain the file_path, then \code{line_number} (by default) , third column (\code{content} by default)
+and the LAST ONE contain the matched text, according to the regex provided by the user
 }
 \description{
 | A] Read a bunch of files and answer the content readed in a df
@@ -58,8 +65,8 @@ Last col is the extracted text : this will be the prefix passed by the user, onl
 }
 \examples{
 #Analysing the func of the package, assuming you have installed it :
-pkg_path <- list.files("~", pattern = ".R$",  recursive = TRUE , full.names = TRUE  )
-lines_readed <- srch_pattern_in_files_get_df(pkg_path, .verbose = FALSE)
+p_path <- list.files("~", pattern = ".R$",  recursive = TRUE , full.names = TRUE  )
+lines_readed <- srch_pattern_in_files_get_df(p_path, .verbose = FALSE)
 # Return : a dataframe of links, according to - default - pattern
 }
 \seealso{

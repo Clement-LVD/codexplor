@@ -28,7 +28,7 @@ Default is \code{NULL} (no files are excluded).}
 \item{autoclean_filespath}{\code{logical}. Default = \code{TRUE}.
 Codexplor try to exclude testing files \emph{before} to read the files of a project ; and it will try to clean the urls of the returned df
 By default, typical testing-purpose .R files are excluded
-(i.e. "\.Rcheck|test-")
+(i.e. "\.Rcheck|test-|Vignette")
 , in addition to an optional \code{pattern_to_exclude_path} passed by the user.}
 
 \item{ignore_match_less_than_nchar}{\code{integer}. Default = \code{3}. Number of characters for the 1st match to be considered valid.}
@@ -42,7 +42,13 @@ A pattern (regex) to remove from the files path of the edgelist (columns 1 & 2)}
 \value{
 A data frame containing the corpus of collected files. The data frame typically includes columns such as:
 \describe{
-\item{\code{file_path}}{Character. The local file path or constructed GitHub URL.}
+\item{\code{file_path}}{ \code{character} The local file path or constructed GitHub URL.}
+\item{\code{line_number}}{\code{integer} The local file path or constructed GitHub URL.}
+\item{\code{content}}{\code{character} The local file path or constructed GitHub URL.}
+\item{\code{n_char_line}}{\code{integer} Total nchar of a line, including spacing.}
+\item{\code{n_char_wo_space_line}}{\code{integer} Total nchar of a line, \emph{without} spacing.}
+\item{\code{nchar_wo_space_in_file}}{\code{integer} Sum of n_char_wo_space_line for a given file path
+(same value is repeated for each file path)}
 }
 }
 \description{
@@ -63,13 +69,13 @@ including file paths, URLs (if applicable), and languages.
 \examples{
 # Example 1: Construct a corpus from local folders
 cr1 <- construct_corpus("~", languages = c("R", "Python"), .verbose = FALSE)
-
+\dontrun{
 # Example 2: Construct a corpus from GitHub repositories
 cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr"), .verbose = FALSE)
 
 # Example 3: Combine local folders and GitHub repositories
 cr3 <- construct_corpus("~", c("R", "Cpp"), "tidyverse/dplyr", .verbose = FALSE)
-
+}
 }
 \seealso{
 \code{\link{srch_pattern_in_files_get_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}

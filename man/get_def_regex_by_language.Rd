@@ -11,11 +11,11 @@ get_def_regex_by_language(...)
 }
 \value{
 A dataframe where each row corresponds to a language and contains:
-\itemize{
-\item \code{language}: The name (e.g., 'R')
-\item \code{fn_regex}: The regex pattern used to detect function definitions in this language.
-\item \code{file_ext}: The typical file extension for the language.
-\item \code{local_file_ext}: The typical file extension for the language + a $ (regex for end of line).
+\describe{
+\item{\code{language}}{\code{character} The name of the language on a row (e.g., 'R').}
+\item{\code{fn_regex}}{\code{character} The line number within the file.}
+\item{\code{file_ext}}{\code{character} A line from the file}
+\item{\code{local_file_ext}}{\code{character} A line from the file}
 }
 }
 \description{

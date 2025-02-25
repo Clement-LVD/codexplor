@@ -16,15 +16,14 @@
 #'   Column name for the file content in the output dataframe.
 #' @param line_number_col_name `character`, default = `"line_number"`
 #'   Column name for the line numbers in the output dataframe.
-#' @param char_comment  `character`, default = `"^#"` Regex for considering that a line is a comment
+#' @param char_comment `character`, default = `"^#"` Regex for considering that a line is a comment
 #' (default is '#' at the begining of a line of the files)
 #' @return RETURN : `data.frame` with 3 col'. *First* col' (`file_path` by default) is the file_path (readed), then `line_number` (by default).
 #' The *last* column (`content` by default) contain the readed lines from the file.
 #' \describe{
-  #'   \item{file_path}{Path of the file where the match was found.}
-  #'   \item{line_number}{Line number in the file.}
-  #'   \item{content}{Full content of the matched line.}
-  #'   \item{matches}{Extracted function name or matched pattern.}
+  #'   \item{file_path}{`character` Path of the file where the match was found.}
+  #'   \item{line_number}{`integer` Line number in the file.}
+  #'   \item{content}{`character` Full content of the matched line.}
   #' }
 #'
 #' @examples
@@ -72,7 +71,7 @@ if (.verbose) {pb <- utils::txtProgressBar(min = 0, max = 100, style = 3) }
       # df to create
       df <- structure(data.frame(
         file_path = files_path[i],
-        line_number = seq_along(lignes),
+        line_number = as.integer(seq_along(lignes)),
         content = lignes,
         stringsAsFactors = FALSE
       ) , names = names_of_var# colnames customization

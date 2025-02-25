@@ -6,11 +6,12 @@
 #' @param ... `character` One or more programming language names (character strings).
 #'
 #' @return A dataframe where each row corresponds to a language and contains:
-#'   -  `language`: The name (e.g., 'R')
-#'   - `fn_regex`: The regex pattern used to detect function definitions in this language.
-#'   - `file_ext`: The typical file extension for the language.
-#'   - `local_file_ext`: The typical file extension for the language + a $ (regex for end of line).
-#'
+#' \describe{
+#'   \item{\code{language}}{`character` The name of the language on a row (e.g., 'R').}
+#'   \item{\code{fn_regex}}{`character` The line number within the file.}
+#'   \item{\code{file_ext}}{`character` A line from the file}
+#'   \item{\code{local_file_ext}}{`character` A line from the file}
+#' }
 #' @details
 #' This function supports multiple languages in a single call.
 #' Language names are case-insensitive.
@@ -24,36 +25,36 @@ functions_def_by_language_regex_pattern <- list(
   R = list(
     fn_regex = "(^| \\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)",
     file_extension = ".R"
-    , pattern_to_exlude = "\\.Rcheck|test-"
+    , pattern_to_exlude = "\\.Rcheck|test-|Vignette"
   ),
   Python = list(
     fn_regex = "^\\s*def\\s+([\\w_]+)\\s*\\(",
     file_extension = ".py"
-    , pattern_to_exlude = ""),
+    , pattern_to_exlude = NA),
   JavaScript = list(
     fn_regex = "^\\s*function\\s+([\\w_]+)\\s*\\(",
     file_extension = ".js"
-    , pattern_to_exlude = ""
+    , pattern_to_exlude = NA
   ),
   Java = list(
     fn_regex = "^\\s*(public|private|protected)?\\s*\\w+\\s+([\\w_]+)\\s*\\(",
     file_extension = ".java"
-    , pattern_to_exlude = ""
+    , pattern_to_exlude = NA
   ),
   C = list(
     fn_regex = "^\\s*\\w+\\s+([\\w_]+)\\s*\\(",
     file_extension = ".c"
-    , pattern_to_exlude = ""
+    , pattern_to_exlude = NA
   ),
   Cpp = list(
     fn_regex = "^\\s*\\w+(<.*>)?\\s+([\\w_]+)\\s*\\(",
     file_extension = ".cpp"
-    , pattern_to_exlude = ""
+    , pattern_to_exlude = NA
   ),
   Go = list(
     fn_regex = "^\\s*func\\s+([\\w_]+)\\s*\\(",
     file_extension = ".go"
-    , pattern_to_exlude = ""
+    , pattern_to_exlude = NA
   )
 )
 

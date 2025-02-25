@@ -77,19 +77,24 @@ Return an interactive dataviz' of the internal dependancies within `codexplor` :
 # suppressMessages(library(tidyverse) )
 
 features <- data.frame(Feature = c( 
-"![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network of internal dependencies&labelColor=black&color=green)" ,
+"![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network of internal dependencies&labelColor=black&color=green)" 
 
-"![.](https://img.shields.io/badge/{🚧}-bold?style=flat&logoColor=black&logoSize=2&label=Document-level metrics&labelColor=grey&color=orange)"
+, "![.](https://img.shields.io/badge/{🚧}-bold?style=flat&logoColor=black&logoSize=2&label=Document-level metrics&labelColor=grey&color=orange)"
+
+, "![.](https://img.shields.io/badge/{🚧}-bold?style=flat&logoColor=black&logoSize=2&label=Line-level metrics&labelColor=grey&color=yellow)"
  
 # "➕ Document-level metrics"
 ) #2 : documement-level text-mining
            
         , Global_insights = c( "Appreciate global complexity and figure out the pig picture" 
-                               , "Reveal clusters of 'difficult-to-read' files") # 2 : documement-level text-mining
+                               , "Reveal clusters of 'difficult-to-read' files"
+                               , "↑ (used by global level metric)"
+                               ) # 2 : documement-level text-mining
           
         , Local_insights = c( "Reveal critical files, e.g., major internal dependancies" 
-                              ,  "Assess each file with text-mining metrics, e.g., length and files readability" ) # 2 : documement-level text-mining
-           )
+          ,  "Assess each file with text-mining metrics, e.g., length and files readability"  # 2 : documement-level text-mining
+           , "Identify problematic lines, e.g., the longest ones")
+)
 
 names(features) <- c("Computed Methods","Global insights" , "Local insights on files")
 

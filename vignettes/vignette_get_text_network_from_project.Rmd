@@ -53,18 +53,19 @@ Thus, in a typical programming project :
 - Nodes are files, so mostly - or only - functions ;
 - °← Indegree of a file is "how many files are calling the function(s) defined in this file" ;
 - °→ Outdegree of a file is "how many functions are used by this file" ; 
-- ⟲ Auto-mentioning refear to 'recursivity', once a func' call itself more than one times (1st mention is usually for define the func' name).
+- ⟲ Auto-mentioning refear to 'recursivity' (`codexplor` default is to filter autolinks).
 
 ### Cascading matching operated by `get_text_network_from_project`
-`codexplor` default pattern are aimed to extract functions names from the files of a *programming* project.
 
 Assuming the user have indicated folder(s) and/or github repo(s), `codexplor::get_text_network_from_project()` will try to perform a 'cascading matching' :
 
-⏩ Read the files and extract a 1st pattern, e.g., default try to extract *R functions names*. 
+⏩ Read the files and extract a 1st pattern, e.g., default tare supposed to extract *R functions names*. 
 
 ⏩ Search for these patterns in the initial content, in order to constitute a Citations Network.
 
 🎁 Return the edgelist of the network of *documents* (document that call a function => file where this function is defined)
+
+`codexplor` default pattern are aimed to extract functions names from the files of a *programming* project.
 
 ### Filter undesired match
 Junk nodes needs to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. `get_text_network_from_files` offer several parameters for dealing with your style of writing a program.

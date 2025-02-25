@@ -78,19 +78,28 @@ get_text_network_from_project <- function(folder_path = NULL, repos = NULL
   ){
 
 
-##### 1) Construct a corpus ####
- # we will rename in the end so var' names are hardcoded hereafter :
+##### 1) Construct a lines corpus ####
+ # We will rename in the end so var' names are hardcoded hereafter :
 fn_network <- construct_corpus(local_folders_paths = folder_path,   repos = repos , file_path_col_name = "file_path"
                                             , content_col_name = "content"
  , extracted_txt_col_name =   "function_definition",  ...)
 
-#we have a complete fn_network of file_path and we've matched func' definition - by default
-# 2) create a nodelist : lines of the corpus where the functions are defined
+
+# 2.1) Get an HYBRID nodelist of the 1st matches and files path
+# by default we're supposed to catch lines where functions are defined, but there is maybe several functions in a file
 origines_files <- unique(fn_network[which(!is.na(fn_network$function_definition)), c("function_definition","file_path")])
 names(origines_files)[names(origines_files) == "file_path"] <- "to"
 
 
-# we'll just add a column of "function" here with the matched results : the func transform our 1st col' into a regex
+# 2.2) add a proper "text" column (full content) = problems when several func' are defined in the same line
+# files_content <- gather_df_lines(fn_network, "file_path", "content")
+# files_content <- unique(files_content)
+#
+# test<- extract_nested_blocks_from_text(files_content$text[1])
+#
+# origines_files <- merge(all.x = T, origines_files, files_content, by.x = "to", by.y = "file_path")
+
+#2.2) we'll just add a column of "function" here with the matched results : the func' will transform our 1st col' into a regex
 fn_2nd_match <- get_citations_network_from_df(df = fn_network[, c("content", "function_definition", "file_path")]
                               , content_varname = "content"
                               , pattern_varname = "function_definition"

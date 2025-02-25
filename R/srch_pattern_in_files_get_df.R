@@ -27,11 +27,18 @@
 #' @param extracted_txt_col_name `character`, default = `"matches"`
 #'   Column name for the extracted text (last col' of the returned df)
 #'
-#' @return A `data.frame` with 4 col' : first (`file_path` by default) contain the file_path, then `line_number` (by default) contain line_number, third column (`content` by default) containing the readed lines from the file and the LAST ONE contain the matched text, according to the regex provided by the user
+#' @return A `data.frame` with 4 col' :
+#' \describe{
+#'   \item{\code{file_path}}{`character` The local file path or constructed GitHub URL.}
+#'   \item{\code{line_number}}{`integer` The line number within the file.}
+#'   \item{\code{content}}{`character` A line from the file}
+#' }
+#'  first (`file_path` by default) contain the file_path, then `line_number` (by default) , third column (`content` by default)
+#'  and the LAST ONE contain the matched text, according to the regex provided by the user
 #' @examples
 #' #Analysing the func of the package, assuming you have installed it :
-#' pkg_path <- list.files("~", pattern = ".R$",  recursive = TRUE , full.names = TRUE  )
-#' lines_readed <- srch_pattern_in_files_get_df(pkg_path, .verbose = FALSE)
+#' p_path <- list.files("~", pattern = ".R$",  recursive = TRUE , full.names = TRUE  )
+#' lines_readed <- srch_pattern_in_files_get_df(p_path, .verbose = FALSE)
 #' # Return : a dataframe of links, according to - default - pattern
 #' @seealso \code{\link{readlines_in_df}}
 #' @export
@@ -86,14 +93,14 @@ colnames(flattened_df) <- c("row_num", extracted_txt_col_name )
 # check if lines are multiplicated during the merge since we keep all x lines but maybe passing several matches on the same row_num
 n_lines_before = nrow(content_df)
 
-content_df <- merge(content_df, flattened_df, by = "row_num", all.x = T) # here we get ALL lines !
+content_df <- merge(content_df, all.x = T, flattened_df, by = "row_num") #  ALL lines !
 
 n_lines_after = nrow(content_df)
 
 if(!n_lines_before == n_lines_after){warning(immediate. = T, "\n ==> Have returned duplicated line(s) : you've matched several match on a single line ! :x")
 cat("Duplicated row number are : \n");cat(sep = " & ", content_df$row_num[anyDuplicated(content_df$row_num)])
 }
-# content_df[68451,]
+
 content_df$row_num <- NULL # erase row_num col'
 
 #etract fn names (na if no match at all)

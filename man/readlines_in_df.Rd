@@ -43,10 +43,9 @@ Column name for the line numbers in the output dataframe.}
 RETURN : \code{data.frame} with 3 col'. \emph{First} col' (\code{file_path} by default) is the file_path (readed), then \code{line_number} (by default).
 The \emph{last} column (\code{content} by default) contain the readed lines from the file.
 \describe{
-\item{file_path}{Path of the file where the match was found.}
-\item{line_number}{Line number in the file.}
-\item{content}{Full content of the matched line.}
-\item{matches}{Extracted function name or matched pattern.}
+\item{file_path}{\code{character} Path of the file where the match was found.}
+\item{line_number}{\code{integer} Line number in the file.}
+\item{content}{\code{character} Full content of the matched line.}
 }
 }
 \description{

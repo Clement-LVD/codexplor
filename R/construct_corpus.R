@@ -25,7 +25,13 @@
 #'
 #' @return A data frame containing the corpus of collected files. The data frame typically includes columns such as:
 #' \describe{
-#'   \item{\code{file_path}}{Character. The local file path or constructed GitHub URL.}
+#'   \item{\code{file_path}}{ `character` The local file path or constructed GitHub URL.}
+#'   \item{\code{line_number}}{`integer` The local file path or constructed GitHub URL.}
+#'   \item{\code{content}}{`character` The local file path or constructed GitHub URL.}
+#'   \item{\code{n_char_line}}{`integer` Total nchar of a line, including spacing.}
+#'   \item{\code{n_char_wo_space_line}}{`integer` Total nchar of a line, *without* spacing.}
+#'   \item{\code{nchar_wo_space_in_file}}{`integer` Sum of n_char_wo_space_line for a given file path
+#'    (same value is repeated for each file path)}
 #' }
 #' @seealso \code{\link{srch_pattern_in_files_get_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}
 #' @details
@@ -36,13 +42,13 @@
 #' @examples
 #' # Example 1: Construct a corpus from local folders
 #' cr1 <- construct_corpus("~", languages = c("R", "Python"), .verbose = FALSE)
-#'
+#' \dontrun{
 #' # Example 2: Construct a corpus from GitHub repositories
 #' cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr"), .verbose = FALSE)
 #'
 #' # Example 3: Combine local folders and GitHub repositories
 #' cr3 <- construct_corpus("~", c("R", "Cpp"), "tidyverse/dplyr", .verbose = FALSE)
-#'
+#' }
 #' @export
 construct_corpus <- function( local_folders_paths = NULL
 , languages = "R"
@@ -59,16 +65,19 @@ urls = NULL
 files_path = NULL
 
 # 1) get regex of func' definition AND pattern of the files
-lang_desired <- codexplor::get_def_regex_by_language(languages)
+lang_desired <- get_def_regex_by_language(languages)
 
 # 2-A} get urls from github 1st
 if(!is.null(repos)){ urls <- get_github_raw_filespath(repo = repos, pattern = lang_desired$file_ext) }
 
 if(!is.null(local_folders_paths)){ #get local filepaths
 
-pattern = paste0(collapse = "|",lang_desired$local_file_ext )
+ pattern = paste0(collapse = "|",lang_desired$local_file_ext )
 
-files_path <- unlist(sapply(local_folders_paths, FUN = function(path){ list.files(recursive = T, full.names = T, path = path, pattern = pattern) }))
+files_path <- unlist(sapply(local_folders_paths, FUN = function(path){
+
+  list.files(recursive = T, full.names = T, path = path, pattern = pattern)
+  }))
 
 }
 
@@ -84,20 +93,39 @@ if(autoclean_filespath){ # use the pattern from our dictionnary (e.g., exclude "
   if(length(files_to_exclude)>0) files_path <- files_path[-files_to_exclude]
 
 
-# 2-B} Get content from R files
-complete_content <-  srch_pattern_in_files_get_df(files_path = files_path,
+# 2-B} Get content from files
+complete_content <- srch_pattern_in_files_get_df(files_path = files_path,
                                ,pattern = paste0(lang_desired$fn_regex, collapse = "|")
                                , ...)
+# file path 1st col / line_number 2nd / content is the 3rd col' /
 
-# in this stage we need  to clean the files path before claiming that it's a 'cool corpus to analyze'
+# preparing the corpus : clean the files path
 if(is.character(pattern_to_remove)){
 
   # force remove a pattern
-  complete_content[, 1:2] <- lapply(complete_content[, 1:2], function(col) gsub(pattern = pattern_to_remove, "", x = col))
+  complete_content[[1]] <- gsub(pattern = pattern_to_remove, "", x = complete_content[[1]])
 
 }
- # (DEFINITION of func' according to the lang desired regex = function name are matched)
 
+if(length(complete_content[[1]]) == 0) return(complete_content)
+
+#### COMPUTE METRICS ####
+# return nchar metrics if more than 0 row
+complete_content <- cbind(complete_content
+                          , compute_nchar_metrics(text = as.character(complete_content[[3]])
+                                                  , nchar_nospace_colname = "n_char_wo_space_line"
+                                                  ) )
+
+# add total files metrics since in the end it will be turned into a nodelist
+sum_cat <- by(complete_content$n_char_wo_space_line, complete_content$file_path, sum)
+# merge this list with our nodes
+complete_content$nchar_wo_space_in_file <- merge(complete_content, all.x=T
+
+                           ,data.frame(file_path = names(sum_cat), nchar_wo_space_in_file= sum_cat)
+
+                                               ,  by = "file_path")
+
+# 4) return a df
 return(complete_content)
 
 }
