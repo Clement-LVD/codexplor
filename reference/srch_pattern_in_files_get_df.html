@@ -129,12 +129,13 @@ For example, keep_comments (<code>logical</code>, default = <code>FALSE</code>) 
 <dd><p><code>integer</code> The line number within the file.</p></dd>
 
 <dt><code>content</code></dt>
-<dd><p><code>character</code> A line from the file</p></dd>
+<dd><p><code>character</code> The content from a line.</p></dd>
+
+<dt><code>match</code></dt>
+<dd><p><code>character</code> The matched text on this line, <code>NA</code> if there is no match.</p></dd>
 
 
-</dl><p>first (<code>file_path</code> by default) contain the file_path, then <code>line_number</code> (by default) , third column (<code>content</code> by default)
-and the LAST ONE contain the matched text, according to the regex provided by the user</p>
-    </div>
+</dl></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="readlines_in_df.html">readlines_in_df</a></code></p></div>

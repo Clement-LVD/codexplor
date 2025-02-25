@@ -57,7 +57,8 @@ extracting and filtering text based on a set of criteria.</p>
 <span>  file_path_to_colname <span class="op">=</span> <span class="st">"to"</span>,</span>
 <span>  function_matched_colname <span class="op">=</span> <span class="st">"function"</span>,</span>
 <span>  line_number_matched_colname <span class="op">=</span> <span class="st">"line_number"</span>,</span>
-<span>  content_matched_colname <span class="op">=</span> <span class="st">"content_matched"</span></span>
+<span>  content_matched_colname <span class="op">=</span> <span class="st">"content_matched"</span>,</span>
+<span>  return_corpus <span class="op">=</span> <span class="cn">F</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -119,11 +120,30 @@ of the second match in the result data frame.</p></dd>
 <dd><p><code>character</code>, default = <code>'content_matched'</code> The column name (as a string)
 for the full line where a match have occured.</p></dd>
 
+
+<dt id="arg-return-corpus">return_corpus<a class="anchor" aria-label="anchor" href="#arg-return-corpus"></a></dt>
+<dd><p><code>logical</code>, default = <code>FALSE</code> If set to <code>TRUE</code>, a list with the edgelist <em>and</em> the corpus be returned</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame wich is the edgelist of the citations network
-columns 'from' and 'to' indicates the files paths or urls of the matched contents.</p>
+    <p>A <code>dataframe</code> symbolizing the edgelist of a document-to-document citations network</p><dl><dt><code>file_path</code></dt>
+<dd><p><code>character</code> The local file path or constructed GitHub URL.</p></dd>
+
+<dt><code>line_number</code></dt>
+<dd><p><code>integer</code> The line number within the file.</p></dd>
+
+<dt><code>content</code></dt>
+<dd><p><code>character</code> The content from a line.</p></dd>
+
+<dt><code>match</code></dt>
+<dd><p><code>character</code> The matched text on this line, <code>NA</code> if there is no match.</p></dd>
+
+
+</dl><p>Note that a list with 2 entries is returned if the user indicates <code>return_corpus</code> = <code>TRUE</code>
+1st entry is the <code>dataframe</code> described hereabove. The 2nd entry is the corpus, see <code><a href="construct_corpus.html">construct_corpus</a></code>
+Columns 'from' and 'to' indicates the files paths or urls of the matched contents.
+There is other infos (line numbers, line matched and content for verification)</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
