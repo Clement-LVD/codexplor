@@ -1,12 +1,9 @@
 #' Read some files and answer a df, optionnaly try to match a text pattern
-#' e.g., detect a file with a func' defined with 'function_name <- function'
+
 #'
-#' | A] Read a bunch of files and answer the content readed in a df
-#' | B] Then try to extract a pattern and return the extracted text  (no match on commented lines by default)
-#' In the 'matched text' part of the result, NA meaning 'no match'
-#' | C] Finally answer a df with all the readed content
-#' Regarding the returned df : the first col' is the file path of all the matched files (first regex passed to list.files)
-#' Last col is the extracted text : this will be the prefix passed by the user, only when there is a complete match
+#' Read some files and answer the content readed in a df.
+#'  Then try to extract a pattern
+#'  and return the extracted text in a column of the returned df (NA meaning 'no match').
 #'
 #' @param files_path `character`
 #'   A vector of files path path and/or url.
