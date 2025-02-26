@@ -7,8 +7,6 @@
 #' @param files_path `character` Path(s) or url(s) to the text files to read.
 #' @param return_lowered_text `logical`, default = `FALSE`
 #'   TRUE for lowercasing the returned text. FALSE (the default) will preserve the readed text
-#' @param keep_comments `logical`, default = `FALSE`
-#'   If `FALSE` - the default, lines starting with `#` are treated as keep_comments and ignored.
 #' @param .verbose `logical`, default = `TRUE`
 #'   If `TRUE`, shows a progress bar while reading the file.
 #' @param file_path_col_name `character`, default = `"file_path"`
@@ -36,7 +34,7 @@
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @export
 readlines_in_df <- function(files_path,
-                            return_lowered_text = FALSE, keep_comments = FALSE, .verbose = TRUE
+                            return_lowered_text = FALSE,  .verbose = TRUE
   , file_path_col_name = "file_path"
  , content_col_name = "content"
  , line_number_col_name = "line_number"
@@ -60,7 +58,6 @@ if (.verbose) {pb <- utils::txtProgressBar(min = 0, max = 100, style = 3) }
       # clean com'
       lignes <- trimws(lignes)
       if (return_lowered_text) lignes <- tolower(lignes)
-      if (!keep_comments) lignes[grep(x = lignes, char_comment)] <- ""  # clean line instead of com'
 
       # NO LINE = return empty df
       if (length(lignes) == 0) {

@@ -59,10 +59,11 @@
 #' @examples
 #' # Example with url from github
 #' result <- get_text_network_from_project(folder_path =  "~" )
-#' # Will return a network of functions
+#' # Return a `df` (default is supposed to be a network of functions)
 #' # (from the file where a function is call => to the file were defined)
-#'
-#' @seealso \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_files_get_df}}, \code{\link{get_citations_network_from_df}}
+#' result_list <- get_text_network_from_project(folder_path =  "~" , return_corpus = TRUE)
+#' #Will return a list of 2 elements : the `df` of matches, and the complete corpus
+#' @seealso \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_df}}, \code{\link{get_citations_network_from_df}}
 #' @seealso
 #'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html}
 #' @export
@@ -88,15 +89,13 @@ get_text_network_from_project <- function(folder_path = NULL, repos = NULL
 
 
 ##### 1) Construct a lines corpus ####
- # We will rename in the end so var' names are hardcoded hereafter :
-fn_network <- construct_corpus(local_folders_paths = folder_path,   repos = repos , file_path_col_name = "file_path"
-                                            , content_col_name = "content"
- , extracted_txt_col_name =   "function_definition",  ...)
+ # We will rename in the end
+fn_network <- construct_corpus(local_folders_paths = folder_path,   repos = repos ,  ...)
 
 
 # 2.1) Get an HYBRID nodelist of the 1st matches and files path
 # by default we're supposed to catch lines where functions are defined, but there is maybe several functions in a file
-origines_files <- unique(fn_network[which(!is.na(fn_network$function_definition)), c("function_definition","file_path")])
+origines_files <- unique(fn_network[which(!is.na(fn_network$matches)), c("matches","file_path")])
 names(origines_files)[names(origines_files) == "file_path"] <- "to"
 
 
@@ -109,21 +108,21 @@ names(origines_files)[names(origines_files) == "file_path"] <- "to"
 # origines_files <- merge(all.x = T, origines_files, files_content, by.x = "to", by.y = "file_path")
 
 #2.2) we'll just add a column of "function" here with the matched results : the func' will transform our 1st col' into a regex
-fn_2nd_match <- get_citations_network_from_df(df = fn_network[, c("content", "function_definition", "file_path")]
+fn_2nd_match <- get_citations_network_from_df(df = fn_network[, c("content", "matches", "file_path")]
                               , content_varname = "content"
-                              , pattern_varname = "function_definition"
+                              , pattern_varname = "matches"
                             ,varname_for_matches = "function"
                             , prefix_for_regex_from_string = prefix_for_regex_from_the_text
                           , suffix_for_regex_from_string = suffix_for_regex_from_the_text
                                 )
 
-fn_2nd_match$function_definition <- NULL
+fn_2nd_match$matches <- NULL #lines with value are already suppressed
 names(fn_2nd_match)[names(fn_2nd_match) == "file_path"] <- "from"
 
 # take original files - begining of the code - for adding the path where a func' is defined and the name
 returned_network <- merge(fn_2nd_match, origines_files #we just add a single column here : defined_in !
                           , by.x = c("function")
-                          , by.y = c("function_definition" )# here we've renamed
+                          , by.y = c("matches" )# here we've renamed
                           , all.x = TRUE)
 
 returned_network <- returned_network[, c("from", "to",  "function", "content", "row_number")]
@@ -139,3 +138,4 @@ if(return_corpus) return(list(edgelist = returned_network, corpus = fn_network))
 return(returned_network)
 
 }
+

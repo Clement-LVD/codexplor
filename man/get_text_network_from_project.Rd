@@ -87,12 +87,13 @@ and a 2nd research extract this pattern, and construct a network
 \examples{
 # Example with url from github
 result <- get_text_network_from_project(folder_path =  "~" )
-# Will return a network of functions
+# Return a `df` (default is supposed to be a network of functions)
 # (from the file where a function is call => to the file were defined)
-
+result_list <- get_text_network_from_project(folder_path =  "~" , return_corpus = TRUE)
+#Will return a list of 2 elements : the `df` of matches, and the complete corpus
 }
 \seealso{
-\code{\link{construct_corpus}}, \code{\link{srch_pattern_in_files_get_df}}, \code{\link{get_citations_network_from_df}}
+\code{\link{construct_corpus}}, \code{\link{srch_pattern_in_df}}, \code{\link{get_citations_network_from_df}}
 
 \url{https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html}
 }

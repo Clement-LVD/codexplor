@@ -7,7 +7,6 @@
 readlines_in_df(
   files_path,
   return_lowered_text = FALSE,
-  keep_comments = FALSE,
   .verbose = TRUE,
   file_path_col_name = "file_path",
   content_col_name = "content",
@@ -20,9 +19,6 @@ readlines_in_df(
 
 \item{return_lowered_text}{\code{logical}, default = \code{FALSE}
 TRUE for lowercasing the returned text. FALSE (the default) will preserve the readed text}
-
-\item{keep_comments}{\code{logical}, default = \code{FALSE}
-If \code{FALSE} - the default, lines starting with \verb{#} are treated as keep_comments and ignored.}
 
 \item{.verbose}{\code{logical}, default = \code{TRUE}
 If \code{TRUE}, shows a progress bar while reading the file.}

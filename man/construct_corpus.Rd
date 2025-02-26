@@ -52,12 +52,12 @@ A data frame containing the corpus of collected files. The data frame typically 
 }
 }
 \description{
-This function builds a structured data frame containing code files
+Build a structured data frame containing code files
 from either GitHub repositories or local folder paths.
-Then it try to extract function names in the lines previously readed
-, according to the default pattern designed for matching functions names.
+Then extract a pattern in the lines previously readed
+(the default pattern provided is designed for matching functions names).
 The resulting data frame provides an overview of the collected content,
-including file paths, URLs (if applicable), and languages.
+including file paths and/or URLs.
 }
 \details{
 \itemize{
@@ -68,15 +68,15 @@ including file paths, URLs (if applicable), and languages.
 }
 \examples{
 # Example 1: Construct a corpus from local folders
-cr1 <- construct_corpus("~", languages = c("R", "Python"), .verbose = FALSE)
+cr1 <- construct_corpus("~", languages = c( "Python") )
 \dontrun{
 # Example 2: Construct a corpus from GitHub repositories
-cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr"), .verbose = FALSE)
+cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
 
 # Example 3: Combine local folders and GitHub repositories
-cr3 <- construct_corpus("~", c("R", "Cpp"), "tidyverse/dplyr", .verbose = FALSE)
+cr3 <- construct_corpus("~", "R", "tidyverse/dplyr" )
 }
 }
 \seealso{
-\code{\link{srch_pattern_in_files_get_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}
+\code{\link{srch_pattern_in_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}
 }

@@ -25,35 +25,46 @@ functions_def_by_language_regex_pattern <- list(
   R = list(
     fn_regex = "(^| \\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)",
     file_extension = ".R"
+    , commented_line_char = "\\s?#"
     , pattern_to_exlude = "\\.Rcheck|test-|Vignette"
   ),
   Python = list(
     fn_regex = "^\\s*def\\s+([\\w_]+)\\s*\\(",
     file_extension = ".py"
+    , commented_line_char = "#"
     , pattern_to_exlude = NA),
   JavaScript = list(
     fn_regex = "^\\s*function\\s+([\\w_]+)\\s*\\(",
     file_extension = ".js"
+    , commented_line_char = "//|/*"
+
     , pattern_to_exlude = NA
   ),
   Java = list(
     fn_regex = "^\\s*(public|private|protected)?\\s*\\w+\\s+([\\w_]+)\\s*\\(",
     file_extension = ".java"
+    , commented_line_char = "//|/*"
+
     , pattern_to_exlude = NA
   ),
   C = list(
     fn_regex = "^\\s*\\w+\\s+([\\w_]+)\\s*\\(",
     file_extension = ".c"
+    , commented_line_char = "//|/*"
+
     , pattern_to_exlude = NA
   ),
   Cpp = list(
     fn_regex = "^\\s*\\w+(<.*>)?\\s+([\\w_]+)\\s*\\(",
     file_extension = ".cpp"
+    , commented_line_char = "//|/*"
+
     , pattern_to_exlude = NA
   ),
   Go = list(
     fn_regex = "^\\s*func\\s+([\\w_]+)\\s*\\(",
     file_extension = ".go"
+    , commented_line_char = "//|/*"
     , pattern_to_exlude = NA
   )
 )
@@ -73,10 +84,11 @@ if(length(non_available) > 1) {
 returned <- functions_def_by_language_regex_pattern[available_languages %in% languages]
 
 lang_df <- do.call(rbind, lapply(names(returned), function(lang) {
-  data.frame(language = lang,
-             fn_regex = returned[[lang]]$fn_regex,
-             file_ext = returned[[lang]]$file_extension,
-             pattern_to_exclude = returned[[lang]]$pattern_to_exlude
+  data.frame(language = lang
+            , fn_regex = returned[[lang]]$fn_regex
+           , file_ext = returned[[lang]]$file_extension
+            , commented_line_char =  returned[[lang]]$commented_line_char
+             ,pattern_to_exclude = returned[[lang]]$pattern_to_exlude
              ,stringsAsFactors = FALSE)
 }))
 # RETURN A LIST IF NO ARG PASSED !

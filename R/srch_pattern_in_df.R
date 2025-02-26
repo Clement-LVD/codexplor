@@ -1,45 +1,34 @@
-#' Read some files and answer a df, optionnaly try to match a text pattern
+#' Try to match a text pattern in a df column by only extract the text
 
 #'
 #' Read some files and answer the content readed in a df.
 #'  Then try to extract a pattern
 #'  and return the extracted text in a column of the returned df (NA meaning 'no match').
 #'
-#' @param files_path `character`
-#'   A vector of files path path and/or url.
+#' @param df `data.frame`
+#'   A data.frame with a minima a `character` column.
+#' @param content_col_name `character`, default = `"content"`
+#'   Name of the text column in the input df (will be returned in the output df).
 #' @param pattern `character`, default = `"\\b([A-Za-z0-9_]+)(?=\\s*(?:<-|=)\\s*(?:function|$))"`
-#'   A regex for matching lines and extract text. Use the regex for finding a line by extracting text
+#'   A regex for matching lines and extract text.
 #' @param match_to_exclude `character` A vector of values that will not be returned such as a match.
 #' The rows where the `values` match any element in this vector will be removed.
 #' @param  ignore_match_less_than_nchar `double`, default = 2 Excluding match depending on char. number of the matched text (strictly inferior)
 #' Default exclude match of 1 char such as 'x'.
-#' @param ... Additional arguments passed to `readlines_in_df`
-#' For example, keep_comments (`logical`, default = `FALSE`) for taking into account the commented lines of the files
-#' @param file_path_col_name `character`, default = `"file_path"`
-#'   Column name for the file path in the output dataframe (first col' of the returned df)
-#' @param content_col_name `character`, default = `"content"`
-#'   Column name for the file content in the output dataframe.
-#' @param line_number_col_name `character`, default = `"line_number"`
-#'   Column name for the line numbers in the output dataframe.
 #' @param extracted_txt_col_name `character`, default = `"matches"`
 #'   Column name for the extracted text (last col' of the returned df)
 #'
-#' @return A `data.frame` with 4 col' :
+#' @return A `data.frame` similar to the one passed by the user with 1 more column : the match ; *a minima* :
 #' \describe{
-#'   \item{\code{file_path}}{`character` The local file path or constructed GitHub URL.}
-#'   \item{\code{line_number}}{`integer` The line number within the file.}
-#'   \item{\code{content}}{`character` The content from a line.}
+#'   \item{\code{content}}{`character` The text column designed by the user.}
 #'   \item{\code{match}}{`character` The matched text on this line, `NA` if there is no match.}
 #' }
 #' @examples
-#' #Analysing the func of the package, assuming you have installed it :
-#' p_path <- list.files("~", pattern = ".R$",  recursive = TRUE , full.names = TRUE  )
-#' lines_readed <- srch_pattern_in_files_get_df(p_path, .verbose = FALSE)
+#' #xxx todo xxx Analysing the func of the package, assuming you have installed it :
 #' # Return : a dataframe of links, according to - default - pattern
 #' @seealso \code{\link{readlines_in_df}}
 #' @export
-srch_pattern_in_files_get_df <- function(
-    files_path = NULL
+srch_pattern_in_df <- function(df, content_col_name = "content"
 
        ,pattern = "(^| \\.|\\b)([\\.A-Za-z0-9_]+)(?=\\s*(?:<-)\\s*function)"
 # a caveat here is the func' that not start from the 1st char : not easy to catch
@@ -49,20 +38,10 @@ srch_pattern_in_files_get_df <- function(
    , ignore_match_less_than_nchar = 3
 # ?=look ahead
 
-   , file_path_col_name = "file_path", content_col_name = "content", line_number_col_name = "line_number"
 , extracted_txt_col_name = "matches"
-, ...
   ){
 
-# get files content
-content_df <-  readlines_in_df(files_path = files_path
-
-# the colnames are customizable
-,file_path_col_name = file_path_col_name, content_col_name = content_col_name, line_number_col_name = line_number_col_name
-, ...
-                               )
-
-if(is.null(content_df)) return(NULL)
+content_df <- df
 
 # add row number
 content_df$row_num <- 1:nrow(content_df)
@@ -78,7 +57,8 @@ flattened_df <- data.frame(row_num = rep( 1:length(first_matches)
 # sapply(expanded_df$matches, length) give length of each sublist, used for repeating value (sometimes 0 times when no match)
 
 # Remove lines according to nchar limit and list passed by the user
-rows_to_remove <- c(which(nchar(flattened_df$values) < ignore_match_less_than_nchar), which(flattened_df$values %in% match_to_exclude) )
+rows_to_remove <- c(which(nchar(flattened_df$values) < ignore_match_less_than_nchar),
+                    which(flattened_df$values %in% match_to_exclude) )
 
 if(length(rows_to_remove) > 0){  flattened_df <- flattened_df[-rows_to_remove, ] }
 
