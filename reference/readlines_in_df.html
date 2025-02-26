@@ -52,7 +52,6 @@ intermediar are additionnal info, i.e. line_number</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">readlines_in_df</span><span class="op">(</span></span>
 <span>  <span class="va">files_path</span>,</span>
 <span>  return_lowered_text <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  keep_comments <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  .verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  file_path_col_name <span class="op">=</span> <span class="st">"file_path"</span>,</span>
 <span>  content_col_name <span class="op">=</span> <span class="st">"content"</span>,</span>
@@ -72,11 +71,6 @@ intermediar are additionnal info, i.e. line_number</p>
 <dt id="arg-return-lowered-text">return_lowered_text<a class="anchor" aria-label="anchor" href="#arg-return-lowered-text"></a></dt>
 <dd><p><code>logical</code>, default = <code>FALSE</code>
 TRUE for lowercasing the returned text. FALSE (the default) will preserve the readed text</p></dd>
-
-
-<dt id="arg-keep-comments">keep_comments<a class="anchor" aria-label="anchor" href="#arg-keep-comments"></a></dt>
-<dd><p><code>logical</code>, default = <code>FALSE</code>
-If <code>FALSE</code> - the default, lines starting with <code>#</code> are treated as keep_comments and ignored.</p></dd>
 
 
 <dt id="arg--verbose">.verbose<a class="anchor" aria-label="anchor" href="#arg--verbose"></a></dt>
