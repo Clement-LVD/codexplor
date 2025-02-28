@@ -25,7 +25,7 @@ Given folders path(s) and/or github repo(s), compute a *citations network* of th
         
 Then turn this edgelist into an interactive dataviz' with `networkD3` :
 
-        get_networkd3_from_igraph(net)
+        get_networkd3_from_igraph(net$citations_network)
         # Return an interactive dataviz' from networkD3
 
 By default, `get_networkd3_from_igraph` will colorize the nodes accordingly to their indegrees. This will reveal the local dependancies of the programming project (i.e. functions used by others files of the project). 
