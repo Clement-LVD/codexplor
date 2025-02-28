@@ -2,10 +2,10 @@
 <url><loc>https://clement-lvd.github.io/codexplor/404.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/LICENSE-text.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/LICENSE.html</loc></url>
-<url><loc>https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/articles/index.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html</loc></url>
-<url><loc>https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/articles/vignette_get_citations_network_from_project.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/authors.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/index.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/construct_corpus.html</loc></url>
@@ -14,11 +14,11 @@
 <url><loc>https://clement-lvd.github.io/codexplor/reference/gather_df_lines.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/get_citations_network_from_df.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/get_def_regex_by_language.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/get_doc_network_from_project.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/get_github_raw_filespath.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/get_igraph_from_df.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/get_networkd3_from_igraph.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/get_regex_from_vector.html</loc></url>
-<url><loc>https://clement-lvd.github.io/codexplor/reference/get_text_network_from_project.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/index.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/move_networkd3_legend.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/readlines_in_df.html</loc></url>

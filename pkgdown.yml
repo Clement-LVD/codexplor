@@ -2,10 +2,10 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
-  construct_a_corpus: construct_a_corpus.html
   manage_igraph_object: manage_igraph_object.html
-  vignette_get_text_network_from_project: vignette_get_text_network_from_project.html
-last_built: 2025-02-28T01:26Z
+  vignette_construct_corpus: vignette_construct_corpus.html
+  vignette_get_citations_network_from_project: vignette_get_citations_network_from_project.html
+last_built: 2025-02-28T11:16Z
 urls:
   reference: https://clement-lvd.github.io/codexplor/reference
   article: https://clement-lvd.github.io/codexplor/articles

@@ -35,9 +35,9 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/construct_a_corpus.html">Turn a programming project into a corpus</a></li>
-    <li><a class="dropdown-item" href="articles/manage_igraph_object.html">Helper functions to create and filter igraph objects</a></li>
-    <li><a class="dropdown-item" href="articles/vignette_get_text_network_from_project.html">Turn a programming project into a text-network</a></li>
+<li><a class="dropdown-item" href="articles/manage_igraph_object.html">Helper functions to create and filter igraph objects</a></li>
+    <li><a class="dropdown-item" href="articles/vignette_construct_corpus.html">Turn a programming project into a corpus</a></li>
+    <li><a class="dropdown-item" href="articles/vignette_get_citations_network_from_project.html">Turn a Programming Project Into a Citations Network</a></li>
   </ul>
 </li>
       </ul>
@@ -74,10 +74,12 @@
 <div class="section level3">
 <h3 id="example--dataviz-of-internal-dependancies">Example : dataviz’ of internal dependancies<a class="anchor" aria-label="anchor" href="#example--dataviz-of-internal-dependancies"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a> net <span class="ot">&lt;-</span> <span class="fu">get_text_network_from_project</span>(<span class="at">repos =</span> <span class="st">"clement-LVD/codexplor"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>     <span class="co"># Turn a github repo into a network of internal dependancies</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>     </span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a> <span class="fu">get_networkd3_from_igraph</span>(net<span class="sc">$</span>citations_network) <span class="co"># Produce an interactive dataviz'</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#&gt; Le chargement a nécessité le package : codexplor</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a> net <span class="ot">&lt;-</span> <span class="fu">get_doc_network_from_project</span>(<span class="at">repos =</span> <span class="st">"clement-LVD/codexplor"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>     <span class="co"># Turn a github repo into a network of internal dependancies</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>     </span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a> <span class="fu">get_networkd3_from_igraph</span>(net<span class="sc">$</span>citations_network) <span class="co"># Produce an interactive dataviz'</span></span></code></pre></div>
 <p>Return an interactive dataviz’ of the internal dependancies within <code>codexplor</code> :</p>
 <p><img src="reference/figures/network_codexplor_fn.png" width="90%" height="80%" alt=""></p>
 <blockquote>
@@ -151,7 +153,7 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Construct a network of internal dependancies : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html">vignette of <code>get_text_network_from_project</code></a>
+<td align="left">Construct a network of internal dependancies : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_citations_network_from_project.html">vignette of <code>get_text_network_from_project</code></a>
 </td>
 <td align="left">Construct a corpus : <a href="https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html">vignette of <code>construct_corpus</code></a>
 </td>
