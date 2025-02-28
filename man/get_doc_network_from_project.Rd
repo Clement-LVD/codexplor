@@ -5,57 +5,29 @@
 \title{Turn a programing project into a Documents Network}
 \usage{
 get_doc_network_from_project(
-  folder_path = NULL,
+  folders = NULL,
   repos = NULL,
-  prefix_for_regex_from_the_text = "\\\\b",
-  suffix_for_regex_from_the_text = "\\\\(",
-  filter_egolink_within_a_file = TRUE,
-  ...,
-  file_path_from_colname = "from",
-  file_path_to_colname = "to",
-  function_matched_colname = "function",
-  line_number_matched_colname = "line_number",
-  content_matched_colname = "content_matched"
+  languages = "R",
+  ...
 )
 }
 \arguments{
-\item{folder_path}{\code{character} A string or list representing the path(s) and/or url of local folders path to read.}
+\item{folders}{\code{character} A string or list representing the path(s) of local folders path to read.}
 
 \item{repos}{\code{character} A string or list representing the name(s) of github repos (e.g., 'tidyverse/stringr').}
 
-\item{prefix_for_regex_from_the_text}{\code{character} A string representing the prefix to add
-to each 1st match that will be turned into a new regular expressions. The default is an empty string.}
+\item{languages}{\code{character}. Default = \code{"R"}. A character vector specifying the programming language(s) to include in the corpus.}
 
-\item{suffix_for_regex_from_the_text}{\code{character} A string representing a regex to add as a suffix
-of each match, in order to have a complete regular expression. The default is an empty string.}
-
-\item{filter_egolink_within_a_file}{\code{logical}, default = \code{TRUE}. A logical value indicating whether to filter results based on
-"ego links" (a document referring to itself)}
-
-\item{...}{Parameters passed to \code{construct_corpus()} and \code{srch_pattern_in_files_get_df()}. These parameters are
+\item{...}{Parameters passed to \code{compute_doc_network_from_corpus()}. These parameters are
 \itemize{
-\item characters values, e.g., filter results with \code{match_to_exclude}, adjust the "\code{pattern}" parameter for matching functions names, etc.
-\item logical values, e.g., "\code{keep_comments = T}"
-\item integer values such as \code{ignore_match_less_than_nchar}, etc.
+\item characters values, in order to add a prefix and a suffix to the pattern searched (e.g., \code{suffix_for_2nd_matches})
+or changing the colnames (e.g., \code{file_path_from_colname}).
+\item logical values, e.g., "\code{filter_egolink_within_a_file}" (default = \code{TRUE})
 }}
-
-\item{file_path_from_colname}{\code{character}, default = \code{'from'} The column name (as a string) representing the "from" file path
-in the result data frame.}
-
-\item{file_path_to_colname}{\code{character}, default = \code{'to'} The column name (as a string) representing the "to" file path in
-the result data frame.}
-
-\item{function_matched_colname}{\code{character}, default = \code{'function'} The column name for the matched text
-(default is a function name) in the result data frame.}
-
-\item{line_number_matched_colname}{\code{character}, default = \code{'line_number'}  The column name (as a string) for the line number
-of the second match in the result data frame.}
-
-\item{content_matched_colname}{\code{character}, default = \code{'content_matched'} The column name (as a string)
-for the full line where a match have occured.}
 }
 \value{
-A \code{list} of \code{dataframe} symbolizing the edgelist of a document-to-document citations network
+A \code{list} of 4 \code{dataframe} : 2 of class \code{corpus.lines}, 1 \code{corpus.nodelist} and 1 \code{citations.network}
+(symbolizing the edgelist of a document-to-document citations network within a programming project)
 \describe{
 \item{\code{from}}{\code{character} Citations Network - The local file path or GitHub URL that call a function.}
 \item{\code{to}}{\code{character} Citations Network - The local file path or constructed GitHub URL where the function called is defined.}
@@ -66,29 +38,18 @@ A \code{list} of \code{dataframe} symbolizing the edgelist of a document-to-docu
 }
 }
 \description{
-This function read files in a specified folder(s) and/or github repo(s)
-extract the text and construct a Citations Network
-accordingly to default parameters associated with programmaing languages.
-(the user have to indicate a programming language).
-}
-\details{
-It is designed to generate a network of text by cascading text research :
-
-1st the func' try to match a pattern within the files, optionally filter the initial results.
-
-Then, a regex-pattern is constructed by appending all the 1st match
-
-And a 2nd research extract this pattern, and construct a network
-(document with the 2nd match => document with the 1st match)
+This function craft a corpus, according to the default settings. It will
+return the corpus with a citations network of internal dependancies
 }
 \examples{
 # Example with url from github
-result <- get_doc_network_from_project(folder_path =  "~" )
-# Return a list of df (1st one is supposed to be an edgelist)
+result <- get_doc_network_from_project(folder =  "~" )
+# Return a list of df
 # (from the file where a function is call => to the file were defined)
 }
 \seealso{
 \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_df}}, \code{\link{get_citations_network_from_df}}
 
+\url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_a_corpus.html}
 \url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_a_corpus.html}
 }

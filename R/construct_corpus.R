@@ -2,17 +2,17 @@
 #' Within a Local GitHub Repositories and/or Local Folders
 #'
 #' Given a Language and a folder path(s) and/or github repo(s)
-#' The 3 dataframes are :
-#' a corpus of (1) `codes` lines and (2) `comments` lines with text-metrics over the lines,
+#' Return a `list` of 3 dataframes. List have an additionnal `corpus.list` class. The 3 `df` are :
+#'  (1) `codes` lines and (2) `comments` lines, with text-metrics about each line;
 #' and (3) nodelist with global metrics over the files.
-#' The returned list is a S3 "corpus_list" (standard S3 list with attributes and name)
 #' @param folders `character`. Default = `NULL`. A character vector of local folder paths to scan for code files.
 #' @param languages `character`. Default = `"R"`. A character vector specifying the programming language(s) to include in the corpus.
 #' @param repos `character`. Default = `NULL`. A character vector of GitHub repository URLs or repository identifiers to extract files from (e.g., `"user/repo"`).
 #' @param ... Additional arguments passed to `srch_pattern_in_files_get_df`
 #' (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).
 #'
-#' @return A list of 3 dataframes containing the corpus of collected files : `codes`, `comments` and `nodelist`
+#' @return A `list` of 3 `data.frame` containing the corpus of collected files and a first nodelist :
+#' `codes` and `comments` (`data.frame` with class `corpus.lines`) and `nodelist` (`data.frame` with class `corpus.nodelist`)
 #' The data frames typically includes columns such as:
 #' \describe{
 #'   \item{\code{file_path}}{ `character` The local file path or constructed GitHub URL.}
@@ -35,24 +35,23 @@
 #' - Both local paths and GitHub URLs can be combined in the final output.
 #'
 #' The returned list is tagged
-#' with the class *corpus_list*, and contains the following attributes:
+#' with the class *corpus.list*, and contains the following attributes:
 #' - `date_creation` : `Date` a Date indicating when the corpus list was created (as `Sys.Date()`).
 #' - `citations_network` : a `logical` indicating if a citations_network was processed
 #' (construct_corpus don't return a citations_network so it will be set to  `FALSE`)
 #' - `languages_patterns` : a dataframe with the default pattern associated with the
 #'  requested languages, a subset of the `languages` parameters or entire list
 #' (e.g., file extension and a regex pattern for function definition).
-#' @examples {
+#' @examples
 #' # Example 1: Construct a corpus from local folders
-#'     cr1 <- construct_corpus(folders = "~", languages = c("Python", "R"))
-#'
-#'     \dontrun{
+#'  corpus <- construct_corpus(folders = "~", languages = c("Python", "R"))
+#' \dontrun{
 #' # Example 2: Construct a corpus from GitHub repositories (default is R)
 #' cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
 #'
 #' # Example 3: Combine local folders and GitHub repositories
-#' cr3 <- construct_corpus("~", "R", "c("tidyverse/stringr", "tidyverse/readr"))
-#' }}
+#' cr3 <- construct_corpus("~", "R", c("tidyverse/stringr", "tidyverse/readr"))
+#' }
 #' @seealso \code{\link{readlines_in_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}
 #' @seealso
 #'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html}
@@ -110,23 +109,24 @@ nodelist <- compute_nodelist(df = complete_files, group_col = "file_path"
 
 
 #### 6) Construct a corpus ####
-# list of codes (non-commented) and commented line
-col_to_keep <- !(names(complete_files) %in% c("comments"))
-
+# we have some func' for define class and creation_date
 corpus <- list(
-codes = complete_files[!complete_files$comments, col_to_keep ] # erasing the comments column
-,comments = complete_files[complete_files$comments, col_to_keep ]
-, nodelist = nodelist
+codes = complete_files[!complete_files$comments,  ]
+,comments = .construct.corpus.lines(complete_files[complete_files$comments,  ])
+, nodelist = .construct.nodelist(nodelist)
             )
+# classe corpus.lines and corpus.nodelist
 
 # 5-A} Get 1st matches (maybe duplicated lines here : xxx beurk xxx)
 # => functions defined ! (here we are only ONE LANGUAGE BY ONE)
-corpus$codes <- srch_pattern_in_df( df =  corpus$codes, content_col_name = "content",
+corpus$codes <-srch_pattern_in_df( df =  corpus$codes, content_col_name = "content",
                                ,  pattern = lang_desired$fn_regex )
+
+corpus$codes <- .construct.corpus.lines(corpus$codes)
 
 corpus <- structure(
   corpus,           # La liste de dataframes
-  class = c("corpus_list", "list")  # claim a custom 'corpus_list' class (list heritage)
+  class = c("list","corpus.list" )  # claim a custom 'corpus_list' class (list heritage)
 , date_creation = Sys.Date()
 , citations_network = F
 , languages_patterns = lang_dictionnary # our params from the begining of this function

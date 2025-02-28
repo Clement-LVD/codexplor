@@ -34,27 +34,41 @@ devtools::install_github("clement-LVD/codexplor")
 
 ### Example : dataviz’ of internal dependancies
 
-     net <- codexplor::get_doc_network_from_project(repos = "clement-LVD/codexplor")
-         # Turn a github repo into a corpus & a network of internal dependancies
-         
-         str(net, max.level = 1)  #
-     # List of 4
-       # $ codes            :'data.frame':  808 obs. of  9 variables:
-       # $ comments         :'data.frame':  700 obs. of  8 variables:
-       # $ nodelist         :'data.frame':  18 obs. of  8 variables:
-       # $ citations_network:'data.frame':  13 obs. of  5 variables:
-       # - attr(*, "class")= chr [1:2] "corpus_list" "list"
-       # - attr(*, "date_creation")= Date[1:1], format: "2025-02-28"
-       # - attr(*, "citations_network")= logi TRUE
-       # - attr(*, "languages_patterns")='data.frame':  1 obs. of  6 variables
-     
-     
-     get_networkd3_from_igraph(net$citations_network) # Produce an interactive dataviz'
-
 Return an interactive dataviz’ of the internal dependancies within
 `codexplor` :
 
-<img src="man/figures/network_codexplor_fn.png" width="90%"  height="80%" alt = ""/>
+``` r
+library(codexplor)
+
+ # 1) Construct a corpus and a Citations network
+  net <- get_doc_network_from_project("R/", languages = "R")
+
+  # since this readme is executed from a repo we ask for a "local" folder path ("R/")
+  # At home you'll have the same results with : 
+  # net <-  get_doc_network_from_project(repos = "clement-LVD/codexplor", languages = "R")
+
+   # return a corpus.list object with 2 corpus.line, 1 corpus.nodelist & 1 citations.network
+  str(net, max.level = 1) 
+#> List of 4
+#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    854 obs. of  10 variables:
+#>  $ comments         :Classes 'corpus.lines' and 'data.frame':    755 obs. of  9 variables:
+#>  $ nodelist         :Classes 'corpus.nodelist' and 'data.frame': 19 obs. of  8 variables:
+#>  $ citations_network:Classes 'citations.network' and 'data.frame':   14 obs. of  5 variables:
+#>  - attr(*, "class")= chr [1:2] "list" "corpus.list"
+#>  - attr(*, "date_creation")= Date[1:1], format: "2025-02-28"
+#>  - attr(*, "citations_network")= logi TRUE
+#>  - attr(*, "languages_patterns")='data.frame':   1 obs. of  6 variables:
+```
+
+``` r
+# Produce an interactive dataviz'
+dataviz <- get_networkd3_from_igraph(net$citations_network) 
+# library(htmltools)
+# browsable(dataviz)
+  
+```
+
+<!-- <img src="man/figures/network_codexplor_fn.png" width="90%"  height="80%" alt = ""/>  -->
 
 > These dataviz are useful for pinpointing where to start a polishing
 > loop, identifying all the functions impacted by upcoming changes,
@@ -72,7 +86,7 @@ local insights on a programming project.
 |:---|:---|:---|
 | ![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network%20of%20internal%20dependencies&labelColor=black&color=green) | Appreciate global complexity and figure out the pig picture | Reveal critical files, e.g., major internal dependancies |
 | ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=orange) | Reveal clusters of ‘difficult-to-read’ files | Assess each file with text-mining metrics, e.g., length and files readability |
-| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Line-level%20metrics&labelColor=grey&color=yellow) | ↑ (used by global level metric) | Identify problematic lines, e.g., the longest ones |
+| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Line-level%20metrics&labelColor=grey&color=green) | ↑ (used by global level metric) | Identify problematic lines, e.g., the longest ones |
 
 <!-- FEATURES are on 3 flex-columns : -->
 
@@ -125,7 +139,7 @@ offers helper functions, e.g., for create and filter a network with the
 
 | Analyze a programming project | Helper functions |
 |:---|:---|
-| Construct a network of internal dependancies : [vignette of `get_text_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_citations_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html) |
+| Construct a network of internal dependancies : [vignette of `get_text_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html) |
 |  | Manage and filter `igraph` object : [vignette of helper functions for igraph object](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html) |
 
 The default settings of `codexplor` are optimized for analyzing a

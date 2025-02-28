@@ -18,7 +18,8 @@ construct_corpus(folders = NULL, languages = "R", repos = NULL, ...)
 (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).}
 }
 \value{
-A list of 3 dataframes containing the corpus of collected files : \code{codes}, \code{comments} and \code{nodelist}
+A \code{list} of 3 \code{data.frame} containing the corpus of collected files and a first nodelist :
+\code{codes} and \code{comments} (\code{data.frame} with class \code{corpus.lines}) and \code{nodelist} (\code{data.frame} with class \code{corpus.nodelist})
 The data frames typically includes columns such as:
 \describe{
 \item{\code{file_path}}{ \code{character} The local file path or constructed GitHub URL.}
@@ -37,10 +38,9 @@ The data frames typically includes columns such as:
 }
 \description{
 Given a Language and a folder path(s) and/or github repo(s)
-The 3 dataframes are :
-a corpus of (1) \code{codes} lines and (2) \code{comments} lines with text-metrics over the lines,
+Return a \code{list} of 3 dataframes. List have an additionnal \code{corpus.list} class. The 3 \code{df} are :
+(1) \code{codes} lines and (2) \code{comments} lines, with text-metrics about each line;
 and (3) nodelist with global metrics over the files.
-The returned list is a S3 "corpus_list" (standard S3 list with attributes and name)
 }
 \details{
 \itemize{
@@ -50,7 +50,7 @@ The returned list is a S3 "corpus_list" (standard S3 list with attributes and na
 }
 
 The returned list is tagged
-with the class \emph{corpus_list}, and contains the following attributes:
+with the class \emph{corpus.list}, and contains the following attributes:
 \itemize{
 \item \code{date_creation} : \code{Date} a Date indicating when the corpus list was created (as \code{Sys.Date()}).
 \item \code{citations_network} : a \code{logical} indicating if a citations_network was processed
@@ -58,6 +58,17 @@ with the class \emph{corpus_list}, and contains the following attributes:
 \item \code{languages_patterns} : a dataframe with the default pattern associated with the
 requested languages, a subset of the \code{languages} parameters or entire list
 (e.g., file extension and a regex pattern for function definition).
+}
+}
+\examples{
+# Example 1: Construct a corpus from local folders
+ corpus <- construct_corpus(folders = "~", languages = c("Python", "R"))
+\dontrun{
+# Example 2: Construct a corpus from GitHub repositories (default is R)
+cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
+
+# Example 3: Combine local folders and GitHub repositories
+cr3 <- construct_corpus("~", "R", c("tidyverse/stringr", "tidyverse/readr"))
 }
 }
 \seealso{
