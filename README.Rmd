@@ -66,16 +66,18 @@ library(codexplor)
 
 ```{r compute-network-of-func,  results='asis', echo=TRUE}
 # Produce an interactive dataviz'
-dataviz <- get_networkd3_from_igraph(title_h1 = "codexplor graph of internal dependancies", graph_igraph = net$citations_network) 
+dataviz <- get_networkd3_from_igraph(title_h1 = "codexplor",subtitle_h2 = "graph of internal dependancies"
+                                     , graph_igraph = net$citations_network) 
 ```
 
-```{r echo=FALSE, results='asis'}
+```{r save-plot, results='asis', echo=FALSE}
  
-networkD3::saveNetwork( dataviz, "force_network.html")   
-cat('<iframe src="force_network.html" width="100%" height="600px" frameborder="0"></iframe>')
+networkD3::saveNetwork( dataviz, "man/figures/network_codexplor_fn.html")   
+webshot2::webshot("man/figures/network_codexplor_fn.html", file = "man/figures/force_network.png")
+
 ```
 
-<!-- <img src="man/figures/network_codexplor_fn.png" width="90%"  height="80%" alt = ""/>  -->
+<!-- `r knitr::include_graphics("man/figures/network_codexplor_fn.png")` -->
 
 > These dataviz are useful for pinpointing where to start a polishing loop, identifying all the functions impacted by upcoming changes, [...] or assessing the impact of a new dev loop on the project's complexity.
 
