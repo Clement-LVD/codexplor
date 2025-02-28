@@ -11,11 +11,16 @@
 #' @param ... Additional arguments passed to `srch_pattern_in_files_get_df`
 #' (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).
 #'
-#' @return A list of 2 dataframes containing the corpus of collected files : `codes` and `comments`. The data frames typically includes columns such as:
+#' @return A list of 4 dataframes containing the corpus of collected files : `codes` and `comments`. The data frames typically includes columns such as:
 #' \describe{
 #'   \item{\code{file_path}}{ `character` The local file path or constructed GitHub URL.}
 #'   \item{\code{line_number}}{`integer` The line number of the file.}
 #'   \item{\code{content}}{`character` The content in the line.}
+#'   \item{\code{n_char}}{`integer` Number of characters - including spacing.}
+#'   \item{\code{n_char_wo_space}}{`integer` Number of char. without spacing.}
+#'   \item{\code{n_word}}{`integer` Number of words.}
+#'   \item{\code{n_vowel}}{`integer` Number of voyel.}
+#'   \item{\code{matches}}{`character` A 1st text, extracted accordingly to a pattern.}
 #' }
 #' @seealso \code{\link{readlines_in_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}
 #' @details
@@ -25,14 +30,13 @@
 #'
 #' @examples
 #' # Example 1: Construct a corpus from local folders
-#' cr1 <- construct_lines_corpus("~", languages = c( "R") )
+#' cr1 <- construct_corpus("~", languages = c( "R") )
 #' \dontrun{
 #' # Example 2: Construct a corpus from GitHub repositories (default is R)
-#' cr2 <- construct_lines_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
+#' cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
 #'
 #' # Example 3: Combine local folders and GitHub repositories
-#' cr3 <- construct_lines_corpus("~", "R", "c("tidyverse/stringr", "tidyverse/readr"))
-#' }
+#' cr3 <- construct_corpus("~", "R", "c("tidyverse/stringr", "tidyverse/readr"))#' }
 #' @export
 construct_corpus <- function(
  local_folders_paths = NULL

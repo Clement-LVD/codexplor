@@ -23,11 +23,16 @@ construct_corpus(
 (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).}
 }
 \value{
-A list of 2 dataframes containing the corpus of collected files : \code{codes} and \code{comments}. The data frames typically includes columns such as:
+A list of 4 dataframes containing the corpus of collected files : \code{codes} and \code{comments}. The data frames typically includes columns such as:
 \describe{
 \item{\code{file_path}}{ \code{character} The local file path or constructed GitHub URL.}
 \item{\code{line_number}}{\code{integer} The line number of the file.}
 \item{\code{content}}{\code{character} The content in the line.}
+\item{\code{n_char}}{\code{integer} Number of characters - including spacing.}
+\item{\code{n_char_wo_space}}{\code{integer} Number of char. without spacing.}
+\item{\code{n_word}}{\code{integer} Number of words.}
+\item{\code{n_vowel}}{\code{integer} Number of voyel.}
+\item{\code{matches}}{\code{character} A 1st text, extracted accordingly to a pattern.}
 }
 }
 \description{
