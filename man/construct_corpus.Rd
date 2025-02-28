@@ -2,16 +2,13 @@
 % Please edit documentation in R/construct_corpus.R
 \name{construct_corpus}
 \alias{construct_corpus}
-\title{Construct a Data Frame of Code Files from Local GitHub Repositories and/or Local Folders}
+\title{Construct a list of DataFrames of Lines Readed From Files
+from Local GitHub Repositories and/or Local Folders}
 \usage{
 construct_corpus(
   local_folders_paths = NULL,
   languages = "R",
   repos = NULL,
-  pattern_to_exclude_path = NULL,
-  autoclean_filespath = TRUE,
-  ignore_match_less_than_nchar = 3,
-  pattern_to_remove = "https://raw.githubusercontent.com/",
   ...
 )
 }
@@ -22,42 +19,21 @@ construct_corpus(
 
 \item{repos}{\code{character}. Default = \code{NULL}. A character vector of GitHub repository URLs or repository identifiers to extract files from (e.g., \code{"user/repo"}).}
 
-\item{pattern_to_exclude_path}{\code{character}. A regular expression pattern to exclude files by scanning their full names (path/filename.ext).
-Default is \code{NULL} (no files are excluded).}
-
-\item{autoclean_filespath}{\code{logical}. Default = \code{TRUE}.
-Codexplor try to exclude testing files \emph{before} to read the files of a project ; and it will try to clean the urls of the returned df
-By default, typical testing-purpose .R files are excluded
-(i.e. "\.Rcheck|test-|Vignette")
-, in addition to an optional \code{pattern_to_exclude_path} passed by the user.}
-
-\item{ignore_match_less_than_nchar}{\code{integer}. Default = \code{3}. Number of characters for the 1st match to be considered valid.}
-
-\item{pattern_to_remove}{\code{character} Default = \code{'https://raw.githubusercontent.com/'}
-A pattern (regex) to remove from the files path of the edgelist (columns 1 & 2)}
-
 \item{...}{Additional arguments passed to \code{srch_pattern_in_files_get_df}
 (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).}
 }
 \value{
-A data frame containing the corpus of collected files. The data frame typically includes columns such as:
+A list of 2 dataframes containing the corpus of collected files : \code{codes} and \code{comments}. The data frames typically includes columns such as:
 \describe{
 \item{\code{file_path}}{ \code{character} The local file path or constructed GitHub URL.}
-\item{\code{line_number}}{\code{integer} The local file path or constructed GitHub URL.}
-\item{\code{content}}{\code{character} The local file path or constructed GitHub URL.}
-\item{\code{n_char_line}}{\code{integer} Total nchar of a line, including spacing.}
-\item{\code{n_char_wo_space_line}}{\code{integer} Total nchar of a line, \emph{without} spacing.}
-\item{\code{nchar_wo_space_in_file}}{\code{integer} Sum of n_char_wo_space_line for a given file path
-(same value is repeated for each file path)}
+\item{\code{line_number}}{\code{integer} The line number of the file.}
+\item{\code{content}}{\code{character} The content in the line.}
 }
 }
 \description{
-Build a structured data frame containing code files
+Given a Language and a folder path(s) and/or github repo(s)
+Build a list of 2 samely-structured dataframes containing files
 from either GitHub repositories or local folder paths.
-Then extract a pattern in the lines previously readed
-(the default pattern provided is designed for matching functions names).
-The resulting data frame provides an overview of the collected content,
-including file paths and/or URLs.
 }
 \details{
 \itemize{
@@ -66,17 +42,6 @@ including file paths and/or URLs.
 \item Both local paths and GitHub URLs can be combined in the final output.
 }
 }
-\examples{
-# Example 1: Construct a corpus from local folders
-cr1 <- construct_corpus("~", languages = c( "Python") )
-\dontrun{
-# Example 2: Construct a corpus from GitHub repositories
-cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
-
-# Example 3: Combine local folders and GitHub repositories
-cr3 <- construct_corpus("~", "R", "tidyverse/dplyr" )
-}
-}
 \seealso{
-\code{\link{srch_pattern_in_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}
+\code{\link{readlines_in_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}
 }

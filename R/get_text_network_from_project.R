@@ -43,26 +43,21 @@
 #'
 #' @param content_matched_colname `character`, default = `'content_matched'` The column name (as a string)
 #' for the full line where a match have occured.
-#' @param return_corpus `logical`, default = `FALSE` If set to `TRUE`, a list with the edgelist *and* the corpus be returned
 #'
-#' @return A `dataframe` symbolizing the edgelist of a document-to-document citations network
+#' @return A `list` of `dataframe` symbolizing the edgelist of a document-to-document citations network
 #' \describe{
-#'   \item{\code{file_path}}{`character` The local file path or constructed GitHub URL.}
-#'   \item{\code{line_number}}{`integer` The line number within the file.}
-#'   \item{\code{content}}{`character` The content from a line.}
-#'   \item{\code{match}}{`character` The matched text on this line, `NA` if there is no match.}
+#'   \item{\code{from}}{`character` Citations Network - The local file path or GitHub URL that call a function.}
+#'   \item{\code{to}}{`character` Citations Network - The local file path or constructed GitHub URL where the function called is defined.}
+#'   \item{\code{file_path}}{`character` Corpus - The local file path or constructed GitHub URL.}
+#'   \item{\code{line_number}}{`integer` Corpus - The line number within the file.}
+#'   \item{\code{content}}{`character` Corpus - The content from a line.}
+#'   \item{\code{match}}{`character` Corpus - The matched text on this line, `NA` if there is no match.}
 #' }
-#' Note that a list with 2 entries is returned if the user indicates `return_corpus` = `TRUE`
-#' 1st entry is the `dataframe` described hereabove. The 2nd entry is the corpus, see \code{\link{construct_corpus}}
-#' Columns 'from' and 'to' indicates the files paths or urls of the matched contents.
-#' There is other infos (line numbers, line matched and content for verification)
 #' @examples
 #' # Example with url from github
 #' result <- get_text_network_from_project(folder_path =  "~" )
-#' # Return a `df` (default is supposed to be a network of functions)
+#' # Return a list of df (1st one is supposed to be an edgelist)
 #' # (from the file where a function is call => to the file were defined)
-#' result_list <- get_text_network_from_project(folder_path =  "~" , return_corpus = TRUE)
-#' #Will return a list of 2 elements : the `df` of matches, and the complete corpus
 #' @seealso \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_df}}, \code{\link{get_citations_network_from_df}}
 #' @seealso
 #'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html}
@@ -84,20 +79,19 @@ get_text_network_from_project <- function(folder_path = NULL, repos = NULL
  , line_number_matched_colname = "line_number"
  , content_matched_colname = "content_matched" # we want to keep the full content available
 
- , return_corpus = F
   ){
 
 
 ##### 1) Construct a lines corpus ####
  # We will rename in the end
-fn_network <- construct_corpus(local_folders_paths = folder_path,   repos = repos ,  ...)
+corpus <- construct_corpus(local_folders_paths = folder_path,   repos = repos ,  ...)
 
-
-# 2.1) Get an HYBRID nodelist of the 1st matches and files path
+# 2.1) Get an HYBRID nodelist of the 1st matches and files path (default names from the corpus func')
+fn_network <- corpus$codes
 # by default we're supposed to catch lines where functions are defined, but there is maybe several functions in a file
 origines_files <- unique(fn_network[which(!is.na(fn_network$matches)), c("matches","file_path")])
 names(origines_files)[names(origines_files) == "file_path"] <- "to"
-
+# we will add these path as a 'to' node (where a func is defined )
 
 # 2.2) add a proper "text" column (full content) = problems when several func' are defined in the same line
 # files_content <- gather_df_lines(fn_network, "file_path", "content")
@@ -133,9 +127,7 @@ if(filter_egolink_within_a_file){returned_network <- returned_network[ which( re
 colnames(returned_network) <- c(file_path_from_colname, file_path_to_colname, function_matched_colname, content_matched_colname,  line_number_matched_colname)
 # finally givin the colname wanted by the user
 
-if(return_corpus) return(list(edgelist = returned_network, corpus = fn_network))
-
-return(returned_network)
+return(list = append(list( citations_network = returned_network), corpus ))
 
 }
 

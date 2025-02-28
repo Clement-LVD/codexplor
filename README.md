@@ -37,7 +37,7 @@ devtools::install_github("clement-LVD/codexplor")
      net <- get_text_network_from_project(repos = "clement-LVD/codexplor")
          # Turn a github repo into a network of internal dependancies
          
-     get_networkd3_from_igraph(net) # Produce an interactive dataviz'
+     get_networkd3_from_igraph(net$citations_network) # Produce an interactive dataviz'
 
 Return an interactive dataviz’ of the internal dependancies within
 `codexplor` :

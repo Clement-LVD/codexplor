@@ -15,8 +15,7 @@ get_text_network_from_project(
   file_path_to_colname = "to",
   function_matched_colname = "function",
   line_number_matched_colname = "line_number",
-  content_matched_colname = "content_matched",
-  return_corpus = F
+  content_matched_colname = "content_matched"
 )
 }
 \arguments{
@@ -54,21 +53,17 @@ of the second match in the result data frame.}
 
 \item{content_matched_colname}{\code{character}, default = \code{'content_matched'} The column name (as a string)
 for the full line where a match have occured.}
-
-\item{return_corpus}{\code{logical}, default = \code{FALSE} If set to \code{TRUE}, a list with the edgelist \emph{and} the corpus be returned}
 }
 \value{
-A \code{dataframe} symbolizing the edgelist of a document-to-document citations network
+A \code{list} of \code{dataframe} symbolizing the edgelist of a document-to-document citations network
 \describe{
-\item{\code{file_path}}{\code{character} The local file path or constructed GitHub URL.}
-\item{\code{line_number}}{\code{integer} The line number within the file.}
-\item{\code{content}}{\code{character} The content from a line.}
-\item{\code{match}}{\code{character} The matched text on this line, \code{NA} if there is no match.}
+\item{\code{from}}{\code{character} Citations Network - The local file path or GitHub URL that call a function.}
+\item{\code{to}}{\code{character} Citations Network - The local file path or constructed GitHub URL where the function called is defined.}
+\item{\code{file_path}}{\code{character} Corpus - The local file path or constructed GitHub URL.}
+\item{\code{line_number}}{\code{integer} Corpus - The line number within the file.}
+\item{\code{content}}{\code{character} Corpus - The content from a line.}
+\item{\code{match}}{\code{character} Corpus - The matched text on this line, \code{NA} if there is no match.}
 }
-Note that a list with 2 entries is returned if the user indicates \code{return_corpus} = \code{TRUE}
-1st entry is the \code{dataframe} described hereabove. The 2nd entry is the corpus, see \code{\link{construct_corpus}}
-Columns 'from' and 'to' indicates the files paths or urls of the matched contents.
-There is other infos (line numbers, line matched and content for verification)
 }
 \description{
 This function read files in a specified folder (default to only .R files)
@@ -87,10 +82,8 @@ and a 2nd research extract this pattern, and construct a network
 \examples{
 # Example with url from github
 result <- get_text_network_from_project(folder_path =  "~" )
-# Return a `df` (default is supposed to be a network of functions)
+# Return a list of df (1st one is supposed to be an edgelist)
 # (from the file where a function is call => to the file were defined)
-result_list <- get_text_network_from_project(folder_path =  "~" , return_corpus = TRUE)
-#Will return a list of 2 elements : the `df` of matches, and the complete corpus
 }
 \seealso{
 \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_df}}, \code{\link{get_citations_network_from_df}}
