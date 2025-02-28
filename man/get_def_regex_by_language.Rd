@@ -19,7 +19,8 @@ A dataframe where each row corresponds to a language and contains:
 }
 }
 \description{
-This function returns a df with regex patterns and file extensions associated with function definitions
+This function returns a \code{df} with informations for each language (each row),
+e.g., file extensions associated and regex pattern for matching commented lines and functions definitions)
 for one or more specified programming languages.
 }
 \details{

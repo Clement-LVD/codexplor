@@ -24,6 +24,7 @@ By default `construct_corpus` is tunned for the R programming language. One or s
 - `construct_corpus` return the content as a `df`, comments are wiped (by default)
 - *1st matches* are realized accordingly to the pattern provided by the user 
 - *1st matches* are extracted in a column of the returned `df`. By default, the names of functions defined in the files of the project are extracted^[If a file have several function defined *within the same line*, lines of the returned `df` will be duplicated.].
-- Then, 2 nchar values are computed are computed for each line (nchar and nchar without space).
+- Then, text-mining metrics are computed are computed within each line (e.g., number of characters, words count).
+- And agregated on a document-level
 
 These default match rely on a regex, for each of the `languages` supported by `construct_corpus`.

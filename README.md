@@ -34,7 +34,9 @@ devtools::install_github("clement-LVD/codexplor")
 
 ### Example : dataviz’ of internal dependancies
 
-     net <- get_text_network_from_project(repos = "clement-LVD/codexplor")
+    #> Le chargement a nécessité le package : codexplor
+
+     net <- get_doc_network_from_project(repos = "clement-LVD/codexplor")
          # Turn a github repo into a network of internal dependancies
          
      get_networkd3_from_igraph(net$citations_network) # Produce an interactive dataviz'
@@ -113,7 +115,7 @@ helper functions, e.g., for create and filter a network with the
 
 | Analyze a programming project | Helper functions |
 |:---|:---|
-| Construct a network of internal dependancies : [vignette of `get_text_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html) |
+| Construct a network of internal dependancies : [vignette of `get_text_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_citations_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html) |
 |  | Manage and filter `igraph` object : [vignette of helper functions for igraph object](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html) |
 
 The default settings of `codexplor` are optimized for analyzing a

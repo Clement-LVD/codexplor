@@ -1,8 +1,8 @@
 ---
-title: "Turn a programming project into a text-network"
+title: "Turn a Programming Project Into a Citations Network"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Turn a programming project into a text-network}
+  %\VignetteIndexEntry{Turn a Programming Project Into a Citations Network}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,13 +14,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-This Vignette give a basic understanding of the network computed by `codexplor::get_text_network_from_project` : a Citations Network of functions within *programming project(s)*.
+This Vignette give a basic understanding of the network computed by `codexplor::get_doc_network_from_project` : a Citations Network of functions within *programming project(s)*.
 
 ### Example
-Given folders path(s) and/or github repo(s), compute a *citations network* of the functions with   ![.](https://img.shields.io/badge/{Method}-bold?style=flat&logoColor=black&logoSize=2&label=get_text_network_from_project()&labelColor=yellow&color=black)
+Given folders path(s) and/or github repo(s), compute a *citations network* of the functions with   ![.](https://img.shields.io/badge/{Method}-bold?style=flat&logoColor=black&logoSize=2&label=get_doc_network_from_project()&labelColor=yellow&color=black)
 
 
-        net <- get_text_network_from_project(repos =  c("tidyverse/stringr", "clement-lvd/codexplor"))
+        net <- get_doc_network_from_project(repos =  c("tidyverse/stringr", "clement-lvd/codexplor"))
         # by default, codexplor deal with R project
         
 Then turn this edgelist into an interactive dataviz' with `networkD3` :
@@ -43,7 +43,7 @@ The returned network is a document-to-document citations network.
 
 These networks have basic properties, not covered here (e.g., a citations network is a directed network).
 
-Regarding the network computed by `codexplor::get_text_network_from_project()` :
+Regarding the network computed by `codexplor::get_doc_network_from_project()` :
 
 - Nodes are the programming files, default is a network of .R files. 
 - Edges go from the file that calls a function to the file where the function is defined.
@@ -55,9 +55,9 @@ Thus, in a typical programming project :
 - °→ Outdegree of a file is "how many functions are used by this file" ; 
 - ⟲ Auto-mentioning refear to 'recursivity' (`codexplor` default is to filter autolinks).
 
-### Cascading matching operated by `get_text_network_from_project`
+### Cascading matching operated by `get_doc_network_from_project`
 
-Assuming the user have indicated folder(s) and/or github repo(s), `codexplor::get_text_network_from_project()` will try to perform a 'cascading matching' :
+Assuming the user have indicated folder(s) and/or github repo(s), `codexplor::get_doc_network_from_project()` will try to perform a 'cascading matching' :
 
 ⏩ Read the files and extract a 1st pattern, e.g., default tare supposed to extract *R functions names*. 
 
@@ -68,7 +68,7 @@ Assuming the user have indicated folder(s) and/or github repo(s), `codexplor::ge
 `codexplor` default pattern are aimed to extract functions names from the files of a *programming* project.
 
 ### Filter undesired match
-Junk nodes needs to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. `get_text_network_from_files` offer several parameters for dealing with your style of writing a program.
+Junk nodes needs to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. `get_doc_network_from_project` offer several parameters for dealing with your style of writing a program.
 
 
 ### Crafting your own corpus with codexplor

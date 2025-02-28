@@ -1,6 +1,7 @@
 #' Retrieve function definition regex patterns by programming language(s)
 #'
-#' This function returns a df with regex patterns and file extensions associated with function definitions
+#' This function returns a `df` with informations for each language (each row),
+#'  e.g., file extensions associated and regex pattern for matching commented lines and functions definitions)
 #' for one or more specified programming languages.
 #'
 #' @param ... `character` One or more programming language names (character strings).
@@ -21,81 +22,85 @@
 #' @export
 get_def_regex_by_language <- function(...) {
 #### 1) define function regex => core behavior is catching func' names ####
-functions_def_by_language_regex_pattern <- list(
+def_by_language_regex_pattern <- list(
   R = list(
     fn_regex = "(^| \\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)",
     file_extension = ".R"
     , commented_line_char = "\\s?#"
-    , pattern_to_exlude = "\\.Rcheck|test-|Vignette"
+    , pattern_to_exclude = "\\.Rcheck|test-|Vignette"
   ),
   Python = list(
     fn_regex = "^\\s*def\\s+([\\w_]+)\\s*\\(",
     file_extension = ".py"
     , commented_line_char = "#"
-    , pattern_to_exlude = NA),
+    , pattern_to_exclude = NA),
   JavaScript = list(
     fn_regex = "^\\s*function\\s+([\\w_]+)\\s*\\(",
     file_extension = ".js"
     , commented_line_char = "//|/*"
 
-    , pattern_to_exlude = NA
+    , pattern_to_exclude = NA
   ),
   Java = list(
     fn_regex = "^\\s*(public|private|protected)?\\s*\\w+\\s+([\\w_]+)\\s*\\(",
     file_extension = ".java"
     , commented_line_char = "//|/*"
 
-    , pattern_to_exlude = NA
+    , pattern_to_exclude = NA
   ),
   C = list(
     fn_regex = "^\\s*\\w+\\s+([\\w_]+)\\s*\\(",
     file_extension = ".c"
     , commented_line_char = "//|/*"
 
-    , pattern_to_exlude = NA
+    , pattern_to_exclude = NA
   ),
   Cpp = list(
     fn_regex = "^\\s*\\w+(<.*>)?\\s+([\\w_]+)\\s*\\(",
     file_extension = ".cpp"
     , commented_line_char = "//|/*"
 
-    , pattern_to_exlude = NA
+    , pattern_to_exclude = NA
   ),
   Go = list(
     fn_regex = "^\\s*func\\s+([\\w_]+)\\s*\\(",
     file_extension = ".go"
     , commented_line_char = "//|/*"
-    , pattern_to_exlude = NA
+    , pattern_to_exclude = NA
   )
 )
 
-  #### 2) return this list into a dataframe ####
+
+
+  #### 1) return this list into a dataframe ####
+lang_df <- do.call(rbind, lapply(seq_along(def_by_language_regex_pattern), function(i) {
+  # Convertir chaque sous-liste en dataframe avec les noms comme colonnes
+ lg_row <- def_by_language_regex_pattern[i]
+  data.frame(language = names(lg_row)
+                           , lg_row[[1]]
+                           , stringsAsFactors = FALSE
+                            )  }))
+
+lang_df$local_file_ext <- paste0(lang_df$file_ext, "$" )
+
+#### 2) filter accordingly to the desired language(s) ####
   languages <- tolower( c(...))  # Récupère tous les arguments passés
 
-  available_languages <- tolower(names(functions_def_by_language_regex_pattern))
+ lowered_lang_df_languages <- tolower(lang_df$language)
 
-non_available <- languages[!languages %in% available_languages]
+non_available <- languages[!languages %in% lowered_lang_df_languages]
 
-if(length(non_available) > 1) {
-    stop("Unsupported language(s) (" , paste0(collapse = ", ", non_available), ") !\n Available languages => ",
-         paste(names(functions_def_by_language_regex_pattern), collapse = ", "))
+if(length(non_available) > 0) {
+    warning("Unsupported language(s) (" , paste0(collapse = ", ", non_available), ") !\n Available languages => ",
+         paste(lang_df$language, collapse = ", "))
   }
+# return what match language strictly
+returned <- lang_df[lowered_lang_df_languages %in% languages,]
 
-returned <- functions_def_by_language_regex_pattern[available_languages %in% languages]
+# RETURN A COMPLETE LIST IF NO ARG PASSED !
+if(is.null(returned)){return(lang_df)}
 
-lang_df <- do.call(rbind, lapply(names(returned), function(lang) {
-  data.frame(language = lang
-            , fn_regex = returned[[lang]]$fn_regex
-           , file_ext = returned[[lang]]$file_extension
-            , commented_line_char =  returned[[lang]]$commented_line_char
-             ,pattern_to_exclude = returned[[lang]]$pattern_to_exlude
-             ,stringsAsFactors = FALSE)
-}))
-# RETURN A LIST IF NO ARG PASSED !
-if(is.null(lang_df)){return(functions_def_by_language_regex_pattern)}
 
-  lang_df$local_file_ext <- paste0(lang_df$file_ext, "$" )
-
-return(lang_df )
+return(returned )
 
 }

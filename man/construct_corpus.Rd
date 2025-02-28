@@ -2,18 +2,13 @@
 % Please edit documentation in R/construct_corpus.R
 \name{construct_corpus}
 \alias{construct_corpus}
-\title{Construct a list of DataFrames of Lines Readed From Files
-from Local GitHub Repositories and/or Local Folders}
+\title{Construct a list of 3 Data Frames of Lines Readed From Files
+Within a Local GitHub Repositories and/or Local Folders}
 \usage{
-construct_corpus(
-  local_folders_paths = NULL,
-  languages = "R",
-  repos = NULL,
-  ...
-)
+construct_corpus(folders = NULL, languages = "R", repos = NULL, ...)
 }
 \arguments{
-\item{local_folders_paths}{\code{character}. Default = \code{NULL}. A character vector of local folder paths to scan for code files.}
+\item{folders}{\code{character}. Default = \code{NULL}. A character vector of local folder paths to scan for code files.}
 
 \item{languages}{\code{character}. Default = \code{"R"}. A character vector specifying the programming language(s) to include in the corpus.}
 
@@ -23,30 +18,50 @@ construct_corpus(
 (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).}
 }
 \value{
-A list of 4 dataframes containing the corpus of collected files : \code{codes} and \code{comments}. The data frames typically includes columns such as:
+A list of 3 dataframes containing the corpus of collected files : \code{codes}, \code{comments} and \code{nodelist}
+The data frames typically includes columns such as:
 \describe{
 \item{\code{file_path}}{ \code{character} The local file path or constructed GitHub URL.}
 \item{\code{line_number}}{\code{integer} The line number of the file.}
-\item{\code{content}}{\code{character} The content in the line.}
-\item{\code{n_char}}{\code{integer} Number of characters - including spacing.}
-\item{\code{n_char_wo_space}}{\code{integer} Number of char. without spacing.}
-\item{\code{n_word}}{\code{integer} Number of words.}
-\item{\code{n_vowel}}{\code{integer} Number of voyel.}
-\item{\code{matches}}{\code{character} A 1st text, extracted accordingly to a pattern.}
+\item{\code{content}}{\code{character} The content in a line of the file.}
+\item{\code{file_ext}}{\code{character} File extension of the file.}
+\item{\code{n_char}}{\code{integer} Number of characters - including spacing - in a line  (or the file for the \code{nodelist} df).}
+\item{\code{n_char_wo_space}}{\code{integer} Number of characters - without spacing - in a line (or the file for the \code{nodelist} df)}
+\item{\code{n_word}}{\code{integer} Number of words in a line  (or the file for the \code{nodelist} df).}
+\item{\code{n_vowel}}{\code{integer} Number of voyel in a line (or the file for the \code{nodelist} df).}
+\item{\code{matches}}{\code{character} (only in the \code{codes} df) A 1st matched text, extracted accordingly to a pattern.}
+\item{\code{n_total_lines}}{\code{integer} (only in the \code{nodelist} df) Number of lines of the files (with and without comments).}
+\item{\code{n_total_lines}}{\code{integer} (only in the \code{nodelist} df) Number of clines of the files \emph{without comments}.}
+\item{\code{text}}{\code{character} (only in the \code{nodelist} df) The concatenated text from the lines readed.}
 }
 }
 \description{
 Given a Language and a folder path(s) and/or github repo(s)
-Build a list of 2 samely-structured dataframes containing files
-from either GitHub repositories or local folder paths.
+The 3 dataframes are :
+a corpus of (1) \code{codes} lines and (2) \code{comments} lines with text-metrics over the lines,
+and (3) nodelist with global metrics over the files.
+The returned list is a S3 "corpus_list" (standard S3 list with attributes and name)
 }
 \details{
 \itemize{
-\item If \code{local_folders_paths} is provided (one or a list), the function scans the directories and retrieves file paths matching the specified languages.
+\item If \code{folders} is provided (one or a list), the function scans the directories and retrieves file paths matching the specified languages.
 \item If \code{repos} is provided (one or a list), it constructs URLs to the raw content of files from the specified GitHub repositories.
 \item Both local paths and GitHub URLs can be combined in the final output.
+}
+
+The returned list is tagged
+with the class \emph{corpus_list}, and contains the following attributes:
+\itemize{
+\item \code{date_creation} : \code{Date} a Date indicating when the corpus list was created (as \code{Sys.Date()}).
+\item \code{citations_network} : a \code{logical} indicating if a citations_network was processed
+(construct_corpus don't return a citations_network so it will be set to  \code{FALSE})
+\item \code{languages_patterns} : a dataframe with the default pattern associated with the
+requested languages, a subset of the \code{languages} parameters or entire list
+(e.g., file extension and a regex pattern for function definition).
 }
 }
 \seealso{
 \code{\link{readlines_in_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}
+
+\url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html}
 }

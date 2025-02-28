@@ -1,15 +1,17 @@
-#' Get Text Network from folder path(s) and/or github repos
+#' Turn a programing project into a Documents Network
 #'
-#' This function read files in a specified folder (default to only .R files)
-#' extracting and filtering text based on a set of criteria.
+#' This function read files in a specified folder(s) and/or github repo(s)
+#' extract the text and construct a Citations Network
+#' accordingly to default parameters associated with programmaing languages.
+#' (the user have to indicate a programming language).
 #'
 #' It is designed to generate a network of text by cascading text research :
 #'
-#' 1st the func' try to match a pattern within the files, optionnaly filter the initial results.
+#' 1st the func' try to match a pattern within the files, optionally filter the initial results.
 #'
 #' Then, a regex-pattern is constructed by appending all the 1st match
 #'
-#' and a 2nd research extract this pattern, and construct a network
+#' And a 2nd research extract this pattern, and construct a network
 #' (document with the 2nd match => document with the 1st match)
 #'
 #' @param folder_path  `character` A string or list representing the path(s) and/or url of local folders path to read.
@@ -55,14 +57,14 @@
 #' }
 #' @examples
 #' # Example with url from github
-#' result <- get_text_network_from_project(folder_path =  "~" )
+#' result <- get_doc_network_from_project(folder_path =  "~" )
 #' # Return a list of df (1st one is supposed to be an edgelist)
 #' # (from the file where a function is call => to the file were defined)
 #' @seealso \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_df}}, \code{\link{get_citations_network_from_df}}
 #' @seealso
-#'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html}
+#'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_a_corpus.html}
 #' @export
-get_text_network_from_project <- function(folder_path = NULL, repos = NULL
+get_doc_network_from_project <- function(folder_path = NULL, repos = NULL
 
    , prefix_for_regex_from_the_text = "\\b" # text before the 1st match
 
@@ -81,25 +83,15 @@ get_text_network_from_project <- function(folder_path = NULL, repos = NULL
 
   ){
 
-
 ##### 1) Construct a lines corpus ####
  # We will rename in the end
-corpus <- construct_corpus(local_folders_paths = folder_path,   repos = repos ,  ...)
+corpus <- construct_corpus(folders = folder_path,   repos = repos ,  ...)
 
 # 2.1) Get an HYBRID nodelist of the 1st matches and files path (default names from the corpus func')
 fn_network <- corpus$codes
 # by default we're supposed to catch lines where functions are defined, but there is maybe several functions in a file
 origines_files <- unique(fn_network[which(!is.na(fn_network$matches)), c("matches","file_path")])
 names(origines_files)[names(origines_files) == "file_path"] <- "to"
-# we will add these path as a 'to' node (where a func is defined )
-
-# 2.2) add a proper "text" column (full content) = problems when several func' are defined in the same line
-# files_content <- gather_df_lines(fn_network, "file_path", "content")
-# files_content <- unique(files_content)
-#
-# test<- extract_nested_blocks_from_text(files_content$text[1])
-#
-# origines_files <- merge(all.x = T, origines_files, files_content, by.x = "to", by.y = "file_path")
 
 #2.2) we'll just add a column of "function" here with the matched results : the func' will transform our 1st col' into a regex
 fn_2nd_match <- get_citations_network_from_df(df = fn_network[, c("content", "matches", "file_path")]
@@ -125,9 +117,19 @@ if(filter_egolink_within_a_file){returned_network <- returned_network[ which( re
 
 
 colnames(returned_network) <- c(file_path_from_colname, file_path_to_colname, function_matched_colname, content_matched_colname,  line_number_matched_colname)
-# finally givin the colname wanted by the user
+# give the colname wanted by the user
 
-return(list = append(list( citations_network = returned_network), corpus ))
+#### Update the attributes and return an augmented corpus ####
+corpus_attributes <- attributes(corpus)
+# we have a "citations_network" class !
+corpus_attributes$names <- c(corpus_attributes$names, "citations_network" )
+corpus_attributes$citations_network <- TRUE
+
+complete_datas <- append( corpus, list( citations_network = returned_network) )
+
+attributes(complete_datas) <- corpus_attributes
+
+return(complete_datas)
 
 }
 
