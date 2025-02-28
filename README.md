@@ -66,11 +66,7 @@ dataviz <- get_networkd3_from_igraph(title_h1 = "codexplor",subtitle_h2 = "graph
                                      , graph_igraph = net$citations_network) 
 ```
 
-    #> file:///C:\Users\CLEM\Documents\PROJETS_EN_R\codexplor\man\figures\network_codexplor_fn.html screenshot completed
-
-<img src="man/figures/README-save-plot-1.png" width="100%" />
-
-<!-- <img src="man/figures/network_codexplor_fn.png" width="100%" /> -->
+<img src="man/figures/force_network.png" width="100%" />
 
 > These dataviz are useful for pinpointing where to start a polishing
 > loop, identifying all the functions impacted by upcoming changes,
