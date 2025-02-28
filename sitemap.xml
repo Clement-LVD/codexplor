@@ -5,10 +5,13 @@
 <url><loc>https://clement-lvd.github.io/codexplor/articles/index.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html</loc></url>
-<url><loc>https://clement-lvd.github.io/codexplor/articles/vignette_get_citations_network_from_project.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/authors.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/index.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/compute_doc_network_from_corpus.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/construct_corpus.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/dot-construct.corpus.lines.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/dot-construct.nodelist.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/filter_igraph_egonetwork.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/fix_escaping.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/gather_df_lines.html</loc></url>
@@ -21,6 +24,8 @@
 <url><loc>https://clement-lvd.github.io/codexplor/reference/get_regex_from_vector.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/index.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/move_networkd3_legend.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/print.corpus.lines.html</loc></url>
+<url><loc>https://clement-lvd.github.io/codexplor/reference/print.corpus.nodelist.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/readlines_in_df.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/srch_pattern_in_df.html</loc></url>
 <url><loc>https://clement-lvd.github.io/codexplor/reference/str_extract_all_to_tidy_df.html</loc></url>

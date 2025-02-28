@@ -4,8 +4,8 @@ pkgdown_sha: ~
 articles:
   manage_igraph_object: manage_igraph_object.html
   vignette_construct_corpus: vignette_construct_corpus.html
-  vignette_get_citations_network_from_project: vignette_get_citations_network_from_project.html
-last_built: 2025-02-28T11:32Z
+  vignette_get_doc_network_from_project: vignette_get_doc_network_from_project.html
+last_built: 2025-02-28T17:50Z
 urls:
   reference: https://clement-lvd.github.io/codexplor/reference
   article: https://clement-lvd.github.io/codexplor/articles

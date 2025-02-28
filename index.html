@@ -37,7 +37,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/manage_igraph_object.html">Helper functions to create and filter igraph objects</a></li>
     <li><a class="dropdown-item" href="articles/vignette_construct_corpus.html">Turn a programming project into a corpus</a></li>
-    <li><a class="dropdown-item" href="articles/vignette_get_citations_network_from_project.html">Turn a Programming Project Into a Citations Network</a></li>
+    <li><a class="dropdown-item" href="articles/vignette_get_doc_network_from_project.html">Turn a Programming Project Into a Citations Network</a></li>
   </ul>
 </li>
       </ul>
@@ -74,24 +74,35 @@
 <div class="section level3">
 <h3 id="example--dataviz-of-internal-dependancies">Example : dataviz’ of internal dependancies<a class="anchor" aria-label="anchor" href="#example--dataviz-of-internal-dependancies"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a> net <span class="ot">&lt;-</span> codexplor<span class="sc">::</span><span class="fu">get_doc_network_from_project</span>(<span class="at">repos =</span> <span class="st">"clement-LVD/codexplor"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>     <span class="co"># Turn a github repo into a corpus &amp; a network of internal dependancies</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>     </span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>     <span class="fu">str</span>(net, <span class="at">max.level =</span> <span class="dv">1</span>)  <span class="co">#</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a> <span class="co"># List of 4</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>   <span class="co"># $ codes            :'data.frame':  808 obs. of  9 variables:</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>   <span class="co"># $ comments         :'data.frame':  700 obs. of  8 variables:</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>   <span class="co"># $ nodelist         :'data.frame':  18 obs. of  8 variables:</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>   <span class="co"># $ citations_network:'data.frame':  13 obs. of  5 variables:</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>   <span class="co"># - attr(*, "class")= chr [1:2] "corpus_list" "list"</span></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>   <span class="co"># - attr(*, "date_creation")= Date[1:1], format: "2025-02-28"</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>   <span class="co"># - attr(*, "citations_network")= logi TRUE</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>   <span class="co"># - attr(*, "languages_patterns")='data.frame':  1 obs. of  6 variables</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a> </span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a> </span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a> <span class="fu">get_networkd3_from_igraph</span>(net<span class="sc">$</span>citations_network) <span class="co"># Produce an interactive dataviz'</span></span></code></pre></div>
 <p>Return an interactive dataviz’ of the internal dependancies within <code>codexplor</code> :</p>
-<p><img src="reference/figures/network_codexplor_fn.png" width="90%" height="80%" alt=""></p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
+<span></span>
+<span> <span class="co"># 1) Construct a corpus and a Citations network</span></span>
+<span>  <span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span><span class="st">"R/"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># since this readme is executed from a repo we ask for a "local" folder path ("R/")</span></span>
+<span>  <span class="co"># At home you'll have the same results with : </span></span>
+<span>  <span class="co"># net &lt;-  get_doc_network_from_project(repos = "clement-LVD/codexplor", languages = "R")</span></span>
+<span></span>
+<span>   <span class="co"># return a corpus.list object with 2 corpus.line, 1 corpus.nodelist &amp; 1 citations.network</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">net</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; List of 4</span></span>
+<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    854 obs. of  10 variables:</span></span>
+<span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    755 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ nodelist         :Classes 'corpus.nodelist' and 'data.frame': 19 obs. of  8 variables:</span></span>
+<span><span class="co">#&gt;  $ citations_network:Classes 'citations.network' and 'data.frame':   14 obs. of  5 variables:</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
+<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-02-28"</span></span>
+<span><span class="co">#&gt;  - attr(*, "citations_network")= logi TRUE</span></span>
+<span><span class="co">#&gt;  - attr(*, "languages_patterns")='data.frame':   1 obs. of  6 variables:</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Produce an interactive dataviz'</span></span>
+<span><span class="va">dataviz</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">citations_network</span><span class="op">)</span> </span>
+<span><span class="co"># library(htmltools)</span></span>
+<span><span class="co"># browsable(dataviz)</span></span>
+<span>  </span></code></pre></div>
+<!-- <img src="man/figures/network_codexplor_fn.png" width="90%"  height="80%" alt = ""/>  -->
 <blockquote>
 <p>These dataviz are useful for pinpointing where to start a polishing loop, identifying all the functions impacted by upcoming changes, […] or assessing the impact of a new dev loop on the project’s complexity.</p>
 </blockquote>
@@ -124,7 +135,7 @@
 <td align="left">Assess each file with text-mining metrics, e.g., length and files readability</td>
 </tr>
 <tr class="odd">
-<td align="left"><img src="https://img.shields.io/badge/%7B%F0%9F%9A%A7%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Line-level%20metrics&amp;labelColor=grey&amp;color=yellow" alt="."></td>
+<td align="left"><img src="https://img.shields.io/badge/%7B%F0%9F%9A%A7%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Line-level%20metrics&amp;labelColor=grey&amp;color=green" alt="."></td>
 <td align="left">↑ (used by global level metric)</td>
 <td align="left">Identify problematic lines, e.g., the longest ones</td>
 </tr>
@@ -163,7 +174,7 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Construct a network of internal dependancies : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_citations_network_from_project.html">vignette of <code>get_text_network_from_project</code></a>
+<td align="left">Construct a network of internal dependancies : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html">vignette of <code>get_text_network_from_project</code></a>
 </td>
 <td align="left">Construct a corpus : <a href="https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html">vignette of <code>construct_corpus</code></a>
 </td>
