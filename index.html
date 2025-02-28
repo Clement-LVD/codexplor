@@ -98,10 +98,9 @@
 <span><span class="co">#&gt;  - attr(*, "languages_patterns")='data.frame':   1 obs. of  6 variables:</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Produce an interactive dataviz'</span></span>
-<span><span class="va">dataviz</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">citations_network</span><span class="op">)</span> </span>
-<span><span class="co"># library(htmltools)</span></span>
-<span><span class="co"># browsable(dataviz)</span></span>
-<span>  </span></code></pre></div>
+<span><span class="va">dataviz</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span>title_h1 <span class="op">=</span> <span class="st">"codexplor graph of internal dependancies"</span>, graph_igraph <span class="op">=</span> <span class="va">net</span><span class="op">$</span><span class="va">citations_network</span><span class="op">)</span> </span></code></pre></div>
+<iframe src="force_network.html" width="100%" height="600px" frameborder="0">
+</iframe>
 <!-- <img src="man/figures/network_codexplor_fn.png" width="90%"  height="80%" alt = ""/>  -->
 <blockquote>
 <p>These dataviz are useful for pinpointing where to start a polishing loop, identifying all the functions impacted by upcoming changes, […] or assessing the impact of a new dev loop on the project’s complexity.</p>
