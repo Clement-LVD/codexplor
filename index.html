@@ -74,12 +74,22 @@
 <div class="section level3">
 <h3 id="example--dataviz-of-internal-dependancies">Example : dataviz’ of internal dependancies<a class="anchor" aria-label="anchor" href="#example--dataviz-of-internal-dependancies"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#&gt; Le chargement a nécessité le package : codexplor</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a> net <span class="ot">&lt;-</span> <span class="fu">get_doc_network_from_project</span>(<span class="at">repos =</span> <span class="st">"clement-LVD/codexplor"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>     <span class="co"># Turn a github repo into a network of internal dependancies</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>     </span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a> <span class="fu">get_networkd3_from_igraph</span>(net<span class="sc">$</span>citations_network) <span class="co"># Produce an interactive dataviz'</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a> net <span class="ot">&lt;-</span> codexplor<span class="sc">::</span><span class="fu">get_doc_network_from_project</span>(<span class="at">repos =</span> <span class="st">"clement-LVD/codexplor"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>     <span class="co"># Turn a github repo into a corpus &amp; a network of internal dependancies</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>     </span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>     <span class="fu">str</span>(net, <span class="at">max.level =</span> <span class="dv">1</span>)  <span class="co">#</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a> <span class="co"># List of 4</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>   <span class="co"># $ codes            :'data.frame':  808 obs. of  9 variables:</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>   <span class="co"># $ comments         :'data.frame':  700 obs. of  8 variables:</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>   <span class="co"># $ nodelist         :'data.frame':  18 obs. of  8 variables:</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>   <span class="co"># $ citations_network:'data.frame':  13 obs. of  5 variables:</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>   <span class="co"># - attr(*, "class")= chr [1:2] "corpus_list" "list"</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>   <span class="co"># - attr(*, "date_creation")= Date[1:1], format: "2025-02-28"</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>   <span class="co"># - attr(*, "citations_network")= logi TRUE</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>   <span class="co"># - attr(*, "languages_patterns")='data.frame':  1 obs. of  6 variables</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a> </span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a> </span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a> <span class="fu">get_networkd3_from_igraph</span>(net<span class="sc">$</span>citations_network) <span class="co"># Produce an interactive dataviz'</span></span></code></pre></div>
 <p>Return an interactive dataviz’ of the internal dependancies within <code>codexplor</code> :</p>
 <p><img src="reference/figures/network_codexplor_fn.png" width="90%" height="80%" alt=""></p>
 <blockquote>
@@ -141,7 +151,7 @@
 <h3 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
 </h3>
 <p><em>WIP</em> [🔧🔨]</p>
-<p><code>codexplor</code> offers functions that are dedicated to analyze a programming project, accordingly to several analysis tools. <code>codexplor</code> also offers helper functions, e.g., for create and filter a network with the <code>igraph</code> package.</p>
+<p><code>codexplor</code> offers functions that are dedicated to analyze a programming project, accordingly to several subanalysis tools. <code>codexplor</code> also offers helper functions, e.g., for create and filter a network with the <code>igraph</code> package.</p>
 <table class="table">
 <colgroup>
 <col width="50%">
