@@ -80,7 +80,7 @@ from either GitHub repositories or local folder paths.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list of 2 dataframes containing the corpus of collected files : <code>codes</code> and <code>comments</code>. The data frames typically includes columns such as:</p><dl><dt><code>file_path</code></dt>
+    <p>A list of 4 dataframes containing the corpus of collected files : <code>codes</code> and <code>comments</code>. The data frames typically includes columns such as:</p><dl><dt><code>file_path</code></dt>
 <dd><p><code>character</code> The local file path or constructed GitHub URL.</p></dd>
 
 <dt><code>line_number</code></dt>
@@ -88,6 +88,21 @@ from either GitHub repositories or local folder paths.</p>
 
 <dt><code>content</code></dt>
 <dd><p><code>character</code> The content in the line.</p></dd>
+
+<dt><code>n_char</code></dt>
+<dd><p><code>integer</code> Number of characters - including spacing.</p></dd>
+
+<dt><code>n_char_wo_space</code></dt>
+<dd><p><code>integer</code> Number of char. without spacing.</p></dd>
+
+<dt><code>n_word</code></dt>
+<dd><p><code>integer</code> Number of words.</p></dd>
+
+<dt><code>n_vowel</code></dt>
+<dd><p><code>integer</code> Number of voyel.</p></dd>
+
+<dt><code>matches</code></dt>
+<dd><p><code>character</code> A 1st text, extracted accordingly to a pattern.</p></dd>
 
 
 </dl></div>
