@@ -62,12 +62,11 @@ library(codexplor)
 
 ``` r
 # Produce an interactive dataviz'
-dataviz <- get_networkd3_from_igraph(net$citations_network) 
-# library(htmltools)
-# browsable(dataviz)
-  
+dataviz <- get_networkd3_from_igraph(title_h1 = "codexplor graph of internal dependancies", graph_igraph = net$citations_network) 
 ```
 
+<iframe src="force_network.html" width="100%" height="600px" frameborder="0">
+</iframe>
 <!-- <img src="man/figures/network_codexplor_fn.png" width="90%"  height="80%" alt = ""/>  -->
 
 > These dataviz are useful for pinpointing where to start a polishing
