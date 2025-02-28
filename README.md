@@ -34,11 +34,21 @@ devtools::install_github("clement-LVD/codexplor")
 
 ### Example : dataviz’ of internal dependancies
 
-    #> Le chargement a nécessité le package : codexplor
-
-     net <- get_doc_network_from_project(repos = "clement-LVD/codexplor")
-         # Turn a github repo into a network of internal dependancies
+     net <- codexplor::get_doc_network_from_project(repos = "clement-LVD/codexplor")
+         # Turn a github repo into a corpus & a network of internal dependancies
          
+         str(net, max.level = 1)  #
+     # List of 4
+       # $ codes            :'data.frame':  808 obs. of  9 variables:
+       # $ comments         :'data.frame':  700 obs. of  8 variables:
+       # $ nodelist         :'data.frame':  18 obs. of  8 variables:
+       # $ citations_network:'data.frame':  13 obs. of  5 variables:
+       # - attr(*, "class")= chr [1:2] "corpus_list" "list"
+       # - attr(*, "date_creation")= Date[1:1], format: "2025-02-28"
+       # - attr(*, "citations_network")= logi TRUE
+       # - attr(*, "languages_patterns")='data.frame':  1 obs. of  6 variables
+     
+     
      get_networkd3_from_igraph(net$citations_network) # Produce an interactive dataviz'
 
 Return an interactive dataviz’ of the internal dependancies within
@@ -109,8 +119,8 @@ Other languages are planned.
 *WIP* \[🔧🔨\]
 
 `codexplor` offers functions that are dedicated to analyze a programming
-project, accordingly to several analysis tools. `codexplor` also offers
-helper functions, e.g., for create and filter a network with the
+project, accordingly to several subanalysis tools. `codexplor` also
+offers helper functions, e.g., for create and filter a network with the
 `igraph` package.
 
 | Analyze a programming project | Helper functions |

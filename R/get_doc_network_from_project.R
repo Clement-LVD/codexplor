@@ -91,6 +91,7 @@ corpus <- construct_corpus(folders = folder_path,   repos = repos ,  ...)
 fn_network <- corpus$codes
 # by default we're supposed to catch lines where functions are defined, but there is maybe several functions in a file
 origines_files <- unique(fn_network[which(!is.na(fn_network$matches)), c("matches","file_path")])
+
 names(origines_files)[names(origines_files) == "file_path"] <- "to"
 
 #2.2) we'll just add a column of "function" here with the matched results : the func' will transform our 1st col' into a regex

@@ -3,7 +3,7 @@
 #' This function returns a `df` with informations for each language (each row),
 #'  e.g., file extensions associated and regex pattern for matching commented lines and functions definitions)
 #' for one or more specified programming languages.
-#'
+#' @param languages `character`, default = `"R"` A programming language to match (character strings).
 #' @param ... `character` One or more programming language names (character strings).
 #'
 #' @return A dataframe where each row corresponds to a language and contains:
@@ -20,7 +20,7 @@
 #' # fn_def <- get_def_regex_by_language("Python", "R" , "Go", "C", "JavaScript")
 #'
 #' @export
-get_def_regex_by_language <- function(...) {
+get_def_regex_by_language <- function(languages = "R", ...) {
 #### 1) define function regex => core behavior is catching func' names ####
 def_by_language_regex_pattern <- list(
   R = list(
@@ -84,7 +84,7 @@ lang_df <- do.call(rbind, lapply(seq_along(def_by_language_regex_pattern), funct
 lang_df$local_file_ext <- paste0(lang_df$file_ext, "$" )
 
 #### 2) filter accordingly to the desired language(s) ####
-  languages <- tolower( c(...))  # Récupère tous les arguments passés
+  languages <- tolower( c(languages, ...))  # Récupère tous les arguments passés
 
  lowered_lang_df_languages <- tolower(lang_df$language)
 
