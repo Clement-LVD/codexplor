@@ -77,7 +77,7 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a> net <span class="ot">&lt;-</span> <span class="fu">get_text_network_from_project</span>(<span class="at">repos =</span> <span class="st">"clement-LVD/codexplor"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>     <span class="co"># Turn a github repo into a network of internal dependancies</span></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>     </span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a> <span class="fu">get_networkd3_from_igraph</span>(net) <span class="co"># Produce an interactive dataviz'</span></span></code></pre></div>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a> <span class="fu">get_networkd3_from_igraph</span>(net<span class="sc">$</span>citations_network) <span class="co"># Produce an interactive dataviz'</span></span></code></pre></div>
 <p>Return an interactive dataviz’ of the internal dependancies within <code>codexplor</code> :</p>
 <p><img src="reference/figures/network_codexplor_fn.png" width="90%" height="80%" alt=""></p>
 <blockquote>
