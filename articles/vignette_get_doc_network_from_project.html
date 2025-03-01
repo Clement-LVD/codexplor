@@ -130,12 +130,13 @@ default is to filter autolinks).</li>
 <p>Assuming the user have indicated folder(s) and/or github repo(s),
 <code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project()</a></code> will try to
 perform a ‘cascading matching’ :</p>
-<p>⏩ Read the files and extract a 1st pattern, e.g., default tare
+<p>⏩ Read the files and extract a 1st pattern, e.g., default are
 supposed to extract <em>R functions names</em>.</p>
 <p>⏩ Search for these patterns in the initial content, in order to
 constitute a Citations Network.</p>
-<p>🎁 Return the edgelist of the network of <em>documents</em> (document
-that call a function =&gt; file where this function is defined)</p>
+<p>🎁 Return the edgelist of the network of <em>documents</em>
+(programming file that is calling a function =&gt; programming file
+where this function is defined)</p>
 <p><code>codexplor</code> default pattern are aimed to extract functions
 names from the files of a <em>programming</em> project.</p>
 </div>
