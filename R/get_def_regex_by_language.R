@@ -27,7 +27,7 @@ def_by_language_regex_pattern <- list(
     fn_regex = "(^| \\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)",
     file_extension = ".R"
     , commented_line_char = "\\s?#"
-    , pattern_to_exclude = "\\.Rcheck|test-|Vignette"
+    , pattern_to_exclude = "\\.Rcheck|test-|vignettes"
   ),
   Python = list(
     fn_regex = "^\\s*def\\s+([\\w_]+)\\s*\\(",

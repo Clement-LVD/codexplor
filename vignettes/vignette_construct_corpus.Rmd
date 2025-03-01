@@ -15,16 +15,40 @@ knitr::opts_chunk$set(
 ```
 
 # Constructing your corpus
-`codexplor` offering functions to turn a programming project into a corpus by providing folder(s) path(s) and/or github repo(s). 
+`codexplor` offer a standardized protocol to turn a programming project into a text-mining corpus, by providing to `construct_corpus` language(s) to analyze, folder(s) path(s) and/or github repo(s).
 
     corpus <- codexplor::construct_corpus("~", "tidyverse/stringr", languages = "R")
 
-By default `construct_corpus` is tunned for the R programming language. One or several `languages` could be passed to `construct_corpus`, e.g., in order to read the programming files accordingly to their extensions.
-    
-- `construct_corpus` return the content as a `df`, comments are wiped (by default)
-- *1st matches* are realized accordingly to the pattern provided by the user 
-- *1st matches* are extracted in a column of the returned `df`. By default, the names of functions defined in the files of the project are extracted^[If a file have several function defined *within the same line*, lines of the returned `df` will be duplicated.].
-- Then, text-mining metrics are computed are computed within each line (e.g., number of characters, words count).
-- And agregated on a document-level
+    # Return a standard `list` of `df` (a `corpus.list` object).
 
-These default match rely on a regex, for each of the `languages` supported by `construct_corpus`.
+This function will compute some text-mining metrics within each line (e.g., number of characters, words count) and within document-level.
+
+### About default patterns associated with each language
+Standardized patterns are used along the way of constructing a corpus. For each of the `languages` supported by `construct_corpus` :
+
+```{r table-operations-construct-corpus, echo=FALSE}
+
+steps <- data.frame(Step = c("Read the files of the local folder(s) and/or github public repo(s) accordingly to their extension"  
+, "Separate commented lines from code lines"                    
+ , "Extract a 1st matched-text within the codes lines, accordingly to a pattern"
+
+)
+ , Examples = c('e.g., "R" language is associated with "`.R`" files and with a filtering pattern (e.g., files with "`test-`", "`vignettes`", "`Rcheck`" in their full names are excluded)'   
+, 'e.g., R & Python files generally have each commented lines that begin with "`#`", others languages should have commented blocks separeted on several lines (e.g., `/* [comments] */`'
+  , 'e.g.,  default pattern is catching the names of the functions defined within a file, e.g., for the R programming language : the name is before a "`<- function(`" instruction'
+)
+
+)
+
+colnames(steps) <- c("Steps", "Examples of pattern associated with language(s)")
+
+knitr::kable(steps,row.names = T )
+
+```
+
+By default `construct_corpus` try to analyze .R files. One or several `languages` could be passed to `construct_corpus`.
+
+### About duplicated lines associated with 1st matches
+`construct_corpus` perform a 1st text-extraction, accordingly to a pattern. During this 1st matches extraction, lines are duplicated *when several matches are found on the same line*. 
+
+> For example, by default, the names of functions defined in the files of the project are extracted during the 1st match operated by `construct_corpus`. If a file have several function defined *within the same line*, such a line will be duplicated in the returned `df`, with several 'matches' entries along these lines and an identical line_number. 

@@ -1,19 +1,19 @@
 #' Compute a Citations Network of functions form a corpus_list `dataframe`
 #'
 #' This function read a standard `list` of `data.frame` (class `corpus.list`)
-#' select the `codes` `data.frame` and try to transform the `matches` column
-#' into a valid pattern for a cascading text-research, see hereafter
-#'
+#' select the `codes` `data.frame` and append a Citations Network to the corpus
+#' (see hereafter). The classes of this new entry are `data.frame` `citations.network`
 #'
 #' It is designed to generate a network of text by cascading text research,
 #' assuming the 1st matches are already realized by `construct_corpus` :
 #'
-#' The func' start by craft a pattern by appending all the 1st matches (`matches` column elements)
-#' , optionnaly adding a suffix and a prefix to these elements
+#' The function will craft a pattern by appending all the 1st matches (`matches` column elements)
+#' , eventually adding a suffix and a prefix to these elements.
 #'
-#' And it will perform a direct extraction with this pattern,
+#' Then it will perform a direct extraction with this pattern,
 #'  and return the corpus with a new `data.frame` of class `citations.network`
-#' (document with the 2nd match => document with the 1st match)
+#' (document with the 2nd match => document with the 1st match).
+#' By default, egolinks are removed since `filter_egolink_within_a_file` default is `TRUE`
 #'
 #' @param corpus `character` A `corpus.list` object from the construct_corpus function
 #' @param prefix_for_2nd_matches `character` A string representing the prefix to add
@@ -118,22 +118,15 @@ returned_network <- returned_network[, c("from", "to",  "function", "content", "
 if(filter_egolink_within_a_file){ # (optionnal) REMOVE egolinks means no recursivity in the results !
 returned_network <- returned_network[ which( returned_network["from"] != returned_network["to"]) , ] }
 
-# give the colname wanted by the user in order to ensure 'stability' of the final code about this network
+# give the colname wanted by the user in order to ensure stability of the code about this network
 colnames(returned_network) <- c(file_path_from_colname, file_path_to_colname, function_matched_colname, content_matched_colname,  line_number_matched_colname)
 
+returned_network <- structure(returned_network, class = c( "citations.network", "data.frame") )
+
 #### Update the attributes and return an augmented corpus ####
-corpus_attributes <- attributes(corpus)
+corpus <- .construct.corpus.list(corpus = corpus, df_to_add = returned_network )
 
-# we have a "citations_network" class !
-corpus_attributes$names <- c(corpus_attributes$names, "citations_network" )
-corpus_attributes$citations_network <- TRUE
-
-complete_datas <- append( corpus, list( citations_network = structure(
-  returned_network, class = c( "citations.network", "data.frame")) ) )
-
-attributes(complete_datas) <- corpus_attributes
-
-return(complete_datas)
+return(corpus)
 
 }
 

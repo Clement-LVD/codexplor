@@ -2,8 +2,6 @@
 
 S3method(print,corpus.lines)
 S3method(print,corpus.nodelist)
-export(.construct.corpus.lines)
-export(.construct.nodelist)
 export(compute_doc_network_from_corpus)
 export(construct_corpus)
 export(filter_igraph_egonetwork)

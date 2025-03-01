@@ -108,30 +108,24 @@ nodelist <- compute_nodelist(df = complete_files, group_col = "file_path"
                              , colname_content_to_concatenate = "content")
 
 
-#### 6) Construct a corpus ####
+#### 2) Construct a corpus.list ####
 # we have some func' for define class and creation_date
 corpus <- list(
 codes = complete_files[!complete_files$comments,  ]
-,comments = .construct.corpus.lines(complete_files[complete_files$comments,  ])
+, comments = .construct.corpus.lines(complete_files[complete_files$comments,  ])
 , nodelist = .construct.nodelist(nodelist)
             )
 # classe corpus.lines and corpus.nodelist
 
 # 5-A} Get 1st matches (maybe duplicated lines here : xxx beurk xxx)
 # => functions defined ! (here we are only ONE LANGUAGE BY ONE)
-corpus$codes <-srch_pattern_in_df( df =  corpus$codes, content_col_name = "content",
+corpus$codes <- srch_pattern_in_df( df =  corpus$codes, content_col_name = "content",
                                ,  pattern = lang_desired$fn_regex )
 
 corpus$codes <- .construct.corpus.lines(corpus$codes)
 
-corpus <- structure(
-  corpus,           # La liste de dataframes
-  class = c("list","corpus.list" )  # claim a custom 'corpus_list' class (list heritage)
-, date_creation = Sys.Date()
-, citations_network = F
-, languages_patterns = lang_dictionnary # our params from the begining of this function
+corpus <- .construct.corpus.list(corpus, languages_patterns = lang_dictionnary)
 
-  )
 #add class attributes and structure (optionnal doc' & methods heritated)
 
 # return a list of df with all our col'

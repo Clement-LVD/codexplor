@@ -56,19 +56,20 @@ A \code{list} of \code{dataframe} symbolizing the edgelist of a document-to-docu
 }
 \description{
 This function read a standard \code{list} of \code{data.frame} (class \code{corpus.list})
-select the \code{codes} \code{data.frame} and try to transform the \code{matches} column
-into a valid pattern for a cascading text-research, see hereafter
+select the \code{codes} \code{data.frame} and append a Citations Network to the corpus
+(see hereafter). The classes of this new entry are \code{data.frame} \code{citations.network}
 }
 \details{
 It is designed to generate a network of text by cascading text research,
 assuming the 1st matches are already realized by \code{construct_corpus} :
 
-The func' start by craft a pattern by appending all the 1st matches (\code{matches} column elements)
-, optionnaly adding a suffix and a prefix to these elements
+The function will craft a pattern by appending all the 1st matches (\code{matches} column elements)
+, eventually adding a suffix and a prefix to these elements.
 
-And it will perform a direct extraction with this pattern,
+Then it will perform a direct extraction with this pattern,
 and return the corpus with a new \code{data.frame} of class \code{citations.network}
-(document with the 2nd match => document with the 1st match)
+(document with the 2nd match => document with the 1st match).
+By default, egolinks are removed since \code{filter_egolink_within_a_file} default is \code{TRUE}
 }
 \examples{
 {
