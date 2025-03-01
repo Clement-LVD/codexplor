@@ -88,18 +88,17 @@
 <span>   <span class="co"># return a corpus.list object with 2 corpus.line, 1 corpus.nodelist &amp; 1 citations.network</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">net</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 4</span></span>
-<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    854 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    755 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ nodelist         :Classes 'corpus.nodelist' and 'data.frame': 19 obs. of  8 variables:</span></span>
-<span><span class="co">#&gt;  $ citations_network:Classes 'citations.network' and 'data.frame':   14 obs. of  5 variables:</span></span>
+<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    1118 obs. of  10 variables:</span></span>
+<span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    924 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ nodelist         :Classes 'corpus.nodelist' and 'data.frame': 21 obs. of  7 variables:</span></span>
+<span><span class="co">#&gt;  $ citations.network:Classes 'citations.network' and 'data.frame':   19 obs. of  5 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
-<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-02-28"</span></span>
-<span><span class="co">#&gt;  - attr(*, "citations_network")= logi TRUE</span></span>
-<span><span class="co">#&gt;  - attr(*, "languages_patterns")='data.frame':   1 obs. of  6 variables:</span></span></code></pre></div>
+<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-01"</span></span>
+<span><span class="co">#&gt;  - attr(*, "citations_network")= logi TRUE</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Produce an interactive dataviz'</span></span>
 <span><span class="va">dataviz</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span>title_h1 <span class="op">=</span> <span class="st">"codexplor"</span>,subtitle_h2 <span class="op">=</span> <span class="st">"graph of internal dependancies"</span></span>
-<span>                                     , graph_igraph <span class="op">=</span> <span class="va">net</span><span class="op">$</span><span class="va">citations_network</span><span class="op">)</span> </span></code></pre></div>
+<span>                                     , graph_igraph <span class="op">=</span> <span class="va">net</span><span class="op">$</span><span class="va">citations.network</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="reference/figures/force_network.png" width="100%"></p>
 <blockquote>
 <p>These dataviz are useful for pinpointing where to start a polishing loop, identifying all the functions impacted by upcoming changes, […] or assessing the impact of a new dev loop on the project’s complexity.</p>

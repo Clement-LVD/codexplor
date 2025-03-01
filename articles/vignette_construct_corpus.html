@@ -72,7 +72,7 @@
 programming project into a text-mining corpus, by providing to
 <code>construct_corpus</code> language(s) to analyze, folder(s) path(s)
 and/or github repo(s).</p>
-<pre><code><span><span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu">codexplor</span><span class="fu">::</span><span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span><span class="st">"~"</span>, <span class="st">"tidyverse/stringr"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
+<pre><code><span><span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span><span class="st">"~"</span>, <span class="st">"tidyverse/stringr"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Return a standard `list` of `df` (a `corpus.list` object).</span></span></code></pre>
 <p>This function will compute some text-mining metrics within each line
@@ -125,7 +125,8 @@ the name is before a “<code>&lt;- function(</code>” instruction</td>
 </table>
 <p>By default <code>construct_corpus</code> try to analyze .R files. One
 or several <code>languages</code> could be passed to
-<code>construct_corpus</code>.</p>
+<code>construct_corpus</code>. Planned languages are : R, Python,
+JavaScript, Java, C, Cpp</p>
 </div>
 <div class="section level4">
 <h4 id="about-duplicated-lines-associated-with-1st-matches">About duplicated lines associated with 1st matches<a class="anchor" aria-label="anchor" href="#about-duplicated-lines-associated-with-1st-matches"></a>

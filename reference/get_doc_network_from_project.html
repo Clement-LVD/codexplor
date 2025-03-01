@@ -81,22 +81,29 @@ or changing the colnames (e.g., <code>file_path_from_colname</code>).</p></li>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A <code>list</code> of 4 <code>dataframe</code> : 2 of class <code>corpus.lines</code>, 1 <code>corpus.nodelist</code> and 1 <code>citations.network</code>
 (symbolizing the edgelist of a document-to-document citations network within a programming project)</p><dl><dt><code>from</code></dt>
-<dd><p><code>character</code> Citations Network - The local file path or GitHub URL that call a function.</p></dd>
+<dd><p><code>character</code> citations.network - The local file path or GitHub URL that call a function.</p></dd>
 
 <dt><code>to</code></dt>
-<dd><p><code>character</code> Citations Network - The local file path or constructed GitHub URL where the function called is defined.</p></dd>
+<dd><p><code>character</code> citations.network - The local file path or constructed GitHub URL where the function called is defined.</p></dd>
 
-<dt><code>file_path</code></dt>
-<dd><p><code>character</code> Corpus - The local file path or constructed GitHub URL.</p></dd>
+<dt><code>function</code></dt>
+<dd><p><code>character</code> citations.network - The name of the function matched on a line.</p></dd>
+
+<dt><code>content_matched</code></dt>
+<dd><p><code>character</code> citations.network - The full content matched with the 2nd matches, in order to verify and craft a new regex.</p></dd>
 
 <dt><code>line_number</code></dt>
-<dd><p><code>integer</code> Corpus - The line number within the file.</p></dd>
+<dd><p><code>character</code> citations.network &amp; corpus.lines - The line number of the 2nd match (citation.network) or associated with a line (corpus.lines).</p></dd>
+
+<dt><code>file_path</code></dt>
+<dd><p><code>character</code> corpus.lines &amp; corpus.nodelist - The local file path or constructed GitHub URL, same values as the <code>from</code> &amp; <code>to</code> columns of the citations.network df.</p></dd>
 
 <dt><code>content</code></dt>
-<dd><p><code>character</code> Corpus - The content from a line.</p></dd>
+<dd><p><code>character</code> corpus.lines - The content from a line.</p></dd>
 
-<dt><code>match</code></dt>
-<dd><p><code>character</code> Corpus - The matched text on this line, <code>NA</code> if there is no match.</p></dd>
+<dt><code>matches</code></dt>
+<dd><p><code>character</code> corpus.lines (specifically the <code>codes</code> data.frame)</p><ul><li><p>The matched text during the 1st matches (full of <code>NA</code> if there is no match or if they are filtered out, the default).</p></li>
+</ul></dd>
 
 
 </dl></div>
@@ -104,7 +111,7 @@ or changing the colnames (e.g., <code>file_path_from_colname</code>).</p></li>
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="construct_corpus.html">construct_corpus</a></code>, <code><a href="srch_pattern_in_df.html">srch_pattern_in_df</a></code>, <code><a href="get_citations_network_from_df.html">get_citations_network_from_df</a></code></p>
 <p><a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_a_corpus.html">https://clement-lvd.github.io/codexplor/articles/vignette_construct_a_corpus.html</a>
-<a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_a_corpus.html">https://clement-lvd.github.io/codexplor/articles/vignette_construct_a_corpus.html</a></p></div>
+<a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html">https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html</a></p></div>
     </div>
 
     <div class="section level2">
