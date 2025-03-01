@@ -74,7 +74,9 @@ programming project into a text-mining corpus, by providing to
 and/or github repo(s).</p>
 <pre><code><span><span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span><span class="st">"~"</span>, <span class="st">"tidyverse/stringr"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Return a standard `list` of `df` (a `corpus.list` object).</span></span></code></pre>
+<span><span class="co"># Return a standard `list` of `df` (a `corpus.list` object)</span></span>
+<span></span>
+<span><span class="va">corpus_py</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="st">"secdev/scapy"</span>, languages <span class="op">=</span> <span class="st">"Python"</span>, .verbose <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="co">#take a while</span></span></code></pre>
 <p>This function will compute some text-mining metrics within each line
 and within document-level (e.g., number of characters, words count).</p>
 <div class="section level4">
@@ -127,6 +129,23 @@ the name is before a “<code>&lt;- function(</code>” instruction</td>
 or several <code>languages</code> could be passed to
 <code>construct_corpus</code>. Planned languages are : R, Python,
 JavaScript, Java, C, Cpp</p>
+</div>
+<div class="section level4">
+<h4 id="function-call-that-are-non-supported">Function call that are non-supported<a class="anchor" aria-label="anchor" href="#function-call-that-are-non-supported"></a>
+</h4>
+<p>Since <code>codexplor</code> strictly check the name’ similarity
+between 1st and 2nd matches, some way of writing a program are not fully
+supported, such as :</p>
+<p><strong>Python instantiated methods.</strong> The instantiated Python
+methods (i.e. <code>obj.method()</code>) are not supported for now.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#  Python code herafter : unmatched function called</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>class A<span class="sc">:</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>    def <span class="fu">method</span>(self)<span class="sc">:</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>        return <span class="st">"My custom method"</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>obj <span class="ot">=</span> <span class="fu">A</span>()</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">obj.method</span>()  <span class="co"># codexplor don't see that internal dependancy since the method() had a prefix ("obj.")</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#return : 'My custom method'</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="about-duplicated-lines-associated-with-1st-matches">About duplicated lines associated with 1st matches<a class="anchor" aria-label="anchor" href="#about-duplicated-lines-associated-with-1st-matches"></a>

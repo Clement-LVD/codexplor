@@ -82,14 +82,14 @@
 <span>  <span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span><span class="st">"R/"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="co"># since this readme is executed from a repo we ask for a "local" folder path ("R/")</span></span>
-<span>  <span class="co"># At home you'll have the same results with : </span></span>
+<span>  <span class="co"># At home you'll have the same results with the codexplor github repo : </span></span>
 <span>  <span class="co"># net &lt;-  get_doc_network_from_project(repos = "clement-LVD/codexplor", languages = "R")</span></span>
 <span></span>
 <span>   <span class="co"># return a corpus.list object with 2 corpus.line, 1 corpus.nodelist &amp; 1 citations.network</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">net</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 4</span></span>
-<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    1118 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    924 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    1134 obs. of  10 variables:</span></span>
+<span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    939 obs. of  9 variables:</span></span>
 <span><span class="co">#&gt;  $ nodelist         :Classes 'corpus.nodelist' and 'data.frame': 21 obs. of  7 variables:</span></span>
 <span><span class="co">#&gt;  $ citations.network:Classes 'citations.network' and 'data.frame':   19 obs. of  5 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
@@ -149,9 +149,8 @@
 </div>
 <div style="flex: 20%; padding: 10px; border: 2px solid #000; border-radius: 20px">
 <p><strong>Supported language(s) :</strong></p>
-<figure><img src="https://img.shields.io/badge/R-green" alt=" "><figcaption aria-hidden="true">
- 
-</figcaption></figure><p>Other languages are planned.</p>
+<p><img src="https://img.shields.io/badge/R-green" alt=" "><img src="https://img.shields.io/badge/Python-yellow" alt=" "><img src="https://img.shields.io/badge/Javascript-orange" alt=" "></p>
+<p>Other languages are planned.</p>
 </div>
 </div>
 </div>
