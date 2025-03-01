@@ -157,6 +157,8 @@ knitr::kable(features)
 **Supported language(s) :**
 
 ![ ](https://img.shields.io/badge/R-green)
+![ ](https://img.shields.io/badge/Python-yellow)
+![ ](https://img.shields.io/badge/Javascript-orange)
 
 Other languages are planned.
 

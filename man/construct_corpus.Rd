@@ -71,7 +71,7 @@ requested languages, a subset of the \code{languages} parameters or entire list
 \examples{
 # Example 1: Construct a corpus from local folders
  corpus <- construct_corpus(folders = "~", languages = c("Python", "R"))
- corpus <- construct_corpus(folders = "~", languages = c("Javascript"))
+ # corpus <- construct_corpus(folders = "~", languages = c("Javascript"))
 \dontrun{
 # Example 2: Construct a corpus from GitHub repositories (default is R)
 cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )

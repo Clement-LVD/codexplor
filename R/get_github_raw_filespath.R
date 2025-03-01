@@ -15,7 +15,13 @@
 #' readr_fp <- get_github_raw_filespath(repo = "tidyverse/stringr", pattern = "\\.R")
 #' }
 #' @export
-get_github_raw_filespath <- function(repo = "tidyverse/stringr", branch = "main", pattern = "\\.R") {
+get_github_raw_filespath <- function(repo = "tidyverse/stringr", branch = NULL, pattern = "\\.R") {
+
+   branches  <- c("main", "master", "develop")
+  # if no branches we will try several names :
+
+    if(!is.null(branch)) branches <- branch
+
 # apply several time the func (one per pattern) :
   if(length(pattern) > 1){return(unlist(recursive = T, lapply(X = pattern
                                                 , FUN = function(patt){ get_github_raw_filespath(repo = repo, pattern = patt, branch = branch) })) )}
@@ -31,10 +37,38 @@ get_github_raw_filespath <- function(repo = "tidyverse/stringr", branch = "main"
     api_url <- paste0(repo,  "?recursive=1")  #use URL passed
   } else {
     direct_access = F
-  api_url <- paste0("https://api.github.com/repos/",repo, "/git/trees/", branch, "?recursive=1") }
 
-  #read json JSON stream
-  json_data <- paste(readLines(api_url, warn = FALSE), collapse = "")
+# read a github public repo FROM API.github
+    generate_url <- function(repo, branch) {
+# construct api.github url
+api_url <- paste0("https://api.github.com/repos/", repo, "/git/trees/", branch, "?recursive=1")
+
+#read json JSON stream
+json_data <- paste(readLines(api_url, warn = FALSE), collapse = "")
+
+      #if there is a json (non empty), return it
+      if (nchar(json_data) > 0)  return(json_data)
+      return(NA)  # if empty return NA (used herafter)
+    }
+
+    api_url <- NA
+    # trycatch several branches (main, etc.)
+json_data <- sapply(branches, function(branch) {
+
+if (!is.na(api_url)) { return(NA) }  #stop if a valid uRL is already here
+
+result <- suppressWarnings(tryCatch({ # try several branch
+  json_data <- generate_url(repo, branch) # try to reach api
+if (!is.na(json_data)) { api_url <<- json_data  } # Assign the answer  valid uRL found
+          json_data  # return json from github
+        }, error = function(e) NA) ) # if error return NA
+    })
+# we have a valid branch if all is good
+branch <- names(which(!is.na(json_data)))
+
+# unlist / filter na answers
+    json_data <- unlist(json_data[!is.na(json_data)])
+  }
 
   # Extrct files (default pattern = .R files)
   file_paths <- unlist(regmatches(json_data, gregexpr(ignore.case = T , pattern = paste0('"path":"[^"]+', pattern, '"'), text = json_data)))

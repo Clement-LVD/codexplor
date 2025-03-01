@@ -34,7 +34,8 @@
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @export
 readlines_in_df <- function(files_path,
-                            return_lowered_text = FALSE,  .verbose = TRUE
+                            return_lowered_text = FALSE,
+                            .verbose = TRUE
   , file_path_col_name = "file_path"
  , content_col_name = "content"
  , line_number_col_name = "line_number"

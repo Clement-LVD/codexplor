@@ -32,6 +32,6 @@ This function supports multiple languages in a single call.
 Language names are case-insensitive.
 }
 \examples{
-fn_def <- get_def_regex_by_language("Python", "R" , "Go", "C", "JavaScript")
+fn_def <- get_def_regex_by_language("Python", "R" ,  "C", "JavaScript")
 names(fn_def) ; str(fn_def[[1]])
 }

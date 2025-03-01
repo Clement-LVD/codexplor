@@ -44,14 +44,14 @@ library(codexplor)
   net <- get_doc_network_from_project("R/", languages = "R")
 
   # since this readme is executed from a repo we ask for a "local" folder path ("R/")
-  # At home you'll have the same results with : 
+  # At home you'll have the same results with the codexplor github repo : 
   # net <-  get_doc_network_from_project(repos = "clement-LVD/codexplor", languages = "R")
 
    # return a corpus.list object with 2 corpus.line, 1 corpus.nodelist & 1 citations.network
   str(net, max.level = 1) 
 #> List of 4
-#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    1118 obs. of  10 variables:
-#>  $ comments         :Classes 'corpus.lines' and 'data.frame':    924 obs. of  9 variables:
+#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    1134 obs. of  10 variables:
+#>  $ comments         :Classes 'corpus.lines' and 'data.frame':    939 obs. of  9 variables:
 #>  $ nodelist         :Classes 'corpus.nodelist' and 'data.frame': 21 obs. of  7 variables:
 #>  $ citations.network:Classes 'citations.network' and 'data.frame':   19 obs. of  5 variables:
 #>  - attr(*, "class")= chr [1:2] "list" "corpus.list"
@@ -114,10 +114,9 @@ local insights on a programming project.
 
 **Supported language(s) :**
 
-<figure>
-<img src="https://img.shields.io/badge/R-green" alt=" " />
-<figcaption aria-hidden="true"> </figcaption>
-</figure>
+![ ](https://img.shields.io/badge/R-green)
+![ ](https://img.shields.io/badge/Python-yellow)
+![ ](https://img.shields.io/badge/Javascript-orange)
 
 Other languages are planned.
 

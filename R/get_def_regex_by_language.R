@@ -20,7 +20,7 @@
 #' This function supports multiple languages in a single call.
 #' Language names are case-insensitive.
 #' @examples
-#' fn_def <- get_def_regex_by_language("Python", "R" , "Go", "C", "JavaScript")
+#' fn_def <- get_def_regex_by_language("Python", "R" ,  "C", "JavaScript")
 #' names(fn_def) ; str(fn_def[[1]])
 #' @export
 get_def_regex_by_language <- function(languages = NULL, ...) {
@@ -34,8 +34,9 @@ list_language_patterns <- list(
     , pattern_to_exclude = "\\.Rcheck|test-|vignettes"
   ),
   Python = list(
-    fn_regex = "^\\s*def\\s+([\\w_]+)\\s*\\(",
-    file_extension = ".py"
+    fn_regex = list(main_definition ="(?<=def)\\s+[^\\(]+(?=\\()"   # [^\\(]+: 1 or + char BUT NOT A  '(' (function name).
+                    , lambda_func = "\\w+\\s*(?==\\s*lambda)") # \\s*: space (0 or +) & \\w+: chars. alphanumeric
+   , file_extension = ".py"
     , commented_line_char = "\\s?#"     # Python (Python)
     , delim_pair = NA
     , pattern_to_exclude = NA),

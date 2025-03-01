@@ -6,7 +6,7 @@
 \usage{
 get_github_raw_filespath(
   repo = "tidyverse/stringr",
-  branch = "main",
+  branch = NULL,
   pattern = "\\\\.R"
 )
 }

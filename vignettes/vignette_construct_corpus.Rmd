@@ -20,7 +20,9 @@ require(codexplor)
 
     corpus <- construct_corpus("~", "tidyverse/stringr", languages = "R")
 
-    # Return a standard `list` of `df` (a `corpus.list` object).
+    # Return a standard `list` of `df` (a `corpus.list` object)
+    
+    corpus_py <- construct_corpus(repos = "secdev/scapy", languages = "Python", .verbose = T) #take a while
 
 This function will compute some text-mining metrics within each line and within document-level (e.g., number of characters, words count).
 
@@ -48,6 +50,22 @@ knitr::kable(steps,row.names = T )
 ```
 
 By default `construct_corpus` try to analyze .R files. One or several `languages` could be passed to `construct_corpus`. Planned languages are : `r paste0(names(get_def_regex_by_language()), collapse = ", ")`
+
+### Function call that are non-supported
+Since `codexplor` strictly check the name' similarity between 1st and 2nd matches, some way of writing a program are not fully supported, such as :
+
+**Python instantiated methods.** The instantiated Python methods (i.e. `obj.method()`) are not supported for now.
+
+```{r eval = F }
+#  Python code herafter : unmatched function called
+class A:
+    def method(self):
+        return "My custom method"
+
+obj = A()
+obj.method()  # codexplor don't see that internal dependancy since the method() had a prefix ("obj.")
+#return : 'My custom method'
+```
 
 ### About duplicated lines associated with 1st matches
 `construct_corpus` perform a 1st text-extraction, accordingly to a pattern. During this 1st matches extraction, lines are duplicated *when several matches are found on the same line*. 
