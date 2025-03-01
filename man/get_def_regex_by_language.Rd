@@ -4,7 +4,7 @@
 \alias{get_def_regex_by_language}
 \title{Retrieve function definition regex patterns by programming language(s)}
 \usage{
-get_def_regex_by_language(languages = "R", ...)
+get_def_regex_by_language(languages = NULL, ...)
 }
 \arguments{
 \item{languages}{\code{character}, default = \code{"R"} A programming language to match (character strings).}

@@ -12,12 +12,13 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+require(codexplor)
 ```
 
 # Constructing your corpus
 `codexplor` offer a standardized protocol to turn a programming project into a text-mining corpus, by providing to `construct_corpus` language(s) to analyze, folder(s) path(s) and/or github repo(s).
 
-    corpus <- codexplor::construct_corpus("~", "tidyverse/stringr", languages = "R")
+    corpus <- construct_corpus("~", "tidyverse/stringr", languages = "R")
 
     # Return a standard `list` of `df` (a `corpus.list` object).
 
@@ -46,7 +47,7 @@ knitr::kable(steps,row.names = T )
 
 ```
 
-By default `construct_corpus` try to analyze .R files. One or several `languages` could be passed to `construct_corpus`.
+By default `construct_corpus` try to analyze .R files. One or several `languages` could be passed to `construct_corpus`. Planned languages are : `r paste0(names(get_def_regex_by_language()), collapse = ", ")`
 
 ### About duplicated lines associated with 1st matches
 `construct_corpus` perform a 1st text-extraction, accordingly to a pattern. During this 1st matches extraction, lines are duplicated *when several matches are found on the same line*. 

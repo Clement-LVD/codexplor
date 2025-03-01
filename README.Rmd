@@ -56,7 +56,7 @@ library(codexplor)
   net <- get_doc_network_from_project("R/", languages = "R")
 
   # since this readme is executed from a repo we ask for a "local" folder path ("R/")
-  # At home you'll have the same results with : 
+  # At home you'll have the same results with the codexplor github repo : 
   # net <-  get_doc_network_from_project(repos = "clement-LVD/codexplor", languages = "R")
 
    # return a corpus.list object with 2 corpus.line, 1 corpus.nodelist & 1 citations.network
@@ -67,13 +67,13 @@ library(codexplor)
 ```{r compute-network-of-func,  results='asis', echo=TRUE}
 # Produce an interactive dataviz'
 dataviz <- get_networkd3_from_igraph(title_h1 = "codexplor",subtitle_h2 = "graph of internal dependancies"
-                                     , graph_igraph = net$citations_network) 
+                                     , graph_igraph = net$citations.network) 
 ```
 
 ```{r save-plot, include=FALSE, results='asis'}
  
 networkD3::saveNetwork( dataviz, "man/figures/network_codexplor_fn.html")   
-webshot2::webshot("man/figures/network_codexplor_fn.html", file = "man/figures/force_network.png")
+webshot2::webshot("man/figures/network_codexplor_fn.html", file = "man/figures/force_network.png"  )
 
 ```
 

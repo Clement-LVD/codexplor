@@ -29,12 +29,17 @@ or changing the colnames (e.g., \code{file_path_from_colname}).
 A \code{list} of 4 \code{dataframe} : 2 of class \code{corpus.lines}, 1 \code{corpus.nodelist} and 1 \code{citations.network}
 (symbolizing the edgelist of a document-to-document citations network within a programming project)
 \describe{
-\item{\code{from}}{\code{character} Citations Network - The local file path or GitHub URL that call a function.}
-\item{\code{to}}{\code{character} Citations Network - The local file path or constructed GitHub URL where the function called is defined.}
-\item{\code{file_path}}{\code{character} Corpus - The local file path or constructed GitHub URL.}
-\item{\code{line_number}}{\code{integer} Corpus - The line number within the file.}
-\item{\code{content}}{\code{character} Corpus - The content from a line.}
-\item{\code{match}}{\code{character} Corpus - The matched text on this line, \code{NA} if there is no match.}
+\item{\code{from}}{\code{character} citations.network - The local file path or GitHub URL that call a function.}
+\item{\code{to}}{\code{character} citations.network - The local file path or constructed GitHub URL where the function called is defined.}
+\item{\code{function}}{\code{character} citations.network - The name of the function matched on a line.}
+\item{\code{content_matched}}{\code{character} citations.network - The full content matched with the 2nd matches, in order to verify and craft a new regex.}
+\item{\code{line_number}}{\code{character} citations.network & corpus.lines - The line number of the 2nd match (citation.network) or associated with a line (corpus.lines).}
+\item{\code{file_path}}{\code{character} corpus.lines & corpus.nodelist - The local file path or constructed GitHub URL, same values as the \code{from} & \code{to} columns of the citations.network df.}
+\item{\code{content}}{\code{character} corpus.lines - The content from a line.}
+\item{\code{matches}}{\code{character} corpus.lines (specifically the \code{codes} data.frame)
+\itemize{
+\item The matched text during the 1st matches (full of \code{NA} if there is no match or if they are filtered out, the default).}
+}
 }
 }
 \description{
@@ -51,5 +56,5 @@ result <- get_doc_network_from_project(folder =  "~" )
 \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_df}}, \code{\link{get_citations_network_from_df}}
 
 \url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_a_corpus.html}
-\url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_a_corpus.html}
+\url{https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html}
 }

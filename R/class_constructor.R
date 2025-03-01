@@ -3,17 +3,30 @@
 
 #' Create a corpus.list from a list or append a dataframe to a corpus.list
 #'
-#' @param corpus A list of dataframes.
-#' @param df_to_add A dataframe to append to the corpus.list.
+#' @param corpus `corpus.list` `list` of dataframes created by `construct_corpus()`.
+#' @param df_to_add `list` of `data.frame` or a single `data.frame` to append to the corpus.list. If data.frame(s) without a name are provided, names should be provided with `names_of_df_to_add`
+#' @param names_of_df_to_add `character` vector of names to append to the corpus.list, if anonymous materials is provided (unamed df or list of unamed df).
 #' @param ... Additionnal attributes (e.g., keep trace of the languages analyzed).
 #' @return A dataframe of class 'corpus.list'.
-.construct.corpus.list <- function(corpus, df_to_add = NULL, ...) {
+.construct.corpus.list <- function(corpus, df_to_add = NULL, names_of_df_to_add = NULL, ...) {
 
   # If a df is about to be added: just append it
-  if (!is.null(df_to_add)) {
-    stopifnot(is.data.frame(df_to_add))
-    corpus <- c(corpus, list(df_to_add))  # Append directly
-  }
+  # but verify names 1st : all object quit these functions with names
+if (!is.null(df_to_add)) {
+
+if(length(names(df_to_add)) > 0){
+old_names <- names(corpus)
+corpus <- append(corpus, df_to_add)  # Append directly
+names(corpus) <- c(old_names, names(df_to_add))
+    }
+
+if(length(names(df_to_add)) == 0){ # we want names !
+    stopifnot("A valid vector of name(s) of the same length than the vector of data.frame(s) is passed to .construct.corpus.list, to append a df to a corpus.list"
+              , length(names_of_df_to_add) == length(df_to_add))
+
+    }
+}
+
 # here the user have to define a class accordingly :
   #### TESTS
   has_citations_network <- any(sapply(corpus, function(df) inherits(df, "citations.network")))

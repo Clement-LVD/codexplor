@@ -88,3 +88,4 @@ reverse_intervals <- function(start, end, n_max) {
   # Retourner le dataframe des intervalles inversés
   return(data.frame(start = new_starts[valid], end = new_ends[valid]))
 }
+

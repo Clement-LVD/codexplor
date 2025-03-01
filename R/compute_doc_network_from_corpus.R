@@ -121,10 +121,11 @@ returned_network <- returned_network[ which( returned_network["from"] != returne
 # give the colname wanted by the user in order to ensure stability of the code about this network
 colnames(returned_network) <- c(file_path_from_colname, file_path_to_colname, function_matched_colname, content_matched_colname,  line_number_matched_colname)
 
+# set a valid class (in order to pass tests from .construct.corpus.list)
 returned_network <- structure(returned_network, class = c( "citations.network", "data.frame") )
 
 #### Update the attributes and return an augmented corpus ####
-corpus <- .construct.corpus.list(corpus = corpus, df_to_add = returned_network )
+corpus <- .construct.corpus.list(corpus = corpus, df_to_add = list(citations.network = returned_network ) )
 
 return(corpus)
 

@@ -23,7 +23,7 @@
 #' fn_def <- get_def_regex_by_language("Python", "R" , "Go", "C", "JavaScript")
 #' names(fn_def) ; str(fn_def[[1]])
 #' @export
-get_def_regex_by_language <- function(languages = "R", ...) {
+get_def_regex_by_language <- function(languages = NULL, ...) {
 #### 1) define function regex => core behavior is catching func' names ####
 list_language_patterns <- list(
   R = list(
@@ -71,13 +71,6 @@ list_language_patterns <- list(
     , commented_line_char = "\\s?//"
     , delim_pair =  c("/*" = "*/")  # C (C, C++, Java, JavaScript, etc.)
     , pattern_to_exclude = NA
-  ),
-  Go = list(
-    fn_regex = "^\\s*func\\s+([\\w_]+)\\s*\\(",
-    file_extension = ".go"
-    , commented_line_char = "\\s?//"
-    ,delim_pair = c("/*" = "*/")  # Go (Go)
-    , pattern_to_exclude = NA
   )
 )
 
@@ -89,6 +82,8 @@ list_language_patterns <- lapply( list_language_patterns, FUN = function(entry) 
 return(entry)
 
 }  )
+
+if(is.null(languages)) return(list_language_patterns)
 
 #### 1) filter accordingly to the desired language(s) ####
   languages <- tolower( c(languages, ...))  # Récupère tous les arguments passés
