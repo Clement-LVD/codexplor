@@ -68,36 +68,83 @@
 <div class="section level2">
 <h2 id="constructing-your-corpus">Constructing your corpus<a class="anchor" aria-label="anchor" href="#constructing-your-corpus"></a>
 </h2>
-<p><code>codexplor</code> offering functions to turn a programming
-project into a corpus by providing folder(s) path(s) and/or github
-repo(s).</p>
-<pre><code><span><span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu">codexplor</span><span class="fu">::</span><span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span><span class="st">"~"</span>, <span class="st">"tidyverse/stringr"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span></code></pre>
-<p>By default <code>construct_corpus</code> is tunned for the R
-programming language. One or several <code>languages</code> could be
-passed to <code>construct_corpus</code>, e.g., in order to read the
-programming files accordingly to their extensions.</p>
-<ul>
-<li>
-<code>construct_corpus</code> return the content as a
-<code>df</code>, comments are wiped (by default)</li>
-<li>
-<em>1st matches</em> are realized accordingly to the pattern
-provided by the user</li>
-<li>
-<em>1st matches</em> are extracted in a column of the returned
-<code>df</code>. By default, the names of functions defined in the files
-of the project are extracted<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;If a file have several function defined &lt;em&gt;within the
-same line&lt;/em&gt;, lines of the returned &lt;code&gt;df&lt;/code&gt; will be
-duplicated.&lt;/p&gt;"><sup>1</sup></a>.</li>
-<li>Then, text-mining metrics are computed are computed within each line
-(e.g., number of characters, words count).</li>
-<li>And agregated on a document-level</li>
-</ul>
-<p>These default match rely on a regex, for each of the
-<code>languages</code> supported by <code>construct_corpus</code>.</p>
+<p><code>codexplor</code> offer a standardized protocol to turn a
+programming project into a text-mining corpus, by providing to
+<code>construct_corpus</code> language(s) to analyze, folder(s) path(s)
+and/or github repo(s).</p>
+<pre><code><span><span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu">codexplor</span><span class="fu">::</span><span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span><span class="st">"~"</span>, <span class="st">"tidyverse/stringr"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Return a standard `list` of `df` (a `corpus.list` object).</span></span></code></pre>
+<p>This function will compute some text-mining metrics within each line
+(e.g., number of characters, words count) and within document-level.</p>
+<div class="section level4">
+<h4 id="about-default-patterns-associated-with-each-language">About default patterns associated with each language<a class="anchor" aria-label="anchor" href="#about-default-patterns-associated-with-each-language"></a>
+</h4>
+<p>Standardized patterns are used along the way of constructing a
+corpus. For each of the <code>languages</code> supported by
+<code>construct_corpus</code> :</p>
+<table class="table">
+<colgroup>
+<col width="1%">
+<col width="34%">
+<col width="64%">
+</colgroup>
+<thead><tr class="header">
+<th align="left"></th>
+<th align="left">Steps</th>
+<th align="left">Examples of pattern associated with language(s)</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">Read the files of the local folder(s) and/or github
+public repo(s) accordingly to their extension</td>
+<td align="left">e.g., “R” language is associated with “<code>.R</code>”
+files and with a filtering pattern (e.g., files with
+“<code>test-</code>”, “<code>vignettes</code>”, “<code>Rcheck</code>” in
+their full names are excluded)</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">Separate commented lines from code lines</td>
+<td align="left">e.g., R &amp; Python files generally have each
+commented lines that begin with “<code>#</code>”, others languages
+should have commented blocks separeted on several lines (e.g.,
+<code>/* [comments] */</code>
+</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">Extract a 1st matched-text within the codes lines,
+accordingly to a pattern</td>
+<td align="left">e.g., default pattern is catching the names of the
+functions defined within a file, e.g., for the R programming language :
+the name is before a “<code>&lt;- function(</code>” instruction</td>
+</tr>
+</tbody>
+</table>
+<p>By default <code>construct_corpus</code> try to analyze .R files. One
+or several <code>languages</code> could be passed to
+<code>construct_corpus</code>.</p>
 </div>
-
-  </main>
+<div class="section level4">
+<h4 id="about-duplicated-lines-associated-with-1st-matches">About duplicated lines associated with 1st matches<a class="anchor" aria-label="anchor" href="#about-duplicated-lines-associated-with-1st-matches"></a>
+</h4>
+<p><code>construct_corpus</code> perform a 1st text-extraction,
+accordingly to a pattern. During this 1st matches extraction, lines are
+duplicated <em>when several matches are found on the same line</em>.</p>
+<blockquote>
+<p>For example, by default, the names of functions defined in the files
+of the project are extracted during the 1st match operated by
+<code>construct_corpus</code>. If a file have several function defined
+<em>within the same line</em>, such a line will be duplicated in the
+returned <code>df</code>, with several ‘matches’ entries along these
+lines and an identical line_number.</p>
+</blockquote>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
