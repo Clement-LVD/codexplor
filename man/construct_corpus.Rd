@@ -5,7 +5,13 @@
 \title{Construct a list of 3 Data Frames of Lines Readed From Files
 Within a Local GitHub Repositories and/or Local Folders}
 \usage{
-construct_corpus(folders = NULL, languages = "R", repos = NULL, ...)
+construct_corpus(
+  folders = NULL,
+  languages = "R",
+  repos = NULL,
+  .verbose = F,
+  ...
+)
 }
 \arguments{
 \item{folders}{\code{character}. Default = \code{NULL}. A character vector of local folder paths to scan for code files.}
@@ -13,6 +19,8 @@ construct_corpus(folders = NULL, languages = "R", repos = NULL, ...)
 \item{languages}{\code{character}. Default = \code{"R"}. A character vector specifying the programming language(s) to include in the corpus.}
 
 \item{repos}{\code{character}. Default = \code{NULL}. A character vector of GitHub repository URLs or repository identifiers to extract files from (e.g., \code{"user/repo"}).}
+
+\item{.verbose}{\code{logical}. Default = \code{TRUE}. A logical used to silent the message in console.}
 
 \item{...}{Additional arguments passed to \code{srch_pattern_in_files_get_df}
 (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).}
@@ -63,6 +71,7 @@ requested languages, a subset of the \code{languages} parameters or entire list
 \examples{
 # Example 1: Construct a corpus from local folders
  corpus <- construct_corpus(folders = "~", languages = c("Python", "R"))
+ corpus <- construct_corpus(folders = "~", languages = c("Javascript"))
 \dontrun{
 # Example 2: Construct a corpus from GitHub repositories (default is R)
 cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )

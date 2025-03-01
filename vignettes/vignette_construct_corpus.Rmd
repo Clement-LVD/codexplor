@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
     # Return a standard `list` of `df` (a `corpus.list` object).
 
-This function will compute some text-mining metrics within each line (e.g., number of characters, words count) and within document-level.
+This function will compute some text-mining metrics within each line and within document-level (e.g., number of characters, words count).
 
 ### About default patterns associated with each language
 Standardized patterns are used along the way of constructing a corpus. For each of the `languages` supported by `construct_corpus` :

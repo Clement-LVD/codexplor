@@ -8,6 +8,7 @@
 #' @param folders `character`. Default = `NULL`. A character vector of local folder paths to scan for code files.
 #' @param languages `character`. Default = `"R"`. A character vector specifying the programming language(s) to include in the corpus.
 #' @param repos `character`. Default = `NULL`. A character vector of GitHub repository URLs or repository identifiers to extract files from (e.g., `"user/repo"`).
+#' @param .verbose `logical`. Default = `TRUE`. A logical used to silent the message in console.
 #' @param ... Additional arguments passed to `srch_pattern_in_files_get_df`
 #' (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).
 #'
@@ -45,6 +46,7 @@
 #' @examples
 #' # Example 1: Construct a corpus from local folders
 #'  corpus <- construct_corpus(folders = "~", languages = c("Python", "R"))
+#'  corpus <- construct_corpus(folders = "~", languages = c("Javascript"))
 #' \dontrun{
 #' # Example 2: Construct a corpus from GitHub repositories (default is R)
 #' cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
@@ -60,9 +62,11 @@ construct_corpus <- function(
  folders = NULL
 , languages = "R"
  , repos = NULL
-
+, .verbose = F
 , ...
 ){
+
+if(.verbose) cat("\n Constructing a corpus of programming files (", languages, ") : 1. Reading files\n")
 #serialized over a "language" = specific treatment from a dictionnary
 # 1) get files infos associated to a language
 lang_dictionnary <- get_def_regex_by_language(languages)
@@ -70,53 +74,78 @@ lang_dictionnary <- get_def_regex_by_language(languages)
 # we'll return it as an attributes of the corpus_list
 
 # we'll iterate into a sequens of languages
-sequens_of_languages <- seq_along(lang_dictionnary[[1]])
+sequens_of_languages <- seq_along(lang_dictionnary)
 
 if(length(sequens_of_languages) == 0) return(NA)
 
 # lapply within each language until the end of the fun'
 results <- lapply(sequens_of_languages, function(i) {
 
-  lang_desired <- lang_dictionnary[i, ]
+  lang_desired <- lang_dictionnary[[i]]
 
 
 #### 1) CONSTRUCT A CORPUS of files path and/or urls ####
 urls = NULL
 files_path = NULL
 
+pattern_to_exclude = lang_desired$pattern_to_exclude
+
+if(length(pattern_to_exclude) > 0) pattern_to_exclude <- paste0(pattern_to_exclude , collapse = "|")
+
 # 2) construct list of files :
 files_path <- get_list_of_files(folders = folders , repos = repos
     , file_ext =  lang_desired$file_ext #defined according to the langage
-    , pattern_to_exclude_path = paste0(lang_desired$pattern_to_exclude , collapse = "|"))
+    , pattern_to_exclude_path = pattern_to_exclude)
 
 # 3) extract lines from files
-complete_files <- readlines_in_df(files_path = files_path, .verbose = F, ... )
+complete_files <- readlines_in_df(files_path = files_path, .verbose = .verbose, ... )
 # add real files ext (checking if an extension default pattern return a fake file)
+
+if(.verbose) cat("\n2. Compute metrics")
 
 if(is.null(complete_files)) return(NA)
 
 complete_files$file_ext <- gsub(x = basename(complete_files$file_path), ".*\\." ,replacement = "")
 
-# 4.1.) ADD LINES TEXT-METRICS
+# 4.1.) ADD LINES TEXT-METRICS ON ENTIRE FILES
 complete_files <- cbind(complete_files, compute_nchar_metrics(complete_files[[3]]) )
 
-# 4.2.) detect the commented lines
-complete_files$comments <-  grepl(x = complete_files$content, pattern =  lang_desired$commented_line_char)
 
-# 5) Aggregate by group_colname = "file_path", e.g., sum of col' with a metric_pattern ("n_")
+# 5) Aggregate by group_colname = "file_path" + sum of all the col' with a suffix ("n_")
 nodelist <- compute_nodelist(df = complete_files, group_col = "file_path"
                              , colname_content_to_concatenate = "content")
+#we've made sum of metrics on each entire file, e.g., total nchar value
 
+# 4.2.) detect the commented lines (never clean the pseudo comments on the same line)
+complete_files$comments <-  grepl(x = complete_files$content, pattern =  lang_desired$commented_line_char)
 
 #### 2) Construct a corpus.list ####
 # we have some func' for define class and creation_date
 corpus <- list(
-codes = complete_files[!complete_files$comments,  ]
+codes = complete_files[!complete_files$comments,  ] # class is crafted hereafter
 , comments = .construct.corpus.lines(complete_files[complete_files$comments,  ])
 , nodelist = .construct.nodelist(nodelist)
             )
 # classe corpus.lines and corpus.nodelist
 
+# filter junklines - prevent crashes (from utils.R)
+corpus$codes <-  filter_if_na(corpus$codes, "content")
+
+#### CLEAN THE codes df in corpus list if some multi-lines comments are possible
+if(!is.na(lang_desired$delim_pair)) {
+
+if(.verbose) cat("\n2.bis. Clean blocks of comments\n")
+
+codes_and_comments <-  separate_commented_lines(texts = corpus$codes$content, delim_pair = lang_desired$delim_pair, .verbose = .verbose)
+
+corpus$codes$content <- codes_and_comments$codelines
+# filter out blank lines again
+
+corpus$codes <-  filter_if_na(corpus$codes, "content")
+
+}
+
+if(.verbose) cat("\n3. Perform a 1st text-extraction")
 # 5-A} Get 1st matches (maybe duplicated lines here : xxx beurk xxx)
 # => functions defined ! (here we are only ONE LANGUAGE BY ONE)
 corpus$codes <- srch_pattern_in_df( df =  corpus$codes, content_col_name = "content",
@@ -124,13 +153,16 @@ corpus$codes <- srch_pattern_in_df( df =  corpus$codes, content_col_name = "cont
 
 corpus$codes <- .construct.corpus.lines(corpus$codes)
 
-corpus <- .construct.corpus.list(corpus, languages_patterns = lang_dictionnary)
+corpus <- .construct.corpus.list(corpus, languages_patterns = lang_dictionnary, folders = folders, repos = repos)
 
 #add class attributes and structure (optionnal doc' & methods heritated)
 
 # return a list of df with all our col'
 # compute a nodelist FROM LINES : sum of these metrics is supposed to be document-level metrics
 # this func' is hereafter : a grouped stat' (end of this .R file)
+
+if(.verbose) cat("\nOK : Corpus created")
+
 
 return(corpus)
 
@@ -156,7 +188,9 @@ return(combined)
 #### 2) construct a nodelist
 # Create a nodelist by (a) summing metrics by group (col' are defined with a regex)
 # AND aggregating the text with gather_lines_to_df !
-compute_nodelist <- function(df, group_col, metric_pattern = "n_", colname_content_to_concatenate = NULL) {
+compute_nodelist <- function(df, group_col
+                             , metric_pattern = "n_"
+                             , colname_content_to_concatenate = NULL) {
 
   # Check if the grouping column exists
   if (!group_col %in% colnames(df)) {

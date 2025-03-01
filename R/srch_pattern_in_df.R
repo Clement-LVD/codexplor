@@ -73,14 +73,19 @@ content_df <- merge(content_df, all.x = T, flattened_df, by = "row_num") #  ALL 
 
 n_lines_after = nrow(content_df)
 
-if(!n_lines_before == n_lines_after){warning(immediate. = T, "\n ==> Have returned duplicated line(s) : you've matched several match on a single line ! :x")
-cat("Duplicated row number are : \n");cat(sep = " & ", content_df$row_num[anyDuplicated(content_df$row_num)])
+if(!n_lines_before == n_lines_after){
+  warning(immediate. = T, "==> Have returned duplicated line(s) : you've matched several matches on a single line ! :x")
+dupkey <- content_df$row_num[anyDuplicated(content_df$row_num)]
+  cat("Duplicated row number are : \n"); cat(sep = "  ", dupkey )
+cat("\n")
 }
 
 content_df$row_num <- NULL # erase row_num col'
 
 #etract fn names (na if no match at all)
 # we have a df with fn name IN THE LAST COL and the path to the file they are defined IN THE FIRST COL
+
+content_df[[extracted_txt_col_name]] <- trimws(content_df[[extracted_txt_col_name]] )
 
 return(content_df)
   }

@@ -59,11 +59,11 @@ Thus, in a typical programming project :
 
 Assuming the user have indicated folder(s) and/or github repo(s), `codexplor::get_doc_network_from_project()` will try to perform a 'cascading matching' :
 
-⏩ Read the files and extract a 1st pattern, e.g., default tare supposed to extract *R functions names*. 
+⏩ Read the files and extract a 1st pattern, e.g., default are supposed to extract *R functions names*. 
 
 ⏩ Search for these patterns in the initial content, in order to constitute a Citations Network.
 
-🎁 Return the edgelist of the network of *documents* (document that call a function => file where this function is defined)
+🎁 Return the edgelist of the network of *documents* (programming file that is calling a function => programming file where this function is defined)
 
 `codexplor` default pattern are aimed to extract functions names from the files of a *programming* project.
 

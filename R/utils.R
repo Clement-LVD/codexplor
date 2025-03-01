@@ -1,3 +1,11 @@
+#### 0) filter blank lines of a df on a col ####
+filter_if_na <- function(df, col_to_verify){
+
+  lines_to_filter_out <- which(is.na(df[[col_to_verify]]))
+
+if(length(lines_to_filter_out) > 0) df <- df[-lines_to_filter_out, ]
+return(df)}
+
 ####1) construct list of files path ####
 get_list_of_files <- function(folders = NULL, repos = NULL
                               , file_ext = "R"
@@ -62,3 +70,21 @@ clean_paths <- function(df
 
 }
 
+#### 2) inverted intervals ####
+reverse_intervals <- function(start, end, n_max) {
+  # Vérifier que start et end sont bien de la même longueur
+  if (length(start) != length(end)) stop("start and end don't have the same length : they should be.")
+
+  # user have passed an interval, e.g., start[1]:end[1] are non-desired values
+
+  new_starts <- c(1, end + 1)
+
+    # Fin des nouveaux intervalles (juste avant chaque début d'intervalle suivant)
+  new_ends <- c(start - 1, n_max)
+
+  # Supprimer les intervalles invalides (cas où start[i] == end[i] + 1)
+  valid <- new_starts <= new_ends
+
+  # Retourner le dataframe des intervalles inversés
+  return(data.frame(start = new_starts[valid], end = new_ends[valid]))
+}
