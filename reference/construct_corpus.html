@@ -89,7 +89,7 @@ and (3) nodelist with global metrics over the files.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>list</code> of 3 <code>data.frame</code> containing the corpus of collected files and a first nodelist :
+    <p>A <code>list</code> of 3 <code>data.frame</code> containing the corpus of collected files and a nodelist :
 <code>codes</code> and <code>comments</code> (<code>data.frame</code> with class <code>corpus.lines</code>) and <code>nodelist</code> (<code>data.frame</code> with class <code>corpus.nodelist</code>)
 The data frames typically includes columns such as:</p><dl><dt><code>file_path</code></dt>
 <dd><p><code>character</code> The local file path or constructed GitHub URL.</p></dd>
@@ -115,13 +115,19 @@ The data frames typically includes columns such as:</p><dl><dt><code>file_path</
 <dt><code>n_vowel</code></dt>
 <dd><p><code>integer</code> Number of voyel in a line (or the file for the <code>corpus.nodelist</code> df).</p></dd>
 
-<dt><code>n_total_lines</code></dt>
-<dd><p><code>integer</code> (only in the <code>corpus.nodelist</code> df) Number of lines of the files (with and without comments).</p></dd>
+<dt><code>comments</code></dt>
+<dd><p><code>logical</code> <code>TRUE</code> if the entire line is commented. Set to <code>FALSE</code> for the <code>codes</code> df and <code>TRUE</code> for the <code>comments</code> df.</p></dd>
+
+<dt><code>commented</code></dt>
+<dd><p><code>integer</code> (only in the <code>codes</code> df) Content of the inlines comments (NA if there is no inline comments).</p></dd>
 
 <dt><code>n_total_lines</code></dt>
 <dd><p><code>integer</code> (only in the <code>corpus.nodelist</code> df) Number of clines of the files <em>without comments</em>.</p></dd>
 
 <dt><code>matches</code></dt>
+<dd><p><code>character</code> (only in the <code>codes</code> df) A 1st matched text, extracted accordingly to a pattern.</p></dd>
+
+<dt><code>commented</code></dt>
 <dd><p><code>character</code> (only in the <code>codes</code> df) A 1st matched text, extracted accordingly to a pattern.</p></dd>
 
 
