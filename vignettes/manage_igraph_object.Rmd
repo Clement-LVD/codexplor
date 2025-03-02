@@ -29,7 +29,7 @@ Once you have a network as the network of internal dependancies within a project
 
 - Turn it into an interactive `networkD3` dataviz with ![.](https://img.shields.io/badge/{networkD3}-bold?style=flat&logoColor=black&logoSize=2&label=get_networkd3_from_igraph()&labelColor=green&color=black)
 
-    get_networkd3_from_igraph(filter_net)
+          get_networkd3_from_igraph(filter_net)
 
 - And tweak the legend of the interactive `networkD3` dataviz with ![.](https://img.shields.io/badge/{networkD3}-bold?style=flat&logoColor=black&logoSize=2&label=move_networkd3_legend()&labelColor=green&color=black)
 

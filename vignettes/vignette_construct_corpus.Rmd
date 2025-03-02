@@ -54,13 +54,9 @@ Each lines and each documents are associated with text-mining metrics (e.g., num
 
 The `codes` `dataframe` (one of the `corpus.lines` dataframes) have a '`matches`' column, a specialized way of understand a line. These 1st matches are explained hereafter.
 
-### About the 1st matches operated
-**1st matches operated.** Given language(s), `construct_corpus` try to perform an initial identification within the content. 
+**1st matches operated.** Given language(s), `construct_corpus` try to perform an initial identification within the content. By default, these 1st matches are supposed to be the function names, as soon as a function is defined within a file. For example, if a `pol  <- function` is defined within a file, the `matches` corresponding entry will be `'pol'`.
 
-> By default, these 1st matches are supposed to be the function names, for functions defined within a file.
-
-Thus, `construct_corpus` rely on some default patterns, associated with the supported languages. 
-
+`construct_corpus` rely on some default patterns, associated with the supported languages. 
 
 ### Default patterns associated with languages
 For each of the required language(s), a default standardized patterns is used for :

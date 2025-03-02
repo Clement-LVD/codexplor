@@ -19,6 +19,8 @@ return("<style>
   }
 </style>")
 
+require(codexplor)
+
 ```
 
 # codexplor
@@ -44,6 +46,9 @@ You can install the development version of codexplor with
 devtools::install_github("clement-LVD/codexplor")
 ```
 
+
+The default settings of `codexplor` are optimized for analyzing a project in ![R](https://img.shields.io/badge/R-black) language. Planned languages are : `r paste(collapse = ", ", names(get_def_regex_by_language()))`
+
 ---
 
 ### Example : dataviz' of internal dependancies
@@ -54,14 +59,17 @@ library(codexplor)
 
  # 1) Construct a corpus and a Citations network
   net <- get_doc_network_from_project("R/", languages = "R")
-   # return a corpus.list object with 2 corpus.line, 1 corpus.nodelist & 1 citations.network
+   # return a corpus.list object with 4 data.frames :
+  # => 2 corpus.line
+  # => 1 corpus.nodelist 
+  # => 1 citations.network
 ```
 
 ```{r compute-network-of-func,  results='asis', echo=TRUE}
 # 2) Produce an interactive dataviz'
-dataviz <- get_networkd3_from_igraph(title_h1 = "codexplor"
-                                     ,subtitle_h2 = "graph of internal dependancies"
-                                     , graph_igraph = net$citations.network) 
+dataviz <- get_networkd3_from_igraph(net$citations.network
+, title_h1 = "codexplor"
+, subtitle_h2 = "graph of internal dependancies" ) 
 ```
 
 ```{r save-plot, include=FALSE, results='asis'}
@@ -166,32 +174,30 @@ Other languages are planned.
 
 *WIP* [🔧🔨]
 
-`codexplor` offers functions that are dedicated to analyze a programming project, accordingly to several subanalysis tools. `codexplor` also offers helper functions, e.g., for create and filter a network with the `igraph` package.
+`codexplor` offers functions that are dedicated to analyze a programming project, accordingly to several subanalysis tools. 
 
 ```{r table-functions, echo=FALSE}
 
 fn_segmentation <- data.frame(
 "High-level" = c(
-"Construct a network of internal dependancies : [vignette of `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html)"
+"Construct a network of internal dependancies from a programming project folder path(s) and/or github repo(s) : [vignette of `get_doc_network_from_project()`](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html)"
 
 , " "
                 )
 , 
-"Low-level" = c( "Construct a corpus : [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html)"
-
-                 ,
+"Low-level" = c( "Construct a corpus : [vignette of `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html)", 
+              "Middle-level" = "Understand the citations.network of internal dependancies : [vignette of `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html)" 
                  
-  "Manage and filter `igraph` object : [vignette of helper functions for igraph object](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html)"       
   
                               )
 )
 
-names(fn_segmentation) <- c("Analyze a programming project" , "Helper functions" )
+names(fn_segmentation) <- c("Reporting on a programming project" , "Underlying functions" )
 
-knitr::kable(fn_segmentation)
+knitr::kable(fn_segmentation, row.names = F)
 
 
 ```
 
-The default settings of `codexplor` are optimized for analyzing a project in ![R](https://img.shields.io/badge/R-black) language.
+`codexplor` also offers helper functions, e.g., for create and filter a network with the `igraph` package, see the [vignette of helper functions for igraph object and dataviz](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html)
 

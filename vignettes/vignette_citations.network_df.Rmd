@@ -1,0 +1,71 @@
+---
+title: "Citations Network computed by codexplor"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Citations Network computed by codexplor}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This Vignette give a basic understanding of the `citations.network` `dataframe` : a Citations Network of functions within programming project(s) computed by some of the `codexplor` reporting protocols, i.e. `codexplor::get_doc_network_from_project()` and other functions that rely on `compute_doc_network_from_corpus`. 
+
+This particular `citations.network` `dataframe` is one of the cornerstones of `codexplor`, in order to made 'clusters' of files before further processing, e.g., before to aggregate readability statistics to this 'cluster' level.
+
+### Network properties
+The returned `citations.network` `dataframe` is the edgelist^[Edgelist is the one of the standard representation of a graph (https://igraph.org/r/doc/as_edgelist.html).] of a document-to-document citations network. These networks have basic properties, not covered here (e.g., a citations network is a directed network).
+
+Regarding the `citations.network` `dataframe` of the `corpus.list` `list` of dataframes :
+
+- Nodes are the programming files, default is a network of .R files. 
+- Edges go from the file that calls a function to the file where the function is defined.
+
+> `codexplor` default pattern are aimed to extract functions names from the files of a *programming* project (see next section). 
+
+Thus, in a typical programming project :
+
+- Nodes are files, so mostly - or only - functions ;
+- °← Indegree of a file is "how many files are calling the function(s) defined in this file" ;
+- °→ Outdegree of a file is "how many functions are used by this file" ; 
+- ⟲ Auto-mentioning refear to 'recursivity' (`codexplor` default is to filter autolinks).
+
+### Cascading matching operated by `compute_doc_network_from_corpus`
+Given a `corpus.list` created with `construct_corpus`, `codexplor::compute_doc_network_from_corpus()` will try to perform a 'cascading matching' :
+
+⏩ Transform the *1st matches* added by `codexplor::construct_corpus` into a pattern. The default are supposed to extract *R functions names as a 1st matches*, e.g., we have defined 'Pier', 'Pol' and 'Jak' - functions - names in 3 separates files. 
+
+⏩ And search for these patterns in the initial content , in order to constitute a Citations Network with these 2nd matches, e.g., a programming file is citing 'Pier', 'Pol' and 'Jak' and thus this file is linked to the files where we previously found the 1st matches.
+
+🎁 Return the edgelist that symbolize this network of *documents*. Default is a network of internal dependencies within the files of a programming project : links are beginning from the programming file that is calling a function => to the programming file where this function is defined.
+
+### Function call that are non-supported during 2nd matches
+Some way of writing a program are not fully supported, such as :
+
+**Python instantiated methods.** The instantiated Python methods are not supported yet by `get_doc_network_from_project`, i.e. `obj.method()`.
+
+If we take this Python code sample, the 1st match is realized by `construct_corpus`, but `get_doc_network_from_project` don't perform a 2nd match.
+
+```{r eval = F }
+#  Consider the Python code herafter 
+class A:
+    def method(self):
+        return "My custom method"
+ # construct_corpus return 'method' as a 1stly matched function name
+
+obj = A()
+obj.method() # Return : 'My custom method'
+
+# get_doc_network_from_project don't identify the 2nd match because of the prefix ("obj.")
+```
+
+
+### Filter undesired match
+Junk nodes needs to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. `get_doc_network_from_project` offer several parameters for dealing with your style of writing a program.
+
+

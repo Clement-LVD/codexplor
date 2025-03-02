@@ -30,6 +30,10 @@ You can install the development version of codexplor with
 devtools::install_github("clement-LVD/codexplor")
 ```
 
+The default settings of `codexplor` are optimized for analyzing a
+project in ![R](https://img.shields.io/badge/R-black) language. Planned
+languages are : R, Python, JavaScript, Java, C, Cpp
+
 ------------------------------------------------------------------------
 
 ### Example : dataviz’ of internal dependancies
@@ -42,13 +46,17 @@ library(codexplor)
 
  # 1) Construct a corpus and a Citations network
   net <- get_doc_network_from_project("R/", languages = "R")
-   # return a corpus.list object with 2 corpus.line, 1 corpus.nodelist & 1 citations.network
+   # return a corpus.list object with 4 data.frames :
+  # => 2 corpus.line
+  # => 1 corpus.nodelist 
+  # => 1 citations.network
 ```
 
 ``` r
 # 2) Produce an interactive dataviz'
-dataviz <- get_networkd3_from_igraph(title_h1 = "codexplor",subtitle_h2 = "graph of internal dependancies"
-                                     , graph_igraph = net$citations.network) 
+dataviz <- get_networkd3_from_igraph(net$citations.network
+, title_h1 = "codexplor"
+, subtitle_h2 = "graph of internal dependancies" ) 
 ```
 
 <img src="man/figures/force_network.png" width="100%" />
@@ -116,14 +124,14 @@ Other languages are planned.
 *WIP* \[🔧🔨\]
 
 `codexplor` offers functions that are dedicated to analyze a programming
-project, accordingly to several subanalysis tools. `codexplor` also
-offers helper functions, e.g., for create and filter a network with the
-`igraph` package.
+project, accordingly to several subanalysis tools.
 
-| Analyze a programming project | Helper functions |
+| Reporting on a programming project | Underlying functions |
 |:---|:---|
-| Construct a network of internal dependancies : [vignette of `get_text_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html) |
-|  | Manage and filter `igraph` object : [vignette of helper functions for igraph object](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html) |
+| Construct a network of internal dependancies from a programming project folder path(s) and/or github repo(s) : [vignette of `get_doc_network_from_project()`](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html) |
+|  | Understand the citations.network of internal dependancies : [vignette of `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html) |
 
-The default settings of `codexplor` are optimized for analyzing a
-project in ![R](https://img.shields.io/badge/R-black) language.
+`codexplor` also offers helper functions, e.g., for create and filter a
+network with the `igraph` package, see the [vignette of helper functions
+for igraph object and
+dataviz](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html)
