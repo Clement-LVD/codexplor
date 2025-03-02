@@ -69,25 +69,24 @@
 <p>This Vignette give a basic understanding of the
 <code>corpus.list</code> <code>list</code> of dataframes returned by
 <code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code> : a standard
-<code>corpus.list</code> with a citations network of functions within
-<em>programming project(s)</em>.</p>
+<code>corpus.list</code> + an additional <code>citations.network</code>,
+the edgelist of a network of the functions defined in <em>programming
+project(s)</em>.</p>
 <blockquote>
 <p><code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code> add a
 <code>citations.network</code> <code>data.frame</code>to the basic
 <code>corpus.list</code> returned by
 <code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code>.</p>
 </blockquote>
-<blockquote>
 <p>The 1st matches of <code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> let us
 find some files that <em>defines</em> a function, and the 2nd matches of
 <code>compute_doc_network_from_corpus</code> are the files that used
 these functions. Thus, links are beginning from the programming file
 that is calling a function =&gt; to the programming file where this
-function is defined.</p>
-</blockquote>
-<p>You should start with the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette
-of <code>construct_corpus</code></a> and then move to the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html">vignette
-of the <code>citations.network</code> <code>dataframe</code></a>.</p>
+function is defined. See <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette
+of <code>construct_corpus</code></a> for the 1st matches; and the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html">vignette
+of the <code>citations.network</code> <code>dataframe</code></a> for the
+2nd matches.</p>
 <div class="section level3">
 <h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h3>
@@ -107,10 +106,10 @@ files of the project).</p>
 <div class="float">
 <img src="../reference/figures/example_net3d_dataviz.png" style="width:90.0%" alt="."><div class="figcaption">.</div>
 </div>
-<p><em>(codexplor functions network is truncated)</em> For example, the
-most-common local dependancy inside the tidyverse/stringr repo is
-<code>compat-types-check.R</code>, […] and we see that one of the
-<code>codexplor</code> file actually rely on a
+<p><em>(codexplor functions network is truncated)</em></p>
+<p>For example, the most-common local dependancy inside the
+tidyverse/stringr repo is <code>compat-types-check.R</code>, […] and we
+see that one of the <code>codexplor</code> file actually rely on a
 <code>stringr</code>method
 (i.e. <code>codexplor::str_extract_all_to_tidy_df.R</code> rely on
 <code>stringr/extract.R</code>). The opposite is not true.</p>

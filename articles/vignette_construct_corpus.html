@@ -66,16 +66,20 @@
 
     
     
-<div class="section level2">
-<h2 id="constructing-your-corpus">Constructing your corpus<a class="anchor" aria-label="anchor" href="#constructing-your-corpus"></a>
-</h2>
-<p><code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> offer a standardized
-protocol to turn a programming project into a text-mining corpus, given
-:</p>
+<p><strong><code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code></strong> read
+programming files and turn a programming project into a text-mining
+corpus, given :</p>
 <ul>
 <li>folder(s) path(s) and/or github repo(s) to analyze ;</li>
-<li>and programming language(s) - default is <code>'R'</code>.</li>
+<li>and programming language(s) (default is <code>'R'</code>).</li>
 </ul>
+<p><strong>Supported languages.</strong> By default
+<code>construct_corpus</code> try to read and analyze .R files, but one
+or several <code>languages</code> could be indicated. Recognized
+languages are R, Python, JavaScript, Java, C, Cpp.</p>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
 <span></span>
@@ -92,19 +96,17 @@ protocol to turn a programming project into a text-mining corpus, given
 <span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi FALSE</span></span>
 <span><span class="co">#&gt;  - attr(*, "languages_patterns")=List of 1</span></span>
 <span><span class="co">#&gt;  - attr(*, "repos")= chr "clement-LVD/codexplor"</span></span></code></pre></div>
-<pre><code> # More examples :
-corpus &lt;- construct_corpus( languages = "R"
-, repos =  "clement-LVD/codexplor","tidyverse/stringr"))
+<pre><code> # Example : several local folders and repos
+corpus &lt;- construct_corpus(c("~", "M:/") languages = "R"
+, repos =  c("clement-LVD/codexplor","tidyverse/stringr"))
 
+# Example : several languages
 corpus_py &lt;- construct_corpus(repos = "secdev/scapy"
-, languages = "Python", .verbose = T) #take a while</code></pre>
-<p><strong>Supported languages.</strong> By default
-<code>construct_corpus</code> try to read and analyze .R files. One or
-several <code>languages</code> could be indicated. Recognized languages
-are R, Python, JavaScript, Java, C, Cpp.</p>
-<div class="section level4">
-<h4 id="returned-list-of-data-frame">Returned list of data.frame<a class="anchor" aria-label="anchor" href="#returned-list-of-data-frame"></a>
-</h4>
+, languages = c("Python", "Javascript"), .verbose = T) #take a while</code></pre>
+</div>
+<div class="section level2">
+<h2 id="returned-list-of-data-frame">Returned list of data.frame<a class="anchor" aria-label="anchor" href="#returned-list-of-data-frame"></a>
+</h2>
 <p><strong>corpus.list of dataframes.</strong>
 <code>construct_corpus</code> return a <code>corpus.list</code> object,
 a standard <code>list</code> of 3 dataframes, i.e. 2
@@ -124,21 +126,38 @@ metrics are relative to :</p>
 </ul>
 <p>The <code>codes</code> <code>dataframe</code> (one of the
 <code>corpus.lines</code> dataframes) have a ‘<code>matches</code>’
-column, a specialized way of understand a line. These 1st matches are
-explained hereafter.</p>
-<p><strong>1st matches operated.</strong> Given language(s),
-<code>construct_corpus</code> try to perform an initial identification
-within the content. By default, these 1st matches are supposed to be the
-function names, as soon as a function is defined within a file. For
-example, if a <code>pol  &lt;- function</code> is defined within a file,
-the <code>matches</code> corresponding entry will be
-<code>'pol'</code>.</p>
-<p><code>construct_corpus</code> rely on some default patterns,
-associated with the supported languages.</p>
+column. These 1st matches are explained hereafter.</p>
 </div>
-<div class="section level4">
-<h4 id="default-patterns-associated-with-languages">Default patterns associated with languages<a class="anchor" aria-label="anchor" href="#default-patterns-associated-with-languages"></a>
-</h4>
+<div class="section level2">
+<h2 id="st-matches-operated">1st matches operated<a class="anchor" aria-label="anchor" href="#st-matches-operated"></a>
+</h2>
+<p>Given language(s), <code>construct_corpus</code> try to perform an
+initial identification within the content. By default, these 1st matches
+are supposed to be the function names, as soon as a function is defined
+within a file. For example, if a <code>pol  &lt;- function</code> is
+defined within a file, the 1st <code>matches</code> corresponding entry
+will be <code>'pol'</code>.</p>
+<p>In order to extract the functions names as a 1st matches,
+<code>construct_corpus</code> rely on some default patterns, associated
+with the supported languages (see the next section).</p>
+<p><strong>About duplicated lines associated with 1st matches.</strong>
+<code>construct_corpus</code> perform a 1st text-extraction, accordingly
+to a pattern. During this 1st matches extraction, lines are duplicated
+<em>when several matches are found on the same line</em>. This case
+where several matches are performed on the same lines - and so lines are
+duplicated - trigger a <code>warning</code>.</p>
+<blockquote>
+<p>For example, by default, the names of functions defined in the files
+of the project are extracted during the 1st match operated by
+<code>construct_corpus</code>. If a file have several function defined
+<em>within the same line</em>, such a line will be duplicated in the
+returned <code>df</code>, with several ‘matches’ entries along these
+lines and an identical line_number.</p>
+</blockquote>
+</div>
+<div class="section level2">
+<h2 id="default-patterns-associated-with-languages">Default patterns associated with languages<a class="anchor" aria-label="anchor" href="#default-patterns-associated-with-languages"></a>
+</h2>
 <p>For each of the required language(s), a default standardized patterns
 is used for :</p>
 <table class="table">
@@ -198,29 +217,13 @@ as an inner function (<em>aka</em> nested function)</td>
 programming project in a standardized way, given a programming
 language.</p>
 </blockquote>
-</div>
-<div class="section level4">
-<h4 id="about-duplicated-lines-associated-with-1st-matches">About duplicated lines associated with 1st matches<a class="anchor" aria-label="anchor" href="#about-duplicated-lines-associated-with-1st-matches"></a>
-</h4>
-<p><code>construct_corpus</code> perform a 1st text-extraction,
-accordingly to a pattern. During this 1st matches extraction, lines are
-duplicated <em>when several matches are found on the same line</em>.</p>
-<blockquote>
-<p>For example, by default, the names of functions defined in the files
-of the project are extracted during the 1st match operated by
-<code>construct_corpus</code>. If a file have several function defined
-<em>within the same line</em>, such a line will be duplicated in the
-returned <code>df</code>, with several ‘matches’ entries along these
-lines and an identical line_number.</p>
-</blockquote>
-</div>
-<div class="section level4">
-<h4 id="helper-functions-that-rely-on-construct_corpus">Helper functions that rely on <code>construct_corpus</code><a class="anchor" aria-label="anchor" href="#helper-functions-that-rely-on-construct_corpus"></a>
-</h4>
+<div class="section level3">
+<h3 id="helper-functions-that-rely-on-construct_corpus">Helper functions that rely on <code>construct_corpus</code><a class="anchor" aria-label="anchor" href="#helper-functions-that-rely-on-construct_corpus"></a>
+</h3>
 <p><code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code> is an helper
 ‘high-level’ function that perform an analysis of the internal
-dependancies by constructing a corpus and perform a 2nd matches and
-network analyses, e.g., see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html">vignette
+dependancies by performing a 2nd matches directly from the 1st matches
+of <code>construct_corpus</code>, e.g., see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html">vignette
 of <code>get_doc_network_from_project</code></a>.</p>
 </div>
 </div>
