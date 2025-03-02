@@ -99,9 +99,8 @@ computed by <code>codexplor</code> with programming files, a type of
 interesting <code>citations.network</code> is the network of
 <code>internal.dependencies</code> within a programming project computed
 by <code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project()</a></code>. In such a
-network, links are beginning from the programming file that is calling a
-function =&gt; to the programming file where this function is
-defined.</p>
+network, links start from the programming file that calls a function and
+point to the programming file where the function is defined.</p>
 <div class="section level3">
 <h3 id="network-of-internal-dependencies">Network of <code>internal.dependencies</code><a class="anchor" aria-label="anchor" href="#network-of-internal-dependencies"></a>
 </h3>
@@ -117,7 +116,7 @@ function is defined.</li>
 names from the files of a <em>programming</em> project (see next
 section). Thus, in a typical programming project :</p>
 <ul>
-<li>Nodes are files, so mostly - or only - functions ;</li>
+<li>Nodes are files, supposed to be mostly - or only - functions ;</li>
 <li>°← Indegree of a file is “how many files are calling the function(s)
 defined in this file” ;</li>
 <li>°→ Outdegree of a file is “how many functions are used by this file”
@@ -165,18 +164,21 @@ found these matches</td>
 </tr>
 </tbody>
 </table>
+<p>Thus, the 1st matches of <code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code>
+reveal some files that <em>defines</em> a function, and the 2nd matches
+of <code>compute_doc_network_from_corpus</code> show the files that used
+these functions.</p>
 </div>
 <div class="section level3">
 <h3 id="function-call-that-are-non-supported-during-2nd-matches">Function call that are non-supported during 2nd matches<a class="anchor" aria-label="anchor" href="#function-call-that-are-non-supported-during-2nd-matches"></a>
 </h3>
-<p>Some way of writing a program are not fully supported, such as :</p>
-<p><strong>Python instantiated methods.</strong> The instantiated Python
-methods are not supported yet by
-<code>get_doc_network_from_project</code>,
+<p>Some way of writing a program are not fully supported during the 2nd
+matches, such as the instantiated Python methods,
 i.e. <code>obj.method()</code>.</p>
-<p>If we take this Python code sample, the 1st match is realized by
-<code>construct_corpus</code>, but
-<code>get_doc_network_from_project</code> don’t perform a 2nd match.</p>
+<p><strong>Python instantiated methods.</strong> If we take this Python
+code sample, the 1st match is realized by <code>construct_corpus</code>,
+but we can’t perform a 2nd match with <code>codexplor</code> for
+now.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">#  Consider the Python code herafter </span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>class A<span class="sc">:</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    def <span class="fu">method</span>(self)<span class="sc">:</span></span>
