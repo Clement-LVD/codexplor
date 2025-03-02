@@ -119,7 +119,7 @@ count_opening_and_closing_chars_level <- function(texts, open = "\\{", close = "
 extract_text_outside_separators <- function(texts, open_sep = "\\{", close_sep = "\\}", add_infos_when_repairing = NULL) {
   # Balance the text if needed by appending extra closing characters
   df <- count_opening_and_closing_chars_level(texts, open = open_sep, close = close_sep)
-  extra_levels <- tail(df$level_end_of_line, 1)
+  extra_levels <- df$level_end_of_line[nrow(df)]
 
     # Only append closing characters if extra_levels is greater than 0
     if (extra_levels > 0) {

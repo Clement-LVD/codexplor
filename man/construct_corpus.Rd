@@ -26,7 +26,7 @@ construct_corpus(
 (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).}
 }
 \value{
-A \code{list} of 3 \code{data.frame} containing the corpus of collected files and a first nodelist :
+A \code{list} of 3 \code{data.frame} containing the corpus of collected files and a nodelist :
 \code{codes} and \code{comments} (\code{data.frame} with class \code{corpus.lines}) and \code{nodelist} (\code{data.frame} with class \code{corpus.nodelist})
 The data frames typically includes columns such as:
 \describe{
@@ -38,9 +38,11 @@ The data frames typically includes columns such as:
 \item{\code{n_char_wo_space}}{\code{integer} Number of characters - without spacing - in a line (or the file for the \code{corpus.nodelist} df)}
 \item{\code{n_word}}{\code{integer} Number of words in a line  (or the file for the \code{corpus.nodelist} df).}
 \item{\code{n_vowel}}{\code{integer} Number of voyel in a line (or the file for the \code{corpus.nodelist} df).}
-\item{\code{n_total_lines}}{\code{integer} (only in the \code{corpus.nodelist} df) Number of lines of the files (with and without comments).}
+\item{\code{comments}}{\code{logical} \code{TRUE} if the entire line is commented. Set to \code{FALSE} for the \code{codes} df and \code{TRUE} for the \code{comments} df.}
+\item{\code{commented}}{\code{integer} (only in the \code{codes} df) Content of the inlines comments (NA if there is no inline comments).}
 \item{\code{n_total_lines}}{\code{integer} (only in the \code{corpus.nodelist} df) Number of clines of the files \emph{without comments}.}
 \item{\code{matches}}{\code{character} (only in the \code{codes} df) A 1st matched text, extracted accordingly to a pattern.}
+\item{\code{commented}}{\code{character} (only in the \code{codes} df) A 1st matched text, extracted accordingly to a pattern.}
 }
 }
 \description{
