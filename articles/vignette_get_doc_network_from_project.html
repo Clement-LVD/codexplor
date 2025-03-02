@@ -131,14 +131,40 @@ default is to filter autolinks).</li>
 <code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project()</a></code> will try to
 perform a ‘cascading matching’ :</p>
 <p>⏩ Read the files and extract a 1st pattern, e.g., default are
-supposed to extract <em>R functions names</em>.</p>
+supposed to extract <em>R functions names as a 1st matches</em>, e.g.,
+we have defined ‘Pier’, ‘Pol’ and ‘Jak’ - functions - names.</p>
 <p>⏩ Search for these patterns in the initial content, in order to
-constitute a Citations Network.</p>
-<p>🎁 Return the edgelist of the network of <em>documents</em>
-(programming file that is calling a function =&gt; programming file
-where this function is defined)</p>
+constitute a Citations Network with the 2nd matches, e.g., the content
+from a programming file is citing ‘Pier’, ‘Pol’ and ‘Jak’.</p>
+<p>🎁 Return the edgelist that symbolize this network of
+<em>documents</em>, by default it’s a network of internal dependencies
+within the files of a programming project.</p>
 <p><code>codexplor</code> default pattern are aimed to extract functions
-names from the files of a <em>programming</em> project.</p>
+names from the files of a <em>programming</em> project (links are
+beginning from the programming file that is calling a function =&gt; to
+the programming file where this function is defined).</p>
+</div>
+<div class="section level3">
+<h3 id="function-call-that-are-non-supported-during-2nd-matches">Function call that are non-supported during 2nd matches<a class="anchor" aria-label="anchor" href="#function-call-that-are-non-supported-during-2nd-matches"></a>
+</h3>
+<p>Some way of writing a program are not fully supported, such as :</p>
+<p><strong>Python instantiated methods.</strong> The instantiated Python
+methods are not supported yet by
+<code>get_doc_network_from_project</code>,
+i.e. <code>obj.method()</code>.</p>
+<p>If we take this Python code sample, the 1st match is realized by
+<code>construct_corpus</code>, but
+<code>get_doc_network_from_project</code> don’t perform a 2nd match.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#  Consider the Python code herafter </span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>class A<span class="sc">:</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    def <span class="fu">method</span>(self)<span class="sc">:</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>        return <span class="st">"My custom method"</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a> <span class="co"># construct_corpus return 'method' as a 1stly matched function name</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>obj <span class="ot">=</span> <span class="fu">A</span>()</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">obj.method</span>() <span class="co"># Return : 'My custom method'</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co"># get_doc_network_from_project don't identify the 2nd match because of the prefix ("obj.")</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="filter-undesired-match">Filter undesired match<a class="anchor" aria-label="anchor" href="#filter-undesired-match"></a>
