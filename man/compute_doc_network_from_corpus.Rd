@@ -13,7 +13,8 @@ compute_doc_network_from_corpus(
   file_path_to_colname = "to",
   function_matched_colname = "function",
   line_number_matched_colname = "line_number",
-  content_matched_colname = "content_matched"
+  content_matched_colname = "content",
+  order_fn_called_colname = "order"
 )
 }
 \arguments{
@@ -42,6 +43,8 @@ of the second match in the result data frame.}
 
 \item{content_matched_colname}{\code{character}, default = \code{'content_matched'} The column name (as a string)
 for the full line where a match have occurred.}
+
+\item{order_fn_called_colname}{\code{character}, default = \code{'order_call'} The order of the functions called in a file, based on line number.}
 }
 \value{
 A \code{list} of \code{dataframe} symbolizing the edgelist of a document-to-document citations network
@@ -50,7 +53,7 @@ A \code{list} of \code{dataframe} symbolizing the edgelist of a document-to-docu
 \item{\code{to}}{\code{character} Citations Network - The local file path or constructed GitHub URL where the function called is defined.}
 \item{\code{file_path}}{\code{character} Corpus - The local file path or constructed GitHub URL.}
 \item{\code{line_number}}{\code{integer} Corpus - The line number within the file.}
-\item{\code{content}}{\code{character} Corpus - The content from a line.}
+\item{\code{content}}{\code{character} The content where a match could occur (\code{citations.network}), within a file (\code{corpus.nodelist}) or a line (\code{corpus.lines}).}
 \item{\code{match}}{\code{character} Corpus - The matched text on this line, \code{NA} if there is no match.}
 }
 }
@@ -75,7 +78,7 @@ By default, egolinks are removed since \code{filter_egolink_within_a_file} defau
 {
 # Example with local folder path
 corpus <- construct_corpus(folders =  "~", languages = "R")
-result <- compute_doc_network_from_corpus(corpus)
+corpus <- compute_doc_network_from_corpus(corpus)
 # Return a list of df (1st one is supposed to be an edgelist)
 # (from the file where a function is call => to the file were defined)
 }

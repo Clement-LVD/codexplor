@@ -8,15 +8,15 @@
 #' @param text `character` The column containing the text to be concatenated (character string)
 #' @param sep `character` The separator used to concatenate the text (default is " ")
 #' @param trimws `logical`, default = `TRUE` If `TRUE`, suppress leading, tail and double white spaces
+#' @param text_colname `character` The colname for the concatened text column (default is "content")
 #' @return A data.frame with the text concatenated by key
 #' @examples
 #' # Create a sample data.frame
-#' df <- data.frame(id = c(1, 1, 1, 2, 2, 3),
-#'  text = c("Hello ", "world ", " !", "How", "are    you?", " Test "))
+#' #df <- data.frame(id = c(1, 1, 1, 2, 2, 3),
+#' # text = c("Hello ", "world ", " !", "How", "are    you?", " Test "))
 #' # Use the function to concatenate text by 'id'
-#' gather_df_lines(df, key = "id", text = "text")
-#' @export
-gather_df_lines <- function(df, key_colname, text, sep = " ", trimws = T) {
+#' # gather_df_lines(df, key = "id", text = "text")
+gather_df_lines <- function(df, key_colname, text, sep = " ", trimws = T, text_colname = "content") {
 
   if (!is.data.frame(df)) {
     stop("'df' must be a data.frame.")
@@ -47,6 +47,8 @@ gather_df_lines <- function(df, key_colname, text, sep = " ", trimws = T) {
 
  if(trimws){ result$text <- gsub("\\s+", " ", result$text )  # Replace multiple spaces with a single space
   result$text <- trimws(result$text)}
+
+  colnames(result)[colnames(result) == "text"] <- text_colname
 
   return(result)
 }

@@ -15,14 +15,12 @@
 #'   Column name for the file content in the output dataframe.
 #' @param line_number_col_name `character`, default = `"line_number"`
 #'   Column name for the line numbers in the output dataframe.
-#' @param char_comment `character`, default = `"^#"` Regex for considering that a line is a comment
-#' (default is '#' at the begining of a line of the files)
-#' @return RETURN : `data.frame` with 3 col'. *First* col' (`file_path` by default) is the file_path (readed), then `line_number` (by default).
+#' @return Return a `data.frame` with 3 columns.
 #' The *last* column (`content` by default) contain the readed lines from the file.
 #' \describe{
   #'   \item{file_path}{`character` Path of the file where the match was found.}
   #'   \item{line_number}{`integer` Line number in the file.}
-  #'   \item{content}{`character` Full content of the matched line.}
+  #'   \item{content}{`character` Content of the line.}
   #' }
 #'
 #' @examples
@@ -39,7 +37,6 @@ readlines_in_df <- function(files_path,
   , file_path_col_name = "file_path"
  , content_col_name = "content"
  , line_number_col_name = "line_number"
- , char_comment =  "#"
  ) {
   files_path <- files_path[!is.na(files_path)]
   n_files_to_read <- length(files_path)

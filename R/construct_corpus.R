@@ -18,16 +18,15 @@
 #' \describe{
 #'   \item{\code{file_path}}{ `character` The local file path or constructed GitHub URL.}
 #'   \item{\code{line_number}}{`integer` The line number of the file.}
-#'   \item{\code{content}}{`character` The content in a line of the file.}
+#'   \item{\code{content}}{`character` The content in a line of the file (the `corpus.nodelist` have the full content of the file ).}
 #'   \item{\code{file_ext}}{`character` File extension of the file.}
-#'   \item{\code{n_char}}{`integer` Number of characters - including spacing - in a line  (or the file for the `nodelist` df).}
-#'   \item{\code{n_char_wo_space}}{`integer` Number of characters - without spacing - in a line (or the file for the `nodelist` df)}
-#'   \item{\code{n_word}}{`integer` Number of words in a line  (or the file for the `nodelist` df).}
-#'   \item{\code{n_vowel}}{`integer` Number of voyel in a line (or the file for the `nodelist` df).}
+#'   \item{\code{n_char}}{`integer` Number of characters - including spacing - in a line (or the file for the `corpus.nodelist` df).}
+#'   \item{\code{n_char_wo_space}}{`integer` Number of characters - without spacing - in a line (or the file for the `corpus.nodelist` df)}
+#'   \item{\code{n_word}}{`integer` Number of words in a line  (or the file for the `corpus.nodelist` df).}
+#'   \item{\code{n_vowel}}{`integer` Number of voyel in a line (or the file for the `corpus.nodelist` df).}
+#'   \item{\code{n_total_lines}}{`integer` (only in the `corpus.nodelist` df) Number of lines of the files (with and without comments).}
+#'   \item{\code{n_total_lines}}{`integer` (only in the `corpus.nodelist` df) Number of clines of the files *without comments*.}
 #'   \item{\code{matches}}{`character` (only in the `codes` df) A 1st matched text, extracted accordingly to a pattern.}
-#'   \item{\code{n_total_lines}}{`integer` (only in the `nodelist` df) Number of lines of the files (with and without comments).}
-#'   \item{\code{n_total_lines}}{`integer` (only in the `nodelist` df) Number of clines of the files *without comments*.}
-#'   \item{\code{text}}{`character` (only in the `nodelist` df) The concatenated text from the lines readed.}
 #' }
 #'
 #' @details
@@ -45,8 +44,8 @@
 #' (e.g., file extension and a regex pattern for function definition).
 #' @examples
 #' # Example 1: Construct a corpus from local folders
-#'  corpus <- construct_corpus(folders = "~", languages = c("Python", "R"))
-#'  # corpus <- construct_corpus(folders = "~", languages = c("Javascript"))
+#'  corpus <- construct_corpus(folders = "~", languages = c( "R"))
+#'  # corpus <- construct_corpus(folders = "~", languages = c("Python","Javascript"))
 #' \dontrun{
 #' # Example 2: Construct a corpus from GitHub repositories (default is R)
 #' cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
@@ -78,112 +77,119 @@ sequens_of_languages <- seq_along(lang_dictionnary)
 
 if(length(sequens_of_languages) == 0) return(NA)
 
-# lapply within each language until the end of the fun'
-results <- lapply(sequens_of_languages, function(i) {
+# lapply within each language and return a list of dataframes with custom classes
+corpus <- lapply(sequens_of_languages, function(i) {
 
   lang_desired <- lang_dictionnary[[i]]
 
-
-#### 1) CONSTRUCT A CORPUS of files path and/or urls ####
-urls = NULL
-files_path = NULL
-
-pattern_to_exclude = lang_desired$pattern_to_exclude
-
-if(length(pattern_to_exclude) > 0) pattern_to_exclude <- paste0(pattern_to_exclude , collapse = "|")
-
-# 2) construct list of files :
-files_path <- get_list_of_files(folders = folders , repos = repos
-    , file_ext =  lang_desired$file_ext #defined according to the langage
-    , pattern_to_exclude_path = pattern_to_exclude)
-
-# 3) extract lines from files
-complete_files <- readlines_in_df(files_path = files_path, .verbose = .verbose, ... )
-# add real files ext (checking if an extension default pattern return a fake file)
-
-if(.verbose) cat("\n2. Compute metrics")
-
-if(is.null(complete_files)) return(NA)
-
-complete_files$file_ext <- gsub(x = basename(complete_files$file_path), ".*\\." ,replacement = "")
-
-# 4.1.) ADD LINES TEXT-METRICS ON ENTIRE FILES
-complete_files <- cbind(complete_files, compute_nchar_metrics(complete_files[[3]]) )
-
-
-# 5) Aggregate by group_colname = "file_path" + sum of all the col' with a suffix ("n_")
-nodelist <- compute_nodelist(df = complete_files, group_col = "file_path"
-                             , colname_content_to_concatenate = "content")
-#we've made sum of metrics on each entire file, e.g., total nchar value
-
-# 4.2.) detect the commented lines (never clean the pseudo comments on the same line)
-complete_files$comments <-  grepl(x = complete_files$content, pattern =  lang_desired$commented_line_char)
-
-#### 2) Construct a corpus.list ####
-# we have some func' for define class and creation_date
-corpus <- list(
-codes = complete_files[!complete_files$comments,  ] # class is crafted hereafter
-, comments = .construct.corpus.lines(complete_files[complete_files$comments,  ])
-, nodelist = .construct.nodelist(nodelist)
-            )
-# classe corpus.lines and corpus.nodelist
-
-# filter junklines - prevent crashes (from utils.R)
-corpus$codes <-  filter_if_na(corpus$codes, "content")
-
-#### CLEAN THE codes df in corpus list if some multi-lines comments are possible
-if(!is.na(lang_desired$delim_pair)) {
-
-if(.verbose) cat("\n2.bis. Clean blocks of comments\n")
-
-codes_and_comments <-  separate_commented_lines(texts = corpus$codes$content, delim_pair = lang_desired$delim_pair, .verbose = .verbose)
-
-corpus$codes$content <- codes_and_comments$codelines
-# filter out blank lines again
-
-corpus$codes <-  filter_if_na(corpus$codes, "content")
-
-}
-
-if(.verbose) cat("\n3. Perform a 1st text-extraction")
-# 5-A} Get 1st matches (maybe duplicated lines here : xxx beurk xxx)
-# => functions defined ! (here we are only ONE LANGUAGE BY ONE)
-corpus$codes <- srch_pattern_in_df( df =  corpus$codes, content_col_name = "content",
-                               ,  pattern = lang_desired$fn_regex )
-
-corpus$codes <- .construct.corpus.lines(corpus$codes)
-
-corpus <- .construct.corpus.list(corpus, languages_patterns = lang_dictionnary, folders = folders, repos = repos)
-
-#add class attributes and structure (optionnal doc' & methods heritated)
-
-# return a list of df with all our col'
-# compute a nodelist FROM LINES : sum of these metrics is supposed to be document-level metrics
-# this func' is hereafter : a grouped stat' (end of this .R file)
-
-if(.verbose) cat("\nOK : Corpus created")
-
-
-return(corpus)
-
+  create_corpus(folders = folders,  repos= repos
+                , std_dictionnary_of_language = lang_desired
+                , .verbose = .verbose, ...)
+  #defined hereafter for a single language
 })
-#we have a 'result' under lapply
-### DEAL WITH THE END OF THE LAPPLY BOUCLE
-# return a structured list of class corpus_list
-
-stored_attributes <- attributes(results[[1]]) # each have the same attributes
 
 # rbind each list according to their position
-combined <- do.call(mapply, c(FUN = function(...) rbind(...), results, SIMPLIFY = FALSE))
+combined <- do.call(mapply, c(FUN = function(...) rbind(...), corpus, SIMPLIFY = FALSE))
 # stockpile by names (default) when structures are coherent (here we have a proper structure definition)
-# ironnically we lost the attributes along the way
-attributes(combined) <- stored_attributes
+# add our global attributes of class corpus.list such as the language dictionnary used
+combined <- .construct.corpus.list(combined, languages_patterns = lang_dictionnary, folders = folders, repos = repos)
+
+#add class attributes and structure (optionnal doc' & methods heritated)
 
 return(combined)
 }
 
 
+#### 1) create a corpus for a unique language ####
+create_corpus <- function(folders = NULL
+                          , std_dictionnary_of_language
+                          , repos = NULL
+                          , .verbose = F
+                          , ...){
 
+
+
+  lang_desired <- std_dictionnary_of_language
+
+
+  #### 1) CONSTRUCT A CORPUS of files path and/or urls ####
+  urls = NULL
+  files_path = NULL
+
+  pattern_to_exclude = lang_desired$pattern_to_exclude
+
+  if(length(pattern_to_exclude) > 0) pattern_to_exclude <- paste0(pattern_to_exclude , collapse = "|")
+
+  # 2) construct list of files :
+  files_path <- get_list_of_files(folders = folders , repos = repos
+                                  , file_ext =  lang_desired$file_ext #defined according to the langage
+                                  , pattern_to_exclude_path = pattern_to_exclude)
+
+  # 3) extract lines from files
+  complete_files <- readlines_in_df(files_path = files_path, .verbose = .verbose, ... )
+  # add real files ext (checking if an extension default pattern return a fake file)
+
+  if(.verbose) cat("\n ==> Compute metrics")
+
+  if(is.null(complete_files)) return(NA)
+
+  complete_files$file_ext <- gsub(x = basename(complete_files$file_path), ".*\\." ,replacement = "")
+
+  # 4.1.) ADD LINES TEXT-METRICS ON ENTIRE FILES
+  complete_files <- cbind(complete_files, compute_nchar_metrics(complete_files[[3]]) )
+
+
+  # compute a nodelist FROM LINES : sum of these metrics is supposed to be document-level metrics
+  # this func' is hereafter : a grouped stat' (end of this .R file)
+  # 5) Aggregate by group_colname = "file_path" + sum of all the col' with a suffix ("n_")
+  nodelist <- compute_nodelist(df = complete_files, group_col = "file_path"
+                               , colname_content_to_concatenate = "content")
+  #we've made sum of metrics on each entire file, e.g., total nchar value
+
+  # 4.2.) detect the commented lines (never clean the pseudo comments on the same line)
+  complete_files$comments <-  grepl(x = complete_files$content, pattern =  lang_desired$commented_line_char)
+
+  #### 2) Construct a corpus.list ####
+  # we have some func' for define class and creation_date
+  corpus <- list(
+    codes = complete_files[!complete_files$comments,  ] # class is crafted hereafter
+    , comments = .construct.corpus.lines(complete_files[complete_files$comments,  ])
+    , nodelist = .construct.nodelist(nodelist)
+  )
+  # classe corpus.lines and corpus.nodelist
+
+  # filter junklines - prevent crashes (from utils.R)
+  corpus$codes <-  filter_if_na(corpus$codes, "content")
+
+  #### CLEAN THE codes df in corpus list if some multi-lines comments are possible
+  if(!is.na(lang_desired$delim_pair)) {
+
+    if(.verbose) cat("\n===> Clean blocks of comments\n")
+
+    codes_and_comments <-  separate_commented_lines(texts = corpus$codes$content, delim_pair = lang_desired$delim_pair, .verbose = .verbose)
+
+    corpus$codes$content <- codes_and_comments$codelines
+    # filter out blank lines again
+
+    corpus$codes <-  filter_if_na(corpus$codes, "content")
+
+  }
+
+  if(.verbose) cat("\n ====> Perform a 1st text-extraction")
+  # 5-A} Get 1st matches (maybe duplicated lines here : xxx beurk xxx)
+  # => functions defined ! (here we are only ONE LANGUAGE BY ONE)
+  corpus$codes <- srch_pattern_in_df( df =  corpus$codes, content_col_name = "content",
+                                      ,  pattern = lang_desired$fn_regex )
+
+  corpus$codes <- .construct.corpus.lines(corpus$codes)
+
+
+  if(.verbose) cat("\nOK : Corpus created")
+
+  # return a basic list of df with all our col'
+  return(corpus)
+
+}
 
 #### 2) construct a nodelist
 # Create a nodelist by (a) summing metrics by group (col' are defined with a regex)
@@ -234,7 +240,7 @@ colnames(max_values_df)[[1]] <- group_col
      }
 
 
-# 2.) optionnally add a proper "text" column (full content) with gather_df_lines (add a text col')
+# 2.) optionnally add a proper "text" column (full content) with gather_df_lines (add a content col' by default)
 if(!is.null(colname_content_to_concatenate)){
 
   files_content <- gather_df_lines(df, group_col, colname_content_to_concatenate)

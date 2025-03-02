@@ -19,7 +19,7 @@
 #' Passed to `networkD3::forceNetwork`.
 #' @param ... optional parameter passed to `networkD3::forceNetwork`
 #' @examples
-#' library(igraph)
+#' invisible(library(igraph))
 #' g <- make_ring(10)
 #' get_networkd3_from_igraph(g, title_h1 = "My Network")
 #' @return A "`forceNetwork`" & "`htmlwidget`" object, i.e. a list that symbolize an html object from `networkD3::forceNetwork`
@@ -38,25 +38,26 @@ get_networkd3_from_igraph <- function(graph_igraph
                                      , color_outdeg_instead_of_indeg = F
                                      , color_for_na_link = colors_for_nodes[[1]]
                                      , add_html_div_code_before_graph = NULL
-                                     , ...
                                      , charge = -200
+                                     , ...
 
 ){
   # try to get an igraph object from an edgelist
   if (!inherits(graph_igraph, "igraph")) {
-    result <- tryCatch(
+   junk_result <- tryCatch(
       {
+        if(inherits(graph_igraph, "citations.network"))
+
         graph_igraph <- codexplor::get_igraph_from_df(graph_igraph)
+
       },
       error = function(e) {
         cat("get_networkd3_from_igraph => igraph => ", e$message, "\n")
         NULL  # here we rely on igraph:: messages
       }
     )
-  }
-
-  # simplified subgraph `g`
-  graph_igraph <- igraph::simplify(graph_igraph, remove.multiple = TRUE, remove.loops = TRUE)
+  }  # simplified subgraph `g`
+  # graph_igraph <- igraph::simplify(graph_igraph, remove.multiple = TRUE, remove.loops = TRUE)
 
   #### A. Compute degrees ####
   # 1. Convert to `networkD3`
@@ -66,7 +67,8 @@ get_networkd3_from_igraph <- function(graph_igraph
    net3d$nodes$indegree <- igraph::degree(graph_igraph, mode = "in")
    net3d$nodes$outdegree <-  igraph::degree(graph_igraph, mode = "out")
 
-values_to_cut <-  "indegree" ; other_value = "outdegree"# values used in the legend in the end!
+
+   values_to_cut <-  "indegree" ; other_value = "outdegree"# values used in the legend in the end!
 if(color_outdeg_instead_of_indeg){ values_to_cut <-  "outdegree"; other_value = "indegree" }
 
 ##### B. Add colors depending of a degrees ####
@@ -110,7 +112,7 @@ net3d$links$color_deg <- sapply(1:nrow(net3d$links),  FUN = function(i) {
   if(any(na_idx)){ net3d$links$color_deg[na_idx] <- color_for_na_link }
 
 #### D. Craft Javascript colorscale ####
-  # Définition du nombre d'intervalles pour le scale
+  # defin n interval for scale
 n_intervals <- length(colors_for_nodes)
 
   breaks <- round(seq(min(net3d$nodes[[values_to_cut]]  , na.rm = TRUE)
@@ -134,7 +136,8 @@ n_intervals <- length(colors_for_nodes)
                                             ,  opacityNoHover = 0.9  # Empêche le changement de flou à l'hover
 
                                             , Nodes = net3d$nodes
-                                            , NodeID = "name", charge = charge
+                                            , NodeID = "name",
+                                              charge = charge
                                             , Group = values_to_cut,
                                             Nodesize = other_value
 

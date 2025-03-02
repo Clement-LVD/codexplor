@@ -32,16 +32,15 @@ The data frames typically includes columns such as:
 \describe{
 \item{\code{file_path}}{ \code{character} The local file path or constructed GitHub URL.}
 \item{\code{line_number}}{\code{integer} The line number of the file.}
-\item{\code{content}}{\code{character} The content in a line of the file.}
+\item{\code{content}}{\code{character} The content in a line of the file (the \code{corpus.nodelist} have the full content of the file ).}
 \item{\code{file_ext}}{\code{character} File extension of the file.}
-\item{\code{n_char}}{\code{integer} Number of characters - including spacing - in a line  (or the file for the \code{nodelist} df).}
-\item{\code{n_char_wo_space}}{\code{integer} Number of characters - without spacing - in a line (or the file for the \code{nodelist} df)}
-\item{\code{n_word}}{\code{integer} Number of words in a line  (or the file for the \code{nodelist} df).}
-\item{\code{n_vowel}}{\code{integer} Number of voyel in a line (or the file for the \code{nodelist} df).}
+\item{\code{n_char}}{\code{integer} Number of characters - including spacing - in a line (or the file for the \code{corpus.nodelist} df).}
+\item{\code{n_char_wo_space}}{\code{integer} Number of characters - without spacing - in a line (or the file for the \code{corpus.nodelist} df)}
+\item{\code{n_word}}{\code{integer} Number of words in a line  (or the file for the \code{corpus.nodelist} df).}
+\item{\code{n_vowel}}{\code{integer} Number of voyel in a line (or the file for the \code{corpus.nodelist} df).}
+\item{\code{n_total_lines}}{\code{integer} (only in the \code{corpus.nodelist} df) Number of lines of the files (with and without comments).}
+\item{\code{n_total_lines}}{\code{integer} (only in the \code{corpus.nodelist} df) Number of clines of the files \emph{without comments}.}
 \item{\code{matches}}{\code{character} (only in the \code{codes} df) A 1st matched text, extracted accordingly to a pattern.}
-\item{\code{n_total_lines}}{\code{integer} (only in the \code{nodelist} df) Number of lines of the files (with and without comments).}
-\item{\code{n_total_lines}}{\code{integer} (only in the \code{nodelist} df) Number of clines of the files \emph{without comments}.}
-\item{\code{text}}{\code{character} (only in the \code{nodelist} df) The concatenated text from the lines readed.}
 }
 }
 \description{
@@ -70,8 +69,8 @@ requested languages, a subset of the \code{languages} parameters or entire list
 }
 \examples{
 # Example 1: Construct a corpus from local folders
- corpus <- construct_corpus(folders = "~", languages = c("Python", "R"))
- # corpus <- construct_corpus(folders = "~", languages = c("Javascript"))
+ corpus <- construct_corpus(folders = "~", languages = c( "R"))
+ # corpus <- construct_corpus(folders = "~", languages = c("Python","Javascript"))
 \dontrun{
 # Example 2: Construct a corpus from GitHub repositories (default is R)
 cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )

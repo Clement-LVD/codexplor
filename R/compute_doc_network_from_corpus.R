@@ -39,6 +39,7 @@
 #'
 #' @param content_matched_colname `character`, default = `'content_matched'` The column name (as a string)
 #' for the full line where a match have occurred.
+#' @param order_fn_called_colname `character`, default = `'order_call'` The order of the functions called in a file, based on line number.
 #'
 #' @return A `list` of `dataframe` symbolizing the edgelist of a document-to-document citations network
 #' \describe{
@@ -46,19 +47,20 @@
 #'   \item{\code{to}}{`character` Citations Network - The local file path or constructed GitHub URL where the function called is defined.}
 #'   \item{\code{file_path}}{`character` Corpus - The local file path or constructed GitHub URL.}
 #'   \item{\code{line_number}}{`integer` Corpus - The line number within the file.}
-#'   \item{\code{content}}{`character` Corpus - The content from a line.}
+#'   \item{\code{content}}{`character` The content where a match could occur (`citations.network`), within a file (`corpus.nodelist`) or a line (`corpus.lines`).}
 #'   \item{\code{match}}{`character` Corpus - The matched text on this line, `NA` if there is no match.}
 #' }
 #' @examples {
 #' # Example with local folder path
 #' corpus <- construct_corpus(folders =  "~", languages = "R")
-#' result <- compute_doc_network_from_corpus(corpus)
+#' corpus <- compute_doc_network_from_corpus(corpus)
 #' # Return a list of df (1st one is supposed to be an edgelist)
 #' # (from the file where a function is call => to the file were defined)
 #' }
 #' @seealso \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_df}}, \code{\link{get_citations_network_from_df}}
 #' @seealso
 #'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_a_corpus.html}
+#' @importFrom stats ave
 #' @export
 compute_doc_network_from_corpus <- function(corpus
 
@@ -73,7 +75,9 @@ compute_doc_network_from_corpus <- function(corpus
  , function_matched_colname =  "function"
 
  , line_number_matched_colname = "line_number"
- , content_matched_colname = "content_matched" # we want to keep the full content available
+ , content_matched_colname = "content" # we want to keep the full content available
+
+ , order_fn_called_colname = "order"
   ){
 
   # Check if it's a corpus.lines from construct_corpus
@@ -120,6 +124,13 @@ returned_network <- returned_network[ which( returned_network["from"] != returne
 
 # give the colname wanted by the user in order to ensure stability of the code about this network
 colnames(returned_network) <- c(file_path_from_colname, file_path_to_colname, function_matched_colname, content_matched_colname,  line_number_matched_colname)
+
+# Compute the order after removing autolinks : this will be our last col
+returned_network[[order_fn_called_colname]] <- ave(
+  seq_along(returned_network[[line_number_matched_colname]]),
+  returned_network[[file_path_from_colname]],
+  FUN = seq_along
+)
 
 # set a valid class (in order to pass tests from .construct.corpus.list)
 returned_network <- structure(returned_network, class = c( "citations.network", "data.frame") )

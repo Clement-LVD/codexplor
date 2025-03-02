@@ -18,6 +18,7 @@ VignetteBuilder: knitr
 Imports: 
     stringr,
     utils,
+    stats,
     scales,
     igraph,
     networkD3,

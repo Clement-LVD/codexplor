@@ -34,6 +34,6 @@ texts <- c(
   "A line with no comments"
 )
 
-separate_commented_lines(texts, delim_pair = c("/*" = "*/"))
+separate_commented_lines(texts, delim_pair = c("/*" = "*/"), .verbose = FALSE)
 
 }

@@ -10,8 +10,7 @@ readlines_in_df(
   .verbose = TRUE,
   file_path_col_name = "file_path",
   content_col_name = "content",
-  line_number_col_name = "line_number",
-  char_comment = "#"
+  line_number_col_name = "line_number"
 )
 }
 \arguments{
@@ -31,17 +30,14 @@ Column name for the file content in the output dataframe.}
 
 \item{line_number_col_name}{\code{character}, default = \code{"line_number"}
 Column name for the line numbers in the output dataframe.}
-
-\item{char_comment}{\code{character}, default = \code{"^#"} Regex for considering that a line is a comment
-(default is '#' at the begining of a line of the files)}
 }
 \value{
-RETURN : \code{data.frame} with 3 col'. \emph{First} col' (\code{file_path} by default) is the file_path (readed), then \code{line_number} (by default).
+Return a \code{data.frame} with 3 columns.
 The \emph{last} column (\code{content} by default) contain the readed lines from the file.
 \describe{
 \item{file_path}{\code{character} Path of the file where the match was found.}
 \item{line_number}{\code{integer} Line number in the file.}
-\item{content}{\code{character} Full content of the matched line.}
+\item{content}{\code{character} Content of the line.}
 }
 }
 \description{

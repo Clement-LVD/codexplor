@@ -4,7 +4,14 @@
 \alias{gather_df_lines}
 \title{Concatenate text by a common key}
 \usage{
-gather_df_lines(df, key_colname, text, sep = " ", trimws = T)
+gather_df_lines(
+  df,
+  key_colname,
+  text,
+  sep = " ",
+  trimws = T,
+  text_colname = "content"
+)
 }
 \arguments{
 \item{df}{A data.frame containing the data}
@@ -16,6 +23,8 @@ gather_df_lines(df, key_colname, text, sep = " ", trimws = T)
 \item{sep}{\code{character} The separator used to concatenate the text (default is " ")}
 
 \item{trimws}{\code{logical}, default = \code{TRUE} If \code{TRUE}, suppress leading, tail and double white spaces}
+
+\item{text_colname}{\code{character} The colname for the concatened text column (default is "content")}
 }
 \value{
 A data.frame with the text concatenated by key
@@ -26,8 +35,8 @@ based on a common key, using only base R functions.
 }
 \examples{
 # Create a sample data.frame
-df <- data.frame(id = c(1, 1, 1, 2, 2, 3),
- text = c("Hello ", "world ", " !", "How", "are    you?", " Test "))
+#df <- data.frame(id = c(1, 1, 1, 2, 2, 3),
+# text = c("Hello ", "world ", " !", "How", "are    you?", " Test "))
 # Use the function to concatenate text by 'id'
-gather_df_lines(df, key = "id", text = "text")
+# gather_df_lines(df, key = "id", text = "text")
 }

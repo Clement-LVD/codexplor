@@ -27,7 +27,7 @@ require(codexplor)
 This function will compute some text-mining metrics within each line and within document-level (e.g., number of characters, words count).
 
 ### About default patterns associated with each language
-Standardized patterns are used along the way of constructing a corpus. For each of the `languages` supported by `construct_corpus` :
+Standardized patterns are used to construct a corpus. Each of the `languages` supported by `construct_corpus` involve some patterns for :
 
 ```{r table-operations-construct-corpus, echo=FALSE}
 
@@ -52,7 +52,7 @@ knitr::kable(steps,row.names = T )
 By default `construct_corpus` try to analyze .R files. One or several `languages` could be passed to `construct_corpus`. Planned languages are : `r paste0(names(get_def_regex_by_language()), collapse = ", ")`
 
 ### Function call that are non-supported
-Since `codexplor` strictly check the name' similarity between 1st and 2nd matches, some way of writing a program are not fully supported, such as :
+Some way of writing a program are not fully supported, such as :
 
 **Python instantiated methods.** The instantiated Python methods (i.e. `obj.method()`) are not supported for now.
 

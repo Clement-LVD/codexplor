@@ -13,8 +13,8 @@ get_networkd3_from_igraph(
   color_outdeg_instead_of_indeg = F,
   color_for_na_link = colors_for_nodes[[1]],
   add_html_div_code_before_graph = NULL,
-  ...,
-  charge = -200
+  charge = -200,
+  ...
 )
 }
 \arguments{
@@ -37,11 +37,11 @@ Default is the 1st color of \code{colors_for_node} (\code{"green"}).}
 \item{add_html_div_code_before_graph}{\code{character} (optional). Custom HTML code inserted after the end of the network.
 Default is \code{NULL} (no additional HTML).}
 
-\item{...}{optional parameter passed to \code{networkD3::forceNetwork}}
-
 \item{charge}{\code{integer}, default = \code{-200} Numeric value indicating
 either the strength of the node repulsion (negative value) or attraction (positive value).
 Passed to \code{networkD3::forceNetwork}.}
+
+\item{...}{optional parameter passed to \code{networkD3::forceNetwork}}
 }
 \value{
 A "\code{forceNetwork}" & "\code{htmlwidget}" object, i.e. a list that symbolize an html object from \code{networkD3::forceNetwork}
@@ -51,7 +51,7 @@ This function transforms an \code{igraph} graph object into a \code{networkD3} i
 It allows customization of titles, node colors, missing link colors, and additional HTML code insertion.
 }
 \examples{
-library(igraph)
+invisible(library(igraph))
 g <- make_ring(10)
 get_networkd3_from_igraph(g, title_h1 = "My Network")
 }
