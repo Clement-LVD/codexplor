@@ -30,8 +30,9 @@
 #' # (from the file where a function is call => to the file were defined)
 #' @seealso \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_df}}, \code{\link{get_citations_network_from_df}}
 #' @seealso
-#'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_a_corpus.html}
-#'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html}
+#'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html}
+#'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html}
+#'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html}
 #' @export
 get_doc_network_from_project <- function(folders = NULL, repos = NULL, languages = "R", ...){
 

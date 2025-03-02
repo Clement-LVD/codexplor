@@ -55,6 +55,7 @@ result <- get_doc_network_from_project(folder =  "~" )
 \seealso{
 \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_df}}, \code{\link{get_citations_network_from_df}}
 
-\url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_a_corpus.html}
-\url{https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html}
+\url{https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html}
+\url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html}
+\url{https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html}
 }

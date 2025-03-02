@@ -59,7 +59,7 @@
 #' }
 #' @seealso \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_df}}, \code{\link{get_citations_network_from_df}}
 #' @seealso
-#'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_a_corpus.html}
+#'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html}
 #' @importFrom stats ave
 #' @export
 compute_doc_network_from_corpus <- function(corpus

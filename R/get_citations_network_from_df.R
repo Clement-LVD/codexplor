@@ -21,7 +21,7 @@
 #'   \item{\code{row_number}}{The row number of the original data frame where the text is matched.}
 #'   \item{\code{matches}}{The text matched by the pattern, e.g., name of a person.}
 #'   \item{\code{content}}{The text content where the pattern was searched, i.e. the column that is identified with `content_varname`}
-#'   \item{\code{first_match}}{The original pattern searched for (will be full of NA if keep_only_row_without_a_pattern is `TRUE`)}
+#'   \item{\code{first_match}}{The original pattern searched for (filled with NA if keep_only_row_without_a_pattern is `TRUE`)}
 #' }
 #' @seealso \code{\link{get_regex_from_vector}}, \code{\link{str_extract_all_to_tidy_df}}
 #' @examples
