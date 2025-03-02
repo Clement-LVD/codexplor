@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 # Constructing your corpus
 `codexplor` offer a standardized protocol to turn a programming project into a text-mining corpus, by providing to `construct_corpus` language(s) to analyze, folder(s) path(s) and/or github repo(s).
 
-```{r echo=TRUE, eval = T}
+```{r eval = T}
 library(codexplor)
 
  # 1) Construct a corpus and a Citations network
