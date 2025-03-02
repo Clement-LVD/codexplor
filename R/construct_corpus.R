@@ -90,7 +90,7 @@ corpus <- lapply(sequens_of_languages, function(i) {
 
 if(length(corpus[[1]] ) == 1 ){
 # low-level function return NA => high-level function will return a NA value
-  if(is.na(corpus[[1]])) warning("The corpus.list is a NA value ^^"); return(NA) #no corpus readed = ciao
+  if(is.na(corpus[[1]])) warning("The corpus.list is a NA value"); return(NA) #no corpus readed = ciao
 
   warning("Elements are missing => create_corpus have failed to build a complete corpus.list of dataframes")
   }

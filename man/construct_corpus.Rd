@@ -60,7 +60,7 @@ The returned list is tagged
 with the class \emph{corpus.list}, and contains the following attributes:
 \itemize{
 \item \code{date_creation} : \code{Date} a Date indicating when the corpus list was created (as \code{Sys.Date()}).
-\item \code{citations_network} : a \code{logical} indicating if a citations_network was processed
+\item \code{have_citations_network} : a \code{logical} indicating if a network of internal dependancies was processed
 (construct_corpus don't return a citations_network so it will be set to  \code{FALSE})
 \item \code{languages_patterns} : a dataframe with the default pattern associated with the
 requested languages, a subset of the \code{languages} parameters or entire list

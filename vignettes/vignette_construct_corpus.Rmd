@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 library(codexplor)
 
 # 1) Construct a corpus without a Citations network
-  corp <- construct_corpus("R/", languages = "R")
+  corp <- construct_corpus("./R/", languages = "R")
   
   str(corp, max.level = 1) 
   

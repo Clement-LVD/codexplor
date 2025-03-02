@@ -171,7 +171,7 @@ Other languages are planned.
 
 fn_segmentation <- data.frame(
 "High-level" = c(
-"Construct a network of internal dependancies : [vignette of `get_text_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html)"
+"Construct a network of internal dependancies : [vignette of `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html)"
 
 , " "
                 )
