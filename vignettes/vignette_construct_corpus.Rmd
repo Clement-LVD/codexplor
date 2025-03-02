@@ -12,14 +12,18 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(codexplor)
 
 ```
 
-# Constructing your corpus
-`codexplor::construct_corpus` offer a standardized protocol to turn a programming project into a text-mining corpus, given :
+**`codexplor::construct_corpus`** read programming files and turn a programming project into a text-mining corpus, given :
 
 - folder(s) path(s) and/or github repo(s) to analyze ;
-- and programming language(s) - default is `'R'`.
+- and programming language(s) (default is `'R'`).
+
+**Supported languages.** By default `construct_corpus` try to read and analyze .R files, but one or several `languages` could be indicated. Recognized languages are `r paste0(names(get_def_regex_by_language()) , collapse = ", ")`. 
+
+## Examples
 
 
 ```{r example, result = 'asis',eval = T}
@@ -32,16 +36,16 @@ library(codexplor)
   
 ```
 
-     # More examples :
-    corpus <- construct_corpus( languages = "R"
-    , repos =  "clement-LVD/codexplor","tidyverse/stringr"))
-    
+     # Example : several local folders and repos
+    corpus <- construct_corpus(c("~", "M:/") languages = "R"
+    , repos =  c("clement-LVD/codexplor","tidyverse/stringr"))
+   
+    # Example : several languages
     corpus_py <- construct_corpus(repos = "secdev/scapy"
-    , languages = "Python", .verbose = T) #take a while
+    , languages = c("Python", "Javascript"), .verbose = T) #take a while
 
-**Supported languages.** By default `construct_corpus` try to read and analyze .R files. One or several `languages` could be indicated. Recognized languages are `r paste0(names(get_def_regex_by_language()) , collapse = ", ")`. 
 
-### Returned list of data.frame
+## Returned list of data.frame
 **corpus.list of dataframes.** `construct_corpus` return a `corpus.list` object, a standard `list` of 3 dataframes, i.e. 2 `corpus.lines` and 1 `corpus.nodelist` dataframes. 
 
 Complementary or specific analyzes will add others dataframes to the list, e.g., a network of internal dependancies (classes `citations.network` & `dataframe`).
@@ -52,13 +56,20 @@ Each lines and each documents are associated with text-mining metrics (e.g., num
 - a specific line for the `corpus.lines` dataframes
 - or to the entire document for the `corpus.nodelist` `dataframe` .
 
-The `codes` `dataframe` (one of the `corpus.lines` dataframes) have a '`matches`' column, a specialized way of understand a line. These 1st matches are explained hereafter.
+The `codes` `dataframe` (one of the `corpus.lines` dataframes) have a '`matches`' column. These 1st matches are explained hereafter.
 
-**1st matches operated.** Given language(s), `construct_corpus` try to perform an initial identification within the content. By default, these 1st matches are supposed to be the function names, as soon as a function is defined within a file. For example, if a `pol  <- function` is defined within a file, the `matches` corresponding entry will be `'pol'`.
+## 1st matches operated
+Given language(s), `construct_corpus` try to perform an initial identification within the content. By default, these 1st matches are supposed to be the function names, as soon as a function is defined within a file. For example, if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry will be `'pol'`.
 
-`construct_corpus` rely on some default patterns, associated with the supported languages. 
+In order to extract the functions names as a 1st matches, `construct_corpus` rely on some default patterns, associated with the supported languages (see the next section). 
 
-### Default patterns associated with languages
+
+**About duplicated lines associated with 1st matches.**
+`construct_corpus` perform a 1st text-extraction, accordingly to a pattern. During this 1st matches extraction, lines are duplicated *when several matches are found on the same line*. This case where several matches are performed on the same lines - and so lines are duplicated - trigger a `warning`. 
+
+> For example, by default, the names of functions defined in the files of the project are extracted during the 1st match operated by `construct_corpus`. If a file have several function defined *within the same line*, such a line will be duplicated in the returned `df`, with several 'matches' entries along these lines and an identical line_number. 
+
+## Default patterns associated with languages
 For each of the required language(s), a default standardized patterns is used for :
 
 ```{r table-operations-construct-corpus, echo=FALSE}
@@ -84,11 +95,5 @@ knitr::kable(steps,row.names = T )
 
 > These default patterns are crafted specifically to analyze a programming project in a standardized way, given a programming language.
 
-### About duplicated lines associated with 1st matches
-`construct_corpus` perform a 1st text-extraction, accordingly to a pattern. During this 1st matches extraction, lines are duplicated *when several matches are found on the same line*. 
-
-> For example, by default, the names of functions defined in the files of the project are extracted during the 1st match operated by `construct_corpus`. If a file have several function defined *within the same line*, such a line will be duplicated in the returned `df`, with several 'matches' entries along these lines and an identical line_number. 
-
 ### Helper functions that rely on `construct_corpus`
-
-`codexplor::get_doc_network_from_project` is an helper 'high-level' function that perform an analysis of the internal dependancies by constructing a corpus and perform a 2nd matches and network analyses, e.g., see the [vignette of `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html).
+`codexplor::get_doc_network_from_project` is an helper 'high-level' function that perform an analysis of the internal dependancies by performing a 2nd matches directly from the 1st matches of `construct_corpus`, e.g., see the [vignette of `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html).

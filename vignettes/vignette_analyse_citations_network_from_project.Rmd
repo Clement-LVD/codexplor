@@ -14,14 +14,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-This Vignette give a basic understanding of the `corpus.list` `list` of dataframes returned by `codexplor::get_doc_network_from_project` : a standard `corpus.list` with a citations network of functions within *programming project(s)*.
-
+This Vignette give a basic understanding of the `corpus.list` `list` of dataframes returned by `codexplor::get_doc_network_from_project` : a standard `corpus.list` + an additional `citations.network`, the edgelist of a network of the functions defined in *programming project(s)*.
 
 > `codexplor::get_doc_network_from_project` add a `citations.network` `data.frame`to the basic `corpus.list` returned by `codexplor::construct_corpus`.
 
-> The 1st matches of `codexplor::construct_corpus` let us find some files that *defines* a function, and the 2nd matches of `compute_doc_network_from_corpus` are the files that used these functions. Thus, links are beginning from the programming file that is calling a function => to the programming file where this function is defined.
-
-You should start with the [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html) and then move to the [vignette of the `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html).
+The 1st matches of `codexplor::construct_corpus` let us find some files that *defines* a function, and the 2nd matches of `compute_doc_network_from_corpus` are the files that used these functions. Thus, links are beginning from the programming file that is calling a function => to the programming file where this function is defined. See [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html) for the 1st matches; and the [vignette of the `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html) for the 2nd matches.
 
 ### Example
 Given folders path(s) and/or github repo(s), compute a *citations network* of the functions with ![.](https://img.shields.io/badge/{Method}-bold?style=flat&logoColor=black&logoSize=2&label=get_doc_network_from_project()&labelColor=yellow&color=black)
@@ -40,6 +37,7 @@ By default, `get_networkd3_from_igraph` will colorize the nodes accordingly to t
 ![.](../man/figures/example_net3d_dataviz.png){width=90%}
 
 *(codexplor functions network is truncated)*
+
 For example, the most-common local dependancy inside the tidyverse/stringr repo is `compat-types-check.R`, [...] and we see that one of the `codexplor` file actually rely on a `stringr`method (i.e. `codexplor::str_extract_all_to_tidy_df.R` rely on `stringr/extract.R`). The opposite is not true.
 
 Playing with the parameters will reveal others insights, e.g., you should try to color nodes accordingly to their outdegrees, in order to reveal the high-level files of the project.
