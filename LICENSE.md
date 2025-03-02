@@ -5,7 +5,7 @@ _Version 2.0, January 2004_
 _&lt;<http://www.apache.org/licenses/>&gt;_
 
 
-    Copyright 2025 Clément Laverdet
+    Copyright 2025 Clément Laverdet [ORCID = "0000-0003-4466-3394"]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
