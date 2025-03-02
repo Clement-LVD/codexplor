@@ -1,7 +1,9 @@
 # Unit tests using testthat
 #  library(testthat)
-library(igraph)
+
   test_that("filter_subgraph extracts correct nodes", {
+
+  library(igraph)
     g <- make_ring(10, directed = T)
     V(g)$name <- as.character(1:10)
     sub_g <- filter_igraph_egonetwork(g, "1$", 0, 2)
@@ -15,7 +17,7 @@ library(igraph)
     sub_g <- filter_igraph_egonetwork(g, "1$", 1,1)
     expect_equal(c("1" , "2", "10"), V(sub_g)$name)
     # 2 above reunified
-  })
+
 
   test_that("filter_subgraph returns empty graph for no match", {
     g <- make_ring(10)
@@ -24,4 +26,4 @@ library(igraph)
 
     expect_equal(vcount(sub_g), 0)
   })
-
+})

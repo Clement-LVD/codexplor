@@ -2,8 +2,8 @@
 
 test_that("get_citations_network_from_df works correctly", {
 
-  # Début des tests
-  test_that("Extract text and filter autolinks", {
+  # "Extract text and filter autolinks"
+
     df <- data.frame(
       content = c(
         "Cet article cite (Smith, 2021)",
@@ -25,7 +25,7 @@ test_that("get_citations_network_from_df works correctly", {
 
     # Vérifie que l'autolink a bien été exclu par défaut
     expect_false(any(result$from == result$to))
-  })
+
 
   test_that("Inclusion des autolinks si paramètre spécifié", {
     df <- data.frame(

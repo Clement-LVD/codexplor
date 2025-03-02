@@ -1,5 +1,5 @@
 #TESTS VARIOUS LANGUAGES RETURNED BY get_def_regex_by_language
-test_that("get_def_regex_by_language works correctly", {
+
 ### test python
   test_that("Regex extract fn names in Python", {
     python_code <- '
@@ -37,7 +37,8 @@ test_that("get_def_regex_by_language works correctly", {
     expect_equal(def_matches, expected_names)
   })
 
-  ###test javascript
+test_that("get_def_regex_by_language works correctly", {
+  ##test javascript
 js_code <- c('
   function greet(name) { return "Hello, " + name + "!"; }',
              'const add = function(a, b) { return a + b; }',
@@ -52,8 +53,6 @@ js_code <- c('
 # Regex obtenue via
 regex <- get_def_regex_by_language("javascript")[[1]]$fn_regex
 
-test_that("Regex extract fn names in javascript", {
-
    matches <- trimws( unlist(regmatches(js_code, regexec(perl = T, regex, js_code))))
   # similar to what our matching functions do
 
@@ -62,6 +61,5 @@ test_that("Regex extract fn names in javascript", {
     expected_names <- c( "greet"   ,  "add"   ,    "multiply"  , "sayHello"  , "calculate" , "sum"   )
 
       expect_equal(matches, expected_names)
-})
 }
 )

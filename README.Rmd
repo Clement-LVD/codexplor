@@ -59,7 +59,8 @@ library(codexplor)
 
 ```{r compute-network-of-func,  results='asis', echo=TRUE}
 # 2) Produce an interactive dataviz'
-dataviz <- get_networkd3_from_igraph(title_h1 = "codexplor",subtitle_h2 = "graph of internal dependancies"
+dataviz <- get_networkd3_from_igraph(title_h1 = "codexplor"
+                                     ,subtitle_h2 = "graph of internal dependancies"
                                      , graph_igraph = net$citations.network) 
 ```
 

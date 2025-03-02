@@ -59,13 +59,36 @@ Thus, in a typical programming project :
 
 Assuming the user have indicated folder(s) and/or github repo(s), `codexplor::get_doc_network_from_project()` will try to perform a 'cascading matching' :
 
-⏩ Read the files and extract a 1st pattern, e.g., default are supposed to extract *R functions names*. 
+⏩ Read the files and extract a 1st pattern, e.g., default are supposed to extract *R functions names as a 1st matches*, e.g., we have defined 'Pier', 'Pol' and 'Jak' - functions - names. 
 
-⏩ Search for these patterns in the initial content, in order to constitute a Citations Network.
+⏩ Search for these patterns in the initial content, in order to constitute a Citations Network with the 2nd matches, e.g., the content from a programming file is citing 'Pier', 'Pol' and 'Jak'.
 
-🎁 Return the edgelist of the network of *documents* (programming file that is calling a function => programming file where this function is defined)
+🎁 Return the edgelist that symbolize this network of *documents*, by default it's a network of internal dependencies within the files of a programming project.
 
-`codexplor` default pattern are aimed to extract functions names from the files of a *programming* project.
+
+`codexplor` default pattern are aimed to extract functions names from the files of a *programming* project (links are beginning from the programming file that is calling a function => to the programming file where this function is defined).
+
+
+### Function call that are non-supported during 2nd matches
+Some way of writing a program are not fully supported, such as :
+
+**Python instantiated methods.** The instantiated Python methods are not supported yet by `get_doc_network_from_project`, i.e. `obj.method()`.
+
+If we take this Python code sample, the 1st match is realized by `construct_corpus`, but `get_doc_network_from_project` don't perform a 2nd match.
+
+```{r eval = F }
+#  Consider the Python code herafter 
+class A:
+    def method(self):
+        return "My custom method"
+ # construct_corpus return 'method' as a 1stly matched function name
+
+obj = A()
+obj.method() # Return : 'My custom method'
+
+# get_doc_network_from_project don't identify the 2nd match because of the prefix ("obj.")
+```
+
 
 ### Filter undesired match
 Junk nodes needs to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. `get_doc_network_from_project` offer several parameters for dealing with your style of writing a program.
