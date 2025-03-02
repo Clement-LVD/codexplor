@@ -176,7 +176,7 @@ fn_segmentation <- data.frame(
 , " "
                 )
 , 
-"Low-level" = c( "Construct a corpus : [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html)"
+"Low-level" = c( "Construct a corpus : [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html)"
 
                  ,
                  
