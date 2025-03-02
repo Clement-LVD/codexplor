@@ -96,4 +96,4 @@ knitr::kable(steps,row.names = T )
 > These default patterns are crafted specifically to analyze a programming project in a standardized way, given a programming language.
 
 ### Helper functions that rely on `construct_corpus`
-`codexplor::get_doc_network_from_project` is an helper 'high-level' function that perform an analysis of the internal dependancies by performing a 2nd matches directly from the 1st matches of `construct_corpus`, e.g., see the [vignette of `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html).
+`codexplor::get_doc_network_from_project` is an helper 'high-level' function that perform an analysis of the internal dependancies by performing a 2nd matches directly from the 1st matches of `construct_corpus`, e.g., see the [vignette of `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html).
