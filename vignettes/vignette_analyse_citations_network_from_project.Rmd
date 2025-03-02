@@ -23,7 +23,7 @@ The 1st matches of `codexplor::construct_corpus` let us find some files that *de
 ### Example
 Given folders path(s) and/or github repo(s), compute a *citations network* of the functions with ![.](https://img.shields.io/badge/{Method}-bold?style=flat&logoColor=black&logoSize=2&label=get_doc_network_from_project()&labelColor=yellow&color=black)
 
-```{r construct-corpus-and-network, echo=TRUE}
+```{r construct-corpus-and-network, eval = F, echo=TRUE}
 require(codexplor)
 net <- get_doc_network_from_project(
   repos =  c("tidyverse/stringr", "clement-lvd/codexplor"))

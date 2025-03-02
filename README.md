@@ -129,7 +129,7 @@ project, accordingly to subanalysis tools.
 | Reporting on a programming project | Underlying functions |
 |:---|:---|
 | Construct a network of internal dependancies from a programming project folder path(s) and/or github repo(s) : [vignette of `get_doc_network_from_project()`](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html) |
-|  | Understand the citations.network of internal dependancies : [vignette of `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html) |
+|  | Understand the citations.network of internal dependancies : [vignette of `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependancies.html) |
 
 `codexplor` also offers helper functions, e.g., for create and filter a
 network with the `igraph` package, see the [vignette of helper functions
