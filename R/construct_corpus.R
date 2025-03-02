@@ -118,10 +118,7 @@ create_corpus <- function(folders = NULL
                           , .verbose = F
                           , ...){
 
-
-
   lang_desired <- std_dictionnary_of_language
-
 
   #### 1) CONSTRUCT A CORPUS of files path and/or urls ####
   urls = NULL
@@ -149,16 +146,17 @@ create_corpus <- function(folders = NULL
   # 4.1.) ADD LINES TEXT-METRICS ON ENTIRE FILES
   complete_files <- cbind(complete_files, compute_nchar_metrics(complete_files[[3]]) )
 
-
   # compute a nodelist FROM LINES : sum of these metrics is supposed to be document-level metrics
   # this func' is hereafter : a grouped stat' (end of this .R file)
-  # 5) Aggregate by group_colname = "file_path" + sum of all the col' with a suffix ("n_")
+  # 4.2) Aggregate by group_colname = "file_path" + sum of all the col' with a suffix ("n_")
   nodelist <- compute_nodelist(df = complete_files, group_col = "file_path"
                                , colname_content_to_concatenate = "content")
   #we've made sum of metrics on each entire file, e.g., total nchar value
 
-  # 4.2.) detect the commented lines (never clean the pseudo comments on the same line)
-  complete_files$comments <-  grepl(x = complete_files$content, pattern =  lang_desired$commented_line_char)
+  # 5.) detect the full commented lines (never clean the pseudo comments on the same line)
+  # add logical to our df
+  complete_files$comments <-  grepl(x = complete_files$content, pattern =  paste0("^\\s*", lang_desired$commented_line_char))
+# we will separate a 1st solid corpus then with these values :
 
   #### 2) Construct a corpus.list ####
   # we have some func' for define class and creation_date
@@ -168,12 +166,13 @@ create_corpus <- function(folders = NULL
     , nodelist = .construct.nodelist(nodelist)
   )
   # classe corpus.lines and corpus.nodelist
+# except 'codes' that will be cleaned more and more herafter
 
-  # filter junklines - prevent crashes (from utils.R)
-  corpus$codes <-  filter_if_na(corpus$codes, "content")
+# filter junklines - prevent crashes (from utils.R func')
+  corpus$codes <- filter_if_na(corpus$codes, "content")
 
-  #### CLEAN THE codes df in corpus list if some multi-lines comments are possible
-  if(!is.na(lang_desired$delim_pair)) {
+#### CLEAN THE codes df in corpus list if some multi-lines comments are possible
+  if(!is.na(lang_desired$delim_pair_comments_block)) {
 
     if(.verbose) cat("\n===> Clean blocks of comments\n")
 
@@ -186,14 +185,45 @@ create_corpus <- function(folders = NULL
 
   }
 
+# this step, exclude comments within lines of texts are here
+corpus$codes <- process_vector_on_df_by_group(df = corpus$codes
+                                , group_col = "file_path"
+                                , func = remove_text_after_char
+                                , vector_col = "content"
+                                , colname_uncommented = "uncommented"
+                                , colname_commented = "commented")
+# this func apply a func that require a vector on a df
+# BY GROUPING the df and ensuring results are as ok as the subfunctionss
+corpus$codes$content <- corpus$codes$uncommented
+corpus$codes$uncommented <- NULL
+
+#### extract only exposed content as a 'code' content ####
+# unested codes {} such as function definition wille be removed !
+
+  #### Finally extract only the exposed content ####
+  if (!is.na(lang_desired$delim_pair_nested_codes)) {
+
+    paired_delim <- lang_desired$delim_pair_nested_codes
+
+corpus$codes <- process_vector_on_df_by_group(df = corpus$codes
+                                  , group_col = "file_path"
+                                  , func = extract_text_outside_separators
+                                  , vector_col = "content"
+, open_sep = names(paired_delim), close_sep = paired_delim)
+
+colnames(corpus$codes)[colnames(corpus$codes) == "result"] = "exposed_unested_content"
+
+  } else corpus$codes$exposed_unested_content <-  corpus$codes$content
+
   if(.verbose) cat("\n ====> Perform a 1st text-extraction")
-  # 5-A} Get 1st matches (maybe duplicated lines here : xxx beurk xxx)
-  # => functions defined ! (here we are only ONE LANGUAGE BY ONE)
-  corpus$codes <- srch_pattern_in_df( df =  corpus$codes, content_col_name = "content",
+
+ # 5-A} Get 1st matches (risk of duplicated lines here)
+  corpus$codes <- srch_pattern_in_df( df =  corpus$codes
+                                      , content_col_name = "exposed_unested_content"
                                       ,  pattern = lang_desired$fn_regex )
 
+  #### 6) finally construct the corpus.lines object ####
   corpus$codes <- .construct.corpus.lines(corpus$codes)
-
 
   if(.verbose) cat("\nCorpus created")
 

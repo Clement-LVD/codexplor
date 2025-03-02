@@ -18,7 +18,8 @@ A \code{list} where each entry corresponds to a language and contains:
 \item{\code{fn_regex}}{\code{character} A regex dedicated to catch the function names, as soon as a function is defined within a file.}
 \item{\code{file_extension }}{\code{character} The typical programming file extension, e.g., ".R" for the R language.}
 \item{\code{commented_line_char}}{\code{character} The pattern symbolizing a commented line, i.e. content is commented after that pattern.}
-\item{\code{delim_pair}}{\code{character} list indicating the - open and close - characters that symbolizes a multi-lines comment, in addition to the \code{commented_line_char} one-liner syntax.}
+\item{\code{delim_pair_comments_block}}{\code{character} list indicating the - open and close - characters that symbolizes a multi-lines comment, in addition to the \code{commented_line_char} one-liner syntax.}
+\item{\code{delim_pair_nested_codes}}{\code{character} list indicating the - open and close - characters that symbolizes a multi-lines block of code.}
 \item{\code{pattern_to_exclude }}{\code{character} \verb{The pattern of typical programming files to exclude from the analyses, e.g., "\\\\.Rcheck|test-|vignettes" for the R language.\} \\item\{\code{local_file_ext}\}\{}character\verb{The typical programming file extension turned into a regex, by pasting}"$"\verb{to the end of}file_extension` value.}
 }
 }

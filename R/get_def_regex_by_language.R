@@ -12,7 +12,8 @@
 #'   \item{\code{fn_regex}}{`character` A regex dedicated to catch the function names, as soon as a function is defined within a file.}
 #'   \item{\code{file_extension }}{`character` The typical programming file extension, e.g., ".R" for the R language.}
 #'   \item{\code{commented_line_char}}{`character` The pattern symbolizing a commented line, i.e. content is commented after that pattern.}
-#'   \item{\code{delim_pair}}{`character` list indicating the - open and close - characters that symbolizes a multi-lines comment, in addition to the `commented_line_char` one-liner syntax.}
+#'   \item{\code{delim_pair_comments_block}}{`character` list indicating the - open and close - characters that symbolizes a multi-lines comment, in addition to the `commented_line_char` one-liner syntax.}
+#'   \item{\code{delim_pair_nested_codes}}{`character` list indicating the - open and close - characters that symbolizes a multi-lines block of code.}
 #'   \item{\code{pattern_to_exclude }}{`character` `The pattern of typical programming files to exclude from the analyses, e.g., "\\.Rcheck|test-|vignettes" for the R language.}
 #'   \item{\code{local_file_ext}}{`character` The typical programming file extension turned into a regex, by pasting `"$"` to the end of `file_extension` value.}
 #' }
@@ -29,16 +30,16 @@ list_language_patterns <- list(
   R = list(
     fn_regex = "(^| \\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)",
     file_extension = ".R"
-    , commented_line_char = "\\s?#"
-    , delim_pair = NA
+    , commented_line_char = "#"
+    , delim_pair_comments_block = NA
     , pattern_to_exclude = "\\.Rcheck|test-|vignettes"
   ),
   Python = list(
     fn_regex = list(main_definition ="(?<=def)\\s+[^\\(]+(?=\\()"   # [^\\(]+: 1 or + char BUT NOT A  '(' (function name).
                     , lambda_func = "\\w+\\s*(?==\\s*lambda)") # \\s*: space (0 or +) & \\w+: chars. alphanumeric
    , file_extension = ".py"
-    , commented_line_char = "\\s?#"     # Python (Python)
-    , delim_pair = NA
+    , commented_line_char = "#"     # Python (Python)
+    , delim_pair_comments_block = NA
     , pattern_to_exclude = NA),
 
   JavaScript = list(
@@ -49,35 +50,35 @@ list_language_patterns <- list(
     )
     , file_extension = ".js"
      , commented_line_char = "\\s?//"
-    , delim_pair = c("/*" = "*/")  # JavaScript (JavaScript)
+    , delim_pair_comments_block = c("/*" = "*/")  # JavaScript (JavaScript)
       , pattern_to_exclude = NA
   ),
   Java = list(
     fn_regex = "^\\s*(public|private|protected)?\\s*\\w+\\s+([\\w_]+)\\s*\\(",
     file_extension = ".java"
     , commented_line_char = "\\s?//"
-    , delim_pair = c("/*" = "*/")  # Java (Java)
+    , delim_pair_comments_block = c("/*" = "*/")  # Java (Java)
     , pattern_to_exclude = NA
   ),
   C = list(
     fn_regex = "^\\s*\\w+\\s+([\\w_]+)\\s*\\(",
     file_extension = ".c"
     , commented_line_char = "\\s?//"
-    , delim_pair =  c("/*" = "*/")  # C (C, C++, Java, JavaScript, etc.)
+    , delim_pair_comments_block =  c("/*" = "*/")  # C (C, C++, Java, JavaScript, etc.)
     , pattern_to_exclude = NA
   ),
   Cpp = list(
     fn_regex = "^\\s*\\w+(<.*>)?\\s+([\\w_]+)\\s*\\(",
     file_extension = ".cpp"
     , commented_line_char = "\\s?//"
-    , delim_pair =  c("/*" = "*/")  # C (C, C++, Java, JavaScript, etc.)
+    , delim_pair_comments_block =  c("/*" = "*/")  # C (C, C++, Java, JavaScript, etc.)
     , pattern_to_exclude = NA
   )
 )
 
 # add pattern at the end of existing values
 list_language_patterns <- lapply( list_language_patterns, FUN = function(entry) {
-
+entry$delim_pair_nested_codes = c("\\{" = "\\}")
   entry$local_file_ext <- paste0(entry$file_ext, "$" )
   entry$fn_regex <- paste0(entry$fn_regex, collapse = "|" )
 return(entry)

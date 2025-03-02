@@ -1,3 +1,45 @@
+### apply a functions that take a single vector
+# to a dataframe by group : vector is separated according
+# to a group_col value in the df and the vector_col is given
+# to the func() given by the user
+# e.g., we want to group by document (file path)
+# the 1st col passed is turned into a VECTOR from the df (!!)
+process_vector_on_df_by_group <- function(df, group_col, func, vector_col = "content", ...) {
+  # 1. Add an identifier to preserve the original order of rows
+  df$.id_order <- seq_len(nrow(df))
+
+  # 2. Split the dataframe by the grouping key (e.g., file_path)
+  df_split <- split(df, df[[group_col]])
+
+  # 3. Apply the function to each group using the designated column (vector_col)
+  processed_list <- lapply(df_split, function(sub_df) {
+    # Apply the user-provided function to the column of text content
+    result <- func(sub_df[[vector_col]], ...)
+
+    # Ensure the result is returned in the same order as the input (no reordering)
+    # If the result is a dataframe with multiple columns, add them to the original df
+    if (is.data.frame(result)) {
+      # Ensure we keep the order of rows intact
+      result <- result[order(sub_df$.id_order), , drop = FALSE]
+    }
+# If it's just a vector or single column result, bind it back (blindy)
+cbind(sub_df, result) #and return that
+  })
+
+  # 4. Reassemble the dataframe into one and reorder by the original order
+  df_final <- do.call(rbind, processed_list)
+
+  # Reorder the dataframe to match the original order of rows
+  df_final <- df_final[order(df_final$.id_order), ]
+# since we've split by group we have maybe lost the order
+
+  # Remove the temporary column used for ordering
+  df_final$.id_order <- NULL
+
+  return(df_final)
+}
+
+
 #### 0) filter blank lines of a df on a col ####
 filter_if_na <- function(df, col_to_verify){
 
@@ -5,6 +47,120 @@ filter_if_na <- function(df, col_to_verify){
 
 if(length(lines_to_filter_out) > 0) df <- df[-lines_to_filter_out, ]
 return(df)}
+
+#### 0 remove comments
+# Function to remove text after a specific character, excluding content inside quotes
+remove_text_after_char <- function(text, char = "#"
+                                   ,colname_uncommented = "uncommented"
+                                   , colname_commented = "commented") {
+
+   result <- lapply(text, function(line) {
+
+    pos <- regexpr(char, line)
+    if (pos == -1) return(data.frame(text = line, comment = NA))
+    # If no char (#) is found, return the original line and NA
+
+    # text BEFORE the first #
+    before_hash <- substr(line, 1, pos - 1)
+
+    # Comptabiliser les guillemets (") ou apostrophes (') avant le #
+   quotes <- gregexpr('["\']', before_hash)
+
+   quote_count <- length(which(quotes[[1]] != -1))
+    # If no count at all before remove text after #
+    if (quote_count == 0) {
+return(data.frame(text = substr(line, 1, pos - 1),
+                        comment = substr(line, pos, nchar(line) ))
+      )
+    } #erased text is maybe in a line between " & ' but osef
+
+    # Otherwise, return the original line (if the quote count is odd)
+    return(data.frame(text = line, comment = NA))
+  })
+
+  # Convert the list into a data frame
+  result_df <- do.call(rbind, result)
+
+  colnames(result_df) <- c(colname_uncommented, colname_commented)
+
+  return(result_df)
+}
+
+
+
+
+#### 1-A.1.) Count opening and closing characters per line
+# used in the next func :
+count_opening_and_closing_chars_level <- function(texts, open = "\\{", close = "\\}") {
+  # for a given entry and a given char : count the occurences of this char
+  count_occurrences <- function(line, pattern) {
+    if (is.na(line)) return(0)
+    matches <- unlist(gregexpr(pattern, line, perl = TRUE))
+    return(max(0, length(which(matches != -1))))
+  } # return a valid count
+
+# count opening and closing char with that func :
+  opens <- sapply(texts, count_occurrences, pattern = open)
+  closes <- sapply(texts, count_occurrences, pattern = close)
+
+  # determine a level at the end of each line :
+  level <- cumsum(opens - closes)
+  # return a dataframe for each texts (row) :
+  data.frame(line_number = seq_along(texts),
+             open_count   = opens,
+             close_count  = closes,
+             level_end_of_line = level)
+}
+# THE LEVEL OF THE LAST LINE should be 0 in a normal programming file
+
+# 1.A.2.) Extract text that is NOT between the specified separators.
+
+# Main function: extract text NOT inside the separators.
+extract_text_outside_separators <- function(texts, open_sep = "\\{", close_sep = "\\}", add_infos_when_repairing = NULL) {
+  # Balance the text if needed by appending extra closing characters
+  df <- count_opening_and_closing_chars_level(texts, open = open_sep, close = close_sep)
+  extra_levels <- tail(df$level_end_of_line, 1)
+
+    # Only append closing characters if extra_levels is greater than 0
+    if (extra_levels > 0) {
+      cat("\n"); cat("Content is fixed by adding", extra_levels, "closing separator(s) !")
+
+      if(!is.null(add_infos_when_repairing)) cat("\n=> " , add_infos_when_repairing, "\n")
+
+       actual_close <- sub("^\\\\", "", close_sep)
+      # Ensure we do not append anything when extra_levels is 0 or negative
+      texts[length(texts)] <- paste0(texts[length(texts)], paste(rep(actual_close, extra_levels), collapse = ""))
+    }
+  # send a warning if all the text is returned
+    if (extra_levels < 0) {
+      warning("Text has extra closing separators (unexpected negative levels).")
+
+if(!is.null(add_infos_when_repairing)) warning("\n => " , add_infos_when_repairing)
+
+    }
+
+  # Use recursive regex if separators are literal "{" and "}"
+  if (open_sep == "\\{" && close_sep == "\\}") {
+    # This pattern matches balanced braces (requires PCRE recursion support)
+    pattern <- "\\{(?:(?>[^{}]+)|(?R))*\\}"
+  } else {
+    # Fallback non-greedy pattern for simple (non-nested) cases
+    pattern <- paste0(open_sep, ".*?", close_sep)
+  }
+
+  # Remove all text enclosed by the separators
+  cleaned_text <- gsub(pattern, "", texts, perl = TRUE)
+
+  # Final cleanup: collapse spaces and trim.
+  cleaned_text <- gsub("\\s+", " ", cleaned_text)
+  trimws(cleaned_text)
+}
+
+# Example usage:
+# text_lines <- c(  "This is {an {example} of} text",  "with {nested separators} and another {block}.",
+  # "A line with an {unclosed separator" )
+
+# extract_text_outside_separators(text_lines, open_sep = "\\{", close_sep = "\\}")
 
 ####1) construct list of files path ####
 get_list_of_files <- function(folders = NULL, repos = NULL
