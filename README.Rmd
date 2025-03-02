@@ -137,7 +137,7 @@ knitr::kable(features)
 ![ ](https://img.shields.io/badge/{Construct--corpus}-bold?style=flat&logoColor=black&logoSize=2&label=Read files from github and/or locally&labelColor=black&color=green)
 ![.](https://img.shields.io/badge/{Analyze}-bold?style=flat&logoColor=black&logoSize=2&label=Line-level metrics&labelColor=grey&color=green)
 ![ ](https://img.shields.io/badge/{Analyze}-bold?style=flat&logoColor=black&logoSize=2&label=Compute a network of internal dependencies&labelColor=black&color=green)
-![ ](https://img.shields.io/badge/{networkD3}-bold?style=flat&logoColor=black&logoSize=2&labelDataviz' from a network&labelColor=black&color=green)
+![ ](https://img.shields.io/badge/{networkD3}-bold?style=flat&logoColor=black&logoSize=2&label=Dataviz from a network&labelColor=black&color=green)
 
 
 </div>
