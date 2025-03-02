@@ -58,7 +58,8 @@ select the <code>codes</code> <code>data.frame</code> and append a Citations Net
 <span>  file_path_to_colname <span class="op">=</span> <span class="st">"to"</span>,</span>
 <span>  function_matched_colname <span class="op">=</span> <span class="st">"function"</span>,</span>
 <span>  line_number_matched_colname <span class="op">=</span> <span class="st">"line_number"</span>,</span>
-<span>  content_matched_colname <span class="op">=</span> <span class="st">"content_matched"</span></span>
+<span>  content_matched_colname <span class="op">=</span> <span class="st">"content"</span>,</span>
+<span>  order_fn_called_colname <span class="op">=</span> <span class="st">"order"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -109,6 +110,10 @@ of the second match in the result data frame.</p></dd>
 <dd><p><code>character</code>, default = <code>'content_matched'</code> The column name (as a string)
 for the full line where a match have occurred.</p></dd>
 
+
+<dt id="arg-order-fn-called-colname">order_fn_called_colname<a class="anchor" aria-label="anchor" href="#arg-order-fn-called-colname"></a></dt>
+<dd><p><code>character</code>, default = <code>'order_call'</code> The order of the functions called in a file, based on line number.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -125,7 +130,7 @@ for the full line where a match have occurred.</p></dd>
 <dd><p><code>integer</code> Corpus - The line number within the file.</p></dd>
 
 <dt><code>content</code></dt>
-<dd><p><code>character</code> Corpus - The content from a line.</p></dd>
+<dd><p><code>character</code> The content where a match could occur (<code>citations.network</code>), within a file (<code>corpus.nodelist</code>) or a line (<code>corpus.lines</code>).</p></dd>
 
 <dt><code>match</code></dt>
 <dd><p><code>character</code> Corpus - The matched text on this line, <code>NA</code> if there is no match.</p></dd>
@@ -154,7 +159,7 @@ By default, egolinks are removed since <code>filter_egolink_within_a_file</code>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co"># Example with local folder path</span></span></span>
 <span class="r-in"><span><span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu"><a href="construct_corpus.html">construct_corpus</a></span><span class="op">(</span>folders <span class="op">=</span>  <span class="st">"~"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">compute_doc_network_from_corpus</span><span class="op">(</span><span class="va">corpus</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu">compute_doc_network_from_corpus</span><span class="op">(</span><span class="va">corpus</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Return a list of df (1st one is supposed to be an edgelist)</span></span></span>
 <span class="r-in"><span><span class="co"># (from the file where a function is call =&gt; to the file were defined)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
