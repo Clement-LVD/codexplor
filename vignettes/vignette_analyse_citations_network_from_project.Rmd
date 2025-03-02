@@ -43,6 +43,6 @@ For example, the most-common local dependancy inside the tidyverse/stringr repo 
 Playing with the parameters will reveal others insights, e.g., you should try to color nodes accordingly to their outdegrees, in order to reveal the high-level files of the project.
 
 ### Crafting your own corpus with codexplor
-Depending on the languages you have to manage, you'll want to tweak the 'pattern' used for match a function definition, since for now `codexplor` support only the R programming language (other languages are planned). 
+Depending on the languages you have to manage, you'll want to tweak the 'pattern' used for match a function definition. [xxx link to provide xxx]
 
 
