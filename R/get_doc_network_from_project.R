@@ -41,5 +41,10 @@ corpus <- construct_corpus(folders = folders,   repos = repos, languages = langu
 
 corpus <- compute_doc_network_from_corpus(corpus = corpus, ...)
 
+# compute stats
+corpus <- add.stats.corpus.list(corpus)
+
+#get report (todo)
+
 return(corpus)}
 

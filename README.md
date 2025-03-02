@@ -50,10 +50,10 @@ library(codexplor)
    # return a corpus.list object with 2 corpus.line, 1 corpus.nodelist & 1 citations.network
   str(net, max.level = 1) 
 #> List of 4
-#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    1134 obs. of  10 variables:
-#>  $ comments         :Classes 'corpus.lines' and 'data.frame':    936 obs. of  9 variables:
-#>  $ nodelist         :Classes 'corpus.nodelist' and 'data.frame': 21 obs. of  7 variables:
-#>  $ citations.network:Classes 'citations.network' and 'data.frame':   19 obs. of  5 variables:
+#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    1175 obs. of  10 variables:
+#>  $ comments         :Classes 'corpus.lines' and 'data.frame':    946 obs. of  9 variables:
+#>  $ nodelist         :Classes 'corpus.nodelist' and 'data.frame': 22 obs. of  7 variables:
+#>  $ citations.network:Classes 'citations.network' and 'data.frame':   20 obs. of  5 variables:
 #>  - attr(*, "class")= chr [1:2] "list" "corpus.list"
 #>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-02"
 #>  - attr(*, "citations_network")= logi TRUE
@@ -104,7 +104,7 @@ local insights on a programming project.
 
 **Planned features :**
 
-![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=orange)
+![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=yellow)
 ![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Global%20text-mining%20metrics&labelColor=grey&color=orange)
 ![.](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Reporting&labelColor=grey&color=orange)
 ![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Advanced%20network%20metrics&labelColor=grey&color=orange)
