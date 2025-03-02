@@ -97,6 +97,10 @@ corpus &lt;- construct_corpus( languages = "R"
 
 corpus_py &lt;- construct_corpus(repos = "secdev/scapy"
 , languages = "Python", .verbose = T) #take a while</code></pre>
+<p><strong>Supported languages.</strong> By default
+<code>construct_corpus</code> try to read and analyze .R files. One or
+several <code>languages</code> could be indicated. Recognized languages
+are R, Python, JavaScript, Java, C, Cpp.</p>
 <div class="section level4">
 <h4 id="returned-list-of-data-frame">Returned list of data.frame<a class="anchor" aria-label="anchor" href="#returned-list-of-data-frame"></a>
 </h4>
@@ -117,27 +121,32 @@ metrics are relative to :</p>
 <li>or to the entire document for the <code>corpus.nodelist</code>
 <code>dataframe</code> .</li>
 </ul>
-<p><strong>1st matches operated.</strong> <code>construct_corpus</code>
-try to perform a 1st identification within the content, accordingly to
-some default patterns : <em>this behavior is crafted specifically for
-analyze a programming project</em>.</p>
-<p>The defaults patterns try to extract the functions names as soon as
-they are defined within a file of the corpus. Further post-processing of
-the text allow us, for example, to identify if it’s an exposed or inner
-function (<em>aka</em> nested function, defined within a function
-definition).</p>
-<p>These first matches and first metrics are intended to be the first
-standardized step before applying deeper analyses, e.g., see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html">vignette
-of <code>get_doc_network_from_project</code></a>.</p>
+<p>The <code>codes</code> <code>dataframe</code> (one of the
+<code>corpus.lines</code> dataframes) have a ‘<code>matches</code>’
+column, a specialized way of understand a line. These 1st matches are
+explained hereafter.</p>
+</div>
+<div class="section level4">
+<h4 id="about-the-1st-matches-operated">About the 1st matches operated<a class="anchor" aria-label="anchor" href="#about-the-1st-matches-operated"></a>
+</h4>
+<p><strong>1st matches operated.</strong> Given language(s),
+<code>construct_corpus</code> try to perform an initial identification
+within the content.</p>
+<blockquote>
+<p>By default, these 1st matches are supposed to be the function names,
+for functions defined within a file.</p>
+</blockquote>
+<p>Thus, <code>construct_corpus</code> rely on some default patterns,
+associated with the supported languages.</p>
 </div>
 <div class="section level4">
 <h4 id="default-patterns-associated-with-languages">Default patterns associated with languages<a class="anchor" aria-label="anchor" href="#default-patterns-associated-with-languages"></a>
 </h4>
-<p>For a given language, a default standardized patterns is used for
-:</p>
+<p>For each of the required language(s), a default standardized patterns
+is used for :</p>
 <table class="table">
 <colgroup>
-<col width="1%">
+<col width="0%">
 <col width="33%">
 <col width="65%">
 </colgroup>
@@ -149,8 +158,9 @@ of <code>get_doc_network_from_project</code></a>.</p>
 <tbody>
 <tr class="odd">
 <td align="left">1</td>
-<td align="left">Read the files of the local folder(s) and/or github
-public repo(s)</td>
+<td align="left">Filter files path/url accordingly to some patterns and
+read only the selected programming files with the correct
+extension(s)</td>
 <td align="left">e.g., “R” language is associated with “<code>.R</code>”
 files and a filtering pattern (e.g., files with “<code>test-</code>”,
 “<code>vignettes</code>”, “<code>Rcheck</code>” in their full names are
@@ -168,9 +178,8 @@ should have commented blocks separeted on several lines (e.g.,
 </tr>
 <tr class="odd">
 <td align="left">3</td>
-<td align="left">Extract a 1st matched-text within the <em>codes
-lines</em>
-</td>
+<td align="left">Perform 1st matches within the <em>codes lines</em>
+(default try to extract the functions names)</td>
 <td align="left">e.g., default patterns are crafted for extract the
 names of the functions defined within a file, e.g., for the R
 programming language : the name is before a
@@ -179,16 +188,19 @@ programming language : the name is before a
 <tr class="even">
 <td align="left">4</td>
 <td align="left">Refine and post-process the <em>codes lines</em>
-accordingly to the canonical way of writing a program</td>
-<td align="left">e.g., delimitors of a block of code within a .R file
-are ‘{’ and <code>}</code>
 </td>
+<td align="left">e.g., specifical delimitors of a block of code such as
+‘{’ and ‘}’ within a .R file are used to determine if a given 1st match
+- function definition - is included within another function definition
+as an inner function (<em>aka</em> nested function)</td>
 </tr>
 </tbody>
 </table>
-<p>By default <code>construct_corpus</code> try to analyze .R files. One
-or several <code>languages</code> could be passed to
-<code>construct_corpus</code> (e.g., “R”, “Python”, “Javascript”).</p>
+<blockquote>
+<p>These default patterns are crafted specifically to analyze a
+programming project in a standardized way, given a programming
+language.</p>
+</blockquote>
 </div>
 <div class="section level4">
 <h4 id="about-duplicated-lines-associated-with-1st-matches">About duplicated lines associated with 1st matches<a class="anchor" aria-label="anchor" href="#about-duplicated-lines-associated-with-1st-matches"></a>
@@ -204,6 +216,15 @@ of the project are extracted during the 1st match operated by
 returned <code>df</code>, with several ‘matches’ entries along these
 lines and an identical line_number.</p>
 </blockquote>
+</div>
+<div class="section level4">
+<h4 id="helper-functions-that-rely-on-construct_corpus">Helper functions that rely on <code>construct_corpus</code><a class="anchor" aria-label="anchor" href="#helper-functions-that-rely-on-construct_corpus"></a>
+</h4>
+<p><code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code> is an helper
+‘high-level’ function that perform an analysis of the internal
+dependancies by constructing a corpus and perform a 2nd matches and
+network analyses, e.g., see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html">vignette
+of <code>get_doc_network_from_project</code></a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
