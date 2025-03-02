@@ -34,8 +34,9 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/manage_igraph_object.html">Helper functions to create and filter igraph objects</a></li>
+    <li><a class="dropdown-item" href="../articles/vignette_analyse_citations_network_from_project.html">Analyze a Programming Project as a Citations Network</a></li>
+    <li><a class="dropdown-item" href="../articles/vignette_citations.network_df.html">Citations Network computed by codexplor</a></li>
     <li><a class="dropdown-item" href="../articles/vignette_construct_corpus.html">Turn a programming project into a corpus</a></li>
-    <li><a class="dropdown-item" href="../articles/vignette_get_doc_network_from_project.html">Turn a Programming Project Into a Citations Network</a></li>
   </ul>
 </li>
       </ul>
@@ -125,18 +126,14 @@ metrics are relative to :</p>
 <code>corpus.lines</code> dataframes) have a ‘<code>matches</code>’
 column, a specialized way of understand a line. These 1st matches are
 explained hereafter.</p>
-</div>
-<div class="section level4">
-<h4 id="about-the-1st-matches-operated">About the 1st matches operated<a class="anchor" aria-label="anchor" href="#about-the-1st-matches-operated"></a>
-</h4>
 <p><strong>1st matches operated.</strong> Given language(s),
 <code>construct_corpus</code> try to perform an initial identification
-within the content.</p>
-<blockquote>
-<p>By default, these 1st matches are supposed to be the function names,
-for functions defined within a file.</p>
-</blockquote>
-<p>Thus, <code>construct_corpus</code> rely on some default patterns,
+within the content. By default, these 1st matches are supposed to be the
+function names, as soon as a function is defined within a file. For
+example, if a <code>pol  &lt;- function</code> is defined within a file,
+the <code>matches</code> corresponding entry will be
+<code>'pol'</code>.</p>
+<p><code>construct_corpus</code> rely on some default patterns,
 associated with the supported languages.</p>
 </div>
 <div class="section level4">

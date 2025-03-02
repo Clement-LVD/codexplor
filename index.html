@@ -36,8 +36,9 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/manage_igraph_object.html">Helper functions to create and filter igraph objects</a></li>
+    <li><a class="dropdown-item" href="articles/vignette_analyse_citations_network_from_project.html">Analyze a Programming Project as a Citations Network</a></li>
+    <li><a class="dropdown-item" href="articles/vignette_citations.network_df.html">Citations Network computed by codexplor</a></li>
     <li><a class="dropdown-item" href="articles/vignette_construct_corpus.html">Turn a programming project into a corpus</a></li>
-    <li><a class="dropdown-item" href="articles/vignette_get_doc_network_from_project.html">Turn a Programming Project Into a Citations Network</a></li>
   </ul>
 </li>
       </ul>
@@ -69,6 +70,7 @@
 <p>You can install the development version of codexplor with</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"clement-LVD/codexplor"</span><span class="op">)</span></span></code></pre></div>
+<p>The default settings of <code>codexplor</code> are optimized for analyzing a project in <img src="https://img.shields.io/badge/R-black" alt="R"> language. Planned languages are : R, Python, JavaScript, Java, C, Cpp</p>
 <hr>
 </div>
 <div class="section level3">
@@ -80,11 +82,15 @@
 <span></span>
 <span> <span class="co"># 1) Construct a corpus and a Citations network</span></span>
 <span>  <span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span><span class="st">"R/"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
-<span>   <span class="co"># return a corpus.list object with 2 corpus.line, 1 corpus.nodelist &amp; 1 citations.network</span></span></code></pre></div>
+<span>   <span class="co"># return a corpus.list object with 4 data.frames :</span></span>
+<span>  <span class="co"># =&gt; 2 corpus.line</span></span>
+<span>  <span class="co"># =&gt; 1 corpus.nodelist </span></span>
+<span>  <span class="co"># =&gt; 1 citations.network</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># 2) Produce an interactive dataviz'</span></span>
-<span><span class="va">dataviz</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span>title_h1 <span class="op">=</span> <span class="st">"codexplor"</span>,subtitle_h2 <span class="op">=</span> <span class="st">"graph of internal dependancies"</span></span>
-<span>                                     , graph_igraph <span class="op">=</span> <span class="va">net</span><span class="op">$</span><span class="va">citations.network</span><span class="op">)</span> </span></code></pre></div>
+<span><span class="va">dataviz</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">citations.network</span></span>
+<span>, title_h1 <span class="op">=</span> <span class="st">"codexplor"</span></span>
+<span>, subtitle_h2 <span class="op">=</span> <span class="st">"graph of internal dependancies"</span> <span class="op">)</span> </span></code></pre></div>
 <p><img src="reference/figures/force_network.png" width="100%"></p>
 <blockquote>
 <p>These dataviz are useful for pinpointing where to start a polishing loop, identifying all the functions impacted by upcoming changes, […] or assessing the impact of a new dev loop on the project’s complexity.</p>
@@ -144,31 +150,31 @@
 <h3 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
 </h3>
 <p><em>WIP</em> [🔧🔨]</p>
-<p><code>codexplor</code> offers functions that are dedicated to analyze a programming project, accordingly to several subanalysis tools. <code>codexplor</code> also offers helper functions, e.g., for create and filter a network with the <code>igraph</code> package.</p>
+<p><code>codexplor</code> offers functions that are dedicated to analyze a programming project, accordingly to several subanalysis tools.</p>
 <table class="table">
 <colgroup>
 <col width="50%">
 <col width="50%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">Analyze a programming project</th>
-<th align="left">Helper functions</th>
+<th align="left">Reporting on a programming project</th>
+<th align="left">Underlying functions</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Construct a network of internal dependancies : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html">vignette of <code>get_text_network_from_project</code></a>
+<td align="left">Construct a network of internal dependancies from a programming project folder path(s) and/or github repo(s) : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">vignette of <code>get_doc_network_from_project()</code></a>
 </td>
-<td align="left">Construct a corpus : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette of <code>construct_corpus</code></a>
+<td align="left">Construct a corpus : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette of <code>construct_corpus()</code></a>
 </td>
 </tr>
 <tr class="even">
 <td align="left"></td>
-<td align="left">Manage and filter <code>igraph</code> object : <a href="https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html">vignette of helper functions for igraph object</a>
+<td align="left">Understand the citations.network of internal dependancies : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html">vignette of <code>citations.network</code> <code>dataframe</code></a>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The default settings of <code>codexplor</code> are optimized for analyzing a project in <img src="https://img.shields.io/badge/R-black" alt="R"> language.</p>
+<p><code>codexplor</code> also offers helper functions, e.g., for create and filter a network with the <code>igraph</code> package, see the <a href="https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html">vignette of helper functions for igraph object and dataviz</a></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
