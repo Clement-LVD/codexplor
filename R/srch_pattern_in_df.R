@@ -23,11 +23,7 @@
 #'   \item{\code{content}}{`character` The text column designed by the user.}
 #'   \item{\code{match}}{`character` The matched text on this line, `NA` if there is no match.}
 #' }
-#' @examples
-#' #xxx todo xxx Analysing the func of the package, assuming you have installed it :
-#' # Return : a dataframe of links, according to - default - pattern
 #' @seealso \code{\link{readlines_in_df}}
-#' @export
 srch_pattern_in_df <- function(df, content_col_name = "content"
 
        ,pattern = "(^| \\.|\\b)([\\.A-Za-z0-9_]+)(?=\\s*(?:<-)\\s*function)"

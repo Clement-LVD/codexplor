@@ -10,58 +10,100 @@
 #' @return A dataframe of class 'corpus.list'.
 .construct.corpus.list <- function(corpus, df_to_add = NULL, names_of_df_to_add = NULL, ...) {
 
-  # If a df is about to be added: just append it
-  # but verify names 1st : all object quit these functions with names
+  # 1) add additionnal df if there is a df_to_add element
 if (!is.null(df_to_add)) {
 
-if(length(names(df_to_add)) > 0){
+  # get old names
 old_names <- names(corpus)
-corpus <- append(corpus, df_to_add)  # Append directly
-names(corpus) <- c(old_names, names(df_to_add))
-    }
 
-if(length(names(df_to_add)) == 0){ # we want names !
-    stopifnot("A valid vector of name(s) of the same length than the vector of data.frame(s) is passed to .construct.corpus.list, to append a df to a corpus.list"
-              , length(names_of_df_to_add) == length(df_to_add))
+ # we verify if it's a named list (supposed to define each names)
+if(length(names(df_to_add)) > 0){
+  names_new_df <- names(df_to_add)
 
     }
+
+if(length(names(df_to_add)) == 0){ # Controlling for names
+stopifnot("To append a df to a corpus.list, you should provide :
+- A vector of name(s) with same length than the vector of data.frame(s).
+- Or a named list of data.frame"
+ , length(names_of_df_to_add) == length(df_to_add))
+
+  #we have a valid vector of names AND df_to_add of the same length.
+  names_new_df <- names_of_df_to_add
+  }
+
+corpus <- append(corpus, df_to_add)  # Append directly the df_to_add
+names(corpus) <- c(old_names, names_new_df) #complete names
+
 }
 
-# here the user have to define a class accordingly :
-  #### TESTS
+  # we'll apply a class corpus.list => before we have boring checks
+# 2) GLOBAL CHECK ON THE LIST of df
   has_citations_network <- any(sapply(corpus, function(df) inherits(df, "citations.network")))
 
-  all_have_file_path <- all(sapply(corpus, function(df) {
-    is_network <- any(grepl("network", class(df)))  # TRUE if class contains "network"
-
-    if (is_network | "file_path" %in% colnames(df)) {
-      return(TRUE)
-    } else {
-      warning(paste(
-        "A 'file_path' column is missing in a dataframe of your corpus.list",
-        "(classes:", paste(class(df), collapse = ", "), ")"
-      ))
-      return(FALSE)
-    }
-  }))
-
-  # Stop execution if some non-network dataframes are missing 'file_path'
-  if (!all_have_file_path) {
-    stop("Some dataframe(s) of your corpus.list don't have a 'file_path' column (except networks)")
-  }
+  # 3) individuals checks are in a function hereafter
+  # return a boolean if all checks are ok
+if(!check_dataframes_for_corpus.list(corpus)) stop("There is an integrity problem within the corpus.list")
 
   ### CREATING A CORPUS LIST OBJECT
   corpus <- structure(
     corpus,
     class = c("list", "corpus.list"),
     date_creation = Sys.Date(),
-    citations_network = has_citations_network,
+    have_citations_network = has_citations_network,
     ...
   )
 
   return(corpus)
 }
 
+#### Check individuals dataframe of a list ####
+check_dataframes_for_corpus.list <- function(df_list
+  , omit_class = "citations.network"
+
+   , required_columns = c("file_path","content", "n_char", "n_word")) {
+
+
+  # return a logical - column are existing or not - and a warning if not
+  check_columns <- function(df) {
+
+    if (!is.null(omit_class) && any(inherits(df, omit_class))) { return(TRUE) }
+
+    checks_cols <- required_columns %in% colnames(df) # boolean for each col'
+
+    if(all(checks_cols)) return(TRUE)
+
+    missing_cols <- required_columns[!checks_cols]
+    warning("Missing column(s) in a corpus.list dataframe (classes : "
+            , paste0(class(df), collapse = " & ") , ")\n => "
+            , paste0(collapse = ", ", missing_cols))
+    return(FALSE)
+  }
+
+  # Here list all the individuals tests on the df
+  tests_list <- list(
+    "A corpus. dataframe must have the required columns" = \(df) check_columns(df),
+    "A corpus. dataframe should not be empty" = \(df) nrow(df) > 0
+  )
+
+  # apply these tests_list elements on a df =>
+  apply_tests <- function(df) {sapply(tests_list, function(f) f(df))}
+
+  #apply on each dataframes
+  results <- sapply(df_list, apply_tests)
+
+  # Vérifier si tous les tests passent
+  all_passed <- all(results)
+
+  # Affichage des erreurs si nécessaire
+  if (!all_passed) {
+    warning("Some dataframes failed the checks: "
+            , paste(names(df_list)[!results], collapse = " / ")
+            )
+  }
+
+  return(all_passed)
+}
 
 
 # corpus list contains dataframes

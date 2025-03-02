@@ -44,10 +44,6 @@ Read some files and answer the content readed in a df.
 Then try to extract a pattern
 and return the extracted text in a column of the returned df (NA meaning 'no match').
 }
-\examples{
-#xxx todo xxx Analysing the func of the package, assuming you have installed it :
-# Return : a dataframe of links, according to - default - pattern
-}
 \seealso{
 \code{\link{readlines_in_df}}
 }

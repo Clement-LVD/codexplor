@@ -37,7 +37,7 @@
 #' The returned list is tagged
 #' with the class *corpus.list*, and contains the following attributes:
 #' - `date_creation` : `Date` a Date indicating when the corpus list was created (as `Sys.Date()`).
-#' - `citations_network` : a `logical` indicating if a citations_network was processed
+#' - `have_citations_network` : a `logical` indicating if a network of internal dependancies was processed
 #' (construct_corpus don't return a citations_network so it will be set to  `FALSE`)
 #' - `languages_patterns` : a dataframe with the default pattern associated with the
 #'  requested languages, a subset of the `languages` parameters or entire list
@@ -88,18 +88,29 @@ corpus <- lapply(sequens_of_languages, function(i) {
   #defined hereafter for a single language
 })
 
+if(length(corpus[[1]] ) == 1 ){
+# low-level function return NA => high-level function will return a NA value
+  if(is.na(corpus[[1]])) warning("The corpus.list is a NA value ^^"); return(NA) #no corpus readed = ciao
+
+  warning("Elements are missing => create_corpus have failed to build a complete corpus.list of dataframes")
+  }
+
 # rbind each list according to their position
 combined <- do.call(mapply, c(FUN = function(...) rbind(...), corpus, SIMPLIFY = FALSE))
 # stockpile by names (default) when structures are coherent (here we have a proper structure definition)
+
 # add our global attributes of class corpus.list such as the language dictionnary used
-combined <- .construct.corpus.list(combined, languages_patterns = lang_dictionnary, folders = folders, repos = repos)
+combined <- .construct.corpus.list(combined
+                                   , languages_patterns = lang_dictionnary
+                                   , folders = folders
+                                   , repos = repos)
 
 #add class attributes and structure (optionnal doc' & methods heritated)
 
 return(combined)
 }
 
-
+# create a corpus for ONE language
 #### 1) create a corpus for a unique language ####
 create_corpus <- function(folders = NULL
                           , std_dictionnary_of_language
@@ -184,7 +195,7 @@ create_corpus <- function(folders = NULL
   corpus$codes <- .construct.corpus.lines(corpus$codes)
 
 
-  if(.verbose) cat("\nOK : Corpus created")
+  if(.verbose) cat("\nCorpus created")
 
   # return a basic list of df with all our col'
   return(corpus)
@@ -232,9 +243,11 @@ compute_nodelist <- function(df, group_col
    max_values_df <- by(df_filtered$comments, df_filtered[[group_col]], FUN = length)
 
    # convert into a df and add a proper "group_colname" before the merging
-   max_values_df <- data.frame(group_col = names(max_values_df), n_codelines = unlist(max_values_df))
+   max_values_df <- data.frame(group_col = names(max_values_df)
+                               , n_codelines = unlist(max_values_df))
 colnames(max_values_df)[[1]] <- group_col
-   # merge with nodelist : n_codelines added
+
+   # merge with nodelist : n_codelines added (total lines number)
    nodelist <- merge(nodelist, max_values_df, by = group_col, all.x = TRUE)
 
      }
@@ -245,9 +258,6 @@ if(!is.null(colname_content_to_concatenate)){
 
   files_content <- gather_df_lines(df, group_col, colname_content_to_concatenate)
   files_content <- unique(files_content)
-  # here : xxx must separe into another function  doing these grouped stats xxx
-  # f. ex. : example <- extract_nested_blocks_from_text(files_content$text[1])
-  #
   nodelist <- merge(all.x = T, nodelist, files_content, by = group_col )
 
 }
