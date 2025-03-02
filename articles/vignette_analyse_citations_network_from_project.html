@@ -35,7 +35,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/manage_igraph_object.html">Helper functions to create and filter igraph objects</a></li>
     <li><a class="dropdown-item" href="../articles/vignette_analyse_citations_network_from_project.html">Analyze a Programming Project as a Citations Network</a></li>
-    <li><a class="dropdown-item" href="../articles/vignette_citations.network_df.html">Citations Network computed by codexplor</a></li>
+    <li><a class="dropdown-item" href="../articles/vignette_citations.network_df_of_internal.dependencies.html">Citations Network of Internal Dependencies computed by codexplor</a></li>
     <li><a class="dropdown-item" href="../articles/vignette_construct_corpus.html">Turn a programming project into a corpus</a></li>
   </ul>
 </li>
@@ -53,8 +53,8 @@
 
 
 
-
-<div class="row">
+<link href="vignette_analyse_citations_network_from_project_files/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="vignette_analyse_citations_network_from_project_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><script src="vignette_analyse_citations_network_from_project_files/d3-4.5.0/d3.min.js"></script><script src="vignette_analyse_citations_network_from_project_files/forceNetwork-binding-0.4/forceNetwork.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Analyze a Programming Project as a Citations Network</h1>
@@ -84,24 +84,35 @@ find some files that <em>defines</em> a function, and the 2nd matches of
 these functions. Thus, links are beginning from the programming file
 that is calling a function =&gt; to the programming file where this
 function is defined. See <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette
-of <code>construct_corpus</code></a> for the 1st matches; and the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html">vignette
+of <code>construct_corpus</code></a> for the 1st matches; and the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html">vignette
 of the <code>citations.network</code> <code>dataframe</code></a> for the
 2nd matches.</p>
-<div class="section level3">
-<h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h3>
+<div class="section level4">
+<h4 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h4>
 <p>Given folders path(s) and/or github repo(s), compute a <em>citations
 network</em> of the functions with <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_doc_network_from_project()&amp;labelColor=yellow&amp;color=black" alt="."></p>
-<pre><code><span>    <span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span>repos <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tidyverse/stringr"</span>, <span class="st">"clement-lvd/codexplor"</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="co"># by default, codexplor deal with R project</span></span>
-<span>    </span></code></pre>
-<p>Then turn this edgelist into an interactive dataviz’ with
-<code>networkD3</code> :</p>
-<pre><code><span>    <span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">citations_network</span><span class="op">)</span></span>
-<span>    <span class="co"># Return an interactive dataviz' from networkD3</span></span></code></pre>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: codexplor</span></span>
+<span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span></span>
+<span>  repos <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tidyverse/stringr"</span>, <span class="st">"clement-lvd/codexplor"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Content is fixed by adding 2 closing separator(s) !</span></span>
+<span>        <span class="co"># by default, codexplor deal with R project</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">citations.network</span><span class="op">)</span></span></code></pre></div>
+<h2 id="example-1">networkD3<a class="anchor" aria-label="anchor" href="#example-1"></a>
+</h2>
+<div class="forceNetwork html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:432.632880098888px;"></div>
+<div style="position:floating; top:10px; left:10px; background:white; padding:10px; border:0px;">
+  <strong>Colors (indegree)</strong><br>
+</div>
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"links":{"source":[0,0,24,25,23,26,23,27,28,29,23,0,23,23,23,29,23,23,24,23,23,23,18,13,4,18,4,18,4,30,30,30,30,30,30,30,30,30,30,30,21,4,19,7,19,2,19,20,20,20,20,2,13,7,10,5,4,14,14,9,6,9,22,5,21,10,5,1,5,3,1,1,3,1,5,5,7,5,1,11,3,12,3,8,18,9,2,1,3,3,2,7,12,7,18,3,9,2,3,3,5,3,4,4,4,6,4,6,6,6,2,31,18,18,18,32,14,14,11,1,1,1,17,11,17,1,1,1,11,15,17,16,1,17,16,14,10,1,14,7,14,1,1,15,15,1,17,14,11,1,11,15,4,11,11,11,11,11,14,1,16,7,12,1,16,1,7,14,15,11,1,6,14,11,15,11,7,7,7,15,14,4,34,33,33,4,2,4,35,4,4,14,14,14,18,18,18,18,14,32,15,11,6,1,1,11,14,16,15,1,1,16,1,7,1,1,1,17,13,14,13,14,7,16,14,14,1,14,14,14,14,16,14,18,7,6,5,6,1,5,1,1],"target":[26,23,39,40,41,29,42,43,44,25,38,36,46,24,47,31,27,27,27,27,27,27,19,19,19,19,19,19,19,48,48,48,48,48,48,48,48,48,48,48,45,45,45,45,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,1,1,1,1,1,1,1,11,49,49,49,15,15,15,16,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,14,14,14,14,14,14,14,14,14,14,7,50,50,50,50,50,50,50,50,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37],"colour":["#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#91E07C","#91E07C","#91E07C","#91E07C","#91E07C","#91E07C","#91E07C","#91E07C","#91E07C","#91E07C","#91E07C","#00FF00","#00FF00","#00FF00","#00FF00","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#91E07C","#91E07C","#91E07C","#91E07C","#91E07C","#91E07C","#91E07C","#91E07C","#91E07C","#91E07C","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000"]},"nodes":{"name":["https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/get_doc_network_from_project.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/detect.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/flatten.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/sort.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/view.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/modifiers.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/subset.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/split.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/pad.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/wrap.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/equal.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/extract.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/unique.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/interp.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/replace.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/locate.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/match.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/count.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/trunc.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/c.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/case.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/dup.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/conv.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/construct_corpus.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/separate_commented_lines.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/get_regex_from_vector.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/compute_doc_network_from_corpus.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/utils.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/get_networkd3_from_igraph.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/get_citations_network_from_df.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/compat-types-check.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/str_extract_all_to_tidy_df.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/word.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/remove.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/escape.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/trim.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/methods_stats_corpus.list.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/utils.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/lines_metrics.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/find_comments_positions.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/fix_escaping.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/gather_df_lines.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/get_def_regex_by_language.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/get_github_raw_filespath.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/get_igraph_from_df.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/compat-purrr.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/readlines_in_df.R","https://raw.githubusercontent.com/clement-lvd/codexplor/main/R/srch_pattern_in_df.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/compat-obj-type.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/length.R","https://raw.githubusercontent.com/tidyverse/stringr/main/R/sub.R"],"group":[0,7,0,0,0,62,0,1,0,0,0,1,0,0,10,3,1,0,0,7,0,0,0,1,1,1,1,6,0,1,60,1,0,0,0,0,1,42,1,1,1,1,1,1,1,4,1,1,11,3,8],"nodesize":[3,34,7,10,15,10,9,14,1,4,3,16,3,4,26,9,8,6,13,3,4,2,1,11,2,1,1,1,1,2,11,1,2,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},"options":{"NodeID":"name","Group":"indegree","colourScale":"d3.scaleLinear().domain([0, 21, 41, 62]).range([\"green\", \"grey\", \"black\", \"red\"]).clamp(true);","fontSize":7,"fontFamily":"serif","clickTextSize":17.5,"linkDistance":50,"linkWidth":"function(d) { return 1; }","charge":-200,"opacity":1,"zoom":true,"legend":false,"arrows":true,"nodesize":true,"radiusCalculation":" Math.sqrt(d.nodesize)+6","bounded":true,"opacityNoHover":0.9,"clickAction":null}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span>        <span class="co"># Return an interactive dataviz' from networkD3</span></span></code></pre></div>
 <p>By default, <code>get_networkd3_from_igraph</code> will colorize the
 nodes accordingly to their indegrees. This will reveal the local
-dependancies of the programming project (i.e. functions used by others
+dependencies of the programming project (i.e. functions used by others
 files of the project).</p>
 <div class="float">
 <img src="../reference/figures/example_net3d_dataviz.png" style="width:90.0%" alt="."><div class="figcaption">.</div>
@@ -117,9 +128,9 @@ see that one of the <code>codexplor</code> file actually rely on a
 should try to color nodes accordingly to their outdegrees, in order to
 reveal the high-level files of the project.</p>
 </div>
-<div class="section level3">
-<h3 id="crafting-your-own-corpus-with-codexplor">Crafting your own corpus with codexplor<a class="anchor" aria-label="anchor" href="#crafting-your-own-corpus-with-codexplor"></a>
-</h3>
+<div class="section level4">
+<h4 id="crafting-your-own-corpus-with-codexplor">Crafting your own corpus with codexplor<a class="anchor" aria-label="anchor" href="#crafting-your-own-corpus-with-codexplor"></a>
+</h4>
 <p>Depending on the languages you have to manage, you’ll want to tweak
 the ‘pattern’ used for match a function definition. [xxx link to provide
 xxx]</p>
