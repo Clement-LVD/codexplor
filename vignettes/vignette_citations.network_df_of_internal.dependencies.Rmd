@@ -23,7 +23,7 @@ This Vignette give a basic understanding of a `dataframe` of the `corpus.list` c
 
 A citations network have theoretical network properties, not covered here (e.g., a citations network is a directed network).
 
-**`citations.network` of `internal.dependencies`**. Regarding the network computed by `codexplor` with programming files, a type of interesting `citations.network` is the network of `internal.dependencies` within a programming project computed by `codexplor::get_doc_network_from_project()`. In such a network, links are beginning from the programming file that is calling a function => to the programming file where this function is defined.
+**`citations.network` of `internal.dependencies`**. Regarding the network computed by `codexplor` with programming files, a type of interesting `citations.network` is the network of `internal.dependencies` within a programming project computed by `codexplor::get_doc_network_from_project()`. In such a network, links start from the programming file that calls a function and point to the programming file where the function is defined.
 
 ### Network of `internal.dependencies`
 One of the `dataframe` of the `corpus.list` have additional classes `citations.network` and `internal.dependencies`. In this network :
@@ -33,7 +33,7 @@ One of the `dataframe` of the `corpus.list` have additional classes `citations.n
 
 `codexplor` default pattern are aimed to extract functions names from the files of a *programming* project (see next section). Thus, in a typical programming project :
 
-- Nodes are files, so mostly - or only - functions ;
+- Nodes are files, supposed to be mostly - or only - functions ;
 - °← Indegree of a file is "how many files are calling the function(s) defined in this file" ;
 - °→ Outdegree of a file is "how many functions are used by this file" ; 
 - ⟲ Auto-mentioning refear to 'recursivity' (`codexplor` default is to filter autolinks).
@@ -58,13 +58,12 @@ knitr::kable(match_2, row.names = T)
 
 ```
 
+Thus, the 1st matches of `codexplor::construct_corpus` reveal some files that *defines* a function, and the 2nd matches of `compute_doc_network_from_corpus` show the files that used these functions.
 
 ### Function call that are non-supported during 2nd matches
-Some way of writing a program are not fully supported, such as :
+Some way of writing a program are not fully supported during the 2nd matches, such as the instantiated Python methods, i.e. `obj.method()`.
 
-**Python instantiated methods.** The instantiated Python methods are not supported yet by `get_doc_network_from_project`, i.e. `obj.method()`.
-
-If we take this Python code sample, the 1st match is realized by `construct_corpus`, but `get_doc_network_from_project` don't perform a 2nd match.
+**Python instantiated methods.** If we take this Python code sample, the 1st match is realized by `construct_corpus`, but we can't perform a 2nd match with `codexplor` for now.
 
 ```{r eval = F }
 #  Consider the Python code herafter 
