@@ -48,7 +48,7 @@ library(codexplor)
 ## Returned list of data.frame
 **corpus.list of dataframes.** `construct_corpus` return a `corpus.list` object, a standard `list` of 3 dataframes, i.e. 2 `corpus.lines` and 1 `corpus.nodelist` dataframes. 
 
-Complementary or specific analyzes will add others dataframes to the list, e.g., a network of internal dependancies (classes `citations.network` & `dataframe`).
+Complementary analyzes will add others dataframes to the list, e.g., a network of internal dependencies (classes `citations.network` & `dataframe`).
 
 **Text-mining metrics.** 
 Each lines and each documents are associated with text-mining metrics (e.g., number of characters, words count). Within the returned `list` of dataframes, these metrics are relative to : 
@@ -58,8 +58,8 @@ Each lines and each documents are associated with text-mining metrics (e.g., num
 
 The `codes` `dataframe` (one of the `corpus.lines` dataframes) have several additionnal columns, such as :
 
-- a `commented` column with comments at the end of a codeline
-- and a '`matches`' column that contain functions names (see hereafter). 
+- a `commented` column with inlines comments at the end of a codeline
+- and a '`matches`' column that contain functions names, in order to indicate the lines where an internally-exposed function is defined (see hereafter). 
 
 ## 1st matches operated
 Given language(s), `construct_corpus` try to perform an initial identification within the content. By default, these 1st matches are supposed to be the function names, as soon as a function is defined within a file. For example, if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry will be `'pol'`.
@@ -78,13 +78,13 @@ steps <- data.frame(Step = c("Filter files path/url and read only files with cor
 )
  , Examples = c('e.g., "R" language is associated with "`.R`" files and a default filtering pattern (e.g., files with "`test-`", "`vignettes`", "`Rcheck`" in their full names are excluded)'   
 , 'e.g., R & Python files have commented lines that begin with "`#`", others languages commented lines with "`/*`" and sometimes have commented blocks on several lines'
-, "e.g., extract unexposed content accordingly to the block of code delimitor such as '{' and '}' for the R language"
+, "e.g., extract exposed content - within the project - that is note under a block of code delimitor such as '{' and '}' for the R language"
   , 'e.g.,  default patterns of the 1st matches are crafted for extract the names of the functions defined within a file, e.g., for the R programming language : the name is before a "`<- function(`" instruction'
 )
 
 )
 
-rownames(steps) <- c("1. Read", "2. Preprocess" ,"3. Identify", "3. Qualify")
+rownames(steps) <- c("1. Read", "2. Preprocess" ,"3. Identify", "4. Qualify")
 
 colnames(steps) <- c("Steps", "Examples of pattern associated with language(s)")
 
@@ -100,4 +100,4 @@ knitr::kable(steps,row.names = T )
 > For example, by default, the names of functions defined in the files of the project are extracted during the 1st match operated by `construct_corpus`. If a file have several function defined *within the same line*, such a line will be duplicated in the returned `df`, with several 'matches' entries along these lines and an identical line_number. 
 
 ### Helper functions that rely on `construct_corpus`
-`codexplor::get_doc_network_from_project` is an helper 'high-level' function that perform an analysis of the internal dependancies by performing a 2nd matches from the 1st matches of `construct_corpus`, e.g., see the [vignette about analyzing a network of internal dependancies with `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html).
+`codexplor::get_doc_network_from_project` is an helper 'high-level' function that perform an analysis of the internal dependencies by performing a 2nd matches from the 1st matches of `construct_corpus`, e.g., see the [vignette about analyzing a network of internal dependencies with `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html).

@@ -12,7 +12,7 @@
 #' @param ... Additional arguments passed to `srch_pattern_in_files_get_df`
 #' (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).
 #'
-#' @return A `list` of 3 `data.frame` containing the corpus of collected files and a first nodelist :
+#' @return A `list` of 3 `data.frame` containing the corpus of collected files and a nodelist :
 #' `codes` and `comments` (`data.frame` with class `corpus.lines`) and `nodelist` (`data.frame` with class `corpus.nodelist`)
 #' The data frames typically includes columns such as:
 #' \describe{
@@ -24,9 +24,11 @@
 #'   \item{\code{n_char_wo_space}}{`integer` Number of characters - without spacing - in a line (or the file for the `corpus.nodelist` df)}
 #'   \item{\code{n_word}}{`integer` Number of words in a line  (or the file for the `corpus.nodelist` df).}
 #'   \item{\code{n_vowel}}{`integer` Number of voyel in a line (or the file for the `corpus.nodelist` df).}
-#'   \item{\code{n_total_lines}}{`integer` (only in the `corpus.nodelist` df) Number of lines of the files (with and without comments).}
+#'   \item{\code{comments}}{`logical` `TRUE` if the entire line is commented. Set to `FALSE` for the `codes` df and `TRUE` for the `comments` df.}
+#'   \item{\code{commented}}{`integer` (only in the `codes` df) Content of the inlines comments (NA if there is no inline comments).}
 #'   \item{\code{n_total_lines}}{`integer` (only in the `corpus.nodelist` df) Number of clines of the files *without comments*.}
 #'   \item{\code{matches}}{`character` (only in the `codes` df) A 1st matched text, extracted accordingly to a pattern.}
+#'   \item{\code{commented}}{`character` (only in the `codes` df) A 1st matched text, extracted accordingly to a pattern.}
 #' }
 #'
 #' @details
@@ -221,6 +223,9 @@ colnames(corpus$codes)[colnames(corpus$codes) == "result"] = "exposed_unested_co
   corpus$codes <- srch_pattern_in_df( df =  corpus$codes
                                       , content_col_name = "exposed_unested_content"
                                       ,  pattern = lang_desired$fn_regex )
+
+  # remove this col' if we don't need it
+  corpus$codes$exposed_unested_content <- NULL
 
   #### 6) finally construct the corpus.lines object ####
   corpus$codes <- .construct.corpus.lines(corpus$codes)

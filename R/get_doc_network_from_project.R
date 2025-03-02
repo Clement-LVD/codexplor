@@ -32,7 +32,7 @@
 #' @seealso
 #'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html}
 #'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html}
-#'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html}
+#'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html}
 #' @export
 get_doc_network_from_project <- function(folders = NULL, repos = NULL, languages = "R", ...){
 

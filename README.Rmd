@@ -60,7 +60,7 @@ library(codexplor)
  # 1) Construct a corpus and a Citations network
   net <- get_doc_network_from_project("R/", languages = "R")
    # return a corpus.list object with 4 data.frames :
-  # => 2 corpus.line
+  # => 2 corpus.lines
   # => 1 corpus.nodelist 
   # => 1 citations.network
 ```
@@ -174,7 +174,7 @@ Other languages are planned.
 
 *WIP* [🔧🔨]
 
-`codexplor` offers functions that are dedicated to analyze a programming project, accordingly to several subanalysis tools. 
+`codexplor` offers functions that are dedicated to analyze a programming project, accordingly to subanalysis tools. 
 
 ```{r table-functions, echo=FALSE}
 
@@ -186,7 +186,7 @@ fn_segmentation <- data.frame(
                 )
 , 
 "Low-level" = c( "Construct a corpus : [vignette of `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html)", 
-              "Middle-level" = "Understand the citations.network of internal dependancies : [vignette of `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html)" 
+              "Middle-level" = "Understand the citations.network of internal dependancies : [vignette of `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependancies.html)" 
                  
   
                               )

@@ -133,7 +133,7 @@ returned_network[[order_fn_called_colname]] <- ave(
 )
 
 # set a valid class (in order to pass tests from .construct.corpus.list)
-returned_network <- structure(returned_network, class = c( "citations.network", "data.frame") )
+returned_network <- structure(returned_network, class = c( "citations.network", 'internal.dependancies', "data.frame") )
 
 #### Update the attributes and return an augmented corpus ####
 corpus <- .construct.corpus.list(corpus = corpus, df_to_add = list(citations.network = returned_network ) )

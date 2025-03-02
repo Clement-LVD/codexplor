@@ -18,21 +18,23 @@ This Vignette give a basic understanding of the `corpus.list` `list` of datafram
 
 > `codexplor::get_doc_network_from_project` add a `citations.network` `data.frame`to the basic `corpus.list` returned by `codexplor::construct_corpus`.
 
-The 1st matches of `codexplor::construct_corpus` let us find some files that *defines* a function, and the 2nd matches of `compute_doc_network_from_corpus` are the files that used these functions. Thus, links are beginning from the programming file that is calling a function => to the programming file where this function is defined. See [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html) for the 1st matches; and the [vignette of the `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df.html) for the 2nd matches.
+The 1st matches of `codexplor::construct_corpus` let us find some files that *defines* a function, and the 2nd matches of `compute_doc_network_from_corpus` are the files that used these functions. Thus, links are beginning from the programming file that is calling a function => to the programming file where this function is defined. See [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html) for the 1st matches; and the [vignette of the `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html) for the 2nd matches.
 
 ### Example
 Given folders path(s) and/or github repo(s), compute a *citations network* of the functions with ![.](https://img.shields.io/badge/{Method}-bold?style=flat&logoColor=black&logoSize=2&label=get_doc_network_from_project()&labelColor=yellow&color=black)
 
-
-        net <- get_doc_network_from_project(repos =  c("tidyverse/stringr", "clement-lvd/codexplor"))
+```{r construct-corpus-and-network, echo=TRUE}
+require(codexplor)
+net <- get_doc_network_from_project(
+  repos =  c("tidyverse/stringr", "clement-lvd/codexplor"))
         # by default, codexplor deal with R project
-        
-Then turn this edgelist into an interactive dataviz' with `networkD3` :
 
-        get_networkd3_from_igraph(net$citations_network)
+get_networkd3_from_igraph(net$citations.network)
         # Return an interactive dataviz' from networkD3
+```
 
-By default, `get_networkd3_from_igraph` will colorize the nodes accordingly to their indegrees. This will reveal the local dependancies of the programming project (i.e. functions used by others files of the project). 
+
+By default, `get_networkd3_from_igraph` will colorize the nodes accordingly to their indegrees. This will reveal the local dependencies of the programming project (i.e. functions used by others files of the project). 
 
 ![.](../man/figures/example_net3d_dataviz.png){width=90%}
 

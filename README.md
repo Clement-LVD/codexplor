@@ -47,7 +47,7 @@ library(codexplor)
  # 1) Construct a corpus and a Citations network
   net <- get_doc_network_from_project("R/", languages = "R")
    # return a corpus.list object with 4 data.frames :
-  # => 2 corpus.line
+  # => 2 corpus.lines
   # => 1 corpus.nodelist 
   # => 1 citations.network
 ```
@@ -124,7 +124,7 @@ Other languages are planned.
 *WIP* \[🔧🔨\]
 
 `codexplor` offers functions that are dedicated to analyze a programming
-project, accordingly to several subanalysis tools.
+project, accordingly to subanalysis tools.
 
 | Reporting on a programming project | Underlying functions |
 |:---|:---|
