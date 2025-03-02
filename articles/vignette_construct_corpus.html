@@ -79,9 +79,9 @@ protocol to turn a programming project into a text-mining corpus, given
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 1) Construct a corpus without a Citations network</span></span>
-<span>  <span class="va">corp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span><span class="st">"R/"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in construct_corpus("R/", languages = "R"): The corpus.list is a NA</span></span>
-<span><span class="co">#&gt; value ^^</span></span>
+<span>  <span class="va">corp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span><span class="st">"./R/"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in construct_corpus("./R/", languages = "R"): The corpus.list is a NA</span></span>
+<span><span class="co">#&gt; value</span></span>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corp</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt;  logi NA</span></span></code></pre></div>

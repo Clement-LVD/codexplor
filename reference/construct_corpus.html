@@ -133,7 +133,7 @@ The data frames typically includes columns such as:</p><dl><dt><code>file_path</
 <li><p>Both local paths and GitHub URLs can be combined in the final output.</p></li>
 </ul><p>The returned list is tagged
 with the class <em>corpus.list</em>, and contains the following attributes:</p><ul><li><p><code>date_creation</code> : <code>Date</code> a Date indicating when the corpus list was created (as <code><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date()</a></code>).</p></li>
-<li><p><code>citations_network</code> : a <code>logical</code> indicating if a citations_network was processed
+<li><p><code>have_citations_network</code> : a <code>logical</code> indicating if a network of internal dependancies was processed
 (construct_corpus don't return a citations_network so it will be set to  <code>FALSE</code>)</p></li>
 <li><p><code>languages_patterns</code> : a dataframe with the default pattern associated with the
 requested languages, a subset of the <code>languages</code> parameters or entire list
