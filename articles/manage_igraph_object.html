@@ -69,10 +69,12 @@
 <p><code>codexplor</code> offering functions to manage
 <code>igraph</code> object : turn an edgelist into an igraph object,
 filter some nodes accordingly to their indegrees or outdegrees, etc.</p>
-<p>Once you have a network as the network of internal dependancies
-within a project computed by <code>get_text_network_from_project</code>
-(see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_text_network_from_project.html">vignette
-of <code>get_text_network_from_project</code></a>)</p>
+<p>Once you have a network such as the network of internal dependancies
+within a project computed by
+<code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code> (see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">vignette
+of <code>get_doc_network_from_project()</code></a>).</p>
+<pre><code><span>    <span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="st">"clement-lvd/codexplor"</span><span class="op">)</span></span>
+<span>    <span class="co"># by default, codexplor deal with R project</span></span></code></pre>
 <ul>
 <li>
 <p>Turn your Citations Network into a directed <code>igraph</code>
@@ -80,17 +82,23 @@ network with <img src="https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat
 <pre><code><span>  <span class="va">netig</span> <span class="op">&lt;-</span> <span class="fu">codexplor</span><span class="fu">::</span><span class="fu"><a href="../reference/get_igraph_from_df.html">get_igraph_from_df</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span> </span></code></pre>
 </li>
 <li>
-<p>Once you have an igraph object, zoom on a precise function with
-<img src="https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=filter_igraph_egonetwork()&amp;labelColor=green&amp;color=black" alt="."></p>
+<p>Once you have an igraph object, extract the egonetwork of a
+precise function with <img src="https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=filter_igraph_egonetwork()&amp;labelColor=green&amp;color=black" alt="."></p>
 <pre><code><span><span class="va">filter_net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_igraph_egonetwork.html">filter_igraph_egonetwork</a></span><span class="op">(</span><span class="va">netig</span>, <span class="st">"an_interesting_function"</span><span class="op">)</span></span></code></pre>
 </li>
 <li>
 <p>Turn it into an interactive <code>networkD3</code> dataviz with
 <img src="https://img.shields.io/badge/%7BnetworkD3%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_networkd3_from_igraph()&amp;labelColor=green&amp;color=black" alt="."></p>
-<pre><code><span>    <span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">filter_net</span><span class="op">)</span></span></code></pre>
+<pre><code>    dataviz_filtered &lt;- get_networkd3_from_igraph(filter_net)
+
+    or pass a citations.network data.frame
+    dataviz &lt;- get_networkd3_from_igraph(net$citations.network)</code></pre>
 </li>
-<li><p>And tweak the legend of the interactive <code>networkD3</code>
-dataviz with <img src="https://img.shields.io/badge/%7BnetworkD3%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=move_networkd3_legend()&amp;labelColor=green&amp;color=black" alt="."></p></li>
+<li>
+<p>And tweak the legend of the interactive <code>networkD3</code>
+dataviz with <img src="https://img.shields.io/badge/%7BnetworkD3%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=move_networkd3_legend()&amp;labelColor=green&amp;color=black" alt="."></p>
+<pre><code><span>    <span class="fu"><a href="../reference/move_networkd3_legend.html">move_networkd3_legend</a></span><span class="op">(</span><span class="va">dataviz</span>, x_pos <span class="op">=</span> <span class="fl">0.4</span>, y_pos <span class="op">=</span> <span class="fl">1</span>, orientation <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span></span></code></pre>
+</li>
 <li><p>…</p></li>
 </ul></main>
 </div>
