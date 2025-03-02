@@ -80,23 +80,9 @@
 <span></span>
 <span> <span class="co"># 1) Construct a corpus and a Citations network</span></span>
 <span>  <span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span><span class="st">"R/"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
-<span></span>
-<span>  <span class="co"># since this readme is executed from a repo we ask for a "local" folder path ("R/")</span></span>
-<span>  <span class="co"># At home you'll have the same results with the codexplor github repo : </span></span>
-<span>  <span class="co"># net &lt;-  get_doc_network_from_project(repos = "clement-LVD/codexplor", languages = "R")</span></span>
-<span></span>
-<span>   <span class="co"># return a corpus.list object with 2 corpus.line, 1 corpus.nodelist &amp; 1 citations.network</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">net</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; List of 4</span></span>
-<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    1175 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    946 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ nodelist         :Classes 'corpus.nodelist' and 'data.frame': 22 obs. of  7 variables:</span></span>
-<span><span class="co">#&gt;  $ citations.network:Classes 'citations.network' and 'data.frame':   20 obs. of  5 variables:</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
-<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-02"</span></span>
-<span><span class="co">#&gt;  - attr(*, "citations_network")= logi TRUE</span></span></code></pre></div>
+<span>   <span class="co"># return a corpus.list object with 2 corpus.line, 1 corpus.nodelist &amp; 1 citations.network</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Produce an interactive dataviz'</span></span>
+<code class="sourceCode R"><span><span class="co"># 2) Produce an interactive dataviz'</span></span>
 <span><span class="va">dataviz</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span>title_h1 <span class="op">=</span> <span class="st">"codexplor"</span>,subtitle_h2 <span class="op">=</span> <span class="st">"graph of internal dependancies"</span></span>
 <span>                                     , graph_igraph <span class="op">=</span> <span class="va">net</span><span class="op">$</span><span class="va">citations.network</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="reference/figures/force_network.png" width="100%"></p>
@@ -172,7 +158,7 @@
 <tr class="odd">
 <td align="left">Construct a network of internal dependancies : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html">vignette of <code>get_text_network_from_project</code></a>
 </td>
-<td align="left">Construct a corpus : <a href="https://clement-lvd.github.io/codexplor/articles/construct_a_corpus.html">vignette of <code>construct_corpus</code></a>
+<td align="left">Construct a corpus : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette of <code>construct_corpus</code></a>
 </td>
 </tr>
 <tr class="even">
