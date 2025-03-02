@@ -42,25 +42,11 @@ library(codexplor)
 
  # 1) Construct a corpus and a Citations network
   net <- get_doc_network_from_project("R/", languages = "R")
-
-  # since this readme is executed from a repo we ask for a "local" folder path ("R/")
-  # At home you'll have the same results with the codexplor github repo : 
-  # net <-  get_doc_network_from_project(repos = "clement-LVD/codexplor", languages = "R")
-
    # return a corpus.list object with 2 corpus.line, 1 corpus.nodelist & 1 citations.network
-  str(net, max.level = 1) 
-#> List of 4
-#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    1175 obs. of  10 variables:
-#>  $ comments         :Classes 'corpus.lines' and 'data.frame':    946 obs. of  9 variables:
-#>  $ nodelist         :Classes 'corpus.nodelist' and 'data.frame': 22 obs. of  7 variables:
-#>  $ citations.network:Classes 'citations.network' and 'data.frame':   20 obs. of  5 variables:
-#>  - attr(*, "class")= chr [1:2] "list" "corpus.list"
-#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-02"
-#>  - attr(*, "citations_network")= logi TRUE
 ```
 
 ``` r
-# Produce an interactive dataviz'
+# 2) Produce an interactive dataviz'
 dataviz <- get_networkd3_from_igraph(title_h1 = "codexplor",subtitle_h2 = "graph of internal dependancies"
                                      , graph_igraph = net$citations.network) 
 ```
