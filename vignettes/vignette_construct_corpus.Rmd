@@ -39,8 +39,9 @@ library(codexplor)
     corpus_py <- construct_corpus(repos = "secdev/scapy"
     , languages = "Python", .verbose = T) #take a while
 
-### Returned list of data.frame
+**Supported languages.** By default `construct_corpus` try to read and analyze .R files. One or several `languages` could be indicated. Recognized languages are `r paste0(names(get_def_regex_by_language()) , collapse = ", ")`. 
 
+### Returned list of data.frame
 **corpus.list of dataframes.** `construct_corpus` return a `corpus.list` object, a standard `list` of 3 dataframes, i.e. 2 `corpus.lines` and 1 `corpus.nodelist` dataframes. 
 
 Complementary or specific analyzes will add others dataframes to the list, e.g., a network of internal dependancies (classes `citations.network` & `dataframe`).
@@ -51,26 +52,30 @@ Each lines and each documents are associated with text-mining metrics (e.g., num
 - a specific line for the `corpus.lines` dataframes
 - or to the entire document for the `corpus.nodelist` `dataframe` .
 
-**1st matches operated.** `construct_corpus` try to perform a 1st identification within the content, accordingly to some default patterns : *this behavior is crafted specifically for analyze a programming project*. 
+The `codes` `dataframe` (one of the `corpus.lines` dataframes) have a '`matches`' column, a specialized way of understand a line. These 1st matches are explained hereafter.
 
-The defaults patterns try to extract the functions names as soon as they are defined within a file of the corpus. Further post-processing of the text allow us, for example, to identify if it's an exposed or inner function (*aka* nested function, defined within a function definition).
+### About the 1st matches operated
+**1st matches operated.** Given language(s), `construct_corpus` try to perform an initial identification within the content. 
 
-These first matches and first metrics are intended to be the first standardized step before applying deeper analyses, e.g., see the [vignette of `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html).
+> By default, these 1st matches are supposed to be the function names, for functions defined within a file.
+
+Thus, `construct_corpus` rely on some default patterns, associated with the supported languages. 
+
 
 ### Default patterns associated with languages
-For a given language, a default standardized patterns is used for :
+For each of the required language(s), a default standardized patterns is used for :
 
 ```{r table-operations-construct-corpus, echo=FALSE}
 
-steps <- data.frame(Step = c("Read the files of the local folder(s) and/or github public repo(s)"  
+steps <- data.frame(Step = c("Filter files path/url accordingly to some patterns and read only the selected programming files with the correct extension(s)"  
 , "Separate commented lines from *codes lines*"                    
- , "Extract a 1st matched-text within the *codes lines*"
-, "Refine and post-process the *codes lines* accordingly to the canonical way of writing a program"
+ , "Perform 1st matches within the *codes lines* (default try to extract the functions names)"
+, "Refine and post-process the *codes lines*"
 )
  , Examples = c('e.g., "R" language is associated with "`.R`" files and a filtering pattern (e.g., files with "`test-`", "`vignettes`", "`Rcheck`" in their full names are excluded)'   
 , 'e.g., R & Python files generally have each commented lines that begin with "`#`", others languages should have commented blocks separeted on several lines (e.g., `/* [comments] */`'
   , 'e.g.,  default patterns are crafted for extract the names of the functions defined within a file, e.g., for the R programming language : the name is before a "`<- function(`" instruction'
-, "e.g., delimitors of a block of code within a .R file are '{' and `}`"
+, "e.g., specifical delimitors of a block of code such as '{' and '}' within a .R file are used to determine if a given 1st match - function definition - is included within another function definition as an inner function (*aka* nested function)"
 )
 
 )
@@ -81,9 +86,13 @@ knitr::kable(steps,row.names = T )
 
 ```
 
-By default `construct_corpus` try to analyze .R files. One or several `languages` could be passed to `construct_corpus` (e.g., "R", "Python", "Javascript").
+> These default patterns are crafted specifically to analyze a programming project in a standardized way, given a programming language.
 
 ### About duplicated lines associated with 1st matches
 `construct_corpus` perform a 1st text-extraction, accordingly to a pattern. During this 1st matches extraction, lines are duplicated *when several matches are found on the same line*. 
 
 > For example, by default, the names of functions defined in the files of the project are extracted during the 1st match operated by `construct_corpus`. If a file have several function defined *within the same line*, such a line will be duplicated in the returned `df`, with several 'matches' entries along these lines and an identical line_number. 
+
+### Helper functions that rely on `construct_corpus`
+
+`codexplor::get_doc_network_from_project` is an helper 'high-level' function that perform an analysis of the internal dependancies by constructing a corpus and perform a 2nd matches and network analyses, e.g., see the [vignette of `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_get_doc_network_from_project.html).
