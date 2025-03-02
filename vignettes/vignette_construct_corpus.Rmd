@@ -18,11 +18,11 @@ knitr::opts_chunk$set(
 # Constructing your corpus
 `codexplor` offer a standardized protocol to turn a programming project into a text-mining corpus, by providing to `construct_corpus` language(s) to analyze, folder(s) path(s) and/or github repo(s).
 
-```{r eval = T}
+```{r example, eval = T}
 library(codexplor)
 
  # 1) Construct a corpus and a Citations network
-  net <- get_doc_network_from_project(folders = ("~"), languages = "R")
+  net <- get_doc_network_from_project(repos = "clement-LVD/codexplor", languages = "R")
    # return a corpus.list object with 2 corpus.line, 1 corpus.nodelist & 1 citations.network
 
   # since this readme is executed from a repo we ask for a "local" folder path ("R/")
