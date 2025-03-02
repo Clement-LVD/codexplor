@@ -71,7 +71,7 @@ programming files and turn a programming project into a text-mining
 corpus, given :</p>
 <ul>
 <li>folder(s) path(s) and/or github repo(s) to analyze ;</li>
-<li>and programming language(s) (default is <code>'R'</code>).</li>
+<li>and programming language(s) - default is <code>'R'</code>.</li>
 </ul>
 <p><strong>Supported languages.</strong> By default
 <code>construct_corpus</code> try to read and analyze .R files, but one
@@ -88,8 +88,8 @@ languages are R, Python, JavaScript, Java, C, Cpp.</p>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corp</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 3</span></span>
-<span><span class="co">#&gt;  $ codes   :Classes 'corpus.lines' and 'data.frame': 1221 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ comments:Classes 'corpus.lines' and 'data.frame': 961 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ codes   :Classes 'corpus.lines' and 'data.frame': 1440 obs. of  12 variables:</span></span>
+<span><span class="co">#&gt;  $ comments:Classes 'corpus.lines' and 'data.frame': 929 obs. of  9 variables:</span></span>
 <span><span class="co">#&gt;  $ nodelist:Classes 'corpus.nodelist' and 'data.frame':  23 obs. of  7 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
 <span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-02"</span></span>
@@ -125,8 +125,14 @@ metrics are relative to :</p>
 <code>dataframe</code> .</li>
 </ul>
 <p>The <code>codes</code> <code>dataframe</code> (one of the
-<code>corpus.lines</code> dataframes) have a ‘<code>matches</code>’
-column. These 1st matches are explained hereafter.</p>
+<code>corpus.lines</code> dataframes) have several additionnal columns,
+such as :</p>
+<ul>
+<li>a <code>commented</code> column with comments at the end of a
+codeline</li>
+<li>and a ‘<code>matches</code>’ column that contain functions names
+(see hereafter).</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="st-matches-operated">1st matches operated<a class="anchor" aria-label="anchor" href="#st-matches-operated"></a>
@@ -139,32 +145,19 @@ defined within a file, the 1st <code>matches</code> corresponding entry
 will be <code>'pol'</code>.</p>
 <p>In order to extract the functions names as a 1st matches,
 <code>construct_corpus</code> rely on some default patterns, associated
-with the supported languages (see the next section).</p>
-<p><strong>About duplicated lines associated with 1st matches.</strong>
-<code>construct_corpus</code> perform a 1st text-extraction, accordingly
-to a pattern. During this 1st matches extraction, lines are duplicated
-<em>when several matches are found on the same line</em>. This case
-where several matches are performed on the same lines - and so lines are
-duplicated - trigger a <code>warning</code>.</p>
-<blockquote>
-<p>For example, by default, the names of functions defined in the files
-of the project are extracted during the 1st match operated by
-<code>construct_corpus</code>. If a file have several function defined
-<em>within the same line</em>, such a line will be duplicated in the
-returned <code>df</code>, with several ‘matches’ entries along these
-lines and an identical line_number.</p>
-</blockquote>
+with the supported languages.</p>
 </div>
 <div class="section level2">
 <h2 id="default-patterns-associated-with-languages">Default patterns associated with languages<a class="anchor" aria-label="anchor" href="#default-patterns-associated-with-languages"></a>
 </h2>
-<p>For each of the required language(s), a default standardized patterns
-is used for :</p>
+<p>For each of the required language(s), default standardized patterns
+are used for craft a corpus from folder path(s) or github repo name(s)
+:</p>
 <table class="table">
 <colgroup>
-<col width="0%">
-<col width="33%">
-<col width="65%">
+<col width="3%">
+<col width="43%">
+<col width="52%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
@@ -173,58 +166,78 @@ is used for :</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
-<td align="left">Filter files path/url accordingly to some patterns and
-read only the selected programming files with the correct
+<td align="left">1. Read</td>
+<td align="left">Filter files path/url and read only files with correct
 extension(s)</td>
 <td align="left">e.g., “R” language is associated with “<code>.R</code>”
-files and a filtering pattern (e.g., files with “<code>test-</code>”,
-“<code>vignettes</code>”, “<code>Rcheck</code>” in their full names are
-excluded)</td>
+files and a default filtering pattern (e.g., files with
+“<code>test-</code>”, “<code>vignettes</code>”, “<code>Rcheck</code>” in
+their full names are excluded)</td>
 </tr>
 <tr class="even">
-<td align="left">2</td>
-<td align="left">Separate commented lines from <em>codes lines</em>
+<td align="left">2. Preprocess</td>
+<td align="left">
+<strong>Separate commented lines</strong> from
+<em>codes lines</em>
 </td>
-<td align="left">e.g., R &amp; Python files generally have each
-commented lines that begin with “<code>#</code>”, others languages
-should have commented blocks separeted on several lines (e.g.,
-<code>/* [comments] */</code>
-</td>
+<td align="left">e.g., R &amp; Python files have commented lines that
+begin with “<code>#</code>”, others languages commented lines with
+“<code>/*</code>” and sometimes have commented blocks on several
+lines</td>
 </tr>
 <tr class="odd">
-<td align="left">3</td>
-<td align="left">Perform 1st matches within the <em>codes lines</em>
-(default try to extract the functions names)</td>
-<td align="left">e.g., default patterns are crafted for extract the
-names of the functions defined within a file, e.g., for the R
-programming language : the name is before a
-“<code>&lt;- function(</code>” instruction</td>
+<td align="left">3. Identify</td>
+<td align="left">
+<strong>Identify the unested - exposed -
+content</strong> within the <em>codes lines</em>, in order to exclude
+the inner functions (<em>aka</em> nested functions) from the matches of
+the next step</td>
+<td align="left">e.g., extract unexposed content accordingly to the
+block of code delimitor such as ‘{’ and ‘}’ for the R language</td>
 </tr>
 <tr class="even">
-<td align="left">4</td>
-<td align="left">Refine and post-process the <em>codes lines</em>
-</td>
-<td align="left">e.g., specifical delimitors of a block of code such as
-‘{’ and ‘}’ within a .R file are used to determine if a given 1st match
-- function definition - is included within another function definition
-as an inner function (<em>aka</em> nested function)</td>
+<td align="left">3. Qualify</td>
+<td align="left">
+<strong>Extract functions names</strong> within the
+<em>codes lines</em> (1st matches)</td>
+<td align="left">e.g., default patterns of the 1st matches are crafted
+for extract the names of the functions defined within a file, e.g., for
+the R programming language : the name is before a
+“<code>&lt;- function(</code>” instruction</td>
 </tr>
 </tbody>
 </table>
 <blockquote>
 <p>These default patterns are crafted specifically to analyze a
-programming project in a standardized way, given a programming
-language.</p>
+programming project in a standardized way, given the programming
+language(s) of the project.</p>
+</blockquote>
+</div>
+<div class="section level2">
+<h2 id="about-duplicated-lines-associated-with-1st-matches">About duplicated lines associated with 1st matches<a class="anchor" aria-label="anchor" href="#about-duplicated-lines-associated-with-1st-matches"></a>
+</h2>
+<p><code>construct_corpus</code> perform a 1st text-extraction,
+accordingly to a pattern. During this 1st matches extraction, lines are
+duplicated <em>when several matches are found on the same line</em>.
+This case where several matches are performed on the same lines - and so
+lines are duplicated - trigger a <code>warning</code>.</p>
+<blockquote>
+<p>For example, by default, the names of functions defined in the files
+of the project are extracted during the 1st match operated by
+<code>construct_corpus</code>. If a file have several function defined
+<em>within the same line</em>, such a line will be duplicated in the
+returned <code>df</code>, with several ‘matches’ entries along these
+lines and an identical line_number.</p>
 </blockquote>
 <div class="section level3">
 <h3 id="helper-functions-that-rely-on-construct_corpus">Helper functions that rely on <code>construct_corpus</code><a class="anchor" aria-label="anchor" href="#helper-functions-that-rely-on-construct_corpus"></a>
 </h3>
 <p><code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code> is an helper
 ‘high-level’ function that perform an analysis of the internal
-dependancies by performing a 2nd matches directly from the 1st matches
-of <code>construct_corpus</code>, e.g., see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">vignette
-of <code>get_doc_network_from_project</code></a>.</p>
+dependancies by performing a 2nd matches from the 1st matches of
+<code>construct_corpus</code>, e.g., see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">vignette
+about analyzing a network of internal dependancies with
+<code>get_doc_network_from_project</code></a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

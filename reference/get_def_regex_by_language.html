@@ -79,8 +79,11 @@ for one or more specified programming languages.</p>
 <dt><code>commented_line_char</code></dt>
 <dd><p><code>character</code> The pattern symbolizing a commented line, i.e. content is commented after that pattern.</p></dd>
 
-<dt><code>delim_pair</code></dt>
+<dt><code>delim_pair_comments_block</code></dt>
 <dd><p><code>character</code> list indicating the - open and close - characters that symbolizes a multi-lines comment, in addition to the <code>commented_line_char</code> one-liner syntax.</p></dd>
+
+<dt><code>delim_pair_nested_codes</code></dt>
+<dd><p><code>character</code> list indicating the - open and close - characters that symbolizes a multi-lines block of code.</p></dd>
 
 <dt><code>pattern_to_exclude </code></dt>
 <dd><p><code>character</code> <code>The pattern of typical programming files to exclude from the analyses, e.g., "\\.Rcheck|test-|vignettes" for the R language.} \item{\code{local_file_ext}}{</code>character<code>The typical programming file extension turned into a regex, by pasting</code>"$"<code>to the end of</code>file_extension` value.</p></dd>
@@ -98,13 +101,15 @@ Language names are case-insensitive.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">fn_def</span> <span class="op">&lt;-</span> <span class="fu">get_def_regex_by_language</span><span class="op">(</span><span class="st">"Python"</span>, <span class="st">"R"</span> ,  <span class="st">"C"</span>, <span class="st">"JavaScript"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">fn_def</span><span class="op">)</span> ; <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">fn_def</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "R"          "Python"     "JavaScript" "C"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fn_regex           : chr "(^| \\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:&lt;-)\\s*function)"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_extension     : chr ".R"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ commented_line_char: chr "\\s?#"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ delim_pair         : logi NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pattern_to_exclude : chr "\\.Rcheck|test-|vignettes"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ local_file_ext     : chr ".R$"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fn_regex                 : chr "(^| \\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:&lt;-)\\s*function)"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_extension           : chr ".R"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ commented_line_char      : chr "#"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ delim_pair_comments_block: logi NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pattern_to_exclude       : chr "\\.Rcheck|test-|vignettes"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ delim_pair_nested_codes  : Named chr "\\}"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "names")= chr "\\{"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ local_file_ext           : chr ".R$"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
