@@ -53,13 +53,13 @@ Complementary analyzes will add others dataframes to the list, e.g., a network o
 **Text-mining metrics.** 
 Each lines and each documents are associated with text-mining metrics (e.g., number of characters, words count). Within the returned `list` of dataframes, these metrics are relative to : 
 
-- a specific line for the `corpus.lines` dataframes
-- or to the entire document for the `corpus.nodelist` `dataframe` .
+- a line for the `corpus.lines` dataframes
+- the entire document for the `corpus.nodelist` `dataframe` .
 
-The `codes` `dataframe` (one of the `corpus.lines` dataframes) have several additionnal columns, such as :
+The `codes` `dataframe` (one of the `corpus.lines` dataframes) have more columns, such as :
 
-- a `commented` column with inlines comments at the end of a codeline
-- and a '`matches`' column that contain functions names, in order to indicate the lines where an internally-exposed function is defined (see hereafter). 
+- a `commented` column (inline comment at the end of a codeline or `NA`)
+- and a `matches` column that contain functions names, in order to indicate the lines where an internally-exposed function is defined (see hereafter). 
 
 ## 1st matches operated
 Given language(s), `construct_corpus` try to perform an initial identification within the content. By default, these 1st matches are supposed to be the function names, as soon as a function is defined within a file. For example, if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry will be `'pol'`.

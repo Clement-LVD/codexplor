@@ -28,14 +28,10 @@ Thus, the nodes of a `citations.network` `data.frame` are the programming files 
 > A citations network have theoretical network properties, not covered here (e.g., a citations network is a directed network). 
 
 ### Network of `internal.dependencies`
-A type of interesting `citations.network` is the network of `internal.dependencies` within a programming project : this `data.frame` of the `corpus.list` have additional classes `citations.network` and `internal.dependencies`. In this network :
+A type of interesting `citations.network` is the network of `internal.dependencies` within a programming project. This `data.frame` of the `corpus.list` have additional classes `citations.network` and `internal.dependencies`. In this network :
 
 - Nodes are the programming files, like any other `citations.network`. 
-- Links start from the programming file that calls a function and point to the programming file where the function is defined.
-
-**Explaining a `citations.network` of `internal.dependencies`.** `codexplor` default pattern are aimed to extract functions names from the files of a *programming* project (see next section). Thus, in a typical programming project :
-
-- ° Nodes are files, supposed to be mostly - or only - functions ;
+- A link start from a programming file that calls a function and point to the programming file where the function is defined.
 - °← Indegree of a file is "how many files are calling the function(s) defined in this file" ;
 - °→ Outdegree of a file is "how many functions are used by this file" ; 
 - ⟲ Auto-mentioning refear to 'recursivity' (`codexplor` default is to filter autolinks).
@@ -67,7 +63,7 @@ Thus, the 1st matches of `codexplor::construct_corpus` reveal some files that *d
 ### Function call that are non-supported during 2nd matches
 Some way of writing a program are not fully supported during the 2nd matches.
 
-**Python instantiated methods.** If we take this Python code sample, the 1st match is realized by `construct_corpus`, but we can't perform a 2nd match with `codexplor` on the instantiated Python methods, i.e. `obj.method()`.
+**Python instantiated methods.** If we take this Python code sample hereafter, the 1st match is realized by `construct_corpus`, but `codexplor` can't match the instantiated Python methods, i.e. `obj.method()`.
 
 ```{r eval = F }
 #  Consider the Python code herafter 
