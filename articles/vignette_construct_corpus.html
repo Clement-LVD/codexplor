@@ -88,11 +88,11 @@ languages are R, Python, JavaScript, Java, C, Cpp.</p>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corp</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 3</span></span>
-<span><span class="co">#&gt;  $ codes   :Classes 'corpus.lines' and 'data.frame': 1442 obs. of  11 variables:</span></span>
-<span><span class="co">#&gt;  $ comments:Classes 'corpus.lines' and 'data.frame': 932 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ codes   :Classes 'corpus.lines' and 'data.frame': 1427 obs. of  11 variables:</span></span>
+<span><span class="co">#&gt;  $ comments:Classes 'corpus.lines' and 'data.frame': 912 obs. of  9 variables:</span></span>
 <span><span class="co">#&gt;  $ nodelist:Classes 'corpus.nodelist' and 'data.frame':  23 obs. of  7 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
-<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-02"</span></span>
+<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-03"</span></span>
 <span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi FALSE</span></span>
 <span><span class="co">#&gt;  - attr(*, "languages_patterns")=List of 1</span></span>
 <span><span class="co">#&gt;  - attr(*, "repos")= chr "clement-LVD/codexplor"</span></span></code></pre></div>
@@ -109,12 +109,13 @@ corpus_py &lt;- construct_corpus(repos = "secdev/scapy"
 </h2>
 <p><strong>corpus.list of dataframes.</strong>
 <code>construct_corpus</code> return a <code>corpus.list</code> object,
-a standard <code>list</code> of 3 dataframes, i.e. 2
+a standard <code>list</code> of 3 dataframes : 2
 <code>corpus.lines</code> and 1 <code>corpus.nodelist</code>
 dataframes.</p>
 <p>Complementary analyzes will add others dataframes to the list, e.g.,
 a network of internal dependencies (classes
-<code>citations.network</code> &amp; <code>dataframe</code>).</p>
+<code>citations.network</code>, <code>internal.dependencies</code> &amp;
+<code>data.frame</code>).</p>
 <p><strong>Text-mining metrics.</strong> Each lines and each documents
 are associated with text-mining metrics (e.g., number of characters,
 words count). Within the returned <code>list</code> of dataframes, these
@@ -237,7 +238,7 @@ lines and an identical line_number.</p>
 <p><code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code> is an helper
 ‘high-level’ function that perform an analysis of the internal
 dependencies by performing a 2nd matches from the 1st matches of
-<code>construct_corpus</code>, e.g., see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">vignette
+<code>construct_corpus</code>, e.g., see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html">vignette
 about analyzing a network of internal dependencies with
 <code>get_doc_network_from_project</code></a>.</p>
 </div>
