@@ -98,24 +98,15 @@ here (e.g., a citations network is a directed network).</p>
 <h3 id="network-of-internal-dependencies">Network of <code>internal.dependencies</code><a class="anchor" aria-label="anchor" href="#network-of-internal-dependencies"></a>
 </h3>
 <p>A type of interesting <code>citations.network</code> is the network
-of <code>internal.dependencies</code> within a programming project :
-this <code>data.frame</code> of the <code>corpus.list</code> have
-additional classes <code>citations.network</code> and
+of <code>internal.dependencies</code> within a programming project. This
+<code>data.frame</code> of the <code>corpus.list</code> have additional
+classes <code>citations.network</code> and
 <code>internal.dependencies</code>. In this network :</p>
 <ul>
 <li>Nodes are the programming files, like any other
 <code>citations.network</code>.</li>
-<li>Links start from the programming file that calls a function and
-point to the programming file where the function is defined.</li>
-</ul>
-<p><strong>Explaining a <code>citations.network</code> of
-<code>internal.dependencies</code>.</strong> <code>codexplor</code>
-default pattern are aimed to extract functions names from the files of a
-<em>programming</em> project (see next section). Thus, in a typical
-programming project :</p>
-<ul>
-<li>° Nodes are files, supposed to be mostly - or only - functions
-;</li>
+<li>A link start from a programming file that calls a function and point
+to the programming file where the function is defined.</li>
 <li>°← Indegree of a file is “how many files are calling the function(s)
 defined in this file” ;</li>
 <li>°→ Outdegree of a file is “how many functions are used by this file”
@@ -178,9 +169,9 @@ these functions.</p>
 <p>Some way of writing a program are not fully supported during the 2nd
 matches.</p>
 <p><strong>Python instantiated methods.</strong> If we take this Python
-code sample, the 1st match is realized by <code>construct_corpus</code>,
-but we can’t perform a 2nd match with <code>codexplor</code> on the
-instantiated Python methods, i.e. <code>obj.method()</code>.</p>
+code sample hereafter, the 1st match is realized by
+<code>construct_corpus</code>, but <code>codexplor</code> can’t match
+the instantiated Python methods, i.e. <code>obj.method()</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">#  Consider the Python code herafter </span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>class A<span class="sc">:</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    def <span class="fu">method</span>(self)<span class="sc">:</span></span>

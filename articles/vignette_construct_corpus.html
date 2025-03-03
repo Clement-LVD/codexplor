@@ -121,17 +121,16 @@ are associated with text-mining metrics (e.g., number of characters,
 words count). Within the returned <code>list</code> of dataframes, these
 metrics are relative to :</p>
 <ul>
-<li>a specific line for the <code>corpus.lines</code> dataframes</li>
-<li>or to the entire document for the <code>corpus.nodelist</code>
+<li>a line for the <code>corpus.lines</code> dataframes</li>
+<li>the entire document for the <code>corpus.nodelist</code>
 <code>dataframe</code> .</li>
 </ul>
 <p>The <code>codes</code> <code>dataframe</code> (one of the
-<code>corpus.lines</code> dataframes) have several additionnal columns,
-such as :</p>
+<code>corpus.lines</code> dataframes) have more columns, such as :</p>
 <ul>
-<li>a <code>commented</code> column with inlines comments at the end of
-a codeline</li>
-<li>and a ‘<code>matches</code>’ column that contain functions names, in
+<li>a <code>commented</code> column (inline comment at the end of a
+codeline or <code>NA</code>)</li>
+<li>and a <code>matches</code> column that contain functions names, in
 order to indicate the lines where an internally-exposed function is
 defined (see hereafter).</li>
 </ul>
