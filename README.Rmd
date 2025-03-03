@@ -58,7 +58,7 @@ Return an interactive dataviz' of the internal dependancies within `codexplor` :
 library(codexplor)
 
  # 1) Construct a corpus and a Citations network
-  net <- get_doc_network_from_project("R/", languages = "R")
+  corpus <- get_doc_network_from_project("R/", languages = "R", )
    # return a corpus.list object with 4 data.frames :
   # => 2 corpus.lines
   # => 1 corpus.nodelist 
@@ -67,7 +67,7 @@ library(codexplor)
 
 ```{r compute-network-of-func,  results='asis', echo=TRUE}
 # 2) Produce an interactive dataviz'
-dataviz <- get_networkd3_from_igraph(net$citations.network
+dataviz <- get_networkd3_from_igraph(corpus$citations.network
 , title_h1 = "codexplor"
 , subtitle_h2 = "graph of internal dependancies" ) 
 ```
@@ -99,7 +99,6 @@ features <- data.frame(Feature = c(
 
 , "![.](https://img.shields.io/badge/{🚧}-bold?style=flat&logoColor=black&logoSize=2&label=Line-level metrics&labelColor=grey&color=green)"
  
-# "➕ Document-level metrics"
 ) #2 : documement-level text-mining
            
         , Global_insights = c( "Appreciate global complexity and figure out the pig picture" 

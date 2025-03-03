@@ -1,7 +1,7 @@
 #' Construct a list of 3 Data Frames of Lines Readed From Files
 #' Within a Local GitHub Repositories and/or Local Folders
 #'
-#' Given a Language and a folder path(s) and/or github repo(s)
+#' Given a Language, a folder path(s) and/or github repo(s)
 #' Return a `list` of 3 dataframes. List have an additionnal `corpus.list` class. The 3 `df` are :
 #'  (1) `codes` lines and (2) `comments` lines, with text-metrics about each line;
 #' and (3) nodelist with global metrics over the files.
@@ -9,6 +9,7 @@
 #' @param languages `character`. Default = `"R"`. A character vector specifying the programming language(s) to include in the corpus.
 #' @param repos `character`. Default = `NULL`. A character vector of GitHub repository URLs or repository identifiers to extract files from (e.g., `"user/repo"`).
 #' @param .verbose `logical`. Default = `TRUE`. A logical used to silent the message in console.
+#' @param pattern_to_exclude `character`. Default = `NULL`. A character chain with a regex (used to filter out files path)
 #' @param ... Additional arguments passed to `srch_pattern_in_files_get_df`
 #' (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).
 #'
@@ -64,6 +65,7 @@ construct_corpus <- function(
 , languages = "R"
  , repos = NULL
 , .verbose = F
+, pattern_to_exclude = NULL
 , ...
 ){
 
@@ -86,7 +88,7 @@ corpus <- lapply(sequens_of_languages, function(i) {
 
   create_corpus(folders = folders,  repos= repos
                 , std_dictionnary_of_language = lang_desired
-                , .verbose = .verbose, ...)
+                , .verbose = .verbose, pattern_to_exclude = pattern_to_exclude, ...)
   #defined hereafter for a single language
 })
 
@@ -118,6 +120,7 @@ create_corpus <- function(folders = NULL
                           , std_dictionnary_of_language
                           , repos = NULL
                           , .verbose = F
+                          , pattern_to_exclude = NULL
                           , ...){
 
   lang_desired <- std_dictionnary_of_language
@@ -126,7 +129,7 @@ create_corpus <- function(folders = NULL
   urls = NULL
   files_path = NULL
 
-  pattern_to_exclude = lang_desired$pattern_to_exclude
+  pattern_to_exclude = c(lang_desired$pattern_to_exclude, pattern_to_exclude)
 
   if(length(pattern_to_exclude) > 0) pattern_to_exclude <- paste0(pattern_to_exclude , collapse = "|")
 

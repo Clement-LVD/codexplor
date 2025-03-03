@@ -10,6 +10,7 @@ construct_corpus(
   languages = "R",
   repos = NULL,
   .verbose = F,
+  pattern_to_exclude = NULL,
   ...
 )
 }
@@ -21,6 +22,8 @@ construct_corpus(
 \item{repos}{\code{character}. Default = \code{NULL}. A character vector of GitHub repository URLs or repository identifiers to extract files from (e.g., \code{"user/repo"}).}
 
 \item{.verbose}{\code{logical}. Default = \code{TRUE}. A logical used to silent the message in console.}
+
+\item{pattern_to_exclude}{\code{character}. Default = \code{NULL}. A character chain with a regex (used to filter out files path)}
 
 \item{...}{Additional arguments passed to \code{srch_pattern_in_files_get_df}
 (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).}
@@ -46,7 +49,7 @@ The data frames typically includes columns such as:
 }
 }
 \description{
-Given a Language and a folder path(s) and/or github repo(s)
+Given a Language, a folder path(s) and/or github repo(s)
 Return a \code{list} of 3 dataframes. List have an additionnal \code{corpus.list} class. The 3 \code{df} are :
 (1) \code{codes} lines and (2) \code{comments} lines, with text-metrics about each line;
 and (3) nodelist with global metrics over the files.

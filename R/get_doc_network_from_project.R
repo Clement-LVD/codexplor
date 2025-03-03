@@ -6,7 +6,7 @@
 #' @param folders  `character` A string or list representing the path(s) of local folders path to read.
 #' @param repos  `character` A string or list representing the name(s) of github repos (e.g., 'tidyverse/stringr').
 #' @param languages `character`. Default = `"R"`. A character vector specifying the programming language(s) to include in the corpus.
-#' @param ... Parameters passed to `compute_doc_network_from_corpus()`. These parameters are
+#' @param ... Parameters passed to `add_doc_network_to_corpus()`. These parameters are
 #' - characters values, in order to add a prefix and a suffix to the pattern searched (e.g., `suffix_for_2nd_matches`)
 #' or changing the colnames (e.g., `file_path_from_colname`).
 #' - logical values, e.g., "`filter_egolink_within_a_file`" (default = `TRUE`)
@@ -40,7 +40,7 @@ get_doc_network_from_project <- function(folders = NULL, repos = NULL, languages
  # We will rename in the end
 corpus <- construct_corpus(folders = folders,   repos = repos, languages = languages)
 
-corpus <- compute_doc_network_from_corpus(corpus = corpus, ...)
+corpus <- add_doc_network_to_corpus(corpus = corpus, ...)
 
 # compute stats
 corpus <- add.stats.corpus.list(corpus)

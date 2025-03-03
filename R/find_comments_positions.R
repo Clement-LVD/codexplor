@@ -1,8 +1,8 @@
 ### V2
-# text_example = c("text with /* commented content */ and other commented stuff /* here */ and even /* comments */ in comments and /* comments that never ending"
+# texts = c("text with /* commented content */ and other commented stuff /* here */ and even /* comments */ in comments and /* comments that never ending"
 #                  , "second text with comment because of the previous never ending line", "and this is a commented line to */ with a little piece of code here !")
 #
-# find_comments_positions( text_example, delim_pair = c( "/*" = "*/" ) )
+# find_comments_positions( texts, delim_pair = c( "/*" = "*/" ) )
 
 # and we are ready for direct extraction
 #' @importFrom utils txtProgressBar setTxtProgressBar
@@ -12,7 +12,7 @@ find_comments_positions <- function(texts  , delim_pair = c("/*" = "*/"), .verbo
   if(length(delim_pair) > 1) stop('Several delimiters paired chars. passed ! You have to indicate a valid delim_pair such as c("/*" = "*/")')
 
   # we will replace Inf value by the total line to extract when returning a standard df :
-  replace_inf <- function( std_df, textt = texts ){ # varname are hardcoded : functions herafter creates these df with these names
+  replace_inf <- function( std_df, textt = texts ){
 
      std_df$start[std_df$start == -Inf] <- 0 #line with a -Inf become 0
 
@@ -24,29 +24,11 @@ find_comments_positions <- function(texts  , delim_pair = c("/*" = "*/"), .verbo
    return(std_df)
      }
 
-  # 1) BASE LEVEL function to get positions of a single pattern (open or close) # only one cell of text
-  get_positions <- function(pattern, text, type = "pattern", pair_name) {
-
-    pos <- gregexpr(pattern, text, fixed = TRUE)[[1]] # 1st element are the positionS
-    # search for a position of 1st caracter with 'pattern'
-    if (pos[1] != -1) { # and return a df :
-      return(data.frame(symb = rep(pair_name, length(pos)), #all these char are matched
-                        type = rep(type, length(pos)), # for the same type
-                        pos = pos, # and their respective position
-                        len = rep(nchar(pattern), length(pos)),
-# leng. of the pattern as a way to deduce end of citations or commented line
-                        stringsAsFactors = FALSE))
-    }
-
-    # Return an empty dataframe if no matches
-    return(data.frame(symb = character(0), type = character(0), pos = numeric(0), len = numeric(0), stringsAsFactors = FALSE))
-  }
-
-
   # 2) List delimiters : return a df of position with these char (type 'open' and 'close') # only one line of text
   get_open_close_patterns_positions <- function(text,
                                                 delim_pair = delim_pair) {
-    # Helper function to get positions of a single pattern (open or close)
+
+     # Helper function to get positions of a single pattern (open or close)
     get_positions <- function(pattern, text, type = "pattern", pair_name) {
 
       pos <- gregexpr(pattern, text, fixed = TRUE)[[1]]
@@ -68,13 +50,14 @@ find_comments_positions <- function(texts  , delim_pair = c("/*" = "*/"), .verbo
                         stringsAsFactors = FALSE))
     }
 
-    # Process each delimiter pair : each names() is an 'open'
+    # Process each delimiter pair : each names() is an 'open' char
     results <- lapply(names(delim_pair), function(pair_name) {
       open_pattern <- pair_name
-      close_pattern <- delim_pair[[pair_name]]
-      open_df <- get_positions(open_pattern, text, "open", pair_name)
-      close_df <- get_positions(close_pattern, text , "close", pair_name)
-      rbind(open_df, close_df) #modailty "open" and "close" are hardcoded herafter !
+      close_pattern <- delim_pair[[pair_name]] # select our closing char
+      open_df <- get_positions(open_pattern, text, "open", pair_name) # return a df of open char
+      close_df <- get_positions(close_pattern, text , "close", pair_name) # return a df of close char
+      rbind(open_df, close_df)
+      #modality "open" and "close" are hardcoded herafter !
     })
     # we have constructed a list of df (each row is an element of a delim_pair passed by the user )
     # Note that the symb column report for the opening character
@@ -85,12 +68,15 @@ find_comments_positions <- function(texts  , delim_pair = c("/*" = "*/"), .verbo
 
       return(res[order(res$pos), ]) #sort by position (column pos')
   }
-  # for figuring out what we are doing :
+  # we count the closing and opening char in a df :
   # positions_std_df <-  get_open_close_patterns_positions(texts[1], delim_pair)
 
-  ##3) We have to compute an interval from our previous df (only one line of text)
+  ##3) We have to compute an interval from our previous df of position (only one line of text)
 compute_intervals_for_a_line <- function(positions_std_df, symb ) {
-# ne a col symb for key, a start and end column ! from the previous func' for example
+# given a dataframe of positions with a "type' col for 'open' and 'close' char
+  # and a 'pos' numeric (position within vector) and a len for the length of the delimiter
+
+  # Must have a col symb (for key), a start and end column ! from the previous func'
 
   empty_df <-  data.frame(symb = character(0),  start = numeric(0),   end =  numeric(0),   stringsAsFactors = FALSE  )
 
@@ -118,7 +104,6 @@ closes <- positions_df[positions_df$type == "close", ] # update close positions_
   opens <- positions_df[positions_df$type == "open", ] # update open positions_df
   }
 
-
     # match start and ends for each pair :
     intervals_df <- data.frame(
       symb = opens$symb, # for example 2 identical symbols of opening !
@@ -126,22 +111,6 @@ closes <- positions_df[positions_df$type == "close", ] # update close positions_
       end = closes$pos + (closes$len - 1), #the 1st char is already included in "ends"
       stringsAsFactors = FALSE
     )
-
-    # optionnal : filter nested char (only useful for javascript ;( )
-# if(nrow(intervals_df) < 2) return(intervals_df)
-# # if there is 2 rows we should try to remove
-# # nested intervals : from the 2nd line of char. to the last one
-# nested_char_or_not <- c( FALSE # 1st line is non nested by essence
-#                           , sapply(2:nrow(intervals_df)
-#                                    , function(i){ # then we look from 2nd line to other :
-#
-#       i_line <- intervals_df[i, ] # identify the line
-#       previous_line <- intervals_df[i-1, ] #and previous line
-# nested <- i_line$start < previous_line$end &  i_line$end < previous_line$end
-# #return TRUE if start AND end of the line are before the end of the previous interval
-# if(nested) return(TRUE) ; return(FALSE) } ) )
-    # return(intervals_df[!nested_char_or_not,]) #filter out nested intervals
-
 
 return(intervals_df) #filter out nested intervals
 }
@@ -171,13 +140,6 @@ df  <- do.call(rbind,  lapply(seq_along(texts), function(i) {
 }) )
 
 if (.verbose) close(pb)
-
-  # # if nrow sup to 0 compute_intervals_for_a_line  reinforce that
-  #
-  # # Ajouter l'index du texte
-  # if (nrow(df) > 0) df$text_id <- i
-  #
-  # return(df) }) ) # ending do.call rbind
 
 # and finally we have missing lines : some have "Inf" and "-Inf" symbols
 # from the compute_intervals_for_a_line function that symbolize a never ending commented line
@@ -220,6 +182,6 @@ returned_df <- rbind(df, do.call(rbind, lapply(valid_missing_ids, function(i)
 
 returned_df <- returned_df[order(returned_df$text_id, returned_df$start, na.last = TRUE), ] # reorder
 
-return(replace_inf(returned_df))
+return(replace_inf(returned_df)) #in utils
 }
 

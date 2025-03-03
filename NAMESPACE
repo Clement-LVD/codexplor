@@ -2,7 +2,7 @@
 
 S3method(print,corpus.lines)
 S3method(print,corpus.nodelist)
-export(compute_doc_network_from_corpus)
+export(add_doc_network_to_corpus)
 export(construct_corpus)
 export(filter_igraph_egonetwork)
 export(fix_escaping)

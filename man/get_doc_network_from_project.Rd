@@ -18,7 +18,7 @@ get_doc_network_from_project(
 
 \item{languages}{\code{character}. Default = \code{"R"}. A character vector specifying the programming language(s) to include in the corpus.}
 
-\item{...}{Parameters passed to \code{compute_doc_network_from_corpus()}. These parameters are
+\item{...}{Parameters passed to \code{add_doc_network_to_corpus()}. These parameters are
 \itemize{
 \item characters values, in order to add a prefix and a suffix to the pattern searched (e.g., \code{suffix_for_2nd_matches})
 or changing the colnames (e.g., \code{file_path_from_colname}).

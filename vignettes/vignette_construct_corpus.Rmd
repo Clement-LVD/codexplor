@@ -46,9 +46,9 @@ library(codexplor)
 
 
 ## Returned list of data.frame
-**corpus.list of dataframes.** `construct_corpus` return a `corpus.list` object, a standard `list` of 3 dataframes, i.e. 2 `corpus.lines` and 1 `corpus.nodelist` dataframes. 
+**corpus.list of dataframes.** `construct_corpus` return a `corpus.list` object, a standard `list` of 3 dataframes : 2 `corpus.lines` and 1 `corpus.nodelist` dataframes. 
 
-Complementary analyzes will add others dataframes to the list, e.g., a network of internal dependencies (classes `citations.network` & `dataframe`).
+Complementary analyzes will add others dataframes to the list, e.g., a network of internal dependencies (classes `citations.network`, `internal.dependencies` & `data.frame`).
 
 **Text-mining metrics.** 
 Each lines and each documents are associated with text-mining metrics (e.g., number of characters, words count). Within the returned `list` of dataframes, these metrics are relative to : 
@@ -100,4 +100,4 @@ knitr::kable(steps,row.names = T )
 > For example, by default, the names of functions defined in the files of the project are extracted during the 1st match operated by `construct_corpus`. If a file have several function defined *within the same line*, such a line will be duplicated in the returned `df`, with several 'matches' entries along these lines and an identical line_number. 
 
 ### Helper functions that rely on `construct_corpus`
-`codexplor::get_doc_network_from_project` is an helper 'high-level' function that perform an analysis of the internal dependencies by performing a 2nd matches from the 1st matches of `construct_corpus`, e.g., see the [vignette about analyzing a network of internal dependencies with `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html).
+`codexplor::get_doc_network_from_project` is an helper 'high-level' function that perform an analysis of the internal dependencies by performing a 2nd matches from the 1st matches of `construct_corpus`, e.g., see the [vignette about analyzing a network of internal dependencies with `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html).

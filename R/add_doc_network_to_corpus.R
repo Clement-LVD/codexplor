@@ -53,7 +53,7 @@
 #' @examples {
 #' # Example with local folder path
 #' corpus <- construct_corpus(folders =  "~", languages = "R")
-#' corpus <- compute_doc_network_from_corpus(corpus)
+#' corpus <- add_doc_network_to_corpus(corpus)
 #' # Return a list of df (1st one is supposed to be an edgelist)
 #' # (from the file where a function is call => to the file were defined)
 #' }
@@ -62,7 +62,7 @@
 #'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html}
 #' @importFrom stats ave
 #' @export
-compute_doc_network_from_corpus <- function(corpus
+add_doc_network_to_corpus <- function(corpus
 
    , prefix_for_2nd_matches = "\\b" # text before the 1st match
 
