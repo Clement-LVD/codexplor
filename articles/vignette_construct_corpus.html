@@ -74,9 +74,9 @@ corpus, given :</p>
 <li>and programming language(s) - default is <code>'R'</code>.</li>
 </ul>
 <p><strong>Supported languages.</strong> By default
-<code>construct_corpus</code> try to read and analyze .R files, but one
-or several <code>languages</code> could be indicated. Recognized
-languages are R, Python, JavaScript.</p>
+<code>construct_corpus</code> will analyze .R files, but one or several
+<code>languages</code> could be indicated. Recognized languages are R,
+Python, JavaScript.</p>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
@@ -107,31 +107,39 @@ corpus_py &lt;- construct_corpus(repos = "secdev/scapy"
 , languages = c("Python", "Javascript"), .verbose = T) #take a while</code></pre>
 </div>
 <div class="section level2">
-<h2 id="returned-list-of-data-frame">Returned list of data.frame<a class="anchor" aria-label="anchor" href="#returned-list-of-data-frame"></a>
+<h2 id="returned-list-of-dataframes">Returned list of dataframes<a class="anchor" aria-label="anchor" href="#returned-list-of-dataframes"></a>
 </h2>
-<p><strong>corpus.list of dataframes.</strong>
-<code>construct_corpus</code> return a <code>corpus.list</code> object,
-a standard <code>list</code> of 3 dataframes : 2
-<code>corpus.lines</code> and 1 <code>corpus.nodelist</code>
-dataframes.</p>
+<p><code>construct_corpus</code> return a <code>corpus.list</code>
+object, a standard <code>list</code> of 3 dataframes :</p>
+<ul>
+<li>
+<code>codes</code> (classes <code>corpus.lines</code> &amp;
+<code>data.frame</code>)</li>
+<li>
+<code>comments</code> (classes <code>corpus.lines</code> &amp;
+<code>data.frame</code>)</li>
+<li>
+<code>nodelist</code> (classes <code>corpus.nodelist</code> &amp;
+<code>data.frame</code>)</li>
+</ul>
 <p>Complementary analyzes will add others dataframes to the list, e.g.,
 a network of internal dependencies (classes
 <code>citations.network</code>, <code>internal.dependencies</code> &amp;
 <code>data.frame</code>).</p>
-<p><strong>Text-mining metrics.</strong> Each lines and each documents
-are associated with text-mining metrics (e.g., number of characters,
-words count). Within the returned <code>list</code> of dataframes, these
-metrics are relative to :</p>
 <ul>
-<li>a line for the <code>corpus.lines</code> dataframes</li>
-<li>the entire document for the <code>corpus.nodelist</code>
-<code>dataframe</code> .</li>
+<li><p>The <code>nodelist</code> <code>data.frame</code> is sorted by
+files, and contains the files path and/or url, and overall text-mining
+metrics about each files of the corpus (e.g., number of characters,
+words count).</p></li>
+<li><p>The 2 <code>corpus.lines</code> <code>data.frame</code> are
+related to lines (file path and content of each lines, line number, and
+text-mining metrics related to each lines).</p></li>
 </ul>
-<p>The <code>codes</code> <code>dataframe</code> (one of the
+<p>The <code>codes</code> <code>data.frame</code> (one of the
 <code>corpus.lines</code> dataframes) have more columns, such as :</p>
 <ul>
 <li>a <code>commented</code> column (inline comment at the end of a
-codeline or <code>NA</code>)</li>
+codeline)</li>
 <li>and a <code>matches</code> column that contain internally-exposed
 functions names, e.g., if a <code>pol  &lt;- function</code> is defined
 within a file, the 1st <code>matches</code> corresponding entry for this
@@ -141,11 +149,9 @@ line will be <code>'pol'</code>.</li>
 <div class="section level2">
 <h2 id="default-patterns">Default patterns<a class="anchor" aria-label="anchor" href="#default-patterns"></a>
 </h2>
-<p>In order to extract the functions names as a 1st match,
-<code>construct_corpus</code> rely on some default patterns. These
-default patterns are designed to analyze a programming project in a
-standardized way, given the programming language(s) of the project.</p>
-<p>With these patterns, <code>construct_corpus</code> will :</p>
+<p><code>construct_corpus</code> rely on some default patterns, designed
+to analyze a programming project in a standardized way. With these
+patterns, <code>construct_corpus</code> will :</p>
 <ol style="list-style-type: decimal">
 <li>read the files accordingly to their extension, e.g., R language is
 associated with <code>'.R'</code> files.</li>
@@ -156,8 +162,10 @@ comments, contrary to JavaScript.</li>
 <code>'{ }'</code>.</li>
 <li>match functions names within the exposed content.</li>
 </ol>
-<p>Hereafter some similarities and differences of the typical functions’
-definitions patterns within R, Python and Javascript.</p>
+<p>The hereafter table show some examples of a <code>hello</code>
+function defined in several languages : <code>construct_corpus</code>
+have to match <code>'hello'</code>, despite of the differences between
+languages.</p>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="6%">
@@ -212,9 +220,10 @@ definitions patterns within R, Python and Javascript.</p>
 </tr>
 </tbody>
 </table>
-<p>The goal of <code>construct_corpus</code> is to match ‘hello’. Here,
-R is the only language that assign an anonymous function to an
-object.</p>
+<p>Here, R is the only language that assign an anonymous function to an
+object. Thus, contrary to other languages, we have to find the name of R
+functions before the keyword ‘function’, R parameters names are within
+the parenthesis after ‘function(’, etc.</p>
 </div>
 <div class="section level2">
 <h2 id="unmatched-func-def">Unmatched func’ def’<a class="anchor" aria-label="anchor" href="#unmatched-func-def"></a>
@@ -233,15 +242,14 @@ defined hereafter :</p>
 <p><code>construct_corpus</code> perform a 1st text-extraction,
 accordingly to a pattern. During this 1st matches extraction, lines are
 duplicated <em>when several matches are found on the same line</em>.
-This case where several matches are performed on the same lines - and so
-lines are duplicated - trigger a <code>warning</code>.</p>
+This case of duplicated lines trigger a <code>warning</code>.</p>
 <blockquote>
 <p>For example, by default, the names of functions defined in the files
 of the project are extracted during the 1st match operated by
 <code>construct_corpus</code>. If a file have several function defined
 <em>within the same line</em>, such a line will be duplicated in the
-returned <code>df</code>, with several ‘matches’ entries along these
-lines and an identical line_number.</p>
+returned <code>df</code>, with several ‘matches’ along these lines and
+same line_number.</p>
 </blockquote>
 <div class="section level3">
 <h3 id="helper-functions-that-rely-on-construct_corpus">Helper functions that rely on <code>construct_corpus</code><a class="anchor" aria-label="anchor" href="#helper-functions-that-rely-on-construct_corpus"></a>
