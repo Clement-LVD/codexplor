@@ -48,7 +48,7 @@ return the corpus with a citations network of internal dependancies
 }
 \examples{
 # Example with url from github
-result <- get_doc_network_from_project(folder =  "~" )
+result <- get_doc_network_from_project(folders =  "~" )
 # Return a list of df
 # (from the file where a function is call => to the file were defined)
 }

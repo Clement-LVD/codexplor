@@ -58,7 +58,7 @@ Return an interactive dataviz' of the internal dependancies within `codexplor` :
 library(codexplor)
 
  # 1) Construct a corpus and a Citations network
-  corpus <- get_doc_network_from_project("R/", languages = "R", )
+  corpus <- get_doc_network_from_project(folders = getwd(), languages = "R" )
    # return a corpus.list object with 4 data.frames :
   # => 2 corpus.lines
   # => 1 corpus.nodelist 
@@ -67,7 +67,7 @@ library(codexplor)
 
 ```{r compute-network-of-func,  results='asis', echo=TRUE}
 # 2) Produce an interactive dataviz'
-dataviz <- get_networkd3_from_igraph(corpus$citations.network
+dataviz <- get_networkd3_from_igraph(corpus$internal.dependencies
 , title_h1 = "codexplor"
 , subtitle_h2 = "graph of internal dependancies" ) 
 ```
@@ -191,7 +191,7 @@ fn_segmentation <- data.frame(
                               )
 )
 
-names(fn_segmentation) <- c("Reporting on a programming project" , "Underlying functions" )
+names(fn_segmentation) <- c("Complete reporting" , "Underlying functions" )
 
 knitr::kable(fn_segmentation, row.names = F)
 

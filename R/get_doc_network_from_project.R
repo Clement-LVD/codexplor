@@ -25,7 +25,7 @@
 #' }
 #' @examples
 #' # Example with url from github
-#' result <- get_doc_network_from_project(folder =  "~" )
+#' result <- get_doc_network_from_project(folders =  "~" )
 #' # Return a list of df
 #' # (from the file where a function is call => to the file were defined)
 #' @seealso \code{\link{construct_corpus}}, \code{\link{srch_pattern_in_df}}, \code{\link{get_citations_network_from_df}}

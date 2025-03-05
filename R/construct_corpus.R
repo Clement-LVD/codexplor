@@ -217,6 +217,7 @@ corpus$codes <- process_vector_on_df_by_group(df = corpus$codes
                                   , func = extract_text_outside_separators
                                   , vector_col = "content"
 , open_sep = names(paired_delim), close_sep = paired_delim)
+# by default add a 'result' column
 
 colnames(corpus$codes)[colnames(corpus$codes) == "result"] = "exposed_unested_content"
 

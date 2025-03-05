@@ -50,10 +50,10 @@ JavaScript = list(Example = "function hello() { }"
 ref_languages <- lapply(ref_languages, FUN = function(x){
 
   if(x$define) x$regex_func_name <- paste0( "(?<=", x$Definition_Keyword, ")",  fn_names  , "(?=" , x$Operator_After_Name  , ")")
-
+# R hereafter
   if(!x$define)  x$regex_func_name <- paste0(fn_basenames
-                                            , "(?=", x$Operator_Before_Keyword,  ")" #lookahead
-                                          , "(?="  , x$Definition_Keyword, x$Operator_After_Keyword , ")" )
+                                            , "\\s*(?=(?:", x$Operator_Before_Keyword,  ")" #lookahead fusionné
+                                          , "\\s*" ,"(?:" , x$Definition_Keyword, x$Operator_After_Keyword , "))" )
 # only r
      return(x)
 })
@@ -61,6 +61,7 @@ ref_languages <- lapply(ref_languages, FUN = function(x){
 
 # stringr::str_extract_all(string = "def hello(): pass", pattern =ref_languages$Python$regex_func_name)
 # stringr::str_extract_all(string ="function myFunction() { return 42; }", pattern =ref_languages$JavaScript$regex_func_name  )
+# stringr::str_extract_all(string ="deff <- function() { return 42; }", pattern =ref_languages$R$regex_func_name  )
 
 #### 2) define function regex => core behavior is catching func' names ####
 # here datas are sorted as a list but will be returned as a df by a func'

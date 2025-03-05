@@ -66,5 +66,28 @@ regex <- get_def_regex_by_language("javascript")[[1]]$fn_regex
                          , "sum"   )
 
       expect_equal(matches, expected_names)
+})
+
+
+test_that("get_def_regex_by_language works correctly (R)", {
+R_code <- c('
+ dtest <- function(){ other instructions}',
+             # 'const add = function(a, b) { return a + b; }',
+             '   ')
+
+
+# Regex obtenue via
+regex <- get_def_regex_by_language("R")[[1]]$fn_regex
+
+matches <- trimws( unlist(regmatches(R_code, regexec(perl = T, regex, R_code))))
+# similar to what our matching functions do
+
+matches <- unique(matches[nchar(matches) != 0])
+
+expected_names <- c( "dtest"   #,  "add" = function style
+                     # ,    "multiply" => js style
+                   )
+
+expect_equal(matches, expected_names)
 }
 )
