@@ -90,7 +90,7 @@ Python, JavaScript.</p>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corp</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 3</span></span>
-<span><span class="co">#&gt;  $ codes   :Classes 'corpus.lines' and 'data.frame': 1466 obs. of  11 variables:</span></span>
+<span><span class="co">#&gt;  $ codes   :Classes 'corpus.lines' and 'data.frame': 1463 obs. of  11 variables:</span></span>
 <span><span class="co">#&gt;  $ comments:Classes 'corpus.lines' and 'data.frame': 935 obs. of  9 variables:</span></span>
 <span><span class="co">#&gt;  $ nodelist:Classes 'corpus.nodelist' and 'data.frame':  24 obs. of  7 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
@@ -166,16 +166,15 @@ comments, contrary to JavaScript.</li>
 function defined in several languages : <code>construct_corpus</code>
 have to match <code>'hello'</code>, despite of the differences between
 languages.</p>
-<table style="width:100%;" class="table">
+<table class="table">
 <colgroup>
-<col width="6%">
-<col width="15%">
-<col width="11%">
-<col width="14%">
-<col width="12%">
-<col width="15%">
+<col width="8%">
 <col width="17%">
-<col width="6%">
+<col width="14%">
+<col width="17%">
+<col width="14%">
+<col width="20%">
+<col width="7%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
@@ -183,20 +182,18 @@ languages.</p>
 <th align="left">Definition Keyword</th>
 <th align="left">Operator After Keyword</th>
 <th align="left">Operator After Name</th>
-<th align="left">Operator Before Keyword</th>
 <th align="left">Start Instructions operator</th>
 <th align="left">anonymous</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">R</td>
-<td align="left">hello &lt;- function() { }</td>
+<td align="left">JavaScript</td>
+<td align="left">function hello() { }</td>
 <td align="left">function</td>
-<td align="left">(</td>
 <td align="left"></td>
-<td align="left">&lt;-|=</td>
+<td align="left">(</td>
 <td align="left">{</td>
-<td align="left">TRUE</td>
+<td align="left">FALSE</td>
 </tr>
 <tr class="even">
 <td align="left">Python</td>
@@ -204,19 +201,17 @@ languages.</p>
 <td align="left">def</td>
 <td align="left"></td>
 <td align="left">(</td>
-<td align="left"></td>
 <td align="left">:</td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="odd">
-<td align="left">JavaScript</td>
-<td align="left">function hello() { }</td>
+<td align="left">R</td>
+<td align="left">hello &lt;- function() { }</td>
 <td align="left">function</td>
-<td align="left"></td>
 <td align="left">(</td>
-<td align="left"></td>
+<td align="left">&lt;-|=</td>
 <td align="left">{</td>
-<td align="left">FALSE</td>
+<td align="left">TRUE</td>
 </tr>
 </tbody>
 </table>
@@ -239,10 +234,9 @@ defined hereafter :</p>
 <div class="section level2">
 <h2 id="about-duplicated-lines-associated-with-1st-matches">About duplicated lines associated with 1st matches<a class="anchor" aria-label="anchor" href="#about-duplicated-lines-associated-with-1st-matches"></a>
 </h2>
-<p><code>construct_corpus</code> perform a 1st text-extraction,
-accordingly to a pattern. During this 1st matches extraction, lines are
-duplicated <em>when several matches are found on the same line</em>.
-This case of duplicated lines trigger a <code>warning</code>.</p>
+<p>During the 1st matches extraction, lines are duplicated <em>when
+several matches are found on the same line</em>. This case of duplicated
+lines trigger a <code>warning</code>.</p>
 <blockquote>
 <p>For example, by default, the names of functions defined in the files
 of the project are extracted during the 1st match operated by
