@@ -85,11 +85,13 @@ languages are R, Python, JavaScript.</p>
 <span></span>
 <span><span class="co"># 1) Construct a corpus without a Citations network</span></span>
 <span>  <span class="va">corp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span> repos <span class="op">=</span>  <span class="st">"clement-LVD/codexplor"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Content is fixed by adding 2 closing separator(s) !</span></span>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corp</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 3</span></span>
-<span><span class="co">#&gt;  $ codes   :Classes 'corpus.lines' and 'data.frame': 1458 obs. of  11 variables:</span></span>
-<span><span class="co">#&gt;  $ comments:Classes 'corpus.lines' and 'data.frame': 936 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ codes   :Classes 'corpus.lines' and 'data.frame': 1466 obs. of  11 variables:</span></span>
+<span><span class="co">#&gt;  $ comments:Classes 'corpus.lines' and 'data.frame': 935 obs. of  9 variables:</span></span>
 <span><span class="co">#&gt;  $ nodelist:Classes 'corpus.nodelist' and 'data.frame':  24 obs. of  7 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
 <span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-05"</span></span>
@@ -130,98 +132,98 @@ metrics are relative to :</p>
 <ul>
 <li>a <code>commented</code> column (inline comment at the end of a
 codeline or <code>NA</code>)</li>
-<li>and a <code>matches</code> column that contain functions names, in
-order to indicate the lines where an internally-exposed function is
-defined (see hereafter).</li>
+<li>and a <code>matches</code> column that contain internally-exposed
+functions names, e.g., if a <code>pol  &lt;- function</code> is defined
+within a file, the 1st <code>matches</code> corresponding entry for this
+line will be <code>'pol'</code>.</li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="st-matches-operated">1st matches operated<a class="anchor" aria-label="anchor" href="#st-matches-operated"></a>
+<h2 id="default-patterns">Default patterns<a class="anchor" aria-label="anchor" href="#default-patterns"></a>
 </h2>
-<p>Given language(s), <code>construct_corpus</code> try to perform an
-initial identification within the content. By default, these 1st matches
-are supposed to be the function names, as soon as a function is defined
-within a file. For example, if a <code>pol  &lt;- function</code> is
-defined within a file, the 1st <code>matches</code> corresponding entry
-will be <code>'pol'</code>.</p>
-<p>In order to extract the functions names as a 1st matches,
-<code>construct_corpus</code> rely on some default patterns, associated
-with the supported languages.</p>
-</div>
-<div class="section level2">
-<h2 id="default-patterns-associated-with-languages">Default patterns associated with languages<a class="anchor" aria-label="anchor" href="#default-patterns-associated-with-languages"></a>
-</h2>
-<p>For each of the required language(s), default standardized patterns
-are used for craft a corpus from folder path(s) or github repo name(s)
-:</p>
-<table class="table">
+<p>In order to extract the functions names as a 1st match,
+<code>construct_corpus</code> rely on some default patterns. These
+default patterns are designed to analyze a programming project in a
+standardized way, given the programming language(s) of the project.</p>
+<p>With these patterns, <code>construct_corpus</code> will :</p>
+<ol style="list-style-type: decimal">
+<li>read the files accordingly to their extension, e.g., R language is
+associated with <code>'.R'</code> files.</li>
+<li>process commented lines accordingly to each language definition,
+e.g., R &amp; Python use <code>'#'</code> and don’t allow multi-lines
+comments, contrary to JavaScript.</li>
+<li>isolate the exposed content, i.e. not within a
+<code>'{ }'</code>.</li>
+<li>match functions names within the exposed content.</li>
+</ol>
+<p>Hereafter some similarities and differences of the typical functions’
+definitions patterns within R, Python and Javascript.</p>
+<table style="width:100%;" class="table">
 <colgroup>
-<col width="3%">
-<col width="49%">
-<col width="46%">
+<col width="6%">
+<col width="15%">
+<col width="11%">
+<col width="14%">
+<col width="12%">
+<col width="15%">
+<col width="17%">
+<col width="6%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="left">Steps</th>
-<th align="left">Examples of pattern associated with language(s)</th>
+<th align="left">Example</th>
+<th align="left">Definition Keyword</th>
+<th align="left">Operator After Keyword</th>
+<th align="left">Operator After Name</th>
+<th align="left">Operator Before Keyword</th>
+<th align="left">Start Instructions operator</th>
+<th align="left">anonymous</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">1. Read</td>
-<td align="left">Filter files path/url and read only files with correct
-extension(s)</td>
-<td align="left">e.g., “R” language is associated with “<code>.R</code>”
-files and a default filtering pattern (i.e.</td>
+<td align="left">R</td>
+<td align="left">hello &lt;- function() { }</td>
+<td align="left">function</td>
+<td align="left">(</td>
+<td align="left"></td>
+<td align="left">&lt;-|=</td>
+<td align="left">{</td>
+<td align="left">TRUE</td>
 </tr>
 <tr class="even">
-<td align="left">2. Preprocess</td>
-<td align="left">
-<strong>Separate commented lines</strong> from
-<em>codes lines</em>
-</td>
-<td align="left">e.g., R &amp; Python files have commented lines that
-begin with “<code>#</code>”, others languages commented lines begin with
-“<code>//</code>”. Commented blocks on several lines use
-(“<code>/*</code>”)</td>
+<td align="left">Python</td>
+<td align="left">def hello(): pass</td>
+<td align="left">def</td>
+<td align="left"></td>
+<td align="left">(</td>
+<td align="left"></td>
+<td align="left">:</td>
+<td align="left">FALSE</td>
 </tr>
 <tr class="odd">
-<td align="left">3. Identify</td>
-<td align="left">
-<strong>Identify the unested - exposed -
-content</strong> within the <em>codes lines</em>, in order to exclude
-the non-exposed functions (<em>aka</em> nested functions) from the
-matches of the next step</td>
-<td align="left">e.g., extract exposed content - within the project -
-that is not under a block of code delimitor such as ‘{’ and ‘}’ for the
-R language</td>
-</tr>
-<tr class="even">
-<td align="left">4. Qualify</td>
-<td align="left">
-<strong>Extract functions names</strong> within the
-<em>codes lines</em> (1st matches)</td>
-<td align="left">e.g., the name is before a
-“<code>&lt;- function(</code>” instruction for the R programming
-language</td>
+<td align="left">JavaScript</td>
+<td align="left">function hello() { }</td>
+<td align="left">function</td>
+<td align="left"></td>
+<td align="left">(</td>
+<td align="left"></td>
+<td align="left">{</td>
+<td align="left">FALSE</td>
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p>These default patterns are crafted specifically to analyze a
-programming project in a standardized way, given the programming
-language(s) of the project.</p>
-</blockquote>
+<p>The goal of <code>construct_corpus</code> is to match ‘hello’. Here,
+R is the only language that assign an anonymous function to an
+object.</p>
 </div>
 <div class="section level2">
-<h2 id="uncatched-func-def">Uncatched func’ def’<a class="anchor" aria-label="anchor" href="#uncatched-func-def"></a>
+<h2 id="unmatched-func-def">Unmatched func’ def’<a class="anchor" aria-label="anchor" href="#unmatched-func-def"></a>
 </h2>
 <p>The function ‘hello’ defined as a lambda (anonymous) function within
 the Python line hereafter is not matched by
 <code>construct_corpus</code> :</p>
 <pre><code><span> <span class="va">hello</span> <span class="op">=</span> <span class="va">lambda</span><span class="op">:</span> <span class="va">None</span></span></code></pre>
-<p>It’s a caveat of the text-mining approach, since there is no way to
-distinguishing a lambda function and a variable.</p>
-<p>Another caveat unsupported - yey - is the ‘hello’ javascript function
+<p>Another caveat unsupported - yet - is the ‘hello’ javascript function
 defined hereafter :</p>
 <pre><code> const hello = (a, b) =&gt; a + b;</code></pre>
 </div>

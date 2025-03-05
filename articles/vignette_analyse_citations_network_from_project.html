@@ -95,7 +95,7 @@ network</em> of the internal dependencies with <img src="https://img.shields.io/
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
 <span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span></span>
-<span>  repos <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tidyverse/stringr"</span>, <span class="st">"clement-lvd/codexplor"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  repos <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tidyverse/stringr"</span><span class="op">)</span><span class="op">)</span></span>
 <span>        <span class="co"># by default, codexplor deal with R project</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">internal.dependencies</span><span class="op">)</span></span>
@@ -109,14 +109,15 @@ project).</p>
 </div>
 <p><em>(codexplor functions network is truncated)</em></p>
 <p>For example, the most-common local dependency inside the
-tidyverse/stringr repo is <code>compat-types-check.R</code>, […] and we
-see that one of the <code>codexplor</code> file actually rely on a
-<code>stringr</code>method
-(i.e. <code>codexplor::str_extract_all_to_tidy_df.R</code> rely on
-<code>stringr/extract.R</code>). The opposite is not true.</p>
-<p>Playing with the parameters will reveal others insights, e.g., you
-should try to color nodes accordingly to their outdegrees, in order to
-reveal the high-level files of the project.</p>
+tidyverse/stringr repo are <code>modifiers.R</code>
+<code>compat-types-check.R</code>. Next, there is other text-mining
+metrics that will give us insights about these files, e.g., one should
+verify that the local complexity of this
+<code>compat-types-check.R</code> file is keep to a ‘trivial’ level.</p>
+<p>Playing with the parameters of <code>get_networkd3_from_igraph</code>
+will reveal others insights, e.g., you should try to color nodes
+accordingly to their outdegrees, in order to reveal the high-level files
+of the project.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

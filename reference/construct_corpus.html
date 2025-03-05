@@ -143,13 +143,12 @@ The data frames typically includes columns such as:</p><dl><dt><code>file_path</
 <ul><li><p>If <code>folders</code> is provided (one or a list), the function scans the directories and retrieves file paths matching the specified languages.</p></li>
 <li><p>If <code>repos</code> is provided (one or a list), it constructs URLs to the raw content of files from the specified GitHub repositories.</p></li>
 <li><p>Both local paths and GitHub URLs can be combined in the final output.</p></li>
-</ul><p>The returned list is tagged
-with the class <em>corpus.list</em>, and contains the following attributes:</p><ul><li><p><code>date_creation</code> : <code>Date</code> a Date indicating when the corpus list was created (as <code><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date()</a></code>).</p></li>
+</ul><p>The returned list is tagged with the class <em>corpus.list</em>, and contains the following attributes:</p><ul><li><p><code>date_creation</code> : <code>Date</code> a Date indicating when the corpus list was created (as <code><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date()</a></code>).</p></li>
 <li><p><code>have_citations_network</code> : a <code>logical</code> indicating if a network of internal dependancies was processed
 (construct_corpus don't return a citations_network so it will be set to  <code>FALSE</code>)</p></li>
-<li><p><code>languages_patterns</code> : a dataframe with the default pattern associated with the
-requested languages, a subset of the <code>languages</code> parameters or entire list
-(e.g., file extension and a regex pattern for function definition).</p></li>
+<li><p><code>languages_patterns</code> : a list with the default patterns associated with the
+requested languages.</p></li>
+<li><p><code>duplicated_corpus_lines</code>, <code>logical</code>. If <code>TRUE</code>, line(s) of the <code>codes</code> data.frame are duplicated (must be to <code>FALSE</code> in near to all cases)</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

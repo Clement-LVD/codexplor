@@ -78,7 +78,7 @@ project(s).</p>
 <h3 id="overall-considerations-about-the-citations-network-data-frame">Overall Considerations : about the <code>citations.network</code>
 <code>data.frame</code><a class="anchor" aria-label="anchor" href="#overall-considerations-about-the-citations-network-data-frame"></a>
 </h3>
-<p>Some of the <code>codexplor</code> reporting protocols add a
+<p>Some of the <code>codexplor</code> protocols add a
 <code>citations.network</code> class of <code>data.frame</code> to the
 main <code>corpus.list</code>, e.g.,
 <code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project()</a></code>.</p>
@@ -123,13 +123,13 @@ default is to filter autolinks).</li>
 </h3>
 <p>Given a <code>corpus.list</code> created with
 <code>construct_corpus</code>,
-<code>codexplor::compute_doc_network_from_corpus()</code> will try to
-perform a ‘cascading matching’ :</p>
+<code>codexplor::compute_doc_network_from_corpus()</code> perform a
+‘cascading matching’ :</p>
 <table class="table">
 <colgroup>
-<col width="3%">
-<col width="51%">
-<col width="44%">
+<col width="4%">
+<col width="37%">
+<col width="57%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
@@ -139,27 +139,25 @@ perform a ‘cascading matching’ :</p>
 <tbody>
 <tr class="odd">
 <td align="left">1st matches</td>
-<td align="left">⏩ <code>construct_corpus</code> is supposed to extract
-<em>functions names as a 1st matches</em>, from the files where these
-functions are defined)</td>
+<td align="left">⏩ <code>construct_corpus</code> extract <em>functions
+names</em> from the files where these functions are defined</td>
 <td align="left">e.g., have found ‘Pier’, ‘pol’ and ‘jak’ function names
 in 3 separate files</td>
 </tr>
 <tr class="even">
 <td align="left">2nd matches</td>
-<td align="left">⏩ Transform the <em>1st matches</em> into a pattern
-and search for these patterns in the initial content, in order to
-compute a Citations Network with these 2nd matches</td>
-<td align="left">e.g., a programming file is citing ‘Pier’, ‘pol’ and
-‘jak’ and thus this file is linked to the files where we previously
-found these matches</td>
+<td align="left">⏩ Search for these patterns and compute a Citations
+Network</td>
+<td align="left">e.g., a programming file is citing ‘Pier(’, ‘pol(’ and
+‘jak(’ and thus this file is linked to the 3 files where these functions
+are defined (Step 1)</td>
 </tr>
 </tbody>
 </table>
 <p>Thus, the 1st matches of <code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code>
-reveal some files that <em>defines</em> a function, and the 2nd matches
-of <code>compute_doc_network_from_corpus</code> show the files that used
-these functions.</p>
+indicates some files that <em>defines</em> a function, and the 2nd
+matches of <code>compute_doc_network_from_corpus</code> show the files
+that <em>used</em> these functions.</p>
 </div>
 <div class="section level3">
 <h3 id="function-call-that-are-non-supported-during-2nd-matches">Function call that are non-supported during 2nd matches<a class="anchor" aria-label="anchor" href="#function-call-that-are-non-supported-during-2nd-matches"></a>
