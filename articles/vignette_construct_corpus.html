@@ -76,7 +76,7 @@ corpus, given :</p>
 <p><strong>Supported languages.</strong> By default
 <code>construct_corpus</code> try to read and analyze .R files, but one
 or several <code>languages</code> could be indicated. Recognized
-languages are R, Python, JavaScript, Java, C, Cpp.</p>
+languages are R, Python, JavaScript.</p>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
@@ -88,11 +88,11 @@ languages are R, Python, JavaScript, Java, C, Cpp.</p>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corp</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 3</span></span>
-<span><span class="co">#&gt;  $ codes   :Classes 'corpus.lines' and 'data.frame': 1427 obs. of  11 variables:</span></span>
-<span><span class="co">#&gt;  $ comments:Classes 'corpus.lines' and 'data.frame': 912 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ nodelist:Classes 'corpus.nodelist' and 'data.frame':  23 obs. of  7 variables:</span></span>
+<span><span class="co">#&gt;  $ codes   :Classes 'corpus.lines' and 'data.frame': 1459 obs. of  11 variables:</span></span>
+<span><span class="co">#&gt;  $ comments:Classes 'corpus.lines' and 'data.frame': 933 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ nodelist:Classes 'corpus.nodelist' and 'data.frame':  24 obs. of  7 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
-<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-03"</span></span>
+<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-05"</span></span>
 <span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi FALSE</span></span>
 <span><span class="co">#&gt;  - attr(*, "languages_patterns")=List of 1</span></span>
 <span><span class="co">#&gt;  - attr(*, "repos")= chr "clement-LVD/codexplor"</span></span></code></pre></div>
@@ -157,8 +157,8 @@ are used for craft a corpus from folder path(s) or github repo name(s)
 <table class="table">
 <colgroup>
 <col width="3%">
-<col width="43%">
-<col width="52%">
+<col width="49%">
+<col width="46%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
@@ -171,9 +171,7 @@ are used for craft a corpus from folder path(s) or github repo name(s)
 <td align="left">Filter files path/url and read only files with correct
 extension(s)</td>
 <td align="left">e.g., “R” language is associated with “<code>.R</code>”
-files and a default filtering pattern (e.g., files with
-“<code>test-</code>”, “<code>vignettes</code>”, “<code>Rcheck</code>” in
-their full names are excluded)</td>
+files and a default filtering pattern (i.e.</td>
 </tr>
 <tr class="even">
 <td align="left">2. Preprocess</td>
@@ -182,19 +180,19 @@ their full names are excluded)</td>
 <em>codes lines</em>
 </td>
 <td align="left">e.g., R &amp; Python files have commented lines that
-begin with “<code>#</code>”, others languages commented lines with
-“<code>/*</code>” and sometimes have commented blocks on several
-lines</td>
+begin with “<code>#</code>”, others languages commented lines begin with
+“<code>//</code>”. Commented blocks on several lines use
+(“<code>/*</code>”)</td>
 </tr>
 <tr class="odd">
 <td align="left">3. Identify</td>
 <td align="left">
 <strong>Identify the unested - exposed -
 content</strong> within the <em>codes lines</em>, in order to exclude
-the inner functions (<em>aka</em> nested functions) from the matches of
-the next step</td>
+the non-exposed functions (<em>aka</em> nested functions) from the
+matches of the next step</td>
 <td align="left">e.g., extract exposed content - within the project -
-that is note under a block of code delimitor such as ‘{’ and ‘}’ for the
+that is not under a block of code delimitor such as ‘{’ and ‘}’ for the
 R language</td>
 </tr>
 <tr class="even">
@@ -202,10 +200,9 @@ R language</td>
 <td align="left">
 <strong>Extract functions names</strong> within the
 <em>codes lines</em> (1st matches)</td>
-<td align="left">e.g., default patterns of the 1st matches are crafted
-for extract the names of the functions defined within a file, e.g., for
-the R programming language : the name is before a
-“<code>&lt;- function(</code>” instruction</td>
+<td align="left">e.g., the name is before a
+“<code>&lt;- function(</code>” instruction for the R programming
+language</td>
 </tr>
 </tbody>
 </table>
@@ -214,6 +211,19 @@ the R programming language : the name is before a
 programming project in a standardized way, given the programming
 language(s) of the project.</p>
 </blockquote>
+</div>
+<div class="section level2">
+<h2 id="uncatched-func-def">Uncatched func’ def’<a class="anchor" aria-label="anchor" href="#uncatched-func-def"></a>
+</h2>
+<p>The function ‘hello’ defined as a lambda (anonymous) function within
+the Python line hereafter is not matched by
+<code>construct_corpus</code> :</p>
+<pre><code><span> <span class="va">hello</span> <span class="op">=</span> <span class="va">lambda</span><span class="op">:</span> <span class="va">None</span></span></code></pre>
+<p>It’s a caveat of the text-mining approach, since there is no way to
+distinguishing a lambda function and a variable.</p>
+<p>Another caveat unsupported - yey - is the ‘hello’ javascript function
+defined hereafter :</p>
+<pre><code> const hello = (a, b) =&gt; a + b;</code></pre>
 </div>
 <div class="section level2">
 <h2 id="about-duplicated-lines-associated-with-1st-matches">About duplicated lines associated with 1st matches<a class="anchor" aria-label="anchor" href="#about-duplicated-lines-associated-with-1st-matches"></a>
