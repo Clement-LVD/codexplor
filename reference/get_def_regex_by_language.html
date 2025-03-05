@@ -102,7 +102,7 @@ Language names are case-insensitive.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">fn_def</span><span class="op">)</span> ; <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">fn_def</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "R"          "Python"     "JavaScript"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fn_regex                 : chr "[a-zA-Z_][a-zA-Z0-9_]*(?=&lt;-|=)(?=function\\()"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fn_regex                 : chr "[a-zA-Z_][a-zA-Z0-9_]*\\s*(?=(?:&lt;-|=)\\s*(?:function\\())"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_extension           : chr ".R"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ commented_line_char      : chr "#"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ delim_pair_comments_block: logi NA</span>

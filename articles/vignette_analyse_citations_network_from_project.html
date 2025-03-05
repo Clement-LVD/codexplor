@@ -91,14 +91,14 @@ function is defined.</p>
 <h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h3>
 <p>Given folders path(s) and/or github repo(s), compute a <em>citations
-network</em> of the functions with <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_doc_network_from_project()&amp;labelColor=yellow&amp;color=black" alt="."></p>
+network</em> of the internal dependencies with <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_doc_network_from_project()&amp;labelColor=yellow&amp;color=black" alt="."></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
 <span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span></span>
 <span>  repos <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tidyverse/stringr"</span>, <span class="st">"clement-lvd/codexplor"</span><span class="op">)</span><span class="op">)</span></span>
 <span>        <span class="co"># by default, codexplor deal with R project</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">citations.network</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">internal.dependencies</span><span class="op">)</span></span>
 <span>        <span class="co"># Return an interactive dataviz' from networkD3</span></span></code></pre></div>
 <p>By default, <code>get_networkd3_from_igraph</code> will colorize the
 nodes accordingly to their indegrees. This reveal the local dependencies
