@@ -37,14 +37,13 @@
 #' - If `repos` is provided (one or a list), it constructs URLs to the raw content of files from the specified GitHub repositories.
 #' - Both local paths and GitHub URLs can be combined in the final output.
 #'
-#' The returned list is tagged
-#' with the class *corpus.list*, and contains the following attributes:
+#' The returned list is tagged with the class *corpus.list*, and contains the following attributes:
 #' - `date_creation` : `Date` a Date indicating when the corpus list was created (as `Sys.Date()`).
 #' - `have_citations_network` : a `logical` indicating if a network of internal dependancies was processed
 #' (construct_corpus don't return a citations_network so it will be set to  `FALSE`)
-#' - `languages_patterns` : a dataframe with the default pattern associated with the
-#'  requested languages, a subset of the `languages` parameters or entire list
-#' (e.g., file extension and a regex pattern for function definition).
+#' - `languages_patterns` : a list with the default patterns associated with the
+#'  requested languages.
+#'  - `duplicated_corpus_lines`, `logical`. If `TRUE`, line(s) of the `codes` data.frame are duplicated (must be to `FALSE` in near to all cases)
 #' @examples
 #' # Example 1: Construct a corpus from local folders
 #'  corpus <- construct_corpus(folders = "~", languages = c( "R", "Python"))
@@ -129,7 +128,7 @@ create_corpus <- function(folders = NULL
   urls = NULL
   files_path = NULL
 
-  pattern_to_exclude = unique(c(lang_desired$pattern_to_exclude, pattern_to_exclude) )
+if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_exclude
 
   if(length(pattern_to_exclude) > 0) pattern_to_exclude <- paste0(pattern_to_exclude , collapse = "|")
 
@@ -192,7 +191,7 @@ create_corpus <- function(folders = NULL
 
   }
 
-# this step, exclude comments within lines of texts are here
+# this step, exclude comments within lines of texts
 corpus$codes <- process_vector_on_df_by_group(df = corpus$codes
                                 , group_col = "file_path"
                                 , func = remove_text_after_char

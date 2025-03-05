@@ -63,8 +63,7 @@ regexx_complete <- get_regex_from_vector(df[[pattern_varname]], prefix_for_regex
 fns_called_df <- str_extract_all_to_tidy_df(string =  dff[[content_varname]]
                                             , pattern = regexx_complete
                                             , row_number_colname = "row_number"
-                                            , matches_colname = varname_for_matches
-                                            , filter_unmatched = T)
+                                            , matches_colname = varname_for_matches)
  # we have added row_number colname in both fns_called_df AND dff !
 
 # 3) remove our pattern added (suffix or prefix) =>

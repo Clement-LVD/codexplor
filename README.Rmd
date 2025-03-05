@@ -47,7 +47,7 @@ devtools::install_github("clement-LVD/codexplor")
 ```
 
 
-The default settings of `codexplor` are optimized for analyzing a project in ![R](https://img.shields.io/badge/R-black) language. Planned languages are : `r paste(collapse = ", ", names(get_def_regex_by_language()))`
+The default settings of `codexplor` are optimized for analyzing a project in ![R](https://img.shields.io/badge/R-black) language. Supported languages are : `r paste(collapse = ", ", names(get_def_regex_by_language()))`
 
 ---
 

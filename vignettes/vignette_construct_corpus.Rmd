@@ -59,24 +59,28 @@ Each lines and each documents are associated with text-mining metrics (e.g., num
 The `codes` `dataframe` (one of the `corpus.lines` dataframes) have more columns, such as :
 
 - a `commented` column (inline comment at the end of a codeline or `NA`)
-- and a `matches` column that contain functions names, in order to indicate the lines where an internally-exposed function is defined (see hereafter). 
+- and a `matches` column that contain internally-exposed functions names, e.g., if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry for this line will be `'pol'`.
 
-## 1st matches operated
-Given language(s), `construct_corpus` try to perform an initial identification within the content. By default, these 1st matches are supposed to be the function names, as soon as a function is defined within a file. For example, if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry will be `'pol'`.
+## Default patterns
+In order to extract the functions names as a 1st match, `construct_corpus` rely on some default patterns. 
+These default patterns are designed to analyze a programming project in a standardized way, given the programming language(s) of the project.
 
-In order to extract the functions names as a 1st matches, `construct_corpus` rely on some default patterns, associated with the supported languages. 
+With these patterns, `construct_corpus` will :
 
-## Default patterns associated with languages
-For each of the required language(s), default standardized patterns are used for craft a corpus from folder path(s) or github repo name(s) :
+1. read the files accordingly to their extension, e.g., R language is associated with `'.R'` files. 
+2. process commented lines accordingly to each language definition, e.g., R & Python use `'#'` and don't allow multi-lines comments, contrary to JavaScript.
+3. isolate the exposed content, i.e. not within a `'{ }'`.
+3. match functions names within the exposed content.
 
-```{r table-operations-construct-corpus, echo=FALSE}
+```{r table-operations-construct-corpus, eval=FALSE, include=FALSE}
 
 steps <- data.frame(Step = c("Filter files path/url and read only files with correct extension(s)"  
 , "**Separate commented lines** from *codes lines*"  
 , "**Identify the unested - exposed - content** within the *codes lines*, in order to exclude the non-exposed functions (*aka* nested functions) from the matches of the next step"
  , "**Extract functions names** within the *codes lines* (1st matches)"
 )
- , Examples = c(paste('e.g., "R" language is associated with "`.R`" files and a default filtering pattern (i.e.', paste0(get_def_regex_by_language("R")$pattern_to_exclude, collapse = " ," )  )
+ , Examples = c(paste('e.g., "R" language is associated with "`.R`" files and a default filtering pattern (i.e."'
+                      , get_def_regex_by_language()$R$pattern_to_exclude, '")'  )
 , 'e.g., R & Python files have commented lines that begin with "`#`", others languages commented lines begin with "`//`". Commented blocks on several lines use ("`/*`")'
 , "e.g., extract exposed content - within the project - that is not under a block of code delimitor such as '{' and '}' for the R language"
   , 'e.g., the name is before a "`<- function(`" instruction for the R programming language'
@@ -92,16 +96,30 @@ knitr::kable(steps,row.names = T )
 
 ```
 
-> These default patterns are crafted specifically to analyze a programming project in a standardized way, given the programming language(s) of the project.
+Hereafter some similarities and differences of the typical functions' definitions patterns within R, Python and Javascript.
 
-## Uncatched func' def'
+```{r table-langages-differences, echo=FALSE}
+require(codexplor)
+listee <- get_def_regex_by_language(return_examples = T)
+# from our function in raw-data
+tablee <- do.call(rbind.data.frame,  listee) 
+
+table <- tablee[,!colnames(tablee) %in% c("regex_func_name" , "fn_regex", "local_file_ext", "nested_codes")]
+
+colnames(table) <- gsub(x=colnames(table), "_|delim_pair_", " ")
+
+knitr::kable(table)
+
+```
+
+The goal of `construct_corpus` is to match 'hello'. Here, R is the only language that assign an anonymous function to an object. 
+
+## Unmatched func' def'
 The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched by `construct_corpus` :
 
      hello = lambda: None
 
-It's a caveat of the text-mining approach, since there is no way to distinguishing a lambda function and a variable.
-
-Another caveat unsupported - yey - is the 'hello' javascript function defined hereafter :
+Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter :
 
      const hello = (a, b) => a + b;
 

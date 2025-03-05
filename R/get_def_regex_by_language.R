@@ -5,6 +5,7 @@
 #' for one or more specified programming languages.
 #' @param languages `character`, default = `"R"` A programming language to match (character strings).
 #' @param ... `character` One or more programming language names (character strings).
+#' @param return_examples `logical` Return a list (thesaurus) that formalize how-to assign a function, for the languages supported by `construct_corpus`.
 #'
 #' @return A `list` where each entry corresponds to a language and contains:
 #' \describe{
@@ -24,8 +25,9 @@
 #' fn_def <- get_def_regex_by_language("Python", "R" , "JavaScript")
 #' names(fn_def) ; str(fn_def[[1]])
 #' @export
-get_def_regex_by_language <- function(languages = NULL, ...) {
+get_def_regex_by_language <- function(languages = NULL, ..., return_examples = F) {
 
+  if(return_examples) return(ref_languages)
 #### 0) Thesaurus of languages ####
 list_language_patterns <- language_pattern
 

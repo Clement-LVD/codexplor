@@ -31,8 +31,8 @@ devtools::install_github("clement-LVD/codexplor")
 ```
 
 The default settings of `codexplor` are optimized for analyzing a
-project in ![R](https://img.shields.io/badge/R-black) language. Planned
-languages are : R, Python, JavaScript
+project in ![R](https://img.shields.io/badge/R-black) language.
+Supported languages are : R, Python, JavaScript
 
 ------------------------------------------------------------------------
 
@@ -46,6 +46,8 @@ library(codexplor)
 
  # 1) Construct a corpus and a Citations network
   corpus <- get_doc_network_from_project(folders = getwd(), languages = "R" )
+#> 
+#> Content is fixed by adding 2 closing separator(s) !
    # return a corpus.list object with 4 data.frames :
   # => 2 corpus.lines
   # => 1 corpus.nodelist 

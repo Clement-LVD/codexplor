@@ -45,13 +45,20 @@ names(corpus) <- c(old_names, names_new_df) #complete names
   # return a boolean if all checks are ok
 if(!check_dataframes_for_corpus.list(corpus)) stop("There is an integrity problem within the corpus.list")
 
+  ### 4) test duplicated codes lines
+  duplines = which(duplicated(corpus$codes[, c("file_path", "line_number")]))
+n_duplines = length(duplines)
+
+ if(n_duplines > 0)  warning("Lines of the codes data.frame are duplicated !") else duplines <- NULL
+
   ### CREATING A CORPUS LIST OBJECT
   corpus <- structure(
-    corpus,
-    class = c("list", "corpus.list"),
-    date_creation = Sys.Date(),
-    have_citations_network = has_citations_network,
-    ...
+    corpus
+   , class = c("list", "corpus.list")
+   , date_creation = Sys.Date()
+  ,  have_citations_network = has_citations_network
+   , duplicated_corpus_lines = duplines
+   , ...
   )
 
   return(corpus)
@@ -74,7 +81,7 @@ check_dataframes_for_corpus.list <- function(corpus
     if(all(checks_cols)) return(TRUE)
 
     missing_cols <- required_columns[!checks_cols]
-    warning("Missing column(s) in a corpus.list dataframe (classes : "
+    warning("Missing column(s) in a corpus.list data.frame (classes : "
             , paste0(class(df), collapse = " & ") , ")\n => "
             , paste0(collapse = ", ", missing_cols))
     return(FALSE)
@@ -82,8 +89,8 @@ check_dataframes_for_corpus.list <- function(corpus
 
   # Here list all the individuals tests on the df
   tests_list <- list(
-    "A corpus. dataframe must have the required columns" = \(df) check_columns(df),
-    "A corpus. dataframe should not be empty" = \(df) nrow(df) > 0 | any( class(df) %in% omit_class)
+    "A corpus.files data.frame must have the required columns" = \(df) check_columns(df),
+    "A corpus.files dataframe should not be empty" = \(df) nrow(df) > 0 | any( class(df) %in% omit_class)
   )
 
   # apply these tests_list elements on a df =>

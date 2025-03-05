@@ -25,19 +25,6 @@ test_that("str_extract_all_to_tidy_df handles empty matches correctly", {
   expect_equal(nrow(result), 0)  # Should return an empty dataframe
 })
 
-test_that("str_extract_all_to_tidy_df removes NA values when filter_unmatched is F", {
-  text_data <- c("funcA funcB", NA, "funcC")
-  pattern <- "func[A-C]"
-
-  result <- str_extract_all_to_tidy_df(text_data, pattern, filter_unmatched = F)
-
-  expected_df <- data.frame(
-    matches = c("funcA", "funcB", NA, "funcC"),
-    row_number = c(1, 1, 2, 3)
-  )
-
-  expect_equal(result,expected_df)
-})
 
 test_that("str_extract_all_to_tidy_df correctly assigns custom column names", {
   text_data <- c("funcA funcB", "funcC")

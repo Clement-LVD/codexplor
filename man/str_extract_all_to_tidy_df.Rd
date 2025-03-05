@@ -7,7 +7,6 @@
 str_extract_all_to_tidy_df(
   string,
   pattern,
-  filter_unmatched = T,
   matches_colname = "matches",
   row_number_colname = "row_number"
 )
@@ -17,8 +16,6 @@ str_extract_all_to_tidy_df(
 
 \item{pattern}{\code{character}. A regex pattern to extract matches.}
 
-\item{filter_unmatched}{\code{logical} (default \code{TRUE}). If \code{TRUE}, removes unmatched values from the output.}
-
 \item{matches_colname}{\code{character}. A string specifying the column name for extracted matches (default: \code{"matches"}).}
 
 \item{row_number_colname}{\code{character}. A string specifying the column name for row numbers (default: \code{"row_number"}).}
@@ -26,17 +23,16 @@ str_extract_all_to_tidy_df(
 \value{
 A dataframe with the extracted matches and their corresponding row numbers.
 \describe{
-\item{matches_colname}{Name of the 1st col' - matched-text - correspond to the \code{matches_colname} parameter (default is 'matches')}
-\item{row_number_colname}{Name of the 2nd col correspond to the \code{row_number_colname} parameter (default is 'row_number')}
+\item{matches}{1st col' is the matched-text. Colname is indicated with the \code{matches_colname} parameter (default is 'matches')}
+\item{row_number}{2nd col is the position of the match within the vector. Colname is indicated with the \code{row_number_colname} parameter (default is 'row_number')}
 }
 }
 \description{
 This function applies \code{stringr::str_extract_all()} to a string, extracts regex matches,
 and returns a 2 columns unested dataframe :
-1st column is the matched text
-or a \code{NA} value if no match (default will filter out these non-matched lines)
+1st column is the matched text. Lines without match are filtered out.
 2nd column is the corresponding position index
-Option offered : customizable column names and filtering of unmatched result (default)
+Option offered : customizable colnames
 }
 \examples{
 text_data <- c("Here is funcA and funcB", "Nothing here", "funcC is present")

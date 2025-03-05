@@ -4,12 +4,14 @@
 \alias{get_def_regex_by_language}
 \title{Retrieve function definition regex patterns by programming language(s)}
 \usage{
-get_def_regex_by_language(languages = NULL, ...)
+get_def_regex_by_language(languages = NULL, ..., return_examples = F)
 }
 \arguments{
 \item{languages}{\code{character}, default = \code{"R"} A programming language to match (character strings).}
 
 \item{...}{\code{character} One or more programming language names (character strings).}
+
+\item{return_examples}{\code{logical} Return a list (thesaurus) that formalize how-to assign a function, for the languages supported by \code{construct_corpus}.}
 }
 \value{
 A \code{list} where each entry corresponds to a language and contains:

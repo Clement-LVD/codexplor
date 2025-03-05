@@ -16,9 +16,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr
 Imports: 
-    stringr,
     utils,
-    stats,
     scales,
     igraph,
     networkD3,
