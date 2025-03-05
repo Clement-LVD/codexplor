@@ -3,7 +3,7 @@
 
   test_that("filter_subgraph extracts correct nodes", {
 
-  library(igraph)
+  suppressWarnings(library(igraph))
     g <- make_ring(10, directed = T)
     V(g)$name <- as.character(1:10)
     sub_g <- filter_igraph_egonetwork(g, "1$", 0, 2)
