@@ -136,7 +136,7 @@ returned_network[[order_fn_called_colname]] <- ave(
 returned_network <- structure(returned_network, class = c( "citations.network", 'internal.dependancies', "data.frame") )
 
 #### Update the attributes and return an augmented corpus ####
-corpus <- .construct.corpus.list(corpus = corpus, df_to_add = list(citations.network = returned_network ) )
+corpus <- .construct.corpus.list(corpus = corpus, df_to_add = list(internal.dependencies = returned_network ) )
 
 return(corpus)
 

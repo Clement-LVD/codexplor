@@ -47,8 +47,8 @@
 #' (e.g., file extension and a regex pattern for function definition).
 #' @examples
 #' # Example 1: Construct a corpus from local folders
-#'  corpus <- construct_corpus(folders = "~", languages = c( "R"))
-#'  # corpus <- construct_corpus(folders = "~", languages = c("Python","Javascript"))
+#'  corpus <- construct_corpus(folders = "~", languages = c( "R", "Python"))
+#'  # corpus <- construct_corpus(folders = "~", languages = c("Javascript"))
 #' \dontrun{
 #' # Example 2: Construct a corpus from GitHub repositories (default is R)
 #' cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
@@ -129,7 +129,7 @@ create_corpus <- function(folders = NULL
   urls = NULL
   files_path = NULL
 
-  pattern_to_exclude = c(lang_desired$pattern_to_exclude, pattern_to_exclude)
+  pattern_to_exclude = unique(c(lang_desired$pattern_to_exclude, pattern_to_exclude) )
 
   if(length(pattern_to_exclude) > 0) pattern_to_exclude <- paste0(pattern_to_exclude , collapse = "|")
 
@@ -137,6 +137,8 @@ create_corpus <- function(folders = NULL
   files_path <- get_list_of_files(folders = folders , repos = repos
                                   , file_ext =  lang_desired$file_ext #defined according to the langage
                                   , pattern_to_exclude_path = pattern_to_exclude)
+
+  ### Here : if no file path a NA is converted to NULL return (+1 level)
 
   # 3) extract lines from files
   complete_files <- readlines_in_df(files_path = files_path, .verbose = .verbose, ... )
@@ -181,7 +183,7 @@ create_corpus <- function(folders = NULL
 
     if(.verbose) cat("\n===> Clean blocks of comments\n")
 
-    codes_and_comments <-  separate_commented_lines(texts = corpus$codes$content, delim_pair = lang_desired$delim_pair, .verbose = .verbose)
+    codes_and_comments <- separate_commented_lines(texts = corpus$codes$content, delim_pair = lang_desired$delim_pair_comments_block, .verbose = .verbose)
 
     corpus$codes$content <- codes_and_comments$codelines
     # filter out blank lines again

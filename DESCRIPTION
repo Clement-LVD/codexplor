@@ -26,3 +26,5 @@ Imports:
     htmltools
 URL: https://clement-lvd.github.io/codexplor/
 BugReports: https://clement-lvd.github.io/codexplor/issues
+Depends: 
+    R (>= 3.5)

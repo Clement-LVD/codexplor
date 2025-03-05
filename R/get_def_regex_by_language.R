@@ -21,69 +21,13 @@
 #' This function supports multiple languages in a single call.
 #' Language names are case-insensitive.
 #' @examples
-#' fn_def <- get_def_regex_by_language("Python", "R" ,  "C", "JavaScript")
+#' fn_def <- get_def_regex_by_language("Python", "R" , "JavaScript")
 #' names(fn_def) ; str(fn_def[[1]])
 #' @export
 get_def_regex_by_language <- function(languages = NULL, ...) {
-#### 1) define function regex => core behavior is catching func' names ####
-list_language_patterns <- list(
-  R = list(
-    fn_regex = "(^| \\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)",
-    file_extension = ".R"
-    , commented_line_char = "#"
-    , delim_pair_comments_block = NA
-    , pattern_to_exclude = "\\.Rcheck|test-|vignettes"
-  ),
-  Python = list(
-    fn_regex = list(main_definition ="(?<=def)\\s+[^\\(]+(?=\\()"   # [^\\(]+: 1 or + char BUT NOT A  '(' (function name).
-                    , lambda_func = "\\w+\\s*(?==\\s*lambda)") # \\s*: space (0 or +) & \\w+: chars. alphanumeric
-   , file_extension = ".py"
-    , commented_line_char = "#"     # Python (Python)
-    , delim_pair_comments_block = NA
-    , pattern_to_exclude = NA),
 
-  JavaScript = list(
-    fn_regex = list(
-      main_definition = "(?<=function)\\s+[a-zA-Z_$][a-zA-Z0-9_$]*"
-                    , regex_variable_fn <- "(\\w+)\\s*(?=\\s*=\\s*function\\s*\\()"
-                     , regex_method_arrow <- "(\\w+)\\s*(?=\\s*=\\s*\\(.*\\)\\s*=>)" # ou en objet :
-    )
-    , file_extension = ".js"
-     , commented_line_char = "\\s?//"
-    , delim_pair_comments_block = c("/*" = "*/")  # JavaScript (JavaScript)
-      , pattern_to_exclude = NA
-  ),
-  Java = list(
-    fn_regex = "^\\s*(public|private|protected)?\\s*\\w+\\s+([\\w_]+)\\s*\\(",
-    file_extension = ".java"
-    , commented_line_char = "\\s?//"
-    , delim_pair_comments_block = c("/*" = "*/")  # Java (Java)
-    , pattern_to_exclude = NA
-  ),
-  C = list(
-    fn_regex = "^\\s*\\w+\\s+([\\w_]+)\\s*\\(",
-    file_extension = ".c"
-    , commented_line_char = "\\s?//"
-    , delim_pair_comments_block =  c("/*" = "*/")  # C (C, C++, Java, JavaScript, etc.)
-    , pattern_to_exclude = NA
-  ),
-  Cpp = list(
-    fn_regex = "^\\s*\\w+(<.*>)?\\s+([\\w_]+)\\s*\\(",
-    file_extension = ".cpp"
-    , commented_line_char = "\\s?//"
-    , delim_pair_comments_block =  c("/*" = "*/")  # C (C, C++, Java, JavaScript, etc.)
-    , pattern_to_exclude = NA
-  )
-)
-
-# add pattern at the end of existing values
-list_language_patterns <- lapply( list_language_patterns, FUN = function(entry) {
-entry$delim_pair_nested_codes = c("\\{" = "\\}")
-  entry$local_file_ext <- paste0(entry$file_ext, "$" )
-  entry$fn_regex <- paste0(entry$fn_regex, collapse = "|" )
-return(entry)
-
-}  )
+#### 0) Thesaurus of languages ####
+list_language_patterns <- language_pattern
 
 if(is.null(languages)) return(list_language_patterns)
 

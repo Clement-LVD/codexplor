@@ -73,13 +73,13 @@ For each of the required language(s), default standardized patterns are used for
 
 steps <- data.frame(Step = c("Filter files path/url and read only files with correct extension(s)"  
 , "**Separate commented lines** from *codes lines*"  
-, "**Identify the unested - exposed - content** within the *codes lines*, in order to exclude the inner functions (*aka* nested functions) from the matches of the next step"
+, "**Identify the unested - exposed - content** within the *codes lines*, in order to exclude the non-exposed functions (*aka* nested functions) from the matches of the next step"
  , "**Extract functions names** within the *codes lines* (1st matches)"
 )
- , Examples = c('e.g., "R" language is associated with "`.R`" files and a default filtering pattern (e.g., files with "`test-`", "`vignettes`", "`Rcheck`" in their full names are excluded)'   
-, 'e.g., R & Python files have commented lines that begin with "`#`", others languages commented lines with "`/*`" and sometimes have commented blocks on several lines'
-, "e.g., extract exposed content - within the project - that is note under a block of code delimitor such as '{' and '}' for the R language"
-  , 'e.g.,  default patterns of the 1st matches are crafted for extract the names of the functions defined within a file, e.g., for the R programming language : the name is before a "`<- function(`" instruction'
+ , Examples = c(paste('e.g., "R" language is associated with "`.R`" files and a default filtering pattern (i.e.', paste0(get_def_regex_by_language("R")$pattern_to_exclude, collapse = " ," )  )
+, 'e.g., R & Python files have commented lines that begin with "`#`", others languages commented lines begin with "`//`". Commented blocks on several lines use ("`/*`")'
+, "e.g., extract exposed content - within the project - that is not under a block of code delimitor such as '{' and '}' for the R language"
+  , 'e.g., the name is before a "`<- function(`" instruction for the R programming language'
 )
 
 )
@@ -93,6 +93,17 @@ knitr::kable(steps,row.names = T )
 ```
 
 > These default patterns are crafted specifically to analyze a programming project in a standardized way, given the programming language(s) of the project.
+
+## Uncatched func' def'
+The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched by `construct_corpus` :
+
+     hello = lambda: None
+
+It's a caveat of the text-mining approach, since there is no way to distinguishing a lambda function and a variable.
+
+Another caveat unsupported - yey - is the 'hello' javascript function defined hereafter :
+
+     const hello = (a, b) => a + b;
 
 ## About duplicated lines associated with 1st matches
 `construct_corpus` perform a 1st text-extraction, accordingly to a pattern. During this 1st matches extraction, lines are duplicated *when several matches are found on the same line*. This case where several matches are performed on the same lines - and so lines are duplicated - trigger a `warning`. 

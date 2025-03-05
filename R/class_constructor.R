@@ -58,8 +58,8 @@ if(!check_dataframes_for_corpus.list(corpus)) stop("There is an integrity proble
 }
 
 #### Check individuals dataframe of a list ####
-check_dataframes_for_corpus.list <- function(df_list
-  , omit_class = "citations.network"
+check_dataframes_for_corpus.list <- function(corpus
+  , omit_class = c("citations.network", "internal.dependencies")
 
    , required_columns = c("file_path","content", "n_char", "n_word")) {
 
@@ -67,7 +67,7 @@ check_dataframes_for_corpus.list <- function(df_list
   # return a logical - column are existing or not - and a warning if not
   check_columns <- function(df) {
 
-    if (!is.null(omit_class) && any(inherits(df, omit_class))) { return(TRUE) }
+     if ( any( class(df) %in% omit_class)) { return(TRUE) }
 
     checks_cols <- required_columns %in% colnames(df) # boolean for each col'
 
@@ -83,14 +83,14 @@ check_dataframes_for_corpus.list <- function(df_list
   # Here list all the individuals tests on the df
   tests_list <- list(
     "A corpus. dataframe must have the required columns" = \(df) check_columns(df),
-    "A corpus. dataframe should not be empty" = \(df) nrow(df) > 0
+    "A corpus. dataframe should not be empty" = \(df) nrow(df) > 0 | any( class(df) %in% omit_class)
   )
 
   # apply these tests_list elements on a df =>
   apply_tests <- function(df) {sapply(tests_list, function(f) f(df))}
 
   #apply on each dataframes
-  results <- sapply(df_list, apply_tests)
+  results <- sapply(corpus, apply_tests)
 
   # Vérifier si tous les tests passent
   all_passed <- all(results)
@@ -98,7 +98,7 @@ check_dataframes_for_corpus.list <- function(df_list
   # Affichage des erreurs si nécessaire
   if (!all_passed) {
     warning("Some dataframes failed the checks: "
-            , paste(names(df_list)[!results], collapse = " / ")
+            , paste(names(corpus)[!results], collapse = " / ")
             )
   }
 

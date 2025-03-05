@@ -192,7 +192,7 @@ urls <- NULL
 
   if(length(files_to_exclude)>0) files_path <- files_path[-files_to_exclude]
 
-return(files_path)
+return(unique(files_path))
 
 }
 
