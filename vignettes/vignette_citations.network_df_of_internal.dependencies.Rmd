@@ -28,7 +28,7 @@ Thus, the nodes of a `citations.network` `data.frame` are the programming files 
 > A citations network have theoretical network properties, not covered here (e.g., a citations network is a directed network). 
 
 ### Network of `internal.dependencies`
-A type of interesting `citations.network` is the network of `internal.dependencies` within a programming project. This `data.frame` of the `corpus.list` have additional classes `citations.network` and `internal.dependencies`. In this network :
+A `data.frame` of the `corpus.list` have additional classes `citations.network` and `internal.dependencies`.  In this network :
 
 - Nodes are the programming files, like any other `citations.network`. 
 - A link start from a programming file that calls a function and point to the programming file where the function is defined.

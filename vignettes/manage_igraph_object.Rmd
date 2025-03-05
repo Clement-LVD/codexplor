@@ -37,7 +37,7 @@ Once you have a network such as the network of internal dependancies within a pr
           dataviz_filtered <- get_networkd3_from_igraph(filter_net)
           
           or pass a citations.network data.frame
-          dataviz <- get_networkd3_from_igraph(net$citations.network)
+          dataviz <- get_networkd3_from_igraph(net$internal.dependencies)
 
 - And tweak the legend of the interactive `networkD3` dataviz with ![.](https://img.shields.io/badge/{networkD3}-bold?style=flat&logoColor=black&logoSize=2&label=move_networkd3_legend()&labelColor=green&color=black)
 

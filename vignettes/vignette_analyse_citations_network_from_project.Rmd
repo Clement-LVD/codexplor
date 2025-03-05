@@ -26,7 +26,7 @@ This vignette give a basic understanding of the `citations.network` returned wit
 In such a `citations.network` of `internal.dependencies`, links start from the programming file that calls a function and point to the programming file where the function is defined.
 
 ### Example
-Given folders path(s) and/or github repo(s), compute a *citations network* of the functions with ![.](https://img.shields.io/badge/{Method}-bold?style=flat&logoColor=black&logoSize=2&label=get_doc_network_from_project()&labelColor=yellow&color=black)
+Given folders path(s) and/or github repo(s), compute a *citations network* of the internal dependencies with ![.](https://img.shields.io/badge/{Method}-bold?style=flat&logoColor=black&logoSize=2&label=get_doc_network_from_project()&labelColor=yellow&color=black)
 
 ```{r construct-corpus-and-network, eval = F, echo=TRUE}
 require(codexplor)
@@ -34,7 +34,7 @@ net <- get_doc_network_from_project(
   repos =  c("tidyverse/stringr", "clement-lvd/codexplor"))
         # by default, codexplor deal with R project
 
-get_networkd3_from_igraph(net$citations.network)
+get_networkd3_from_igraph(net$internal.dependencies)
         # Return an interactive dataviz' from networkD3
 ```
 
