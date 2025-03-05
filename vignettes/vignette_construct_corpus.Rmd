@@ -108,6 +108,8 @@ table <- tablee[,!colnames(tablee) %in% c("regex_func_name" , "fn_regex", "local
 
 colnames(table) <- gsub(x=colnames(table), "_|delim_pair_", " ")
 
+table <- table[order(rownames(table)), ]  
+
 knitr::kable(table)
 
 ```
@@ -124,7 +126,7 @@ Another caveat unsupported - yet - is the 'hello' javascript function defined he
      const hello = (a, b) => a + b;
 
 ## About duplicated lines associated with 1st matches
-`construct_corpus` perform a 1st text-extraction, accordingly to a pattern. During this 1st matches extraction, lines are duplicated *when several matches are found on the same line*. This case of duplicated lines trigger a `warning`. 
+During the 1st matches extraction, lines are duplicated *when several matches are found on the same line*. This case of duplicated lines trigger a `warning`. 
 
 > For example, by default, the names of functions defined in the files of the project are extracted during the 1st match operated by `construct_corpus`. If a file have several function defined *within the same line*, such a line will be duplicated in the returned `df`, with several 'matches' along these lines and same line_number. 
 

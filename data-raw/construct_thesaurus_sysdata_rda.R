@@ -16,8 +16,7 @@ ref_languages <- list(
   R = list(Example = "hello <- function() { }"
            , Definition_Keyword = "function"
            , Operator_After_Keyword = "\\("
-           , Operator_After_Name = "" #R is deviant
-           , Operator_Before_Keyword ="<-|="
+           , Operator_After_Name ="<-|="
           , Start_Instructions_operator = "{"
            , anonymous = T # this is a random func assigned in an object
            ),
@@ -28,7 +27,6 @@ ref_languages <- list(
                 , Operator_After_Keyword = ""
                 , Operator_After_Name = "\\("
 
-                , Operator_Before_Keyword = ""
                , Start_Instructions_operator = ":"
                 , anonymous = F
                  ),
@@ -37,7 +35,6 @@ JavaScript = list(Example = "function hello() { }"
                     , Definition_Keyword = "function"
                     , Operator_After_Keyword = ""
                     , Operator_After_Name = "\\("
-                    , Operator_Before_Keyword = ""
                   , Start_Instructions_operator = "{"
 
                   , anonymous = F
@@ -57,7 +54,7 @@ ref_languages <- lapply(ref_languages, FUN = function(x){
   if(!x$anonymous) x$regex_func_name <- paste0( "(?<=", x$Definition_Keyword, ")",  fn_names  , "(?=" , x$Operator_After_Name  , ")")
 # R hereafter
   if(x$anonymous)  x$regex_func_name <- paste0(fn_basenames
-                                            , "\\s*(?=(?:", x$Operator_Before_Keyword,  ")" #lookahead fusionné
+                                            , "\\s*(?=(?:", x$Operator_After_Name,  ")" #lookahead fusionné
                                           , "\\s*" ,"(?:" , x$Definition_Keyword, x$Operator_After_Keyword , "))" )
 # only r is anonymous
      return(x)
