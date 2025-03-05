@@ -107,17 +107,24 @@ project).</p>
 <div class="float">
 <img src="../reference/figures/example_net3d_dataviz.png" style="width:90.0%" alt="."><div class="figcaption">.</div>
 </div>
-<p><em>(codexplor functions network is truncated)</em></p>
 <p>For example, the most-common local dependency inside the
 tidyverse/stringr repo are <code>modifiers.R</code>
 <code>compat-types-check.R</code>. Next, there is other text-mining
 metrics that will give us insights about these files, e.g., one should
 verify that the local complexity of this
-<code>compat-types-check.R</code> file is keep to a ‘trivial’ level.</p>
+<code>compat-types-check.R</code> file is always reported as a ‘trivial’
+level (see next section).</p>
 <p>Playing with the parameters of <code>get_networkd3_from_igraph</code>
 will reveal others insights, e.g., you should try to color nodes
-accordingly to their outdegrees, in order to reveal the high-level files
-of the project.</p>
+accordingly to their outdegrees, in order to reveal the files that
+contain high-level functions of the project.</p>
+<pre><code><span>  <span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">internal.dependencies</span>,  color_outdeg_instead_of_indeg <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span>  </span></code></pre>
+<div class="section level4">
+<h4 id="mix-network-analysis-and-document-level-metrics">Mix Network Analysis and Document-level Metrics<a class="anchor" aria-label="anchor" href="#mix-network-analysis-and-document-level-metrics"></a>
+</h4>
+<p>[WIP]</p>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

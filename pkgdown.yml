@@ -6,7 +6,7 @@ articles:
   vignette_analyse_citations_network_from_project: vignette_analyse_citations_network_from_project.html
   vignette_citations.network_df_of_internal.dependencies: vignette_citations.network_df_of_internal.dependencies.html
   vignette_construct_corpus: vignette_construct_corpus.html
-last_built: 2025-03-05T20:49Z
+last_built: 2025-03-05T21:01Z
 urls:
   reference: https://clement-lvd.github.io/codexplor/reference
   article: https://clement-lvd.github.io/codexplor/articles
