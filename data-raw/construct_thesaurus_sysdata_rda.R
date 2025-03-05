@@ -59,10 +59,10 @@ ref_languages <- lapply(ref_languages, FUN = function(x){
   if(x$anonymous)  x$regex_func_name <- paste0(fn_basenames
                                             , "\\s*(?=(?:", x$Operator_Before_Keyword,  ")" #lookahead fusionné
                                           , "\\s*" ,"(?:" , x$Definition_Keyword, x$Operator_After_Keyword , "))" )
-# only r
+# only r is anonymous
      return(x)
 })
-# but a 'normal' regex will look like that for r :  "(^| \\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)
+# e.g., a 'normal' regex will look like that for r :  "(^| \\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)
 
 # stringr::str_extract_all(string = "def hello(): pass", pattern =ref_languages$Python$regex_func_name)
 # stringr::str_extract_all(string ="function myFunction() { return 42; }", pattern =ref_languages$JavaScript$regex_func_name  )

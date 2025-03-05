@@ -21,7 +21,7 @@ library(codexplor)
 - folder(s) path(s) and/or github repo(s) to analyze ;
 - and programming language(s) - default is `'R'`.
 
-**Supported languages.** By default `construct_corpus` try to read and analyze .R files, but one or several `languages` could be indicated. Recognized languages are `r paste0(names(get_def_regex_by_language()) , collapse = ", ")`. 
+**Supported languages.** By default `construct_corpus` will analyze .R files, but one or several `languages` could be indicated. Recognized languages are `r paste0(names(get_def_regex_by_language()) , collapse = ", ")`. 
 
 ## Examples
 
@@ -45,26 +45,26 @@ library(codexplor)
     , languages = c("Python", "Javascript"), .verbose = T) #take a while
 
 
-## Returned list of data.frame
-**corpus.list of dataframes.** `construct_corpus` return a `corpus.list` object, a standard `list` of 3 dataframes : 2 `corpus.lines` and 1 `corpus.nodelist` dataframes. 
+## Returned list of dataframes
+`construct_corpus` return a `corpus.list` object, a standard `list` of 3 dataframes : 
+
+- `codes` (classes `corpus.lines` & `data.frame`)
+- `comments` (classes `corpus.lines` & `data.frame`)
+- `nodelist` (classes `corpus.nodelist` & `data.frame`)
 
 Complementary analyzes will add others dataframes to the list, e.g., a network of internal dependencies (classes `citations.network`, `internal.dependencies` & `data.frame`).
 
-**Text-mining metrics.** 
-Each lines and each documents are associated with text-mining metrics (e.g., number of characters, words count). Within the returned `list` of dataframes, these metrics are relative to : 
+- The `nodelist` `data.frame` is sorted by files, and contains the files path and/or url, and overall text-mining metrics about each files of the corpus (e.g., number of characters, words count).
 
-- a line for the `corpus.lines` dataframes
-- the entire document for the `corpus.nodelist` `dataframe` .
+- The 2 `corpus.lines` `data.frame` are related to lines (file path and content of each lines, line number, and text-mining metrics related to each lines). 
 
-The `codes` `dataframe` (one of the `corpus.lines` dataframes) have more columns, such as :
+The `codes` `data.frame` (one of the `corpus.lines` dataframes) have more columns, such as :
 
-- a `commented` column (inline comment at the end of a codeline or `NA`)
+- a `commented` column (inline comment at the end of a codeline)
 - and a `matches` column that contain internally-exposed functions names, e.g., if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry for this line will be `'pol'`.
 
 ## Default patterns
-In order to extract the functions names as a 1st match, `construct_corpus` rely on some default patterns. 
-These default patterns are designed to analyze a programming project in a standardized way, given the programming language(s) of the project.
-
+`construct_corpus` rely on some default patterns, designed to analyze a programming project in a standardized way. 
 With these patterns, `construct_corpus` will :
 
 1. read the files accordingly to their extension, e.g., R language is associated with `'.R'` files. 
@@ -96,7 +96,7 @@ knitr::kable(steps,row.names = T )
 
 ```
 
-Hereafter some similarities and differences of the typical functions' definitions patterns within R, Python and Javascript.
+The hereafter table show some examples of a `hello` function defined in several languages : `construct_corpus` have to match `'hello'`, despite of the differences between languages.
 
 ```{r table-langages-differences, echo=FALSE}
 require(codexplor)
@@ -112,7 +112,7 @@ knitr::kable(table)
 
 ```
 
-The goal of `construct_corpus` is to match 'hello'. Here, R is the only language that assign an anonymous function to an object. 
+Here, R is the only language that assign an anonymous function to an object. Thus, contrary to other languages, we have to find the name of R functions before the keyword 'function', R parameters names are within the parenthesis after 'function(', etc. 
 
 ## Unmatched func' def'
 The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched by `construct_corpus` :
@@ -124,9 +124,9 @@ Another caveat unsupported - yet - is the 'hello' javascript function defined he
      const hello = (a, b) => a + b;
 
 ## About duplicated lines associated with 1st matches
-`construct_corpus` perform a 1st text-extraction, accordingly to a pattern. During this 1st matches extraction, lines are duplicated *when several matches are found on the same line*. This case where several matches are performed on the same lines - and so lines are duplicated - trigger a `warning`. 
+`construct_corpus` perform a 1st text-extraction, accordingly to a pattern. During this 1st matches extraction, lines are duplicated *when several matches are found on the same line*. This case of duplicated lines trigger a `warning`. 
 
-> For example, by default, the names of functions defined in the files of the project are extracted during the 1st match operated by `construct_corpus`. If a file have several function defined *within the same line*, such a line will be duplicated in the returned `df`, with several 'matches' entries along these lines and an identical line_number. 
+> For example, by default, the names of functions defined in the files of the project are extracted during the 1st match operated by `construct_corpus`. If a file have several function defined *within the same line*, such a line will be duplicated in the returned `df`, with several 'matches' along these lines and same line_number. 
 
 ### Helper functions that rely on `construct_corpus`
 `codexplor::get_doc_network_from_project` is an helper 'high-level' function that perform an analysis of the internal dependencies by performing a 2nd matches from the 1st matches of `construct_corpus`, e.g., see the [vignette about analyzing a network of internal dependencies with `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html).
