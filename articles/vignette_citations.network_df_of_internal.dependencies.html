@@ -182,12 +182,20 @@ the instantiated Python methods, i.e. <code>obj.method()</code>.</p>
 <div class="section level3">
 <h3 id="filter-undesired-match">Filter undesired match<a class="anchor" aria-label="anchor" href="#filter-undesired-match"></a>
 </h3>
+<p><code>get_doc_network_from_project</code> offer several parameters
+for dealing with your style of writing a program.</p>
 <p>Junk nodes needs to be excluded from the network. Typical “false
 positive” matches are the lines where you use the name of another
 function in a message,
 e.g. <code>message("my_func() is deprecated. You should use this_function() instead)</code>.
-<code>get_doc_network_from_project</code> offer several parameters for
-dealing with your style of writing a program.</p>
+For this type of false positive,
+<code>get_doc_network_from_project</code> offer the
+<code>exclude_quoted_content</code> parameter, in order to exclude
+quoted text from the matches and avoid this false positive case. Be
+aware that all the quoted text will be avoided, if you’ve included some
+- fancy - way of <em>call</em> a function as a quoted
+<code>character</code> chain.</p>
+<pre><code><span>  <span class="fu"><a href="../reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span><span class="st">"~"</span>, languages <span class="op">=</span> <span class="st">"R"</span>, exclude_quoted_content <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
 </div>
 </div>
 

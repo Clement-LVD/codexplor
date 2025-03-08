@@ -85,16 +85,14 @@ Python, JavaScript.</p>
 <span></span>
 <span><span class="co"># 1) Construct a corpus without a Citations network</span></span>
 <span>  <span class="va">corp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span> repos <span class="op">=</span>  <span class="st">"clement-LVD/codexplor"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Content is fixed by adding 2 closing separator(s) !</span></span>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corp</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 3</span></span>
-<span><span class="co">#&gt;  $ codes   :Classes 'corpus.lines' and 'data.frame': 1463 obs. of  11 variables:</span></span>
-<span><span class="co">#&gt;  $ comments:Classes 'corpus.lines' and 'data.frame': 935 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ nodelist:Classes 'corpus.nodelist' and 'data.frame':  24 obs. of  7 variables:</span></span>
+<span><span class="co">#&gt;  $ codes   :Classes 'corpus.lines' and 'data.frame': 1546 obs. of  12 variables:</span></span>
+<span><span class="co">#&gt;  $ comments:Classes 'corpus.lines' and 'data.frame': 1012 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ nodelist:Classes 'corpus.nodelist' and 'data.frame':  25 obs. of  7 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
-<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-05"</span></span>
+<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-08"</span></span>
 <span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi FALSE</span></span>
 <span><span class="co">#&gt;  - attr(*, "languages_patterns")=List of 1</span></span>
 <span><span class="co">#&gt;  - attr(*, "repos")= chr "clement-LVD/codexplor"</span></span></code></pre></div>
@@ -158,7 +156,7 @@ associated with <code>'.R'</code> files.</li>
 <li>process commented lines accordingly to each language definition,
 e.g., R &amp; Python use <code>'#'</code> and don’t allow multi-lines
 comments, contrary to JavaScript.</li>
-<li>isolate the exposed content, i.e. not within a
+<li>isolate the exposed content, i.e. not quoted and not within a
 <code>'{ }'</code>.</li>
 <li>match functions names within the exposed content.</li>
 </ol>
@@ -224,15 +222,21 @@ the parenthesis after ‘function(’, etc.</p>
 <h2 id="unmatched-func-def">Unmatched func’ def’<a class="anchor" aria-label="anchor" href="#unmatched-func-def"></a>
 </h2>
 <p>The function ‘hello’ defined as a lambda (anonymous) function within
-the Python line hereafter is not matched by
+the Python line hereafter is not matched yet by
 <code>construct_corpus</code> :</p>
 <pre><code><span> <span class="va">hello</span> <span class="op">=</span> <span class="va">lambda</span><span class="op">:</span> <span class="va">None</span></span></code></pre>
 <p>Another caveat unsupported - yet - is the ‘hello’ javascript function
 defined hereafter :</p>
-<pre><code> const hello = (a, b) =&gt; a + b;</code></pre>
+<pre><code> const hello = (a, b) =&gt; a + b;
+ </code></pre>
+<p>The re-assigning of an anonymous R function to a new R object is not
+supported yet :</p>
+<pre><code><span>  <span class="va">aaa</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span>, <span class="va">a</span><span class="op">)</span><span class="op">{</span><span class="va">i</span> <span class="op">+</span> <span class="va">a</span><span class="op">}</span> <span class="co"># construct_corpus match the 'aaa' function</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/assign.html" class="external-link">assign</a></span><span class="op">(</span> <span class="va">aaaa</span> , <span class="st">"my_func_a"</span><span class="op">)</span> <span class="co">#  but don't notice the creation of an alias</span></span>
+<span>  <span class="fu">my_func_a</span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span> <span class="co"># will not be matched during the post-processing</span></span></code></pre>
 </div>
 <div class="section level2">
-<h2 id="about-duplicated-lines-associated-with-1st-matches">About duplicated lines associated with 1st matches<a class="anchor" aria-label="anchor" href="#about-duplicated-lines-associated-with-1st-matches"></a>
+<h2 id="about-duplicated-lines-associated-with-matches">About duplicated lines associated with matches<a class="anchor" aria-label="anchor" href="#about-duplicated-lines-associated-with-matches"></a>
 </h2>
 <p>During the 1st matches extraction, lines are duplicated <em>when
 several matches are found on the same line</em>. This case of duplicated
