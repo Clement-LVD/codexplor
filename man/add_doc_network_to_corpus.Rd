@@ -9,6 +9,7 @@ add_doc_network_to_corpus(
   prefix_for_2nd_matches = "\\\\b",
   suffix_for_2nd_matches = "\\\\(",
   filter_egolink_within_a_file = TRUE,
+  exclude_quoted_content = F,
   file_path_from_colname = "from",
   file_path_to_colname = "to",
   function_matched_colname = "function",
@@ -28,6 +29,9 @@ of each match, in order to have a complete regular expression. The default is an
 
 \item{filter_egolink_within_a_file}{\code{logical}, default = \code{TRUE}. A logical value indicating whether to filter results based on
 "ego links" (a document referring to itself)}
+
+\item{exclude_quoted_content}{\code{logical}, default = \code{FALSE}. A logical value indicating if the quoted content should be take into consideration.
+If set to \code{TRUE}, text within " or ' over the same line will be suppressed, before to realize the matches}
 
 \item{file_path_from_colname}{\code{character}, default = \code{'from'} The column name (as a string) representing the "from" file path
 in the result data frame.}

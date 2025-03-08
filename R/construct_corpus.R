@@ -143,11 +143,12 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
   complete_files <- readlines_in_df(files_path = files_path, .verbose = .verbose, ... )
   # add real files ext (checking if an extension default pattern return a fake file)
 
-  if(.verbose) cat("\n ==> Compute metrics")
 
   if(is.null(complete_files)) return(NA)
 
   complete_files$file_ext <- gsub(x = basename(complete_files$file_path), ".*\\." ,replacement = "")
+
+  if(.verbose) cat("\n ==> Compute metrics")
 
   # 4.1.) ADD LINES TEXT-METRICS ON ENTIRE FILES
   complete_files <- cbind(complete_files, compute_nchar_metrics(complete_files[[3]]) )
@@ -161,7 +162,7 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
 
   # 5.) detect the full commented lines (never clean the pseudo comments on the same line)
   # add logical to our df
-  complete_files$comments <-  grepl(x = complete_files$content, pattern =  paste0("^\\s*", lang_desired$commented_line_char))
+  complete_files$comments <- grepl(x = complete_files$content, pattern =  paste0("^\\s*", lang_desired$commented_line_char))
 # we will separate a 1st solid corpus then with these values :
 
   #### 2) Construct a corpus.list ####
@@ -174,7 +175,7 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
   # classe corpus.lines and corpus.nodelist
 # except 'codes' that will be cleaned more and more herafter
 
-# filter junklines - prevent crashes (from utils.R func')
+# filter junklines - prevent crashes (utils.R func')
   corpus$codes <- filter_if_na(corpus$codes, "content")
 
 #### CLEAN THE codes df in corpus list if some multi-lines comments are possible
@@ -182,7 +183,9 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
 
     if(.verbose) cat("\n===> Clean blocks of comments\n")
 
-    codes_and_comments <- separate_commented_lines(texts = corpus$codes$content, delim_pair = lang_desired$delim_pair_comments_block, .verbose = .verbose)
+    codes_and_comments <- separate_commented_lines(texts = corpus$codes$content
+                                                   , delim_pair = lang_desired$delim_pair_comments_block
+                                                   , .verbose = .verbose)
 
     corpus$codes$content <- codes_and_comments$codelines
     # filter out blank lines again
@@ -191,7 +194,7 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
 
   }
 
-# this step, exclude comments within lines of texts
+# Exclude comments within lines of texts
 corpus$codes <- process_vector_on_df_by_group(df = corpus$codes
                                 , group_col = "file_path"
                                 , func = remove_text_after_char
@@ -202,6 +205,9 @@ corpus$codes <- process_vector_on_df_by_group(df = corpus$codes
 # BY GROUPING the df and ensuring results are as ok as the subfunctionss
 corpus$codes$content <- corpus$codes$uncommented
 corpus$codes$uncommented <- NULL
+
+# then suppress quoted text that is not the purpose of the corpus
+corpus$codes$content_without_quote <- censor_quoted_text(text = corpus$codes$content, char_for_replacing_each_char = "_")
 
 #### extract only exposed content as a 'code' content ####
 # unested codes {} such as function definition wille be removed !
@@ -214,23 +220,24 @@ corpus$codes$uncommented <- NULL
 corpus$codes <- process_vector_on_df_by_group(df = corpus$codes
                                   , group_col = "file_path"
                                   , func = extract_text_outside_separators
-                                  , vector_col = "content"
-, open_sep = names(paired_delim), close_sep = paired_delim)
+                                  , vector_col = "content_without_quote"
+, open_sep = names(paired_delim), close_sep = paired_delim, escape_char = lang_desired$escaping_char)
 # by default add a 'result' column
 
-colnames(corpus$codes)[colnames(corpus$codes) == "result"] = "exposed_unested_content"
+colnames(corpus$codes)[colnames(corpus$codes) == "result"] = "exposed_content"
 
-  } else corpus$codes$exposed_unested_content <-  corpus$codes$content
+  } else corpus$codes$exposed_content <-  corpus$codes$content_without_quote
 
   if(.verbose) cat("\n ====> Perform a 1st text-extraction")
 
  # 5-A} Get 1st matches (risk of duplicated lines here)
   corpus$codes <- srch_pattern_in_df( df =  corpus$codes
-                                      , content_col_name = "exposed_unested_content"
+                                      , content_col_name = "exposed_content"
                                       ,  pattern = lang_desired$fn_regex )
 
+  # corpus$codes$exposed_content <- NULL
+  corpus$codes$content_without_quote <- NULL
   # remove this col' if we don't need it
-  corpus$codes$exposed_unested_content <- NULL
 
   #### 6) finally construct the corpus.lines object ####
   corpus$codes <- .construct.corpus.lines(corpus$codes)

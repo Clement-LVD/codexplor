@@ -48,7 +48,7 @@ filter_if_na <- function(df, col_to_verify){
 if(length(lines_to_filter_out) > 0) df <- df[-lines_to_filter_out, ]
 return(df)}
 
-#### 0 remove comments
+#### 0) remove comments ####
 # Function to remove text after a specific character, excluding content inside quotes
 remove_text_after_char <- function(text, char = "#"
                                    ,colname_uncommented = "uncommented"
@@ -91,7 +91,23 @@ return(data.frame(text = substr(line, 1, pos - 1),
 
 #### 1-A.1.) Count opening and closing characters per line
 # used in the next func :
-count_opening_and_closing_chars_level <- function(texts, open = "\\{", close = "\\}") {
+# text = c(" test /* commentaire */ /* debut commenté", "commente ", " */ encore test but this /* comment */ ")
+# count_opening_and_closing_chars_level(text, open = "/\\*", close = "\\*/")
+# text <- "char '\\{' quoted that we don't want to match {and a real parenhesis}"
+
+# count_opening_and_closing_chars_level(text, escape_char = "\\\\")
+
+# text = c(" test 'commentaire ' debut commenté", 'commente ', ' "  encore test but this /* comment */ " ')
+# count_opening_and_closing_chars_level(text,open = '\\"', close = "'")
+
+count_opening_and_closing_chars_level <- function(texts, open = "\\{", close = "\\}", escape_char = NULL) {
+
+  if(!is.null(escape_char)){
+    escape_char <- fix_escaping(num_escapes = 4, special_chars = "\\",text = escape_char) #we are in r
+
+  open <- paste0("(?<!" ,escape_char, ")", open); close <-  paste0("(?<!" ,escape_char,  ")", close)
+  }
+
   # for a given entry and a given char : count the occurences of this char
   count_occurrences <- function(line, pattern) {
     if (is.na(line)) return(0)
@@ -114,16 +130,18 @@ count_opening_and_closing_chars_level <- function(texts, open = "\\{", close = "
 # THE LEVEL OF THE LAST LINE should be 0 in a normal programming file
 
 # 1.A.2.) Extract text that is NOT between the specified separators.
+# text = c("test { commentaire }   debut {commenté", "commente ", "*/ encore test } /* comment */ ")
+# extract_text_outside_separators(text) #, open_sep = "\\*/", close_sep = "/\\*"
 
 # Main function: extract text NOT inside the separators.
-extract_text_outside_separators <- function(texts, open_sep = "\\{", close_sep = "\\}", add_infos_when_repairing = NULL) {
+extract_text_outside_separators <- function(texts, open_sep = "\\{", close_sep = "\\}", add_infos_when_repairing = NULL, escape_char = NULL) {
   # Balance the text if needed by appending extra closing characters
-  df <- count_opening_and_closing_chars_level(texts, open = open_sep, close = close_sep)
+  df <- count_opening_and_closing_chars_level(texts, open = open_sep, close = close_sep, escape_char = escape_char)
   extra_levels <- df$level_end_of_line[nrow(df)]
 
     # Only append closing characters if extra_levels is greater than 0
     if (extra_levels > 0) {
-      cat("\n"); cat("Content is fixed by adding", extra_levels, "closing separator(s) !")
+      cat("\n"); cat("Content is fixed by adding", extra_levels, "closing separator(s)"); cat(texts)
 
       if(!is.null(add_infos_when_repairing)) cat("\n=> " , add_infos_when_repairing, "\n")
 
@@ -199,30 +217,31 @@ return(unique(files_path))
 
 #### cleaning paths and urls ####
 # we'll clean paths AFTER the Citations Network
+# and only if there is a single folder or repos
+
+# givin a test <- clean_paths(corpus$codes)
 clean_paths <- function(df
-                        , file_path_col = 1
-                        , pattern_to_exclude_path = NULL
-                        , ignore_match_less_than_nchar = 3
-                        , pattern_to_remove = "https://raw.githubusercontent.com/"
+                      , pattern_to_remove = NULL
+                     , github_pattern_to_remove = "https://raw.githubusercontent.com/"
                         , ...
 ){
 
-
+  if(is.data.frame(df) ){
+    old_class <- class(df)
+    new_df <- apply(simplify =T, df, MARGIN = 2, FUN = function(vector){ clean_paths(df = vector  , pattern_to_remove = NULL) } )
+   new_df <- as.data.frame(new_df)
+     class(new_df) <- old_class
+    }
   # file path 1st col / line_number 2nd / content is the 3rd col' /
 
-  # preparing the corpus : clean the files path
-  if(is.character(pattern_to_remove)){
+  if(!is.character(df)) return(df)
 
-    # force remove a pattern from the 1st_col
-    df[[file_path_col]] <- gsub(pattern = pattern_to_remove, "", x = df[[file_path_col]])
+  vector = df
+  # force remove a pattern
+  if(is.character(pattern_to_remove)){vector  <- gsub(pattern = pattern_to_remove, "", x = vector)  }
+  if(is.character(github_pattern_to_remove)){vector  <- gsub(pattern = github_pattern_to_remove, "", x = vector)  }
 
-  }
-
-  if(length(df[[file_path_col]]) == 0) return(df)
-
-
-  # 4) return a list (!!)
-  return(df)
+  return(vector)
 
 }
 

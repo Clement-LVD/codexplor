@@ -1,7 +1,25 @@
-
-
-#### 1) lines text-metrics ####
-#simple stats here will affect all corpus :
+#' Get lines text-metrics from a df
+#'
+#' Given a `character` vector, return a `data.frame` with lines text-mining metrics :
+#' values are related to each element of the vector provided by the user.
+#' @param text `character`. A character vector of texts.
+#' @param nchar_colname `character`. Default = `""n_char""`. `character` indicating the colname for total nchar().
+#' @param nchar_nospace_colname `character`. Default = `"n_char_wo_space"`. `character` indicating the colname for nchar() without space.
+#' @param word_count_colname `character`. Default = `"n_word"`. `character` indicating the colname for a word count.
+#' @param vowel_count_colname `character`. Default = `"n_vowel"`. `character` indicating the colname for a vowel count (as a syllab count).
+#' @return A `data.frame` sorted in the same order as the `character` vector provided by the user, providing for each element of the vector :
+#' \describe{
+#'   \item{\code{n_char}}{`character` Number of characters - including spacing - in a line.}
+#'   \item{\code{n_char_wo_space}}{`character` Number of characters - without spacing - in a line.}
+#'   \item{\code{word_count_colname}}{`character` Number of words in a line.}
+#'   \item{\code{vowel_count_colname}}{`character` Number of vowels in a line.}
+#' }
+#' @examples
+#' # Example 1: Construct a corpus from local folders
+#'  texts = c("the lazy rat terrier jump over the quick brown fox"
+#'  , "cause lazy rat terrier are the best dog")
+#'  compute_nchar_metrics(texts)
+#' @export
 compute_nchar_metrics <- function(text,
                                   nchar_colname = "n_char",
                                   nchar_nospace_colname = "n_char_wo_space",

@@ -25,6 +25,9 @@
 #' @param filter_egolink_within_a_file `logical`, default = `TRUE`. A logical value indicating whether to filter results based on
 #' "ego links" (a document referring to itself)
 #'
+#' @param exclude_quoted_content `logical`, default = `FALSE`. A logical value indicating if the quoted content should be take into consideration.
+#'  If set to `TRUE`, text within " or ' over the same line will be suppressed, before to realize the matches
+#'
 #' @param file_path_from_colname `character`, default = `'from'` The column name (as a string) representing the "from" file path
 #' in the result data frame.
 #'
@@ -70,6 +73,8 @@ add_doc_network_to_corpus <- function(corpus
 
    , filter_egolink_within_a_file = TRUE
 
+ , exclude_quoted_content = F
+
  , file_path_from_colname = 'from'
  , file_path_to_colname = 'to'
  , function_matched_colname =  "function"
@@ -78,6 +83,7 @@ add_doc_network_to_corpus <- function(corpus
  , content_matched_colname = "content" # we want to keep the full content available
 
  , order_fn_called_colname = "order"
+
   ){
 
   # Check if it's a corpus.lines from construct_corpus
@@ -91,8 +97,10 @@ add_doc_network_to_corpus <- function(corpus
   }
 
 ##### 1) Construct a lines corpus ####
- # We will rename in the end
+ # We will rename column in the end
 fn_network <- corpus$codes # we have our standard class for ensuring boring test about column if necessary
+
+if(exclude_quoted_content) fn_network$content <-  censor_quoted_text(text = fn_network$content)
 
 # 2.1) Get an HYBRID nodelist of the 1st matches and files path (default names from the corpus func')
 # by default we're supposed to catch lines where functions are defined, but there is maybe several functions in a file

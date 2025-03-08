@@ -80,6 +80,10 @@ obj.method() # Return : 'My custom method'
 
 
 ### Filter undesired match
-Junk nodes needs to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. `get_doc_network_from_project` offer several parameters for dealing with your style of writing a program.
+`get_doc_network_from_project` offer several parameters for dealing with your style of writing a program.
+
+Junk nodes needs to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. For this type of false positive, `get_doc_network_from_project` offer the `exclude_quoted_content` parameter, in order to exclude quoted text from the matches and avoid this false positive case. Be aware that all the quoted text will be avoided, if you've included some - fancy - way of *call* a function as a quoted `character` chain.
+
+      get_doc_network_from_project("~", languages = "R", exclude_quoted_content = TRUE)
 
 

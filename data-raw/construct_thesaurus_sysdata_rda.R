@@ -74,6 +74,7 @@ list_language_patterns <- list(
     , commented_line_char = "#"
     , delim_pair_comments_block = NA
     , pattern_to_exclude = "\\.Rcheck|test-|vignettes|/doc/"
+    , escaping_char = '\\'
   ),
   Python = list(
     fn_regex = list(main_definition = ref_languages$Python$regex_func_name   # [^\\(]+: 1 or + char BUT NOT A  '(' (function name).
@@ -82,7 +83,9 @@ list_language_patterns <- list(
     , file_extension = ".py"
     , commented_line_char = "#"     # Python (Python)
     , delim_pair_comments_block = NA
-    , pattern_to_exclude = NA),
+    , pattern_to_exclude = NA
+    , escaping_char = "\\"
+    ),
 
   JavaScript = list(
     fn_regex = list(
@@ -94,6 +97,7 @@ list_language_patterns <- list(
     , commented_line_char = "//"
     , delim_pair_comments_block = c("/*" = "*/")  # JavaScript (JavaScript)
     , pattern_to_exclude = NA
+    , escaping_char = "\\"
   )
 )
 

@@ -69,7 +69,7 @@ With these patterns, `construct_corpus` will :
 
 1. read the files accordingly to their extension, e.g., R language is associated with `'.R'` files. 
 2. process commented lines accordingly to each language definition, e.g., R & Python use `'#'` and don't allow multi-lines comments, contrary to JavaScript.
-3. isolate the exposed content, i.e. not within a `'{ }'`.
+3. isolate the exposed content, i.e. not quoted and not within a `'{ }'`.
 3. match functions names within the exposed content.
 
 ```{r table-operations-construct-corpus, eval=FALSE, include=FALSE}
@@ -117,15 +117,21 @@ knitr::kable(table)
 Here, R is the only language that assign an anonymous function to an object. Thus, contrary to other languages, we have to find the name of R functions before the keyword 'function', R parameters names are within the parenthesis after 'function(', etc. 
 
 ## Unmatched func' def'
-The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched by `construct_corpus` :
+The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched yet by `construct_corpus` :
 
      hello = lambda: None
 
 Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter :
 
      const hello = (a, b) => a + b;
+     
+The re-assigning of an anonymous R function to a new R object is not supported yet :
+      
+      aaa <- function(i, a){i + a} # construct_corpus match the 'aaa' function
+      assign( aaaa , "my_func_a") #  but don't notice the creation of an alias
+      my_func_a(1,2) # will not be matched during the post-processing
 
-## About duplicated lines associated with 1st matches
+## About duplicated lines associated with matches
 During the 1st matches extraction, lines are duplicated *when several matches are found on the same line*. This case of duplicated lines trigger a `warning`. 
 
 > For example, by default, the names of functions defined in the files of the project are extracted during the 1st match operated by `construct_corpus`. If a file have several function defined *within the same line*, such a line will be duplicated in the returned `df`, with several 'matches' along these lines and same line_number. 

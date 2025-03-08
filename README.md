@@ -46,8 +46,6 @@ library(codexplor)
 
  # 1) Construct a corpus and a Citations network
   corpus <- get_doc_network_from_project(folders = getwd(), languages = "R" )
-#> 
-#> Content is fixed by adding 2 closing separator(s) !
    # return a corpus.list object with 4 data.frames :
   # => 2 corpus.lines
   # => 1 corpus.nodelist 
