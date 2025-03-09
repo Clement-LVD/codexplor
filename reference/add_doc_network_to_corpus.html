@@ -54,6 +54,7 @@ select the <code>codes</code> <code>data.frame</code> and append a Citations Net
 <span>  <span class="va">corpus</span>,</span>
 <span>  prefix_for_2nd_matches <span class="op">=</span> <span class="st">"\\b"</span>,</span>
 <span>  suffix_for_2nd_matches <span class="op">=</span> <span class="st">"\\("</span>,</span>
+<span>  n_char_to_add_suffix <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  filter_egolink_within_a_file <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  exclude_quoted_content <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  file_path_from_colname <span class="op">=</span> <span class="st">"from"</span>,</span>
@@ -81,6 +82,10 @@ to each 1st match that will be turned into a new regular expressions. The defaul
 <dt id="arg-suffix-for-nd-matches">suffix_for_2nd_matches<a class="anchor" aria-label="anchor" href="#arg-suffix-for-nd-matches"></a></dt>
 <dd><p><code>character</code> A string representing a regex to add as a suffix
 of each match, in order to have a complete regular expression. The default is an empty string.</p></dd>
+
+
+<dt id="arg-n-char-to-add-suffix">n_char_to_add_suffix<a class="anchor" aria-label="anchor" href="#arg-n-char-to-add-suffix"></a></dt>
+<dd><p><code>double</code>, default = <code>3</code> Minimum number of characters to add the suffix.</p></dd>
 
 
 <dt id="arg-filter-egolink-within-a-file">filter_egolink_within_a_file<a class="anchor" aria-label="anchor" href="#arg-filter-egolink-within-a-file"></a></dt>

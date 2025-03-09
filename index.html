@@ -76,10 +76,7 @@
 <div class="section level3">
 <h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h3>
-<div class="section level4">
-<h4 id="turn-a-programming-project-into-a-corpus">Turn a programming project into a corpus<a class="anchor" aria-label="anchor" href="#turn-a-programming-project-into-a-corpus"></a>
-</h4>
-<p>Given folder(s) and/or github repo(s) and programming language(s), <code><a href="reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code> will return a <code>list</code> - with additional class <code>corpus.list</code> - of dataframes :</p>
+<p><strong>1. Turn a programming project into a corpus.</strong> Given folder(s) and/or github repo(s) and programming language(s), <code><a href="reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code> will return a <code>list</code> - with additional class <code>corpus.list</code> - of dataframes :</p>
 <ul>
 <li>2 <code>corpus.lines</code> dataframes (<code>codes</code> &amp; <code>comments</code>)</li>
 <li>2 <code>corpus.nodelist</code> dataframes (<code>files</code> &amp; <code>functions</code>)</li>
@@ -94,21 +91,17 @@
 <span>                                         , languages <span class="op">=</span> <span class="st">"R"</span> <span class="op">)</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corpus</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 5</span></span>
-<span><span class="co">#&gt;  $ codes                :Classes 'corpus.lines' and 'data.frame':    1605 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ comments             :Classes 'corpus.lines' and 'data.frame':    1129 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ codes                :Classes 'corpus.lines' and 'data.frame':    1620 obs. of  10 variables:</span></span>
+<span><span class="co">#&gt;  $ comments             :Classes 'corpus.lines' and 'data.frame':    1133 obs. of  9 variables:</span></span>
 <span><span class="co">#&gt;  $ files                :Classes 'corpus.nodelist' and 'data.frame': 27 obs. of  10 variables:</span></span>
 <span><span class="co">#&gt;  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 40 obs. of  4 variables:</span></span>
 <span><span class="co">#&gt;  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  61 obs. of  6 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
 <span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-09"</span></span>
 <span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi TRUE</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="turn-a-corpus-element-into-a-dataviz">Turn a corpus element into a dataviz’<a class="anchor" aria-label="anchor" href="#turn-a-corpus-element-into-a-dataviz"></a>
-</h4>
-<p>Given a corpus with a <code>citations.network</code> <code>data.frame</code>, look at the dataviz’ of internal dependancies with <code><a href="reference/get_networkd3_from_igraph.html">codexplor::get_networkd3_from_igraph</a></code> :</p>
+<p><strong>2. See various dataviz’ from a corpus.list.</strong> Given a <code>corpus.list</code> with some <code>citations.network</code> <code>data.frame</code>, look at the dataviz’ with <code><a href="reference/get_networkd3_from_igraph.html">codexplor::get_networkd3_from_igraph</a></code> :</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># 2) Produce an interactive dataviz' with the network of internal.dependencies</span></span>
+<code class="sourceCode R"><span><span class="co"># Produce an interactive dataviz' with the network of internal.dependencies</span></span>
 <span><span class="va">dataviz</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">corpus</span><span class="op">$</span><span class="va">internal.dependencies</span></span>
 <span>, title_h1 <span class="op">=</span> <span class="st">"Graph of internal dependancies"</span></span>
 <span>, subtitle_h2 <span class="op">=</span> <span class="st">"codexplor"</span></span>
@@ -120,7 +113,6 @@
 <p>These dataviz are useful for pinpointing where to start a polishing loop, identifying all the functions impacted by upcoming changes, […] or assessing the impact of a new dev loop on the project’s complexity.</p>
 </blockquote>
 <hr>
-</div>
 </div>
 <div class="section level3">
 <h3 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>

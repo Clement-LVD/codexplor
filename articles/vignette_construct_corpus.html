@@ -66,11 +66,10 @@
 
     
     
-<p><strong><code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code></strong> read
-programming files and turn a programming project into a text-mining
-corpus, given :</p>
+<p><strong><code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code></strong> turn a
+programming project into a text-mining corpus, given :</p>
 <ul>
-<li>folder(s) path(s) and/or github repo(s) to analyze ;</li>
+<li>folder(s) path(s) and/or github repo(s) of the project ;</li>
 <li>and programming language(s) - default is <code>'R'</code>.</li>
 </ul>
 <p><strong>Supported languages.</strong> By default
@@ -88,8 +87,8 @@ Python, JavaScript.</p>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corp</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 4</span></span>
-<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1605 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1129 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1620 obs. of  10 variables:</span></span>
+<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1136 obs. of  9 variables:</span></span>
 <span><span class="co">#&gt;  $ files    :Classes 'corpus.nodelist' and 'data.frame': 27 obs. of  8 variables:</span></span>
 <span><span class="co">#&gt;  $ functions:Classes 'corpus.nodelist' and 'data.frame': 40 obs. of  4 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
@@ -136,8 +135,7 @@ files, and contains the files path and/or url, and overall text-mining
 metrics about each files of the corpus (e.g., number of characters,
 words count).</p></li>
 <li><p>The <code>functions</code> <code>data.frame</code> contains the
-functions names and text-mining metrics about these functions, assuming
-functions are defined in file(s).</p></li>
+functions names and text-mining metrics about these functions.</p></li>
 <li><p>The 2 <code>corpus.lines</code> <code>data.frame</code> are
 related to lines (file path and content of each lines, line number, and
 text-mining metrics related to each lines).</p></li>
@@ -169,7 +167,8 @@ e.g., R &amp; Python use <code>'#'</code> and don’t allow multi-lines
 comments, contrary to JavaScript.</li>
 <li>isolate the exposed content, i.e. not quoted and not within a
 <code>'{ }'</code>.</li>
-<li>match functions names within the exposed content.</li>
+<li>extract functions names from the exposed content, in order to list
+the internally exposed functions of the programming project.</li>
 </ol>
 <p>The hereafter table show some examples of a <code>hello</code>
 function defined in several languages : <code>construct_corpus</code>
