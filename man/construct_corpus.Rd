@@ -29,23 +29,24 @@ construct_corpus(
 (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).}
 }
 \value{
-A \code{list} of 3 \code{data.frame} containing the corpus of collected files and a nodelist :
-\code{codes} and \code{comments} (\code{data.frame} with class \code{corpus.lines}) and \code{nodelist} (\code{data.frame} with class \code{corpus.nodelist})
+A \code{list} of 4 \code{data.frame} containing the corpus of collected files and a nodelist :
+\code{codes} and \code{comments} (classes \code{data.frame} & \code{corpus.lines}),
+\code{functions} and \code{files} (classes \code{data.frame} & \code{corpus.nodelist})
 The data frames typically includes columns such as:
 \describe{
 \item{\code{file_path}}{ \code{character} The local file path or constructed GitHub URL.}
 \item{\code{line_number}}{\code{integer} The line number of the file.}
-\item{\code{content}}{\code{character} The content in a line of the file (the \code{corpus.nodelist} have the full content of the file ).}
+\item{\code{content}}{\code{character} The content in a line for the \code{corpus.lines} df, or the full content of the file (\code{corpus.nodelist} df).}
 \item{\code{file_ext}}{\code{character} File extension of the file.}
-\item{\code{n_char}}{\code{integer} Number of characters - including spacing - in a line (or the file for the \code{corpus.nodelist} df).}
-\item{\code{n_char_wo_space}}{\code{integer} Number of characters - without spacing - in a line (or the file for the \code{corpus.nodelist} df)}
-\item{\code{n_word}}{\code{integer} Number of words in a line  (or the file for the \code{corpus.nodelist} df).}
-\item{\code{n_vowel}}{\code{integer} Number of voyel in a line (or the file for the \code{corpus.nodelist} df).}
+\item{\code{n_char}}{\code{integer} Number of characters - including spacing - in a line, the file for the \code{files} df, or the function code for the \code{functions} df).}
+\item{\code{n_char_wo_space}}{\code{integer} Number of characters - without spacing - in a line, the file for the \code{files} df, or the function code for the \code{functions} df)}
+\item{\code{n_word}}{\code{integer} Number of words in a line, the file for the \code{files} df, or the function code for the \code{functions} df).}
+\item{\code{n_vowel}}{\code{integer} Number of voyel in a line, the file for the \code{files} df, or the function code for the \code{functions} df).}
+\item{\code{n_total_lines}}{\code{integer} Number of commented lines (\code{comments} df), code lines (\code{codes} df), within the file (\code{files} df), or the function code (\code{functions} df).}
 \item{\code{comments}}{\code{logical} \code{TRUE} if the entire line is commented. Set to \code{FALSE} for the \code{codes} df and \code{TRUE} for the \code{comments} df.}
-\item{\code{commented}}{\code{integer} (only in the \code{codes} df) Content of the inlines comments (NA if there is no inline comments).}
-\item{\code{n_total_lines}}{\code{integer} (only in the \code{corpus.nodelist} df) Number of clines of the files \emph{without comments}.}
-\item{\code{matches}}{\code{character} (only in the \code{codes} df) A 1st matched text, extracted accordingly to a pattern.}
-\item{\code{commented}}{\code{character} (only in the \code{codes} df) A 1st matched text, extracted accordingly to a pattern.}
+\item{\code{commented}}{\code{character} (only in the \code{codes} df) Inlines comments or NA if there is no inline comments.}
+\item{\code{parameters}}{\code{character} (only in the \code{functions} df) The content that define the default parameters of a function.}
+\item{\code{parameters}}{\code{character} (only in the \code{functions} df) The code of a function.}
 }
 }
 \description{
@@ -73,8 +74,8 @@ requested languages.
 }
 \examples{
 # Example 1: Construct a corpus from local folders
- corpus <- construct_corpus(folders = "~", languages = c( "R", "Python"))
- # corpus <- construct_corpus(folders = "~", languages = c("Javascript"))
+ corpus <- construct_corpus(folders = "~", languages = c( "R"))
+ # corpus <- construct_corpus(folders = "~", languages = c("Javascript", "Python"))
 \dontrun{
 # Example 2: Construct a corpus from GitHub repositories (default is R)
 cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )

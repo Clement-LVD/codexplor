@@ -2,7 +2,7 @@
 #'
 #' @param corpus A `corpus.list` object with at least the 'codes' dataframe
 #' @param lang_dictionnary `list` A language patterns dictionnary specific to one language
-#' @return a `list` of class `corpus.list`
+#' @return a `list` of class `corpus.list` with exposed functions names and file path
 add_functions_list_to_corpus <- function(corpus
    , lang_dictionnary
   ){
@@ -38,16 +38,15 @@ add_functions_list_to_corpus <- function(corpus
   n_functions_defined <- data.frame(func = n_functions_defined, file_path = names(n_functions_defined))
 
    # completing the files nodelist
-  old_class <- class(corpus$files)
-  corpus$files <- merge(corpus$files, n_functions_defined, by ="file_path")
-class( corpus$files ) <- old_class
+  corpus$files <- .construct.nodelist(merge(corpus$files, n_functions_defined, by ="file_path"))
 
   # corpus of func'
   corpus$functions <- fn_nodelist[!is.na(fn_nodelist$matches), c("matches", "file_path", "content", "exposed_content")]
 
   colnames(corpus$functions)[1] <- "name"
 
-corpus$functions <- .construct.nodelist(corpus$functions)
+# another func that add "parameters" and "content" col and return a corpus list object
+corpus <- extract_fn_content(corpus,  lang_dictionnary )
 
 return(corpus)
 }

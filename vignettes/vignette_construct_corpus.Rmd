@@ -80,29 +80,6 @@ With these patterns, `construct_corpus` will :
 3. isolate the exposed content, i.e. not quoted and not within a `'{ }'`.
 4. extract functions names from the exposed content, in order to list the internally exposed functions of the programming project.
 
-```{r table-operations-construct-corpus, eval=FALSE, include=FALSE}
-
-steps <- data.frame(Step = c("Filter files path/url and read only files with correct extension(s)"  
-, "**Separate commented lines** from *codes lines*"  
-, "**Identify the unested - exposed - content** within the *codes lines*, in order to exclude the non-exposed functions (*aka* nested functions) from the matches of the next step"
- , "**Extract functions names** within the *codes lines* (1st matches)"
-)
- , Examples = c(paste('e.g., "R" language is associated with "`.R`" files and a default filtering pattern (i.e."'
-                      , get_def_regex_by_language()$R$pattern_to_exclude, '")'  )
-, 'e.g., R & Python files have commented lines that begin with "`#`", others languages commented lines begin with "`//`". Commented blocks on several lines use ("`/*`")'
-, "e.g., extract exposed content - within the project - that is not under a block of code delimitor such as '{' and '}' for the R language"
-  , 'e.g., the name is before a "`<- function(`" instruction for the R programming language'
-)
-
-)
-
-rownames(steps) <- c("1. Read", "2. Preprocess" ,"3. Identify", "4. Qualify")
-
-colnames(steps) <- c("Steps", "Examples of pattern associated with language(s)")
-
-knitr::kable(steps,row.names = T )
-
-```
 
 The hereafter table show some examples of a `hello` function defined in several languages : `construct_corpus` have to match `'hello'`, despite of the differences between languages.
 
@@ -123,6 +100,12 @@ knitr::kable(table)
 ```
 
 Here, R is the only language that assign an anonymous function to an object. Thus, contrary to other languages, we have to find the name of R functions before the keyword 'function', R parameters names are within the parenthesis after 'function(', etc. 
+
+```{r table-operations-construct-corpus, eval=FALSE, include=FALSE}
+ # given a name of func :
+# in R we retrieve that with name <-|= function(PARAMETERS !){CODE !}
+# other languages we retrieve name(PARAMETERS !){CODE !}
+```
 
 ## Unmatched func' def'
 The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched yet by `construct_corpus` :

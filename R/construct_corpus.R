@@ -13,23 +13,24 @@
 #' @param ... Additional arguments passed to `srch_pattern_in_files_get_df`
 #' (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).
 #'
-#' @return A `list` of 3 `data.frame` containing the corpus of collected files and a nodelist :
-#' `codes` and `comments` (`data.frame` with class `corpus.lines`) and `nodelist` (`data.frame` with class `corpus.nodelist`)
+#' @return A `list` of 4 `data.frame` containing the corpus of collected files and a nodelist :
+#' `codes` and `comments` (classes `data.frame` & `corpus.lines`),
+#' `functions` and `files` (classes `data.frame` & `corpus.nodelist`)
 #' The data frames typically includes columns such as:
 #' \describe{
 #'   \item{\code{file_path}}{ `character` The local file path or constructed GitHub URL.}
 #'   \item{\code{line_number}}{`integer` The line number of the file.}
-#'   \item{\code{content}}{`character` The content in a line of the file (the `corpus.nodelist` have the full content of the file ).}
+#'   \item{\code{content}}{`character` The content in a line for the `corpus.lines` df, or the full content of the file (`corpus.nodelist` df).}
 #'   \item{\code{file_ext}}{`character` File extension of the file.}
-#'   \item{\code{n_char}}{`integer` Number of characters - including spacing - in a line (or the file for the `corpus.nodelist` df).}
-#'   \item{\code{n_char_wo_space}}{`integer` Number of characters - without spacing - in a line (or the file for the `corpus.nodelist` df)}
-#'   \item{\code{n_word}}{`integer` Number of words in a line  (or the file for the `corpus.nodelist` df).}
-#'   \item{\code{n_vowel}}{`integer` Number of voyel in a line (or the file for the `corpus.nodelist` df).}
+#'   \item{\code{n_char}}{`integer` Number of characters - including spacing - in a line, the file for the `files` df, or the function code for the `functions` df).}
+#'   \item{\code{n_char_wo_space}}{`integer` Number of characters - without spacing - in a line, the file for the `files` df, or the function code for the `functions` df)}
+#'   \item{\code{n_word}}{`integer` Number of words in a line, the file for the `files` df, or the function code for the `functions` df).}
+#'   \item{\code{n_vowel}}{`integer` Number of voyel in a line, the file for the `files` df, or the function code for the `functions` df).}
+#'   \item{\code{n_total_lines}}{`integer` Number of commented lines (`comments` df), code lines (`codes` df), within the file (`files` df), or the function code (`functions` df).}
 #'   \item{\code{comments}}{`logical` `TRUE` if the entire line is commented. Set to `FALSE` for the `codes` df and `TRUE` for the `comments` df.}
-#'   \item{\code{commented}}{`integer` (only in the `codes` df) Content of the inlines comments (NA if there is no inline comments).}
-#'   \item{\code{n_total_lines}}{`integer` (only in the `corpus.nodelist` df) Number of clines of the files *without comments*.}
-#'   \item{\code{matches}}{`character` (only in the `codes` df) A 1st matched text, extracted accordingly to a pattern.}
-#'   \item{\code{commented}}{`character` (only in the `codes` df) A 1st matched text, extracted accordingly to a pattern.}
+#'   \item{\code{commented}}{`character` (only in the `codes` df) Inlines comments or NA if there is no inline comments.}
+#'   \item{\code{parameters}}{`character` (only in the `functions` df) The content that define the default parameters of a function.}
+#'   \item{\code{parameters}}{`character` (only in the `functions` df) The code of a function.}
 #' }
 #'
 #' @details
@@ -46,8 +47,8 @@
 #'  - `duplicated_corpus_lines`, `logical`. If `TRUE`, line(s) of the `codes` data.frame are duplicated (must be to `FALSE` in near to all cases)
 #' @examples
 #' # Example 1: Construct a corpus from local folders
-#'  corpus <- construct_corpus(folders = "~", languages = c( "R", "Python"))
-#'  # corpus <- construct_corpus(folders = "~", languages = c("Javascript"))
+#'  corpus <- construct_corpus(folders = "~", languages = c( "R"))
+#'  # corpus <- construct_corpus(folders = "~", languages = c("Javascript", "Python"))
 #' \dontrun{
 #' # Example 2: Construct a corpus from GitHub repositories (default is R)
 #' cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
@@ -155,7 +156,7 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
   # compute a nodelist FROM LINES : sum of these metrics is supposed to be document-level metrics
   # this func' is hereafter : a grouped stat' (end of this .R file)
   # 4.2) Aggregate by group_colname = "file_path" + sum of all the col' with a suffix ("n_")
-  doc_list <- compute_nodelist(df = complete_files, group_col = "file_path"
+  files_list <- compute_nodelist(df = complete_files, group_col = "file_path"
                                , colname_content_to_concatenate = "content")
   #we've made sum of metrics on each entire file, e.g., total nchar value
 
@@ -168,13 +169,13 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
   corpus <- list(
     codes = .construct.corpus.lines(complete_files[!complete_files$comments,  ]) # class is crafted hereafter
     , comments = .construct.corpus.lines(complete_files[complete_files$comments,  ])
-    , files = .construct.nodelist(doc_list)
+    , files = .construct.nodelist(files_list)
   )
   # classe corpus.lines and corpus.nodelist
-# except 'codes' that will be cleaned more and more herafter
+# 'codes' will be cleaned from comments
 corpus <- clean_comments_from_lines(corpus = corpus, delim_pair = lang_desired$delim_pair_comments_block)
 
-#### add functions nodelist ####
+#### 3) add a functions nodelist ####
 corpus <- add_functions_list_to_corpus(corpus, lang_dictionnary = lang_desired)
 
 # if we want to suppress quoted text that is not the purpose of the corpus

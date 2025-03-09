@@ -71,7 +71,7 @@ library(codexplor)
   
 ```
 
-**2. See various dataviz' from a corpus.list.** Given a `corpus.list` with some `citations.network` `data.frame`, look at the dataviz' with `codexplor::get_networkd3_from_igraph` :
+**2. See a dataviz' from a corpus.list.** Given a `corpus.list`, look at the dataviz' of a `citations.network` `data.frame` with `codexplor::get_networkd3_from_igraph` :
 
 ```{r compute-network-of-func,  results='asis', echo=TRUE}
 # Produce an interactive dataviz' with the network of internal.dependencies
@@ -108,7 +108,7 @@ features <- data.frame(Feature = c(
 
 , "![.](https://img.shields.io/badge/{🚧}-bold?style=flat&logoColor=black&logoSize=2&label=Document-level metrics&labelColor=grey&color=orange)"
 
-, "![.](https://img.shields.io/badge/{🚧}-bold?style=flat&logoColor=black&logoSize=2&label=Function-level metrics&labelColor=grey&color=red)"
+, "![.](https://img.shields.io/badge/{🚧}-bold?style=flat&logoColor=black&logoSize=2&label=Function-level metrics&labelColor=grey&color=orange)"
 
 , "![.](https://img.shields.io/badge/{🚧}-bold?style=flat&logoColor=black&logoSize=2&label=Line-level metrics&labelColor=grey&color=green)"
  

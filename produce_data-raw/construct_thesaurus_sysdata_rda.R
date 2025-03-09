@@ -53,17 +53,27 @@ JavaScript = list(Example = "function hello() { }"
 # add a regex according to the type : define func' (all languages) or not (only R)
 ref_languages <- lapply(ref_languages, FUN = function(x){
 
-  if(!x$anonymous) x$regex_func_name <- paste0( "(?<=", x$Definition_Keyword, ")",  fn_names  , "(?=" , x$Operator_After_Name  , ")")
-# R hereafter
-  if(x$anonymous)  x$regex_func_name <- paste0( "(^|\\.|\\b)" # begin of a word
+  if(!x$anonymous){
+  x$regex_func_name <- paste0( "(?<=", x$Definition_Keyword, ")",  fn_names  , "(?=" , x$Operator_After_Name  , ")")
+# and given a real fn name paster before (!) we want also a light regex to exclude the names and catch the after-text
+  x$regex_fn_parameters_after_names <-  "\\("
+  }# R hereafter
+  if(x$anonymous)  {
+     x$regex_func_name <- paste0( "(^|\\.|\\b)" # begin of a word
                                               , "(?!" ,  x$prefix_to_exclude, ")"
                                                , fn_basenames
                                             , "\\s*(?=(?:", x$Operator_After_Name,  ")" #lookahead fusionné
-                                          , "\\s*" ,"(?:" , x$Definition_Keyword, x$Operator_After_Keyword , "))" )
-# only r is anonymous
+                                          , "\\s*" ,"(?:" , x$Definition_Keyword, x$Operator_After_Keyword , "))" )}
+
+    x$regex_fn_parameters_after_names <-  "\\s*(<-|=)\\s*function\\("
+  # only r is anonymous
      return(x)
 })
 # e.g., a 'normal' regex will look like that for r :  "(^|\\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)
+
+# step 2, given a name of func :
+# in R we retrieve that with name <-|= function(PARAMETERS !){CODE !}
+# other languages we retrieve name(PARAMETERS !){CODE !}
 
 # stringr::str_extract_all(string = "def hello(): pass", pattern =ref_languages$Python$regex_func_name)
 # stringr::str_extract_all(string ="function myFunction() { return 42; }", pattern =ref_languages$JavaScript$regex_func_name  )
@@ -79,6 +89,7 @@ list_language_patterns <- list(
     , delim_pair_comments_block = NA
     , pattern_to_exclude = "\\.Rcheck|test-|vignettes|/doc/"
     , escaping_char = '\\'
+    ,  fn_regex_params_after_names = ref_languages$R$regex_fn_parameters_after_names
   ),
   Python = list(
     fn_regex = list(main_definition = ref_languages$Python$regex_func_name   # [^\\(]+: 1 or + char BUT NOT A  '(' (function name).
@@ -89,6 +100,7 @@ list_language_patterns <- list(
     , delim_pair_comments_block = NA
     , pattern_to_exclude = NA
     , escaping_char = "\\"
+    ,  fn_regex_params_after_names = ref_languages$Python$regex_fn_parameters_after_names
     ),
 
   JavaScript = list(
@@ -102,6 +114,8 @@ list_language_patterns <- list(
     , delim_pair_comments_block = c("/*" = "*/")  # JavaScript (JavaScript)
     , pattern_to_exclude = NA
     , escaping_char = "\\"
+    ,  fn_regex_params_after_names = ref_languages$JavaScript$regex_fn_parameters_after_names
+
   )
 )
 

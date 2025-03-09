@@ -58,18 +58,18 @@ library(codexplor)
                                          , languages = "R" )
     str(corpus, max.level = 1)
 #> List of 5
-#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1620 obs. of  10 variables:
-#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1133 obs. of  9 variables:
-#>  $ files                :Classes 'corpus.nodelist' and 'data.frame': 27 obs. of  10 variables:
-#>  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 40 obs. of  4 variables:
-#>  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  61 obs. of  6 variables:
+#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1713 obs. of  10 variables:
+#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1168 obs. of  9 variables:
+#>  $ files                :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:
+#>  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  4 variables:
+#>  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  64 obs. of  6 variables:
 #>  - attr(*, "class")= chr [1:2] "list" "corpus.list"
-#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-09"
+#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-10"
 #>  - attr(*, "have_citations_network")= logi TRUE
 ```
 
-**2. See various dataviz’ from a corpus.list.** Given a `corpus.list`
-with some `citations.network` `data.frame`, look at the dataviz’ with
+**2. See a dataviz’ from a corpus.list.** Given a `corpus.list`, look at
+the dataviz’ of a `citations.network` `data.frame` with
 `codexplor::get_networkd3_from_igraph` :
 
 ``` r
@@ -100,7 +100,7 @@ local insights on a programming project.
 |:---|:---|:---|
 | ![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network%20of%20internal%20dependencies&labelColor=black&color=green) | Appreciate global complexity and figure out the pig picture | Reveal critical files, e.g., major internal dependancies |
 | ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=orange) | Reveal clusters of ‘difficult-to-read’ files | Assess each file with text-mining metrics, e.g., length and files readability |
-| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Function-level%20metrics&labelColor=grey&color=red) | Reveal the most complex functions | Identify problematic functions, e.g., the longest ones |
+| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Function-level%20metrics&labelColor=grey&color=orange) | Reveal the most complex functions | Identify problematic functions, e.g., the longest ones |
 | ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Line-level%20metrics&labelColor=grey&color=green) | ↑ (used by global level metric) | Identify problematic lines |
 
 <!-- FEATURES are on 3 flex-columns : -->

@@ -12,7 +12,7 @@ add_functions_list_to_corpus(corpus, lang_dictionnary)
 \item{lang_dictionnary}{\code{list} A language patterns dictionnary specific to one language}
 }
 \value{
-a \code{list} of class \code{corpus.list}
+a \code{list} of class \code{corpus.list} with exposed functions names and file path
 }
 \description{
 Compute a function list from the codes df of a corpus.list object
