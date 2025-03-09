@@ -46,17 +46,23 @@ library(codexplor)
 
  # 1) Construct a corpus and a Citations network
   corpus <- get_doc_network_from_project(folders = getwd(), languages = "R" )
+#> Warning in srch_pattern_in_df(df = codes_list, content_col_name =
+#> "exposed_content", : ==> Have returned duplicated line(s) : you've matched
+#> several matches on a single line ! :x
+#> Duplicated row number are : 
+#> 1
    # return a corpus.list object with 4 data.frames :
-  # => 2 corpus.lines
-  # => 1 corpus.nodelist 
-  # => 1 citations.network
+  # => 2 corpus.lines (codes & comments)
+  # => 2 corpus.nodelist (files & functions)
+  # => 1 citations.network (internal.dependencies)
 ```
 
 ``` r
-# 2) Produce an interactive dataviz'
+# 2) Produce an interactive dataviz' with the network of internal.dependencies
 dataviz <- get_networkd3_from_igraph(corpus$internal.dependencies
-, title_h1 = "codexplor"
-, subtitle_h2 = "graph of internal dependancies" ) 
+, title_h1 = "Graph of internal dependancies"
+, subtitle_h2 = "codexplor"
+, endnotes_h3 = "Color and links symbolize indegrees") 
 ```
 
 <img src="man/figures/force_network.png" width="100%" />
