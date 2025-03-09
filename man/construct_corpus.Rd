@@ -51,9 +51,9 @@ The data frames typically includes columns such as:
 }
 \description{
 Given a Language, a folder path(s) and/or github repo(s)
-Return a \code{list} of 3 dataframes. List have an additionnal \code{corpus.list} class. The 3 \code{df} are :
+Return a \code{list} of 4 dataframes. The list have an additionnal \code{corpus.list} class. The df are :
 (1) \code{codes} lines and (2) \code{comments} lines, with text-metrics about each line;
-and (3) nodelist with global metrics over the files.
+(3) \code{files} with global metrics over the files, and (4) \code{functions} with metrics about the functions of the programming project.
 }
 \details{
 \itemize{

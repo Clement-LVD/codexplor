@@ -59,15 +59,16 @@ The default settings of `codexplor` are optimized for analyzing a project in ![R
 - 2 `corpus.nodelist` dataframes (`files` & `functions`)
 - 1 `citations.network` data.frame (`internal.dependencies`)
 
-This corpus is standardized way to analyze a programming project as a collection of documents.  
+This corpus is a standardized way to analyze a programming project as a collection of documents.  
   
 ```{r compute-corpus-of-func, echo=TRUE}
 library(codexplor)
 
- # 1) Construct a corpus and a Citations network
-  corpus <- get_doc_network_from_project(folders = getwd()
-                                         , languages = "R" )
-    str(corpus, max.level = 1)
+ # Construct a corpus and a Citations network
+corpus <- get_doc_network_from_project(folders = getwd()
+                                      , languages = "R" )
+    
+str(corpus, max.level = 1)
   
 ```
 

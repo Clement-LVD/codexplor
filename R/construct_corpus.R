@@ -2,9 +2,9 @@
 #' Within a Local GitHub Repositories and/or Local Folders
 #'
 #' Given a Language, a folder path(s) and/or github repo(s)
-#' Return a `list` of 3 dataframes. List have an additionnal `corpus.list` class. The 3 `df` are :
-#'  (1) `codes` lines and (2) `comments` lines, with text-metrics about each line;
-#' and (3) nodelist with global metrics over the files.
+#' Return a `list` of 4 dataframes. The list have an additionnal `corpus.list` class. The df are :
+#'  (1) `codes` and (2) `comments` with text-metrics about each line;
+#'  (3) `files` with global metrics over the files, and (4) `functions` with metrics about the functions of the programming project.
 #' @param folders `character`. Default = `NULL`. A character vector of local folder paths to scan for code files.
 #' @param languages `character`. Default = `"R"`. A character vector specifying the programming language(s) to include in the corpus.
 #' @param repos `character`. Default = `NULL`. A character vector of GitHub repository URLs or repository identifiers to extract files from (e.g., `"user/repo"`).

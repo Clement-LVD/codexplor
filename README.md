@@ -47,16 +47,17 @@ additional class `corpus.list` - of dataframes :
 - 2 `corpus.nodelist` dataframes (`files` & `functions`)
 - 1 `citations.network` data.frame (`internal.dependencies`)
 
-This corpus is standardized way to analyze a programming project as a
+This corpus is a standardized way to analyze a programming project as a
 collection of documents.
 
 ``` r
 library(codexplor)
 
- # 1) Construct a corpus and a Citations network
-  corpus <- get_doc_network_from_project(folders = getwd()
-                                         , languages = "R" )
-    str(corpus, max.level = 1)
+ # Construct a corpus and a Citations network
+corpus <- get_doc_network_from_project(folders = getwd()
+                                      , languages = "R" )
+    
+str(corpus, max.level = 1)
 #> List of 5
 #>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1713 obs. of  10 variables:
 #>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1168 obs. of  9 variables:
