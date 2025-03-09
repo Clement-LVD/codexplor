@@ -9,19 +9,19 @@ get_regex_from_vector(
   prefix_for_regex = "",
   suffix_for_regex = "",
   fix_escaping = TRUE,
-  ...
+  n_char_to_add_suffix = 0
 )
 }
 \arguments{
-\item{vector}{A character vector containing the elements to convert into a regular expression.}
+\item{vector}{\code{character} A character vector containing the elements to convert into a regular expression.}
 
-\item{prefix_for_regex}{A string to prepend to each element of the vector in the regex pattern.}
+\item{prefix_for_regex}{\code{character} A string to prepend to each element of the vector in the regex pattern.}
 
-\item{suffix_for_regex}{A string to append to each element of the vector in the regex pattern.}
+\item{suffix_for_regex}{\code{character} A string to append to each element of the vector in the regex pattern.}
 
-\item{fix_escaping}{A boolean, indicating if escaping should be fixed. Default is TRUE}
+\item{fix_escaping}{\code{logical} If \code{TRUE} escaping will be fixed.}
 
-\item{...}{Passed to fix_escaping}
+\item{n_char_to_add_suffix}{\code{double}, default = \code{0} The minimum number of characters for adding a suffix (default will never add a suffix)}
 }
 \value{
 A single character string containing the regular expression pattern
@@ -30,7 +30,10 @@ with the specified prefix and suffix applied, and special characters escaped.
 }
 \description{
 This function takes a vector of strings and returns a concatenated regular expression pattern.
-It allows adding a prefix and/or suffix to each element and escaping special characters.
+It allows adding escaping before unescaped special characters
+and also add a prefix and sometimes a suffix to each elements before to concatenate them into a regex.
+The suffix will be added only for the texts with less characters than the \code{n_char_to_add_suffix} value
+(default never add a suffix).
 }
 \details{
 such as a list of \code{special_chars_to_escape},
@@ -44,8 +47,8 @@ rgx <- get_regex_from_vector(words, "^", "$")
 
 # Example 2: Create a regex pattern for words with escaped parentheses
 words <- c("foo(bar)", "baz(qux)")
-rgx <- get_regex_from_vector(words, "(", ")?", c("(", ")"), fix_escaping = TRUE)
-#here we don't escape our custom pattern "(" and ")?" even if escaping of other will be fixed
+rgx <- get_regex_from_vector(words, "(", ")?", fix_escaping = TRUE)
+#custom pattern "(" and ")?" will no be escaped, contrary to other texts
 
 }
 \seealso{

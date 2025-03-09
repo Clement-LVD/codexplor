@@ -38,9 +38,8 @@ Supported languages are : R, Python, JavaScript
 
 ### Example
 
-#### Turn a programming project into a corpus
-
-Given folder(s) and/or github repo(s) and programming language(s),
+**1. Turn a programming project into a corpus.** Given folder(s) and/or
+github repo(s) and programming language(s),
 `codexplor::get_doc_network_from_project` will return a `list` - with
 additional class `corpus.list` - of dataframes :
 
@@ -59,8 +58,8 @@ library(codexplor)
                                          , languages = "R" )
     str(corpus, max.level = 1)
 #> List of 5
-#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1605 obs. of  10 variables:
-#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1129 obs. of  9 variables:
+#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1620 obs. of  10 variables:
+#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1133 obs. of  9 variables:
 #>  $ files                :Classes 'corpus.nodelist' and 'data.frame': 27 obs. of  10 variables:
 #>  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 40 obs. of  4 variables:
 #>  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  61 obs. of  6 variables:
@@ -69,14 +68,12 @@ library(codexplor)
 #>  - attr(*, "have_citations_network")= logi TRUE
 ```
 
-#### Turn a corpus element into a dataviz’
-
-Given a corpus with a `citations.network` `data.frame`, look at the
-dataviz’ of internal dependancies with
+**2. See various dataviz’ from a corpus.list.** Given a `corpus.list`
+with some `citations.network` `data.frame`, look at the dataviz’ with
 `codexplor::get_networkd3_from_igraph` :
 
 ``` r
-# 2) Produce an interactive dataviz' with the network of internal.dependencies
+# Produce an interactive dataviz' with the network of internal.dependencies
 dataviz <- get_networkd3_from_igraph(corpus$internal.dependencies
 , title_h1 = "Graph of internal dependancies"
 , subtitle_h2 = "codexplor"

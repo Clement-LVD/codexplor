@@ -22,6 +22,7 @@ get_doc_network_from_project(
 \itemize{
 \item characters values, in order to add a prefix and a suffix to the pattern searched (e.g., \code{suffix_for_2nd_matches})
 or changing the colnames (e.g., \code{file_path_from_colname}).
+\item double values, e.g., \code{n_char_to_add_suffix} parameter (minimum number of characters to add the suffix).
 \item logical values, e.g., \code{filter_egolink_within_a_file} (default = \code{TRUE}) and \code{exclude_quoted_content} from the research (default = \code{FALSE})
 }}
 }

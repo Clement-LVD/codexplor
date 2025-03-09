@@ -53,8 +53,7 @@ The default settings of `codexplor` are optimized for analyzing a project in ![R
 
 ### Example
 
-#### Turn a programming project into a corpus
-Given folder(s) and/or github repo(s) and programming language(s), `codexplor::get_doc_network_from_project` will return a `list` - with additional class `corpus.list` - of dataframes :
+**1. Turn a programming project into a corpus.** Given folder(s) and/or github repo(s) and programming language(s), `codexplor::get_doc_network_from_project` will return a `list` - with additional class `corpus.list` - of dataframes :
 
 - 2 `corpus.lines` dataframes (`codes` & `comments`)
 - 2 `corpus.nodelist` dataframes (`files` & `functions`)
@@ -72,11 +71,10 @@ library(codexplor)
   
 ```
 
-#### Turn a corpus element into a dataviz'
-Given a corpus with a `citations.network` `data.frame`, look at the dataviz' of internal dependancies with `codexplor::get_networkd3_from_igraph` :
+**2. See various dataviz' from a corpus.list.** Given a `corpus.list` with some `citations.network` `data.frame`, look at the dataviz' with `codexplor::get_networkd3_from_igraph` :
 
 ```{r compute-network-of-func,  results='asis', echo=TRUE}
-# 2) Produce an interactive dataviz' with the network of internal.dependencies
+# Produce an interactive dataviz' with the network of internal.dependencies
 dataviz <- get_networkd3_from_igraph(corpus$internal.dependencies
 , title_h1 = "Graph of internal dependancies"
 , subtitle_h2 = "codexplor"

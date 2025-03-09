@@ -9,6 +9,7 @@
 #' @param ... Parameters passed to `add_doc_network_to_corpus()`. These parameters are
 #' - characters values, in order to add a prefix and a suffix to the pattern searched (e.g., `suffix_for_2nd_matches`)
 #' or changing the colnames (e.g., `file_path_from_colname`).
+#' - double values, e.g., `n_char_to_add_suffix` parameter (minimum number of characters to add the suffix).
 #' - logical values, e.g., `filter_egolink_within_a_file` (default = `TRUE`) and `exclude_quoted_content` from the research (default = `FALSE`)
 #' @return A `list` of 5 `dataframe` : 2 of class `corpus.lines`, 2 `corpus.nodelist` and 1 `citations.network`
 #'   (symbolizing the edgelist of a document-to-document citations network within a programming project)

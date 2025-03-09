@@ -8,6 +8,7 @@ add_doc_network_to_corpus(
   corpus,
   prefix_for_2nd_matches = "\\\\b",
   suffix_for_2nd_matches = "\\\\(",
+  n_char_to_add_suffix = 3,
   filter_egolink_within_a_file = TRUE,
   exclude_quoted_content = F,
   file_path_from_colname = "from",
@@ -26,6 +27,8 @@ to each 1st match that will be turned into a new regular expressions. The defaul
 
 \item{suffix_for_2nd_matches}{\code{character} A string representing a regex to add as a suffix
 of each match, in order to have a complete regular expression. The default is an empty string.}
+
+\item{n_char_to_add_suffix}{\code{double}, default = \code{3} Minimum number of characters to add the suffix.}
 
 \item{filter_egolink_within_a_file}{\code{logical}, default = \code{TRUE}. A logical value indicating whether to filter results based on
 "ego links" (a document referring to itself)}
