@@ -87,10 +87,10 @@ Python, JavaScript.</p>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corp</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 4</span></span>
-<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1620 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1136 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ files    :Classes 'corpus.nodelist' and 'data.frame': 27 obs. of  8 variables:</span></span>
-<span><span class="co">#&gt;  $ functions:Classes 'corpus.nodelist' and 'data.frame': 40 obs. of  4 variables:</span></span>
+<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1713 obs. of  10 variables:</span></span>
+<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1168 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ files    :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  8 variables:</span></span>
+<span><span class="co">#&gt;  $ functions:Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
 <span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-09"</span></span>
 <span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi FALSE</span></span>
@@ -176,14 +176,15 @@ have to match <code>'hello'</code>, despite of the differences between
 languages.</p>
 <table class="table">
 <colgroup>
-<col width="7%">
-<col width="15%">
+<col width="5%">
 <col width="12%">
+<col width="10%">
+<col width="12%">
+<col width="10%">
 <col width="15%">
-<col width="13%">
-<col width="18%">
-<col width="11%">
-<col width="6%">
+<col width="9%">
+<col width="5%">
+<col width="17%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
@@ -194,6 +195,7 @@ languages.</p>
 <th align="left">Start Instructions operator</th>
 <th align="left">prefix to exclude</th>
 <th align="left">anonymous</th>
+<th align="left">regex fn parameters after names</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -205,6 +207,7 @@ languages.</p>
 <td align="left">{</td>
 <td align="left"></td>
 <td align="left">FALSE</td>
+<td align="left">(&lt;-|=)function(</td>
 </tr>
 <tr class="even">
 <td align="left">Python</td>
@@ -215,6 +218,7 @@ languages.</p>
 <td align="left">:</td>
 <td align="left"></td>
 <td align="left">FALSE</td>
+<td align="left">(&lt;-|=)function(</td>
 </tr>
 <tr class="odd">
 <td align="left">R</td>
@@ -225,6 +229,7 @@ languages.</p>
 <td align="left">{</td>
 <td align="left">FUN</td>
 <td align="left">TRUE</td>
+<td align="left">(&lt;-|=)function(</td>
 </tr>
 </tbody>
 </table>
