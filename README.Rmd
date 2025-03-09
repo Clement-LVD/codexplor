@@ -168,7 +168,7 @@ knitr::kable(features)
 ![.](https://img.shields.io/badge/{Analyze}-bold?style=flat&logoColor=black&logoSize=2&label=Document-level metrics&labelColor=grey&color=yellow)
 ![.](https://img.shields.io/badge/{Analyze}-bold?style=flat&logoColor=black&logoSize=2&label=Global text-mining metrics&labelColor=grey&color=orange)
 ![.](https://img.shields.io/badge/{Export}-bold?style=flat&logoColor=black&logoSize=2&label=Reporting&labelColor=grey&color=orange)
-![.](https://img.shields.io/badge/{Analyze}-bold?style=flat&logoColor=black&logoSize=2&label=Advanced network metrics&labelColor=grey&color=orange)
+![.](https://img.shields.io/badge/{Analyze}-bold?style=flat&logoColor=black&logoSize=2&label=Function-level metrics&labelColor=grey&color=orange)
 
  </div>
  
