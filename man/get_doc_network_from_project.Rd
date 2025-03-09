@@ -26,7 +26,7 @@ or changing the colnames (e.g., \code{file_path_from_colname}).
 }}
 }
 \value{
-A \code{list} of 4 \code{dataframe} : 2 of class \code{corpus.lines}, 1 \code{corpus.nodelist} and 1 \code{citations.network}
+A \code{list} of 5 \code{dataframe} : 2 of class \code{corpus.lines}, 2 \code{corpus.nodelist} and 1 \code{citations.network}
 (symbolizing the edgelist of a document-to-document citations network within a programming project)
 \describe{
 \item{\code{from}}{\code{character} citations.network - The local file path or GitHub URL that call a function.}
