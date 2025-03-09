@@ -20,7 +20,7 @@
 #' texts <- c(
 #'   "Code snippet /* first comment */ and more code /* second comment */",
 #'   "Another line /* only a comment */",
-#'   "A line with no comments"
+#'   "A line with no comments", " here one start /* commented ", " some commented line", " */"
 #' )
 #'
 #' separate_commented_lines(texts, delim_pair = c("/*" = "*/"), .verbose = FALSE)

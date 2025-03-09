@@ -1,5 +1,4 @@
 #' Try to match a text pattern in a df column by only extract the text
-
 #'
 #' Read some files and answer the content readed in a df.
 #'  Then try to extract a pattern
@@ -17,7 +16,7 @@
 #' Default exclude match of 1 char such as 'x'.
 #' @param extracted_txt_col_name `character`, default = `"matches"`
 #'   Column name for the extracted text (last col' of the returned df)
-#'
+#' @param duplicated_lines_are_normal `logical`, default = `FALSE`. If set to `TRUE`, silent the warning  about duplicated lines
 #' @return A `data.frame` similar to the one passed by the user with 1 more column : the match ; *a minima* :
 #' \describe{
 #'   \item{\code{content}}{`character` The text column designed by the user.}
@@ -35,6 +34,8 @@ srch_pattern_in_df <- function(df, content_col_name = "content"
 # ?=look ahead
 
 , extracted_txt_col_name = "matches"
+
+, duplicated_lines_are_normal = F
   ){
 
 content_df <- df
@@ -69,7 +70,7 @@ content_df <- merge(content_df, all.x = T, flattened_df, by = "row_num") #  ALL 
 
 n_lines_after = nrow(content_df)
 
-if(!n_lines_before == n_lines_after){
+if(!n_lines_before == n_lines_after & !duplicated_lines_are_normal){
   warning(immediate. = T, "==> Have returned duplicated line(s) : you've matched several matches on a single line ! :x")
 dupkey <- content_df$row_num[anyDuplicated(content_df$row_num)]
   cat("Duplicated row number are : \n"); cat(sep = "  ", dupkey )

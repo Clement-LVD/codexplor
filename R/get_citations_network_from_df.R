@@ -41,6 +41,7 @@ get_citations_network_from_df <- function(df
 
 , varname_for_matches = "matches"
 ){
+
   required_cols <- c(content_varname, pattern_varname)
   missing_cols <- required_cols[!required_cols %in% names(df)]
 
@@ -83,6 +84,8 @@ complete_network <- merge(fns_called_df, dff,
 # filter the network
 # not empty first_match (func_defined) value indicate that this file mention his own match
 # ('internal link', recursivity or func' definition) whereas other link refer to external link
+
+# so we want to suppress the autolink
 
  if(keep_only_row_without_a_pattern){
    row_to_exclude <- which(!is.na(complete_network[pattern_varname]))

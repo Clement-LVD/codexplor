@@ -10,7 +10,8 @@ srch_pattern_in_df(
   pattern = "(^| \\\\.|\\\\b)([\\\\.A-Za-z0-9_]+)(?=\\\\s*(?:<-)\\\\s*function)",
   match_to_exclude = NULL,
   ignore_match_less_than_nchar = 3,
-  extracted_txt_col_name = "matches"
+  extracted_txt_col_name = "matches",
+  duplicated_lines_are_normal = F
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ Default exclude match of 1 char such as 'x'.}
 
 \item{extracted_txt_col_name}{\code{character}, default = \code{"matches"}
 Column name for the extracted text (last col' of the returned df)}
+
+\item{duplicated_lines_are_normal}{\code{logical}, default = \code{FALSE}. If set to \code{TRUE}, silent the warning  about duplicated lines}
 }
 \value{
 A \code{data.frame} similar to the one passed by the user with 1 more column : the match ; \emph{a minima} :

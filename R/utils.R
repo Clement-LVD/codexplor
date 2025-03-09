@@ -5,6 +5,8 @@
 # e.g., we want to group by document (file path)
 # the 1st col passed is turned into a VECTOR from the df (!!)
 process_vector_on_df_by_group <- function(df, group_col, func, vector_col = "content", ...) {
+
+  old_class <- class(df) # preserve class
   # 1. Add an identifier to preserve the original order of rows
   df$.id_order <- seq_len(nrow(df))
 
@@ -35,6 +37,8 @@ cbind(sub_df, result) #and return that
 
   # Remove the temporary column used for ordering
   df_final$.id_order <- NULL
+
+  class(df_final) <- old_class
 
   return(df_final)
 }
@@ -68,13 +72,12 @@ remove_text_after_char <- function(text, char = "#"
 
    quote_count <- length(which(quotes[[1]] != -1))
     # If no count at all before remove text after #
-    if (quote_count == 0) {
+    if (quote_count == 0 | quote_count %% 2 == 0) {
 return(data.frame(text = substr(line, 1, pos - 1),
                         comment = substr(line, pos, nchar(line) ))
       )
     } #erased text is maybe in a line between " & ' but osef
-
-    # Otherwise, return the original line (if the quote count is odd)
+     # Otherwise, return the original line (if the quote count is odd)
     return(data.frame(text = line, comment = NA))
   })
 

@@ -45,23 +45,31 @@ library(codexplor)
     , languages = c("Python", "Javascript"), .verbose = T) #take a while
 
 
-## Returned list of dataframes
-`construct_corpus` return a `corpus.list` object, a standard `list` of 3 dataframes : 
+## Understand the corpus.list
+**List of dataframes.** `construct_corpus` return a `corpus.list` object, a standard `list` of 4 dataframes : 
 
 - `codes` (classes `corpus.lines` & `data.frame`)
 - `comments` (classes `corpus.lines` & `data.frame`)
-- `nodelist` (classes `corpus.nodelist` & `data.frame`)
+- `files` (classes `corpus.nodelist` & `data.frame`)
+- `functions` (classes `corpus.nodelist` & `data.frame`)
 
-Complementary analyzes will add others dataframes to the list, e.g., a network of internal dependencies (classes `citations.network`, `internal.dependencies` & `data.frame`).
+Further complementary analyzes will add others dataframes to the list, e.g., a network of internal dependencies (classes `citations.network`, `internal.dependencies` & `data.frame`).
 
-- The `nodelist` `data.frame` is sorted by files, and contains the files path and/or url, and overall text-mining metrics about each files of the corpus (e.g., number of characters, words count).
+
+**Details.** 
+
+- The `files` `data.frame` is sorted by files, and contains the files path and/or url, and overall text-mining metrics about each files of the corpus (e.g., number of characters, words count).
+
+- The `functions` `data.frame` contains the functions names and text-mining metrics about these functions, assuming functions are defined in file(s).
 
 - The 2 `corpus.lines` `data.frame` are related to lines (file path and content of each lines, line number, and text-mining metrics related to each lines). 
 
 The `codes` `data.frame` (one of the `corpus.lines` dataframes) have more columns, such as :
 
 - a `commented` column (inline comment at the end of a codeline)
-- and a `matches` column that contain internally-exposed functions names, e.g., if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry for this line will be `'pol'`.
+<!-- - and a `matches` column that contain internally-exposed functions names, e.g., if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry for this line will be `'pol'`. -->
+
+Further complementary analyzes will add others columns, e.g., as soon as a network of `internal.dependencies` is computed, some metrics are added to the `files` data.frame of the `corpus.list`.
 
 ## Default patterns
 `construct_corpus` rely on some default patterns, designed to analyze a programming project in a standardized way. 
@@ -128,13 +136,8 @@ Another caveat unsupported - yet - is the 'hello' javascript function defined he
 The re-assigning of an anonymous R function to a new R object is not supported yet :
       
       aaa <- function(i, a){i + a} # construct_corpus match the 'aaa' function
-      assign( aaaa , "my_func_a") #  but don't notice the creation of an alias
-      my_func_a(1,2) # will not be matched during the post-processing
-
-## About duplicated lines associated with matches
-During the 1st matches extraction, lines are duplicated *when several matches are found on the same line*. This case of duplicated lines trigger a `warning`. 
-
-> For example, by default, the names of functions defined in the files of the project are extracted during the 1st match operated by `construct_corpus`. If a file have several function defined *within the same line*, such a line will be duplicated in the returned `df`, with several 'matches' along these lines and same line_number. 
+       my_func_a <- aaa    #  but don't notice the creation of an alias
+      my_func_a(1,2) # will not be matched during the post-processing 
 
 ### Helper functions that rely on `construct_corpus`
 `codexplor::get_doc_network_from_project` is an helper 'high-level' function that perform an analysis of the internal dependencies by performing a 2nd matches from the 1st matches of `construct_corpus`, e.g., see the [vignette about analyzing a network of internal dependencies with `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html).

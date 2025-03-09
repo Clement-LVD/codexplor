@@ -10,15 +10,15 @@ add.stats.corpus.list <-  function(corpus) {
   if (!inherits(corpus, "corpus.list")) stop("Not a 'corpus.list' object")
 
   # 1) add degrees
-indeg_outdeg_vec <- lapply(corpus$nodelist$file_path, FUN = function(path){
-  indeg <- length(unique(corpus$citations.network$to[corpus$citations.network$from == path] ) )
-  outdeg <-length(unique(corpus$citations.network$from[corpus$citations.network$to == path] ) )
+indeg_outdeg_vec <- lapply(corpus$files$file_path, FUN = function(path){
+  indeg <- length(unique(corpus$internal.dependencies$to[corpus$internal.dependencies$from == path] ) )
+  outdeg <-length(unique(corpus$internal.dependencies$from[corpus$internal.dependencies$to == path] ) )
 return(c(indeg,outdeg))
   } )
 
 degrees <- data.frame(do.call(rbind, indeg_outdeg_vec))
 colnames(degrees) <- c("indeg", "outdeg")
-corpus$nodelist <- cbind(corpus$nodelist, degrees)
+corpus$files <- cbind(corpus$files, degrees)
 
 return(corpus)
 }

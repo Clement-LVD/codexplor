@@ -74,14 +74,14 @@ check_dataframes_for_corpus.list <- function(corpus
   # return a logical - column are existing or not - and a warning if not
   check_columns <- function(df) {
 
-     if ( any( class(df) %in% omit_class)) { return(TRUE) }
+     if (!any( class(df) %in% "corpus.lines")) { return(TRUE) }
 
     checks_cols <- required_columns %in% colnames(df) # boolean for each col'
 
     if(all(checks_cols)) return(TRUE)
 
     missing_cols <- required_columns[!checks_cols]
-    warning("Missing column(s) in a corpus.list data.frame (classes : "
+    warning("Missing column(s) in a corpus.lines data.frame of the corpus.list (classes : "
             , paste0(class(df), collapse = " & ") , ")\n => "
             , paste0(collapse = ", ", missing_cols))
     return(FALSE)
@@ -127,6 +127,8 @@ check_dataframes_for_corpus.list <- function(corpus
   if (!all(required_cols %in% colnames(df))) {
     stop("The dataframe must contain the columns : 'content' & 'comments'")
   }
+
+  df <- filter_if_na(df, "content") # a corpus.lines object don't have NA value
 
   class(df) <-  c("corpus.lines", "data.frame")
 

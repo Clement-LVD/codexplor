@@ -18,6 +18,7 @@ ref_languages <- list(
            , Operator_After_Keyword = "\\("
            , Operator_After_Name ="<-|="
           , Start_Instructions_operator = "{"
+          , prefix_to_exclude = "FUN"
            , anonymous = T # this is a random func assigned in an object
            ),
   #the operator and function stuff will be unmatched (?:
@@ -28,6 +29,7 @@ ref_languages <- list(
                 , Operator_After_Name = "\\("
 
                , Start_Instructions_operator = ":"
+               , prefix_to_exclude = ""
                 , anonymous = F
                  ),
 
@@ -36,7 +38,7 @@ JavaScript = list(Example = "function hello() { }"
                     , Operator_After_Keyword = ""
                     , Operator_After_Name = "\\("
                   , Start_Instructions_operator = "{"
-
+                  , prefix_to_exclude = ""
                   , anonymous = F
 
                   )
@@ -53,13 +55,15 @@ ref_languages <- lapply(ref_languages, FUN = function(x){
 
   if(!x$anonymous) x$regex_func_name <- paste0( "(?<=", x$Definition_Keyword, ")",  fn_names  , "(?=" , x$Operator_After_Name  , ")")
 # R hereafter
-  if(x$anonymous)  x$regex_func_name <- paste0(fn_basenames
+  if(x$anonymous)  x$regex_func_name <- paste0( "(^|\\.|\\b)" # begin of a word
+                                              , "(?!" ,  x$prefix_to_exclude, ")"
+                                               , fn_basenames
                                             , "\\s*(?=(?:", x$Operator_After_Name,  ")" #lookahead fusionné
                                           , "\\s*" ,"(?:" , x$Definition_Keyword, x$Operator_After_Keyword , "))" )
 # only r is anonymous
      return(x)
 })
-# e.g., a 'normal' regex will look like that for r :  "(^| \\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)
+# e.g., a 'normal' regex will look like that for r :  "(^|\\.|\\b)([A-Za-z0-9_\\.]+)(?=\\s*(?:<-)\\s*function)
 
 # stringr::str_extract_all(string = "def hello(): pass", pattern =ref_languages$Python$regex_func_name)
 # stringr::str_extract_all(string ="function myFunction() { return 42; }", pattern =ref_languages$JavaScript$regex_func_name  )
