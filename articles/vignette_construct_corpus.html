@@ -87,12 +87,13 @@ Python, JavaScript.</p>
 <span>  <span class="va">corp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span> repos <span class="op">=</span>  <span class="st">"clement-LVD/codexplor"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corp</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; List of 3</span></span>
-<span><span class="co">#&gt;  $ codes   :Classes 'corpus.lines' and 'data.frame': 1546 obs. of  12 variables:</span></span>
-<span><span class="co">#&gt;  $ comments:Classes 'corpus.lines' and 'data.frame': 1012 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ nodelist:Classes 'corpus.nodelist' and 'data.frame':  25 obs. of  7 variables:</span></span>
+<span><span class="co">#&gt; List of 4</span></span>
+<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1602 obs. of  10 variables:</span></span>
+<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1127 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ files    :Classes 'corpus.nodelist' and 'data.frame': 27 obs. of  8 variables:</span></span>
+<span><span class="co">#&gt;  $ functions:Classes 'corpus.nodelist' and 'data.frame': 40 obs. of  4 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
-<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-08"</span></span>
+<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-09"</span></span>
 <span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi FALSE</span></span>
 <span><span class="co">#&gt;  - attr(*, "languages_patterns")=List of 1</span></span>
 <span><span class="co">#&gt;  - attr(*, "repos")= chr "clement-LVD/codexplor"</span></span></code></pre></div>
@@ -105,10 +106,11 @@ corpus_py &lt;- construct_corpus(repos = "secdev/scapy"
 , languages = c("Python", "Javascript"), .verbose = T) #take a while</code></pre>
 </div>
 <div class="section level2">
-<h2 id="returned-list-of-dataframes">Returned list of dataframes<a class="anchor" aria-label="anchor" href="#returned-list-of-dataframes"></a>
+<h2 id="understand-the-corpus-list">Understand the corpus.list<a class="anchor" aria-label="anchor" href="#understand-the-corpus-list"></a>
 </h2>
-<p><code>construct_corpus</code> return a <code>corpus.list</code>
-object, a standard <code>list</code> of 3 dataframes :</p>
+<p><strong>List of dataframes.</strong> <code>construct_corpus</code>
+return a <code>corpus.list</code> object, a standard <code>list</code>
+of 4 dataframes :</p>
 <ul>
 <li>
 <code>codes</code> (classes <code>corpus.lines</code> &amp;
@@ -117,18 +119,25 @@ object, a standard <code>list</code> of 3 dataframes :</p>
 <code>comments</code> (classes <code>corpus.lines</code> &amp;
 <code>data.frame</code>)</li>
 <li>
-<code>nodelist</code> (classes <code>corpus.nodelist</code> &amp;
+<code>files</code> (classes <code>corpus.nodelist</code> &amp;
+<code>data.frame</code>)</li>
+<li>
+<code>functions</code> (classes <code>corpus.nodelist</code> &amp;
 <code>data.frame</code>)</li>
 </ul>
-<p>Complementary analyzes will add others dataframes to the list, e.g.,
-a network of internal dependencies (classes
+<p>Further complementary analyzes will add others dataframes to the
+list, e.g., a network of internal dependencies (classes
 <code>citations.network</code>, <code>internal.dependencies</code> &amp;
 <code>data.frame</code>).</p>
+<p><strong>Details.</strong></p>
 <ul>
-<li><p>The <code>nodelist</code> <code>data.frame</code> is sorted by
+<li><p>The <code>files</code> <code>data.frame</code> is sorted by
 files, and contains the files path and/or url, and overall text-mining
 metrics about each files of the corpus (e.g., number of characters,
 words count).</p></li>
+<li><p>The <code>functions</code> <code>data.frame</code> contains the
+functions names and text-mining metrics about these functions, assuming
+functions are defined in file(s).</p></li>
 <li><p>The 2 <code>corpus.lines</code> <code>data.frame</code> are
 related to lines (file path and content of each lines, line number, and
 text-mining metrics related to each lines).</p></li>
@@ -137,12 +146,14 @@ text-mining metrics related to each lines).</p></li>
 <code>corpus.lines</code> dataframes) have more columns, such as :</p>
 <ul>
 <li>a <code>commented</code> column (inline comment at the end of a
-codeline)</li>
-<li>and a <code>matches</code> column that contain internally-exposed
-functions names, e.g., if a <code>pol  &lt;- function</code> is defined
-within a file, the 1st <code>matches</code> corresponding entry for this
-line will be <code>'pol'</code>.</li>
+codeline)
+<!-- - and a `matches` column that contain internally-exposed functions names, e.g., if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry for this line will be `'pol'`. -->
+</li>
 </ul>
+<p>Further complementary analyzes will add others columns, e.g., as soon
+as a network of <code>internal.dependencies</code> is computed, some
+metrics are added to the <code>files</code> data.frame of the
+<code>corpus.list</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="default-patterns">Default patterns<a class="anchor" aria-label="anchor" href="#default-patterns"></a>
@@ -166,13 +177,14 @@ have to match <code>'hello'</code>, despite of the differences between
 languages.</p>
 <table class="table">
 <colgroup>
-<col width="8%">
-<col width="17%">
-<col width="14%">
-<col width="17%">
-<col width="14%">
-<col width="20%">
 <col width="7%">
+<col width="15%">
+<col width="12%">
+<col width="15%">
+<col width="13%">
+<col width="18%">
+<col width="11%">
+<col width="6%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
@@ -181,6 +193,7 @@ languages.</p>
 <th align="left">Operator After Keyword</th>
 <th align="left">Operator After Name</th>
 <th align="left">Start Instructions operator</th>
+<th align="left">prefix to exclude</th>
 <th align="left">anonymous</th>
 </tr></thead>
 <tbody>
@@ -191,6 +204,7 @@ languages.</p>
 <td align="left"></td>
 <td align="left">(</td>
 <td align="left">{</td>
+<td align="left"></td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="even">
@@ -200,6 +214,7 @@ languages.</p>
 <td align="left"></td>
 <td align="left">(</td>
 <td align="left">:</td>
+<td align="left"></td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="odd">
@@ -209,6 +224,7 @@ languages.</p>
 <td align="left">(</td>
 <td align="left">&lt;-|=</td>
 <td align="left">{</td>
+<td align="left">FUN</td>
 <td align="left">TRUE</td>
 </tr>
 </tbody>
@@ -232,23 +248,8 @@ defined hereafter :</p>
 <p>The re-assigning of an anonymous R function to a new R object is not
 supported yet :</p>
 <pre><code><span>  <span class="va">aaa</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span>, <span class="va">a</span><span class="op">)</span><span class="op">{</span><span class="va">i</span> <span class="op">+</span> <span class="va">a</span><span class="op">}</span> <span class="co"># construct_corpus match the 'aaa' function</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/assign.html" class="external-link">assign</a></span><span class="op">(</span> <span class="va">aaaa</span> , <span class="st">"my_func_a"</span><span class="op">)</span> <span class="co">#  but don't notice the creation of an alias</span></span>
-<span>  <span class="fu">my_func_a</span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span> <span class="co"># will not be matched during the post-processing</span></span></code></pre>
-</div>
-<div class="section level2">
-<h2 id="about-duplicated-lines-associated-with-matches">About duplicated lines associated with matches<a class="anchor" aria-label="anchor" href="#about-duplicated-lines-associated-with-matches"></a>
-</h2>
-<p>During the 1st matches extraction, lines are duplicated <em>when
-several matches are found on the same line</em>. This case of duplicated
-lines trigger a <code>warning</code>.</p>
-<blockquote>
-<p>For example, by default, the names of functions defined in the files
-of the project are extracted during the 1st match operated by
-<code>construct_corpus</code>. If a file have several function defined
-<em>within the same line</em>, such a line will be duplicated in the
-returned <code>df</code>, with several ‘matches’ along these lines and
-same line_number.</p>
-</blockquote>
+<span>   <span class="va">my_func_a</span> <span class="op">&lt;-</span> <span class="va">aaa</span>    <span class="co">#  but don't notice the creation of an alias</span></span>
+<span>  <span class="fu">my_func_a</span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span> <span class="co"># will not be matched during the post-processing </span></span></code></pre>
 <div class="section level3">
 <h3 id="helper-functions-that-rely-on-construct_corpus">Helper functions that rely on <code>construct_corpus</code><a class="anchor" aria-label="anchor" href="#helper-functions-that-rely-on-construct_corpus"></a>
 </h3>

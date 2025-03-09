@@ -56,7 +56,8 @@ and return the extracted text in a column of the returned df (NA meaning 'no mat
 <span>  pattern <span class="op">=</span> <span class="st">"(^| \\.|\\b)([\\.A-Za-z0-9_]+)(?=\\s*(?:&lt;-)\\s*function)"</span>,</span>
 <span>  match_to_exclude <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ignore_match_less_than_nchar <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>  extracted_txt_col_name <span class="op">=</span> <span class="st">"matches"</span></span>
+<span>  extracted_txt_col_name <span class="op">=</span> <span class="st">"matches"</span>,</span>
+<span>  duplicated_lines_are_normal <span class="op">=</span> <span class="cn">F</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -92,6 +93,10 @@ Default exclude match of 1 char such as 'x'.</p></dd>
 <dt id="arg-extracted-txt-col-name">extracted_txt_col_name<a class="anchor" aria-label="anchor" href="#arg-extracted-txt-col-name"></a></dt>
 <dd><p><code>character</code>, default = <code>"matches"</code>
 Column name for the extracted text (last col' of the returned df)</p></dd>
+
+
+<dt id="arg-duplicated-lines-are-normal">duplicated_lines_are_normal<a class="anchor" aria-label="anchor" href="#arg-duplicated-lines-are-normal"></a></dt>
+<dd><p><code>logical</code>, default = <code>FALSE</code>. If set to <code>TRUE</code>, silent the warning  about duplicated lines</p></dd>
 
 </dl></div>
     <div class="section level2">
