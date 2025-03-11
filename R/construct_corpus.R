@@ -30,7 +30,7 @@
 #'   \item{\code{comments}}{`logical` `TRUE` if the entire line is commented. Set to `FALSE` for the `codes` df and `TRUE` for the `comments` df.}
 #'   \item{\code{commented}}{`character` (only in the `codes` df) Inlines comments or NA if there is no inline comments.}
 #'   \item{\code{parameters}}{`character` (only in the `functions` df) The content that define the default parameters of a function.}
-#'   \item{\code{parameters}}{`character` (only in the `functions` df) The code of a function.}
+#'   \item{\code{code}}{`character` (only in the `functions` df) The code of a function.}
 #' }
 #'
 #' @details
@@ -48,7 +48,7 @@
 #' @examples
 #' # Example 1: Construct a corpus from local folders
 #'  corpus <- construct_corpus(folders = "~", languages = c( "R"))
-#'  # corpus <- construct_corpus(folders = "~", languages = c("Javascript", "Python"))
+#'  # corpus <- construct_corpus(folders = "~", languages = c("R", "Python"))
 #' \dontrun{
 #' # Example 2: Construct a corpus from GitHub repositories (default is R)
 #' cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
@@ -73,10 +73,10 @@ if(.verbose) cat("\n Constructing a corpus of programming files (", languages, "
 #serialized over a "language" = specific treatment from a dictionnary
 # 1) get files infos associated to a language
 lang_dictionnary <- get_def_regex_by_language(languages)
-#=> a dataframe by languages (e.g., file ext., pattern for defining a func')
+#=> a list by languages (e.g., file ext., pattern for defining a func')
 # we'll return it as an attributes of the corpus_list
 
-# we'll iterate into a sequens of languages
+# 2) we'll iterate into a sequens of languages
 sequens_of_languages <- seq_along(lang_dictionnary)
 
 if(length(sequens_of_languages) == 0) return(NA)
@@ -87,7 +87,7 @@ corpus <- lapply(sequens_of_languages, function(i) {
   lang_desired <- lang_dictionnary[[i]]
 
   create_corpus(folders = folders,  repos= repos
-                , std_dictionnary_of_language = lang_desired
+                , lang_desired = lang_desired
                 , .verbose = .verbose, pattern_to_exclude = pattern_to_exclude, ...)
   #defined hereafter for a single language
 })
@@ -99,33 +99,40 @@ if(length(corpus[[1]] ) == 1 ){
   warning("Elements are missing => create_corpus have failed to build a complete corpus.list of dataframes")
   }
 
-# rbind each list according to their position
+# 3) rbind each list according to their position
 combined <- do.call(mapply, c(FUN = function(...) rbind(...), corpus, SIMPLIFY = FALSE))
 # stockpile by names (default) when structures are coherent (here we have a proper structure definition)
 
-# add our global attributes of class corpus.list such as the language dictionnary used
+# 4) add our global attributes of class corpus.list such as the language dictionnary used
 combined <- .construct.corpus.list(combined
                                    , languages_patterns = lang_dictionnary
                                    , folders = folders
                                    , repos = repos)
 
-#add class attributes and structure (optionnal doc' & methods heritated)
+# 5) add class attributes and structure (optionnal doc' & methods heritated)
 
 return(combined)
 }
 
 # create a corpus for ONE language
+# lang_desired is the std dataframe of languages patterns
+
 #### 1) create a corpus for a unique language ####
 create_corpus <- function(folders = NULL
-                          , std_dictionnary_of_language
+                          , lang_desired
                           , repos = NULL
                           , .verbose = F
                           , pattern_to_exclude = NULL
                           , ...){
 
-  lang_desired <- std_dictionnary_of_language
+  lang_desired <- lang_desired
 
-  #### 1) CONSTRUCT A CORPUS of files path and/or urls ####
+  # 1) verif' dictionnary
+
+# names hardcoded herafter are dictionnary names (from the begining)
+needed_var <- c("pattern_to_exclude" , "file_extension"  ,"commented_line_char"  , "delim_pair_comments_block" )
+  if(any(!needed_var %in% names(lang_desired))){warning("Standard dictionnary of languages is needed to create a corpus : ", needed_var[!needed_var %in% names(lang_desired)])}
+
   urls = NULL
   files_path = NULL
 
@@ -135,20 +142,22 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
 
   # 2) construct list of files :
   files_path <- get_list_of_files(folders = folders , repos = repos
-                                  , file_ext =  lang_desired$file_ext #defined according to the langage
+                                  , file_ext =  lang_desired$file_extension #defined according to the langage
                                   , pattern_to_exclude_path = pattern_to_exclude)
 
-  ### Here : if no file path a NA is converted to NULL return (+1 level)
+  if(is.null(files_path)) return(NA)
+
+  # Here : if no file path a NA is converted to NULL return (+1 level)
+  if(.verbose) cat("\n ==> Reading", length(files_path) ,"files")
 
   # 3) extract lines from files
   complete_files <- readlines_in_df(files_path = files_path, .verbose = .verbose, ... )
   # add real files ext (checking if an extension default pattern return a fake file)
 
-  if(is.null(complete_files)) return(NA)
 
   complete_files$file_ext <- gsub(x = basename(complete_files$file_path), ".*\\." ,replacement = "")
 
-  if(.verbose) cat("\n ==> Compute vanilla-text metrics")
+  if(.verbose) cat("\n ==> Compute a corpus")
 
   # 4.1.) ADD LINES TEXT-METRICS ON ENTIRE FILES
   complete_files <- cbind(complete_files, compute_nchar_metrics(complete_files[[3]]) )
@@ -164,7 +173,7 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
   complete_files$comments <- grepl(x = complete_files$content, pattern =  paste0("^\\s*", lang_desired$commented_line_char))
 # we will separate a 1st corpus then with this logical values :
 
-  #### 2) Construct a corpus.list ####
+  #### 6) Construct a corpus.list ####
   # we have some func' for define class and creation_date
   corpus <- list(
     codes = .construct.corpus.lines(complete_files[!complete_files$comments,  ]) # class is crafted hereafter
@@ -173,15 +182,17 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
   )
   # classe corpus.lines and corpus.nodelist
 # 'codes' will be cleaned from comments
-corpus <- clean_comments_from_lines(corpus = corpus, delim_pair = lang_desired$delim_pair_comments_block)
+corpus <- clean_comments_from_lines(corpus = corpus
+                                    , delim_pair = lang_desired$delim_pair_comments_block
+                                    , char_for_inline_comments = lang_desired$commented_line_char)
 
-#### 3) add a functions nodelist ####
+#### 7) add a functions nodelist ####
 corpus <- add_functions_list_to_corpus(corpus, lang_dictionnary = lang_desired)
 
 # if we want to suppress quoted text that is not the purpose of the corpus
 # corpus$codes$content_without_quote <- censor_quoted_text(text = corpus$codes$content, char_for_replacing_each_char = "_")
 
- # 5-A} Get precise lines of these 1st matches (risk of duplicated lines here)
+ # 8. Get precise lines of these 1st matches (risk of duplicated lines here)
   # corpus$codes <- srch_pattern_in_df( df =  corpus$codes
   #                                     , content_col_name = "exposed_content"
   #                                     ,  pattern = lang_desired$fn_regex )

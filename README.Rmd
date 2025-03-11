@@ -33,7 +33,7 @@ require(codexplor)
 
 `codexplor` offers **R** functions dedicated to explore, analyze and monitor a programming project.
 
-Given a programming project, `codexplor` compute standardized text mining metrics and dataviz' about the project : get rid of global complexity with a network of local dependancies, and assess local complexity with document-level and function-level metrics !
+Given a programming project, `codexplor` compute standardized text mining metrics and dataviz' about the project. Get rid of global complexity with a network of internal dependancies, and assess local complexity with document-level and function-level metrics (e.g., identify files with many functions, the longest functions, and those with numerous internal dependencies within the project).
 
 > `codexplor` help me to figure out the big picture of a programming project faster, and to manage it more efficiently.
 
@@ -53,24 +53,23 @@ The default settings of `codexplor` are optimized for analyzing a project in ![R
 
 ### Example
 
-**1. Turn a programming project into a corpus.** Given folder(s) and/or github repo(s) and programming language(s), `codexplor::get_doc_network_from_project` will return a `list` - with additional class `corpus.list` - of dataframes :
+**1. Turn a programming project into a corpus.** Given folder(s) and/or github repo(s) and programming language(s), `codexplor::get_doc_network_from_project` will return a `list` of dataframes :
 
-- 2 `corpus.lines` dataframes (`codes` & `comments`)
-- 2 `corpus.nodelist` dataframes (`files` & `functions`)
-- 1 `citations.network` data.frame (`internal.dependencies`)
 
-This corpus is a standardized way to analyze a programming project as a collection of documents.  
-  
+
 ```{r compute-corpus-of-func, echo=TRUE}
 library(codexplor)
 
  # Construct a corpus and a Citations network
-corpus <- get_doc_network_from_project(folders = getwd()
-                                      , languages = "R" )
+corpus <- get_doc_network_from_project(
+  folders = getwd()
+  , languages = "R" )
     
 str(corpus, max.level = 1)
   
 ```
+
+This corpus is a standardized way to analyze a programming project as a collection of documents. Here a quick look on the returned df : 
 
 **2. See a dataviz' from a corpus.list.** Given a `corpus.list`, look at the dataviz' of a `citations.network` `data.frame` with `codexplor::get_networkd3_from_igraph` :
 
@@ -115,7 +114,7 @@ features <- data.frame(Feature = c(
  
 ) #2 : documement-level text-mining
            
-        , Global_insights = c( "Appreciate global complexity and figure out the pig picture" 
+        , Global_insights = c( "Appreciate global complexity" 
                                , "Reveal clusters of 'difficult-to-read' files"
   , "Reveal the most complex functions"
 
@@ -177,7 +176,7 @@ knitr::kable(features)
 
 ![ ](https://img.shields.io/badge/R-green)
 ![ ](https://img.shields.io/badge/Python-yellow)
-![ ](https://img.shields.io/badge/Javascript-orange)
+<!-- ![ ](https://img.shields.io/badge/Javascript-orange) -->
 
 Other languages are planned.
 

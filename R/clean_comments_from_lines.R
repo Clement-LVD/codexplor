@@ -13,13 +13,14 @@ clean_comments_from_lines <- function(corpus, delim_pair = NA
                                                    , .verbose = .verbose)
 # have answered a df with original text, comments & codelines var' (substract of original text)
 # codelines are real code content : add these lines to the codes df
-    corpus$codes$content <- corpus$codes$codelines
-
-    # add the comments in the corpus comments df
- comments_to_add <- corpus$codes$content # original informations about the code lines
+    corpus$codes$content <- codes_and_comments$codelines
+    corpus$codes  <-    corpus$codes [!is.na(corpus$codes$content), ]
+    # add the comments in the df comments of the corpus ('content' for a comment)
+    comments_to_add <-  corpus$codes
  comments_to_add$content <- codes_and_comments$comments # comments become the 'content'
- comments_to_add <- comments_to_add[is.na(comments_to_add$content), ] #filter empty entries
-n_coms <- nrow(comments_to_add)
+ comments_to_add$comments[!is.na(comments_to_add$comments)] # and removes NA
+
+ n_coms <- nrow(comments_to_add)
  if(n_coms > 0){
  if(.verbose) cat("+", n_coms, "lines of comments to the corpus$comments data.frame")
  corpus$comments <- rbind(corpus$comments, comments_to_add[, colnames(corpus$comments)])
@@ -27,15 +28,14 @@ n_coms <- nrow(comments_to_add)
  }
   }
 
-old_class <- class(corpus$codes)
-
 corpus$codes <- cbind(corpus$codes , remove_text_after_char(corpus$codes$content
                                                               , char = char_for_inline_comments
                                                               , colname_uncommented = "uncommented"
                                                 , colname_commented = "commented") )
 # have added "uncommented" & "commented" content from the codes
-class(corpus$codes) <- old_class
- # 1) Update the codes 'content' var : will not contain inline comments
+corpus$codes <- .construct.corpus.lines(corpus$codes)
+
+# 1) Update the codes 'content' var : will not contain inline comments
  corpus$codes$content <- corpus$codes$uncommented
   corpus$codes$uncommented <- NULL
 
@@ -49,7 +49,7 @@ class(corpus$codes) <- old_class
 
 # we have a 'commented' var and we wan't these comments to be a "content" var of the comments df
   add_comments <- corpus$codes[inline_comments_to_add, ]
-  add_comments$content <- add_comments$commented
+  add_comments$content <- add_comments$commented #the 'content' is commented codeline
 
   # 2) or rbind these comments to the corpus.comments
    add_comments <- add_comments[, colnames(corpus$comments)]

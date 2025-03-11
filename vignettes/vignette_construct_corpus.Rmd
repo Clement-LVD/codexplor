@@ -30,7 +30,7 @@ library(codexplor)
 library(codexplor)
 
 # 1) Construct a corpus without a Citations network
-  corp <- construct_corpus( repos =  "clement-LVD/codexplor", languages = "R")
+  corp <- construct_corpus(languages = "R", repos =  "clement-LVD/codexplor")
   
   str(corp, max.level = 1) 
   
@@ -42,7 +42,7 @@ library(codexplor)
    
     # Example : several languages
     corpus_py <- construct_corpus(repos = "secdev/scapy"
-    , languages = c("Python", "Javascript"), .verbose = T) #take a while
+    , languages = c("Python", "R"), .verbose = T) #take a while
 
 
 ## Understand the corpus.list
@@ -53,7 +53,7 @@ library(codexplor)
 - `files` (classes `corpus.nodelist` & `data.frame`)
 - `functions` (classes `corpus.nodelist` & `data.frame`)
 
-Further complementary analyzes will add others dataframes to the list, e.g., a network of internal dependencies (classes `citations.network`, `internal.dependencies` & `data.frame`).
+Further complementary analyzes will add others dataframes to the list, e.g., a network of internal dependencies (classes `citations.network`, `internal.dependencies` & `data.frame`). This `corpus.list` of df offers insights from system level to the module level (complete `citations.network` > `files` > `functions`).
 
 
 **Details.** 
@@ -70,6 +70,18 @@ The `codes` `data.frame` (one of the `corpus.lines` dataframes) have more column
 <!-- - and a `matches` column that contain internally-exposed functions names, e.g., if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry for this line will be `'pol'`. -->
 
 Further complementary analyzes will add others columns, e.g., as soon as a network of `internal.dependencies` is computed, some metrics are added to the `files` data.frame of the `corpus.list`.
+
+
+```{r examples, echo=FALSE}
+
+knitr::kable(data.frame(Name = c("`codes`", "`comments`", "`functions`", "`files`", "`internal.dependencies`" )
+, Level = c("Line of code" , "Commented line","Function-level metrics"
+              , "File-level metrics"
+              , "Network of internal dependencies - file of function level" )
+ , e.g. = c( "Identify problematics lines, e.g., longest ones", '.', "e.g., quantify the longest func' and those with several internal dependencies", "e.g., quantify number of functions within files and critical internal dependencies", "Doc-to-doc (add metrics to the `files` level) or functions network (add metrics to the `functions` level)" )
+))
+
+```
 
 ## Default patterns
 `construct_corpus` rely on some default patterns, designed to analyze a programming project in a standardized way. 
@@ -101,26 +113,22 @@ knitr::kable(table)
 
 Here, R is the only language that assign an anonymous function to an object. Thus, contrary to other languages, we have to find the name of R functions before the keyword 'function', R parameters names are within the parenthesis after 'function(', etc. 
 
-```{r table-operations-construct-corpus, eval=FALSE, include=FALSE}
- # given a name of func :
-# in R we retrieve that with name <-|= function(PARAMETERS !){CODE !}
-# other languages we retrieve name(PARAMETERS !){CODE !}
-```
-
 ## Unmatched func' def'
-The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched yet by `construct_corpus` :
+**Python.** The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched yet by `construct_corpus` :
 
      hello = lambda: None
 
-Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter :
-
-     const hello = (a, b) => a + b;
-     
-The re-assigning of an anonymous R function to a new R object is not supported yet :
+**R.** The re-assigning of an anonymous R function to a new R object is not supported yet :
       
       aaa <- function(i, a){i + a} # construct_corpus match the 'aaa' function
        my_func_a <- aaa    #  but don't notice the creation of an alias
       my_func_a(1,2) # will not be matched during the post-processing 
+
+**JS.** Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter :
+
+     const hello = (a, b) => a + b;
+     
+
 
 ### Helper functions that rely on `construct_corpus`
 `codexplor::get_doc_network_from_project` is an helper 'high-level' function that perform an analysis of the internal dependencies by performing a 2nd matches from the 1st matches of `construct_corpus`, e.g., see the [vignette about analyzing a network of internal dependencies with `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html).

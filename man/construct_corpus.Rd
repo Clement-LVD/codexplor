@@ -46,13 +46,13 @@ The data frames typically includes columns such as:
 \item{\code{comments}}{\code{logical} \code{TRUE} if the entire line is commented. Set to \code{FALSE} for the \code{codes} df and \code{TRUE} for the \code{comments} df.}
 \item{\code{commented}}{\code{character} (only in the \code{codes} df) Inlines comments or NA if there is no inline comments.}
 \item{\code{parameters}}{\code{character} (only in the \code{functions} df) The content that define the default parameters of a function.}
-\item{\code{parameters}}{\code{character} (only in the \code{functions} df) The code of a function.}
+\item{\code{code}}{\code{character} (only in the \code{functions} df) The code of a function.}
 }
 }
 \description{
 Given a Language, a folder path(s) and/or github repo(s)
 Return a \code{list} of 4 dataframes. The list have an additionnal \code{corpus.list} class. The df are :
-(1) \code{codes} lines and (2) \code{comments} lines, with text-metrics about each line;
+(1) \code{codes} and (2) \code{comments} with text-metrics about each line;
 (3) \code{files} with global metrics over the files, and (4) \code{functions} with metrics about the functions of the programming project.
 }
 \details{

@@ -123,25 +123,30 @@ return(intervals_df) #filter out nested intervals
 # we will RETURN all the intervals where we have to extract within each texts passed
 if (.verbose) {pb <- utils::txtProgressBar(min = 0, max = 100, style = 3) }
 
-df  <- do.call(rbind,  lapply(seq_along(texts), function(i) {
+df  <-  lapply(seq_along(texts), function(i) {
 
   text <- texts[i]  # Select i-nth text
 
-  positions_std_df <- get_open_close_patterns_positions(text, delim_pair)
+  df <- get_open_close_patterns_positions(text, delim_pair)
 
+if(nrow(df) == 0 ) return(data.frame(symb = character(0), start = character(0), end = character(0)))
 
-   df <-  compute_intervals_for_a_line(positions_std_df, symb = names(delim_pair))
+   df <-  compute_intervals_for_a_line(df, symb = names(delim_pair))
 
     if (nrow(df) > 0) df$text_id <- i
 
    if (.verbose) utils::setTxtProgressBar(pb, i / length(texts)*100 )
 
   return(df)
-}) )
+})
 
+df <- do.call(rbind, df)
 if (.verbose) close(pb)
 
-# and finally we have missing lines : some have "Inf" and "-Inf" symbols
+# if no delim : return the texts
+if(nrow(df) == 0) return(df)
+
+# and finally we have certainly missing lines : some have "Inf" and "-Inf" symbols
 # from the compute_intervals_for_a_line function that symbolize a never ending commented line
 missing_ids <- setdiff(1:max(df$text_id), df$text_id)
 existing_ids <- df$text_id

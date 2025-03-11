@@ -98,7 +98,7 @@ list_language_patterns <- list(
     , file_extension = ".py"
     , commented_line_char = "#"     # Python (Python)
     , delim_pair_comments_block = NA
-    , pattern_to_exclude = NA
+    , pattern_to_exclude = NULL
     , escaping_char = "\\"
     ,  fn_regex_params_after_names = ref_languages$Python$regex_fn_parameters_after_names
     ),
@@ -110,9 +110,9 @@ list_language_patterns <- list(
       # , regex_method_arrow <- "(\\w+)\\s*(?=\\s*=\\s*\\(.*\\)\\s*=>)" # ou en objet :
     )
     , file_extension = ".js"
-    , commented_line_char = "//"
+    , commented_line_char = "\\/\\/" # for //
     , delim_pair_comments_block = c("/*" = "*/")  # JavaScript (JavaScript)
-    , pattern_to_exclude = NA
+    , pattern_to_exclude = NULL
     , escaping_char = "\\"
     ,  fn_regex_params_after_names = ref_languages$JavaScript$regex_fn_parameters_after_names
 

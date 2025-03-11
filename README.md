@@ -15,9 +15,11 @@ status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.
 monitor a programming project.
 
 Given a programming project, `codexplor` compute standardized text
-mining metrics and dataviz’ about the project : get rid of global
-complexity with a network of local dependancies, and assess local
-complexity with document-level and function-level metrics !
+mining metrics and dataviz’ about the project. Get rid of global
+complexity with a network of internal dependancies, and assess local
+complexity with document-level and function-level metrics (e.g.,
+identify files with many functions, the longest functions, and those
+with numerous internal dependencies within the project).
 
 > `codexplor` help me to figure out the big picture of a programming
 > project faster, and to manage it more efficiently.
@@ -40,27 +42,21 @@ Supported languages are : R, Python, JavaScript
 
 **1. Turn a programming project into a corpus.** Given folder(s) and/or
 github repo(s) and programming language(s),
-`codexplor::get_doc_network_from_project` will return a `list` - with
-additional class `corpus.list` - of dataframes :
-
-- 2 `corpus.lines` dataframes (`codes` & `comments`)
-- 2 `corpus.nodelist` dataframes (`files` & `functions`)
-- 1 `citations.network` data.frame (`internal.dependencies`)
-
-This corpus is a standardized way to analyze a programming project as a
-collection of documents.
+`codexplor::get_doc_network_from_project` will return a `list` of
+dataframes :
 
 ``` r
 library(codexplor)
 
  # Construct a corpus and a Citations network
-corpus <- get_doc_network_from_project(folders = getwd()
-                                      , languages = "R" )
+corpus <- get_doc_network_from_project(
+  folders = getwd()
+  , languages = "R" )
     
 str(corpus, max.level = 1)
 #> List of 5
-#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1713 obs. of  10 variables:
-#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1168 obs. of  9 variables:
+#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1719 obs. of  10 variables:
+#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1170 obs. of  9 variables:
 #>  $ files                :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:
 #>  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  4 variables:
 #>  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  64 obs. of  6 variables:
@@ -68,6 +64,17 @@ str(corpus, max.level = 1)
 #>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-10"
 #>  - attr(*, "have_citations_network")= logi TRUE
 ```
+
+This corpus is a standardized way to analyze a programming project as a
+collection of documents. Here a quick look on the returned df :
+
+| Name | Level | e.g. |
+|:---|:---|:---|
+| `codes` | Line of code (classes `corpus.lines` & `data.frame`) | Identify problematics lines, e.g., longest ones |
+| `comments` | Commented line (classes `corpus.lines` & `data.frame`) | . |
+| `files` | File-level metrics (classes `corpus.nodelist` & `data.frame`) | e.g., quantify number of functions within files and critical internal dependencies |
+| `functions` | Function-level metrics (classes `corpus.nodelist` & `data.frame`) | e.g., quantify the longest func’ and those with several internal dependencies |
+| `internal.dependencies` | Network of internal dependencies - file of function level (classes `citations.network` , `internal.dependencies` & `data.frame`) | Doc-to-doc (add metrics to the `files` level) or functions network (add metrics to the `functions` level) |
 
 **2. See a dataviz’ from a corpus.list.** Given a `corpus.list`, look at
 the dataviz’ of a `citations.network` `data.frame` with
@@ -99,7 +106,7 @@ local insights on a programming project.
 
 | Computed Methods | Global insights | Local insights on files |
 |:---|:---|:---|
-| ![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network%20of%20internal%20dependencies&labelColor=black&color=green) | Appreciate global complexity and figure out the pig picture | Reveal critical files, e.g., major internal dependancies |
+| ![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network%20of%20internal%20dependencies&labelColor=black&color=green) | Appreciate global complexity | Reveal critical files, e.g., major internal dependancies |
 | ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=orange) | Reveal clusters of ‘difficult-to-read’ files | Assess each file with text-mining metrics, e.g., length and files readability |
 | ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Function-level%20metrics&labelColor=grey&color=orange) | Reveal the most complex functions | Identify problematic functions, e.g., the longest ones |
 | ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Line-level%20metrics&labelColor=grey&color=green) | ↑ (used by global level metric) | Identify problematic lines |

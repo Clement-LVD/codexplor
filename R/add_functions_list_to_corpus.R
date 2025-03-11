@@ -13,7 +13,7 @@ add_functions_list_to_corpus <- function(corpus
   fn_nodelist <- compute_nodelist(corpus$codes, group_col = "file_path"
                                   , colname_content_to_concatenate = "content")
 
-  # suppress the comments
+  # suppress the texts
   fn_nodelist$censored_content <- censor_quoted_text(text = fn_nodelist$content, char_for_replacing_each_char = "_")
 
   paired_delim <- lang_desired$delim_pair_nested_codes
@@ -36,7 +36,7 @@ add_functions_list_to_corpus <- function(corpus
   n_functions_defined <- by(fn_nodelist$matches, INDICES = fn_nodelist$file_path, FUN = function(x) sum(!is.na(x)))
 
   n_functions_defined <- data.frame(func = n_functions_defined, file_path = names(n_functions_defined))
-
+  n_functions_defined <- n_functions_defined[!duplicated(n_functions_defined),]
    # completing the files nodelist
   corpus$files <- .construct.nodelist(merge(corpus$files, n_functions_defined, by ="file_path"))
 
@@ -44,7 +44,7 @@ add_functions_list_to_corpus <- function(corpus
   corpus$functions <- fn_nodelist[!is.na(fn_nodelist$matches), c("matches", "file_path", "content", "exposed_content")]
 
   colnames(corpus$functions)[1] <- "name"
-
+  corpus$functions <- corpus$functions[!duplicated(corpus$functions), ]
 # another func that add "parameters" and "content" col and return a corpus list object
 corpus <- extract_fn_content(corpus,  lang_dictionnary )
 
