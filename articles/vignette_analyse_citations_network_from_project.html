@@ -95,7 +95,7 @@ network</em> of the internal dependencies with <img src="https://img.shields.io/
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
 <span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span></span>
-<span>  repos <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tidyverse/stringr"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  repos <span class="op">=</span>  <span class="st">"tidyverse/stringr"</span><span class="op">)</span></span>
 <span>        <span class="co"># by default, codexplor deal with R project</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">internal.dependencies</span><span class="op">)</span></span>
@@ -108,7 +108,7 @@ project).</p>
 <img src="../reference/figures/example_net3d_dataviz.png" style="width:90.0%" alt="."><div class="figcaption">.</div>
 </div>
 <p>For example, the most-common local dependency inside the
-tidyverse/stringr repo are <code>modifiers.R</code>
+tidyverse/stringr repo are <code>modifiers.R</code> and
 <code>compat-types-check.R</code>. Next, there is other text-mining
 metrics that will give us insights about these files, e.g., one should
 verify that the local complexity of this

@@ -83,16 +83,16 @@ Python, JavaScript.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 1) Construct a corpus without a Citations network</span></span>
-<span>  <span class="va">corp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span> repos <span class="op">=</span>  <span class="st">"clement-LVD/codexplor"</span>, languages <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span>
+<span>  <span class="va">corp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span>languages <span class="op">=</span> <span class="st">"R"</span>, repos <span class="op">=</span>  <span class="st">"clement-LVD/codexplor"</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corp</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 4</span></span>
-<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1713 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1168 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1726 obs. of  10 variables:</span></span>
+<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1172 obs. of  9 variables:</span></span>
 <span><span class="co">#&gt;  $ files    :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  8 variables:</span></span>
 <span><span class="co">#&gt;  $ functions:Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
-<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-09"</span></span>
+<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-11"</span></span>
 <span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi FALSE</span></span>
 <span><span class="co">#&gt;  - attr(*, "languages_patterns")=List of 1</span></span>
 <span><span class="co">#&gt;  - attr(*, "repos")= chr "clement-LVD/codexplor"</span></span></code></pre></div>
@@ -102,7 +102,7 @@ corpus &lt;- construct_corpus(c("~", "M:/") languages = "R"
 
 # Example : several languages
 corpus_py &lt;- construct_corpus(repos = "secdev/scapy"
-, languages = c("Python", "Javascript"), .verbose = T) #take a while</code></pre>
+, languages = c("Python", "R"), .verbose = T) #take a while</code></pre>
 </div>
 <div class="section level2">
 <h2 id="understand-the-corpus-list">Understand the corpus.list<a class="anchor" aria-label="anchor" href="#understand-the-corpus-list"></a>
@@ -127,7 +127,10 @@ of 4 dataframes :</p>
 <p>Further complementary analyzes will add others dataframes to the
 list, e.g., a network of internal dependencies (classes
 <code>citations.network</code>, <code>internal.dependencies</code> &amp;
-<code>data.frame</code>).</p>
+<code>data.frame</code>). This <code>corpus.list</code> of df offers
+insights from system level to the module level (complete
+<code>citations.network</code> &gt; <code>files</code> &gt;
+<code>functions</code>).</p>
 <p><strong>Details.</strong></p>
 <ul>
 <li><p>The <code>files</code> <code>data.frame</code> is sorted by
@@ -152,6 +155,50 @@ codeline)
 as a network of <code>internal.dependencies</code> is computed, some
 metrics are added to the <code>files</code> data.frame of the
 <code>corpus.list</code>.</p>
+<table class="table">
+<colgroup>
+<col width="12%">
+<col width="30%">
+<col width="56%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Name</th>
+<th align="left">Level</th>
+<th align="left">e.g.</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>codes</code></td>
+<td align="left">Line of code</td>
+<td align="left">Identify problematics lines, e.g., longest ones</td>
+</tr>
+<tr class="even">
+<td align="left"><code>comments</code></td>
+<td align="left">Commented line</td>
+<td align="left">.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>functions</code></td>
+<td align="left">Function-level metrics</td>
+<td align="left">e.g., quantify the longest func’ and those with several
+internal dependencies</td>
+</tr>
+<tr class="even">
+<td align="left"><code>files</code></td>
+<td align="left">File-level metrics</td>
+<td align="left">e.g., quantify number of functions within files and
+critical internal dependencies</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>internal.dependencies</code></td>
+<td align="left">Network of internal dependencies - file of function
+level</td>
+<td align="left">Doc-to-doc (add metrics to the <code>files</code>
+level) or functions network (add metrics to the <code>functions</code>
+level)</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level2">
 <h2 id="default-patterns">Default patterns<a class="anchor" aria-label="anchor" href="#default-patterns"></a>
@@ -241,19 +288,19 @@ the parenthesis after ‘function(’, etc.</p>
 <div class="section level2">
 <h2 id="unmatched-func-def">Unmatched func’ def’<a class="anchor" aria-label="anchor" href="#unmatched-func-def"></a>
 </h2>
-<p>The function ‘hello’ defined as a lambda (anonymous) function within
-the Python line hereafter is not matched yet by
-<code>construct_corpus</code> :</p>
+<p><strong>Python.</strong> The function ‘hello’ defined as a lambda
+(anonymous) function within the Python line hereafter is not matched yet
+by <code>construct_corpus</code> :</p>
 <pre><code><span> <span class="va">hello</span> <span class="op">=</span> <span class="va">lambda</span><span class="op">:</span> <span class="va">None</span></span></code></pre>
-<p>Another caveat unsupported - yet - is the ‘hello’ javascript function
-defined hereafter :</p>
-<pre><code> const hello = (a, b) =&gt; a + b;
- </code></pre>
-<p>The re-assigning of an anonymous R function to a new R object is not
-supported yet :</p>
+<p><strong>R.</strong> The re-assigning of an anonymous R function to a
+new R object is not supported yet :</p>
 <pre><code><span>  <span class="va">aaa</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span>, <span class="va">a</span><span class="op">)</span><span class="op">{</span><span class="va">i</span> <span class="op">+</span> <span class="va">a</span><span class="op">}</span> <span class="co"># construct_corpus match the 'aaa' function</span></span>
 <span>   <span class="va">my_func_a</span> <span class="op">&lt;-</span> <span class="va">aaa</span>    <span class="co">#  but don't notice the creation of an alias</span></span>
 <span>  <span class="fu">my_func_a</span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span> <span class="co"># will not be matched during the post-processing </span></span></code></pre>
+<p><strong>JS.</strong> Another caveat unsupported - yet - is the
+‘hello’ javascript function defined hereafter :</p>
+<pre><code> const hello = (a, b) =&gt; a + b;
+ </code></pre>
 <div class="section level3">
 <h3 id="helper-functions-that-rely-on-construct_corpus">Helper functions that rely on <code>construct_corpus</code><a class="anchor" aria-label="anchor" href="#helper-functions-that-rely-on-construct_corpus"></a>
 </h3>
