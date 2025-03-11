@@ -55,26 +55,18 @@ corpus <- get_doc_network_from_project(
     
 str(corpus, max.level = 1)
 #> List of 5
-#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1719 obs. of  10 variables:
-#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1170 obs. of  9 variables:
+#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1726 obs. of  10 variables:
+#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1172 obs. of  9 variables:
 #>  $ files                :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:
-#>  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  4 variables:
+#>  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:
 #>  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  64 obs. of  6 variables:
 #>  - attr(*, "class")= chr [1:2] "list" "corpus.list"
-#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-10"
+#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-11"
 #>  - attr(*, "have_citations_network")= logi TRUE
 ```
 
 This corpus is a standardized way to analyze a programming project as a
 collection of documents. Here a quick look on the returned df :
-
-| Name | Level | e.g. |
-|:---|:---|:---|
-| `codes` | Line of code (classes `corpus.lines` & `data.frame`) | Identify problematics lines, e.g., longest ones |
-| `comments` | Commented line (classes `corpus.lines` & `data.frame`) | . |
-| `files` | File-level metrics (classes `corpus.nodelist` & `data.frame`) | e.g., quantify number of functions within files and critical internal dependencies |
-| `functions` | Function-level metrics (classes `corpus.nodelist` & `data.frame`) | e.g., quantify the longest func’ and those with several internal dependencies |
-| `internal.dependencies` | Network of internal dependencies - file of function level (classes `citations.network` , `internal.dependencies` & `data.frame`) | Doc-to-doc (add metrics to the `files` level) or functions network (add metrics to the `functions` level) |
 
 **2. See a dataviz’ from a corpus.list.** Given a `corpus.list`, look at
 the dataviz’ of a `citations.network` `data.frame` with
@@ -143,7 +135,7 @@ local insights on a programming project.
 
 ![ ](https://img.shields.io/badge/R-green)
 ![ ](https://img.shields.io/badge/Python-yellow)
-![ ](https://img.shields.io/badge/Javascript-orange)
+<!-- ![ ](https://img.shields.io/badge/Javascript-orange) -->
 
 Other languages are planned.
 
