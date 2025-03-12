@@ -61,15 +61,13 @@ Further complementary analyzes will add others dataframes to the list, e.g., a n
 
 **Details.** 
 
-- The `files` `data.frame` is sorted by files, and contains the files path and/or url, and overall text-mining metrics about each files of the corpus (e.g., number of characters, words count).
+- The `files` `data.frame` contains the files path and/or url, and overall text-mining metrics about each files of the corpus (e.g., number of characters, words count; number of functions within the file).
 
 - The `functions` `data.frame` contains the functions names and text-mining metrics about these functions.
 
-- The 2 `corpus.lines` `data.frame` are related to lines (file path and content of each lines, line number, and text-mining metrics related to each lines). 
+- The 2 `corpus.lines` `data.frame` are related to `comments` or `codes` lines (file path and content of each lines, line number, and text-mining metrics related to each lines). 
 
-The `codes` `data.frame` (one of the `corpus.lines` dataframes) have more columns, such as :
-
-- `commented` column (inline comment at the end of a codeline)
+The `codes` `data.frame` (one of the `corpus.lines` dataframes) have a `commented` column (inline comment at the end of a codeline).
 <!-- - and a `matches` column that contain internally-exposed functions names, e.g., if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry for this line will be `'pol'`. -->
 
 Further complementary analyzes will add others columns, e.g., as soon as a network of `internal.dependencies` is computed, some metrics are added to the `files` data.frame of the `corpus.list`.
@@ -88,7 +86,7 @@ knitr::kable(data.frame(Name = c("`codes`", "`comments`", "`functions`", "`files
 
 ## Default patterns
 `construct_corpus` rely on some default patterns, designed to analyze a programming project in a standardized way. 
-With these patterns, `construct_corpus` will :
+Accordingly to these patterns, `construct_corpus` will :
 
 1. read the files accordingly to their extension, e.g., R language is associated with `'.R'` files. 
 2. process commented lines accordingly to each language definition, e.g., R & Python use `'#'` and don't allow multi-lines comments, contrary to JavaScript.

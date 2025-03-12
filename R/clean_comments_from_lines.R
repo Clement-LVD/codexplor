@@ -6,7 +6,7 @@ clean_comments_from_lines <- function(corpus, delim_pair = NA
   #### I. Optionnaly clean multi-lines comments
   if(!is.na(delim_pair)) {
 
-    if(.verbose) cat("\n===> Clean blocks of comments\n")
+    if(.verbose) cat("\n====> Clean blocks of comments\n")
 
     codes_and_comments <- separate_commented_lines(texts =  corpus$codes$content
                                                    , delim_pair = delim_pair
@@ -14,19 +14,23 @@ clean_comments_from_lines <- function(corpus, delim_pair = NA
 # have answered a df with original text, comments & codelines var' (substract of original text)
 # codelines are real code content : add these lines to the codes df
     corpus$codes$content <- codes_and_comments$codelines
-    corpus$codes  <-    corpus$codes [!is.na(corpus$codes$content), ]
     # add the comments in the df comments of the corpus ('content' for a comment)
     comments_to_add <-  corpus$codes
+
+    corpus$codes  <-   corpus$codes[!is.na(corpus$codes$content), ] # clean corpus code from na
+
  comments_to_add$content <- codes_and_comments$comments # comments become the 'content'
- comments_to_add$comments[!is.na(comments_to_add$comments)] # and removes NA
+ comments_to_add <- comments_to_add[!is.na(comments_to_add$content), ] # and removes NA
 
  n_coms <- nrow(comments_to_add)
  if(n_coms > 0){
- if(.verbose) cat("+", n_coms, "lines of comments to the corpus$comments data.frame")
+ if(.verbose) cat("+", n_coms, "lines of comments added to the corpus$comments data.frame")
  corpus$comments <- rbind(corpus$comments, comments_to_add[, colnames(corpus$comments)])
  # we will reorder in the end
  }
   }
+
+  if(.verbose) cat("\n====> Remove inline comments\n")
 
 corpus$codes <- cbind(corpus$codes , remove_text_after_char(corpus$codes$content
                                                               , char = char_for_inline_comments

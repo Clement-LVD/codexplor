@@ -48,8 +48,8 @@
 #'  - `duplicated_corpus_lines`, `logical`. If `TRUE`, line(s) of the `codes` data.frame are duplicated (must be to `FALSE` in near to all cases)
 #' @examples
 #' # Example 1: Construct a corpus from local folders
-#'  corpus <- construct_corpus(folders = "~", languages = c( "R"))
-#'  # corpus <- construct_corpus(folders = "~", languages = c("R", "Python"))
+#'  corpus <- construct_corpus(folders = "~", languages = c( "R", "Python"))
+#'  # corpus <- construct_corpus(folders = "~", languages = c("Javascript"))
 #' \dontrun{
 #' # Example 2: Construct a corpus from GitHub repositories (default is R)
 #' cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
@@ -186,7 +186,7 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
 # 'codes' will be cleaned from comments
 corpus <- clean_comments_from_lines(corpus = corpus
                                     , delim_pair = lang_desired$delim_pair_comments_block
-                                    , char_for_inline_comments = lang_desired$commented_line_char)
+                                    , char_for_inline_comments = lang_desired$commented_line_char, .verbose = .verbose)
 
 #### 7) add a functions nodelist ####
 corpus <- add_functions_list_to_corpus(corpus, lang_dictionnary = lang_desired)

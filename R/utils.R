@@ -144,7 +144,7 @@ extract_text_outside_separators <- function(texts, open_sep = "\\{", close_sep =
 
     # Only append closing characters if extra_levels is greater than 0
     if (extra_levels > 0) {
-      cat("\n"); cat("Content is fixed by adding", extra_levels, "closing separator(s)"); cat(texts)
+      cat("\n"); cat("Content is fixed by adding", extra_levels, "closing separator(s)")
 
       if(!is.null(add_infos_when_repairing)) cat("\n=> " , add_infos_when_repairing, "\n")
 
@@ -174,7 +174,7 @@ if(!is.null(add_infos_when_repairing)) warning("\n => " , add_infos_when_repairi
 
   # Final cleanup: collapse spaces and trim.
   cleaned_text <- gsub("\\s+", " ", cleaned_text)
-  trimws(cleaned_text)
+  return(trimws(cleaned_text))
 }
 
 # Example usage:

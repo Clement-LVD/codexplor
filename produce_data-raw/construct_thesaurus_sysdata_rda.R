@@ -19,6 +19,7 @@ ref_languages <- list(
            , Operator_After_Name ="<-|="
           , Start_Instructions_operator = "{"
           , prefix_to_exclude = "FUN"
+          , regex_fn_parameters_after_names = "\\s*(<-|=)\\s*function\\("
            , anonymous = T # this is a random func assigned in an object
            ),
   #the operator and function stuff will be unmatched (?:
@@ -30,6 +31,7 @@ ref_languages <- list(
 
                , Start_Instructions_operator = ":"
                , prefix_to_exclude = ""
+               , regex_fn_parameters_after_names =  "\\("
                 , anonymous = F
                  ),
 
@@ -39,6 +41,7 @@ JavaScript = list(Example = "function hello() { }"
                     , Operator_After_Name = "\\("
                   , Start_Instructions_operator = "{"
                   , prefix_to_exclude = ""
+                  , regex_fn_parameters_after_names =  "\\("
                   , anonymous = F
 
                   )
@@ -56,8 +59,7 @@ ref_languages <- lapply(ref_languages, FUN = function(x){
   if(!x$anonymous){
   x$regex_func_name <- paste0( "(?<=", x$Definition_Keyword, ")",  fn_names  , "(?=" , x$Operator_After_Name  , ")")
 # and given a real fn name paster before (!) we want also a light regex to exclude the names and catch the after-text
-  x$regex_fn_parameters_after_names <-  "\\("
-  }# R hereafter
+   }# R hereafter
   if(x$anonymous)  {
      x$regex_func_name <- paste0( "(^|\\.|\\b)" # begin of a word
                                               , "(?!" ,  x$prefix_to_exclude, ")"
@@ -65,7 +67,6 @@ ref_languages <- lapply(ref_languages, FUN = function(x){
                                             , "\\s*(?=(?:", x$Operator_After_Name,  ")" #lookahead fusionné
                                           , "\\s*" ,"(?:" , x$Definition_Keyword, x$Operator_After_Keyword , "))" )}
 
-    x$regex_fn_parameters_after_names <-  "\\s*(<-|=)\\s*function\\("
   # only r is anonymous
      return(x)
 })
@@ -122,7 +123,7 @@ list_language_patterns <- list(
 # add pattern at the end of existing values
 language_pattern <- lapply( list_language_patterns, FUN = function(entry) {
   entry$delim_pair_nested_codes = c("\\{" = "\\}")
-  entry$local_file_ext <- paste0(entry$file_ext, "$" )
+  # entry$local_file_ext <- paste0(entry$file_ext, "$" )
   entry$fn_regex <- paste0(entry$fn_regex, collapse = "|" )
   return(entry)
 
