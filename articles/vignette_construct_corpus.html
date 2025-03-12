@@ -89,8 +89,8 @@ Python, JavaScript.</p>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corpus</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 4</span></span>
-<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1731 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1176 obs. of  8 variables:</span></span>
+<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1735 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1178 obs. of  8 variables:</span></span>
 <span><span class="co">#&gt;  $ files    :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  8 variables:</span></span>
 <span><span class="co">#&gt;  $ functions:Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
@@ -135,25 +135,21 @@ insights on the programming project, from system level to module level
 <code>functions</code>).</p>
 <p><strong>Details.</strong></p>
 <ul>
-<li><p>The <code>files</code> <code>data.frame</code> is sorted by
-files, and contains the files path and/or url, and overall text-mining
-metrics about each files of the corpus (e.g., number of characters,
-words count).</p></li>
+<li><p>The <code>files</code> <code>data.frame</code> contains the files
+path and/or url, and overall text-mining metrics about each files of the
+corpus (e.g., number of characters, words count; number of functions
+within the file).</p></li>
 <li><p>The <code>functions</code> <code>data.frame</code> contains the
 functions names and text-mining metrics about these functions.</p></li>
 <li><p>The 2 <code>corpus.lines</code> <code>data.frame</code> are
-related to lines (file path and content of each lines, line number, and
-text-mining metrics related to each lines).</p></li>
+related to <code>comments</code> or <code>codes</code> lines (file path
+and content of each lines, line number, and text-mining metrics related
+to each lines).</p></li>
 </ul>
 <p>The <code>codes</code> <code>data.frame</code> (one of the
-<code>corpus.lines</code> dataframes) have more columns, such as :</p>
-<ul>
-<li>
-<code>commented</code> column (inline comment at the end of a
-codeline)
-<!-- - and a `matches` column that contain internally-exposed functions names, e.g., if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry for this line will be `'pol'`. -->
-</li>
-</ul>
+<code>corpus.lines</code> dataframes) have a <code>commented</code>
+column (inline comment at the end of a codeline).
+<!-- - and a `matches` column that contain internally-exposed functions names, e.g., if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry for this line will be `'pol'`. --></p>
 <p>Further complementary analyzes will add others columns, e.g., as soon
 as a network of <code>internal.dependencies</code> is computed, some
 metrics are added to the <code>files</code> data.frame of the
@@ -207,8 +203,8 @@ level)</td>
 <h2 id="default-patterns">Default patterns<a class="anchor" aria-label="anchor" href="#default-patterns"></a>
 </h2>
 <p><code>construct_corpus</code> rely on some default patterns, designed
-to analyze a programming project in a standardized way. With these
-patterns, <code>construct_corpus</code> will :</p>
+to analyze a programming project in a standardized way. Accordingly to
+these patterns, <code>construct_corpus</code> will :</p>
 <ol style="list-style-type: decimal">
 <li>read the files accordingly to their extension, e.g., R language is
 associated with <code>'.R'</code> files.</li>
@@ -233,8 +229,8 @@ languages.</p>
 <col width="10%">
 <col width="15%">
 <col width="9%">
-<col width="5%">
 <col width="17%">
+<col width="5%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
@@ -244,8 +240,8 @@ languages.</p>
 <th align="left">Operator After Name</th>
 <th align="left">Start Instructions operator</th>
 <th align="left">prefix to exclude</th>
-<th align="left">anonymous</th>
 <th align="left">regex fn parameters after names</th>
+<th align="left">anonymous</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -256,8 +252,8 @@ languages.</p>
 <td align="left">(</td>
 <td align="left">{</td>
 <td align="left"></td>
+<td align="left">(</td>
 <td align="left">FALSE</td>
-<td align="left">(&lt;-|=)function(</td>
 </tr>
 <tr class="even">
 <td align="left">Python</td>
@@ -267,8 +263,8 @@ languages.</p>
 <td align="left">(</td>
 <td align="left">:</td>
 <td align="left"></td>
+<td align="left">(</td>
 <td align="left">FALSE</td>
-<td align="left">(&lt;-|=)function(</td>
 </tr>
 <tr class="odd">
 <td align="left">R</td>
@@ -278,8 +274,8 @@ languages.</p>
 <td align="left">&lt;-|=</td>
 <td align="left">{</td>
 <td align="left">FUN</td>
-<td align="left">TRUE</td>
 <td align="left">(&lt;-|=)function(</td>
+<td align="left">TRUE</td>
 </tr>
 </tbody>
 </table>
