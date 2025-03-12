@@ -70,10 +70,10 @@ features <- data.frame(Feature = c(
  
 ) #2 : documement-level text-mining
            
-         , Local_insights = c( "Appreciate global complexity and reveal critical files, e.g., major internal dependancies, clusters of 'difficult-to-read' files" 
-          ,  "Assess each file, e.g., length and files readability, number of functions within a file"  # 2 : document-level text-mining
-           , "Assess each function, e.g., those with a lot of internal dependencies"
-           , "Assess each line, e.g., find the longest")
+         , Local_insights = c( "Appreciate **global** complexity and reveal critical files, e.g., major internal dependancies, clusters of 'difficult-to-read' files" 
+          ,  "Assess each **file**, e.g., length and files readability, number of functions within a file"  # 2 : document-level text-mining
+           , "Assess each **function**, e.g., those with a lot of internal dependencies"
+           , "Assess each **line**, e.g., find the longest")
 )
 
 names(features) <- c("Computed Methods" #,"Global insights"

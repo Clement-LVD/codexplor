@@ -46,10 +46,10 @@ project.
 
 | Computed Methods | Level of insights |
 |:---|:---|
-| ![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network%20of%20internal%20dependencies&labelColor=black&color=green) | Appreciate global complexity and reveal critical files, e.g., major internal dependancies, clusters of ‘difficult-to-read’ files |
-| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=orange) | Assess each file, e.g., length and files readability, number of functions within a file |
-| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Function-level%20metrics&labelColor=grey&color=orange) | Assess each function, e.g., those with a lot of internal dependencies |
-| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Line-level%20metrics&labelColor=grey&color=green) | Assess each line, e.g., find the longest |
+| ![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network%20of%20internal%20dependencies&labelColor=black&color=green) | Appreciate **global** complexity and reveal critical files, e.g., major internal dependancies, clusters of ‘difficult-to-read’ files |
+| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=orange) | Assess each **file**, e.g., length and files readability, number of functions within a file |
+| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Function-level%20metrics&labelColor=grey&color=orange) | Assess each **function**, e.g., those with a lot of internal dependencies |
+| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Line-level%20metrics&labelColor=grey&color=green) | Assess each **line**, e.g., find the longest |
 
 <!-- FEATURES are on 3 flex-columns : -->
 
@@ -108,8 +108,8 @@ corpus <- get_doc_network_from_project(
     
 str(corpus, max.level = 1)
 #> List of 5
-#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1725 obs. of  9 variables:
-#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1173 obs. of  8 variables:
+#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1730 obs. of  9 variables:
+#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1174 obs. of  8 variables:
 #>  $ files                :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:
 #>  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:
 #>  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  64 obs. of  6 variables:
