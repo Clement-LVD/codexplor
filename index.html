@@ -70,7 +70,7 @@
 <p>You can install the development version of codexplor with</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"clement-LVD/codexplor"</span><span class="op">)</span></span></code></pre></div>
-<p>The default settings of <code>codexplor</code> are optimized for analyzing a project in <img src="https://img.shields.io/badge/R-black" alt="R"> language. Supported languages are : R, Python, JavaScript</p>
+<p>The default settings of <code>codexplor</code> are optimized for analyzing a project in <img src="https://img.shields.io/badge/R-black" alt="R"> language. Supported languages are : R, Python</p>
 <hr>
 </div>
 <div class="section level3">
@@ -92,7 +92,7 @@
 <td align="left">Appreciate <strong>global</strong> complexity and reveal critical files, e.g., major internal dependancies, clusters of ‘difficult-to-read’ files</td>
 </tr>
 <tr class="even">
-<td align="left"><img src="https://img.shields.io/badge/%7B%F0%9F%9A%A7%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Document-level%20metrics&amp;labelColor=grey&amp;color=orange" alt="."></td>
+<td align="left"><img src="https://img.shields.io/badge/%7B%F0%9F%9A%A7%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Document-level%20metrics&amp;labelColor=grey&amp;color=yellow" alt="."></td>
 <td align="left">Assess each <strong>file</strong>, e.g., length and files readability, number of functions within a file</td>
 </tr>
 <tr class="odd">
@@ -135,13 +135,13 @@
 <span>    </span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corpus</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 5</span></span>
-<span><span class="co">#&gt;  $ codes                :Classes 'corpus.lines' and 'data.frame':    1731 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ comments             :Classes 'corpus.lines' and 'data.frame':    1176 obs. of  8 variables:</span></span>
+<span><span class="co">#&gt;  $ codes                :Classes 'corpus.lines' and 'data.frame':    1722 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ comments             :Classes 'corpus.lines' and 'data.frame':    1200 obs. of  8 variables:</span></span>
 <span><span class="co">#&gt;  $ files                :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:</span></span>
 <span><span class="co">#&gt;  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:</span></span>
 <span><span class="co">#&gt;  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  64 obs. of  6 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
-<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-12"</span></span>
+<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-13"</span></span>
 <span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi TRUE</span></span></code></pre></div>
 <p>This corpus of dataframes is a standardized way to analyze a programming project as a collection of documents. Learn more about these df with the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette of <code>construct_corpus()</code></a>.</p>
 <p><strong>2. See a dataviz’ from a corpus.list.</strong> Given a <code>corpus.list</code>, look at the dataviz’ of a <code>citations.network</code> <code>data.frame</code> with <code><a href="reference/get_networkd3_from_igraph.html">codexplor::get_networkd3_from_igraph</a></code> :</p>

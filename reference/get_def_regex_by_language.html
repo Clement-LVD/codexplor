@@ -103,9 +103,11 @@ Language names are case-insensitive.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">fn_def</span> <span class="op">&lt;-</span> <span class="fu">get_def_regex_by_language</span><span class="op">(</span><span class="st">"Python"</span>, <span class="st">"R"</span> , <span class="st">"JavaScript"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unsupported language(s) (javascript) !</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>  Available languages =&gt; R, Python</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">fn_def</span><span class="op">)</span> ; <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">fn_def</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "R"          "Python"     "JavaScript"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "R"      "Python"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ fn_regex                   : chr "(^|\\.|\\b)(?!FUN)[a-zA-Z_\\.][a-zA-Z0-9_\\.]*\\s*(?=(?:&lt;-|=)\\s*(?:function\\())"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_extension             : chr ".R"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ commented_line_char        : chr "#"</span>
@@ -115,7 +117,6 @@ Language names are case-insensitive.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ fn_regex_params_after_names: chr "\\s*(&lt;-|=)\\s*function\\("</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ delim_pair_nested_codes    : Named chr "\\}"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "names")= chr "\\{"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ local_file_ext             : chr ".R$"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

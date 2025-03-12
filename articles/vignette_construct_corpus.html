@@ -75,7 +75,7 @@ programming project into a text-mining corpus, given :</p>
 <p><strong>Supported languages.</strong> By default
 <code>construct_corpus</code> will analyze .R files, but one or several
 <code>languages</code> could be indicated. Recognized languages are R,
-Python, JavaScript.</p>
+Python.</p>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
@@ -89,8 +89,8 @@ Python, JavaScript.</p>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corpus</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 4</span></span>
-<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1735 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1178 obs. of  8 variables:</span></span>
+<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1722 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1200 obs. of  8 variables:</span></span>
 <span><span class="co">#&gt;  $ files    :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  8 variables:</span></span>
 <span><span class="co">#&gt;  $ functions:Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
@@ -220,13 +220,13 @@ the internally exposed functions of the programming project.</li>
 function defined in several languages : <code>construct_corpus</code>
 have to match <code>'hello'</code>, despite of the differences between
 languages.</p>
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
-<col width="5%">
-<col width="12%">
+<col width="3%">
+<col width="13%">
 <col width="10%">
 <col width="12%">
-<col width="10%">
+<col width="11%">
 <col width="15%">
 <col width="9%">
 <col width="17%">
@@ -245,17 +245,6 @@ languages.</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">JavaScript</td>
-<td align="left">function hello() { }</td>
-<td align="left">function</td>
-<td align="left"></td>
-<td align="left">(</td>
-<td align="left">{</td>
-<td align="left"></td>
-<td align="left">(</td>
-<td align="left">FALSE</td>
-</tr>
-<tr class="even">
 <td align="left">Python</td>
 <td align="left">def hello(): pass</td>
 <td align="left">def</td>
@@ -266,7 +255,7 @@ languages.</p>
 <td align="left">(</td>
 <td align="left">FALSE</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">R</td>
 <td align="left">hello &lt;- function() { }</td>
 <td align="left">function</td>
@@ -296,10 +285,8 @@ new R object is not supported yet :</p>
 <pre><code><span>  <span class="va">aaa</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span>, <span class="va">a</span><span class="op">)</span><span class="op">{</span><span class="va">i</span> <span class="op">+</span> <span class="va">a</span><span class="op">}</span> <span class="co"># construct_corpus match the 'aaa' function</span></span>
 <span>   <span class="va">my_func_a</span> <span class="op">&lt;-</span> <span class="va">aaa</span>    <span class="co">#  but don't notice the creation of an alias</span></span>
 <span>  <span class="fu">my_func_a</span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span> <span class="co"># will not be matched during the post-processing </span></span></code></pre>
-<p><strong>JS.</strong> Another caveat unsupported - yet - is the
-‘hello’ javascript function defined hereafter :</p>
-<pre><code> const hello = (a, b) =&gt; a + b;
- </code></pre>
+<!-- **JS.** Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter : -->
+<!--      const hello = (a, b) => a + b; -->
 <div class="section level3">
 <h3 id="helper-functions-that-rely-on-construct_corpus">Helper functions that rely on <code>construct_corpus</code><a class="anchor" aria-label="anchor" href="#helper-functions-that-rely-on-construct_corpus"></a>
 </h3>
