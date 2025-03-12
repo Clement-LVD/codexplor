@@ -2,16 +2,17 @@
 #'
 #' @param corpus A `corpus.list` object with at least the 'codes' dataframe
 #' @param lang_dictionnary `list` A language patterns dictionnary specific to one language
+#' @param .verbose `logical`, default = `FALSE`. If set to `TRUE`, show a progress bar when extracting content
 #' @return a `list` of class `corpus.list` with exposed functions names and file path
 add_functions_list_to_corpus <- function(corpus
-   , lang_dictionnary
+   , lang_dictionnary, .verbose = F
   ){
 
   lang_desired <- lang_dictionnary
 
   #unify code into a single bloc
   fn_nodelist <- compute_nodelist(corpus$codes, group_col = "file_path"
-                                  , colname_content_to_concatenate = "content")
+                                  , colname_content_to_concatenate = "content" )
 
   # suppress the texts
   fn_nodelist$censored_content <- censor_quoted_text(text = fn_nodelist$content, char_for_replacing_each_char = "_")
@@ -46,7 +47,7 @@ add_functions_list_to_corpus <- function(corpus
   colnames(corpus$functions)[1] <- "name"
   corpus$functions <- corpus$functions[!duplicated(corpus$functions), ]
 # another func that add "parameters" and "content" col and return a corpus list object
-corpus <- extract_fn_content(corpus,  lang_dictionnary )
+corpus <- extract_fn_content(corpus,  lang_dictionnary, .verbose = .verbose )
 
 return(corpus)
 }

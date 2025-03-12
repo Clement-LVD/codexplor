@@ -33,18 +33,18 @@ ref_languages <- list(
                , prefix_to_exclude = ""
                , regex_fn_parameters_after_names =  "\\("
                 , anonymous = F
-                 ),
+                 )
 
-JavaScript = list(Example = "function hello() { }"
-                    , Definition_Keyword = "function"
-                    , Operator_After_Keyword = ""
-                    , Operator_After_Name = "\\("
-                  , Start_Instructions_operator = "{"
-                  , prefix_to_exclude = ""
-                  , regex_fn_parameters_after_names =  "\\("
-                  , anonymous = F
-
-                  )
+# , JavaScript = list(Example = "function hello() { }"
+#                     , Definition_Keyword = "function"
+#                     , Operator_After_Keyword = ""
+#                     , Operator_After_Name = "\\("
+#                   , Start_Instructions_operator = "{"
+#                   , prefix_to_exclude = ""
+#                   , regex_fn_parameters_after_names =  "\\("
+#                   , anonymous = F
+#
+#                   )
   # Java = list(Example = "public static void hello() { }"
   #             , Operator_After_Name = "()"
   #             , Definition_Keyword = "public static void"
@@ -102,22 +102,22 @@ list_language_patterns <- list(
     , pattern_to_exclude = NULL
     , escaping_char = "\\"
     ,  fn_regex_params_after_names = ref_languages$Python$regex_fn_parameters_after_names
-    ),
-
-  JavaScript = list(
-    fn_regex = list(
-      main_definition = ref_languages$JavaScript$regex_func_name
-       # , regex_variable_fn = ref_languages$R$regex_func_name #lol
-      # , regex_method_arrow <- "(\\w+)\\s*(?=\\s*=\\s*\\(.*\\)\\s*=>)" # ou en objet :
     )
-    , file_extension = ".js"
-    , commented_line_char = "\\/\\/" # for //
-    , delim_pair_comments_block = c("/*" = "*/")  # JavaScript (JavaScript)
-    , pattern_to_exclude = NULL
-    , escaping_char = "\\"
-    ,  fn_regex_params_after_names = ref_languages$JavaScript$regex_fn_parameters_after_names
 
-  )
+  # ,  JavaScript = list(
+  #   fn_regex = list(
+  #     main_definition = ref_languages$JavaScript$regex_func_name
+  #      # , regex_variable_fn = ref_languages$R$regex_func_name #lol
+  #     # , regex_method_arrow <- "(\\w+)\\s*(?=\\s*=\\s*\\(.*\\)\\s*=>)" # ou en objet :
+  #   )
+  #   , file_extension = ".js"
+  #   , commented_line_char = "\\/\\/" # for //
+  #   , delim_pair_comments_block = c("/*" = "*/")  # JavaScript (JavaScript)
+  #   , pattern_to_exclude = NULL
+  #   , escaping_char = "\\"
+  #   ,  fn_regex_params_after_names = ref_languages$JavaScript$regex_fn_parameters_after_names
+  #
+  # )
 )
 
 # add pattern at the end of existing values

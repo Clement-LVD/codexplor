@@ -127,6 +127,8 @@ df  <-  lapply(seq_along(texts), function(i) {
 
   text <- texts[i]  # Select i-nth text
 
+  if(nchar(text) == 0 ) return(data.frame(symb = character(0), start = character(0), end = character(0)))
+
   df <- get_open_close_patterns_positions(text, delim_pair)
 
 if(nrow(df) == 0 ) return(data.frame(symb = character(0), start = character(0), end = character(0)))
@@ -187,6 +189,6 @@ returned_df <- rbind(df, do.call(rbind, lapply(valid_missing_ids, function(i)
 
 returned_df <- returned_df[order(returned_df$text_id, returned_df$start, na.last = TRUE), ] # reorder
 
-return(replace_inf(returned_df)) #in utils
+return(replace_inf(returned_df)) #in the begining of this func'
 }
 

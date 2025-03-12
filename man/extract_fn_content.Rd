@@ -4,12 +4,14 @@
 \alias{extract_fn_content}
 \title{Extract parameters and code for each functions of the functions df of a corpus.list}
 \usage{
-extract_fn_content(corpus, lang_dictionnary)
+extract_fn_content(corpus, lang_dictionnary, .verbose = F)
 }
 \arguments{
 \item{corpus}{A \code{corpus.list} object with a \code{functions} \code{data.frame}}
 
 \item{lang_dictionnary}{A standard language patterns dictionnary for a language (i.e. params fn_regex_params_after_names is needed)}
+
+\item{.verbose}{\code{logical}, default = \code{FALSE}. If set to \code{TRUE}, show a progress bar}
 }
 \description{
 Extract parameters and code for each functions of the functions df of a corpus.list

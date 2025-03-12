@@ -125,10 +125,10 @@ Here, R is the only language that assign an anonymous function to an object. Thu
        my_func_a <- aaa    #  but don't notice the creation of an alias
       my_func_a(1,2) # will not be matched during the post-processing 
 
-**JS.** Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter :
+<!-- **JS.** Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter : -->
 
-     const hello = (a, b) => a + b;
-     
+<!--      const hello = (a, b) => a + b; -->
+
 
 
 ### Helper functions that rely on `construct_corpus`

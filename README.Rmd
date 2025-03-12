@@ -62,7 +62,7 @@ Given a programming project `codexplor` will compute several standardized metric
 features <- data.frame(Feature = c( 
 "![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network of internal dependencies&labelColor=black&color=green)" 
 
-, "![.](https://img.shields.io/badge/{🚧}-bold?style=flat&logoColor=black&logoSize=2&label=Document-level metrics&labelColor=grey&color=orange)"
+, "![.](https://img.shields.io/badge/{🚧}-bold?style=flat&logoColor=black&logoSize=2&label=Document-level metrics&labelColor=grey&color=yellow)"
 
 , "![.](https://img.shields.io/badge/{🚧}-bold?style=flat&logoColor=black&logoSize=2&label=Function-level metrics&labelColor=grey&color=orange)"
 

@@ -34,7 +34,7 @@ devtools::install_github("clement-LVD/codexplor")
 
 The default settings of `codexplor` are optimized for analyzing a
 project in ![R](https://img.shields.io/badge/R-black) language.
-Supported languages are : R, Python, JavaScript
+Supported languages are : R, Python
 
 ------------------------------------------------------------------------
 
@@ -47,7 +47,7 @@ project.
 | Computed Methods | Level of insights |
 |:---|:---|
 | ![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network%20of%20internal%20dependencies&labelColor=black&color=green) | Appreciate **global** complexity and reveal critical files, e.g., major internal dependancies, clusters of ‘difficult-to-read’ files |
-| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=orange) | Assess each **file**, e.g., length and files readability, number of functions within a file |
+| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=yellow) | Assess each **file**, e.g., length and files readability, number of functions within a file |
 | ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Function-level%20metrics&labelColor=grey&color=orange) | Assess each **function**, e.g., those with a lot of internal dependencies |
 | ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Line-level%20metrics&labelColor=grey&color=green) | Assess each **line**, e.g., find the longest |
 
@@ -108,13 +108,13 @@ corpus <- get_doc_network_from_project(
     
 str(corpus, max.level = 1)
 #> List of 5
-#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1731 obs. of  9 variables:
-#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1176 obs. of  8 variables:
+#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1722 obs. of  9 variables:
+#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1200 obs. of  8 variables:
 #>  $ files                :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:
 #>  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:
 #>  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  64 obs. of  6 variables:
 #>  - attr(*, "class")= chr [1:2] "list" "corpus.list"
-#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-12"
+#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-13"
 #>  - attr(*, "have_citations_network")= logi TRUE
 ```
 

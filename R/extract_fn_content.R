@@ -1,7 +1,9 @@
 #' Extract parameters and code for each functions of the functions df of a corpus.list
 #' @param corpus A `corpus.list` object with a `functions` `data.frame`
 #' @param lang_dictionnary A standard language patterns dictionnary for a language (i.e. params fn_regex_params_after_names is needed)
-extract_fn_content <- function(corpus, lang_dictionnary){
+#' @param .verbose `logical`, default = `FALSE`. If set to `TRUE`, show a progress bar
+#' @importFrom utils txtProgressBar setTxtProgressBar
+extract_fn_content <- function(corpus, lang_dictionnary, .verbose = F){
 
  regex_after_name <- lang_dictionnary$fn_regex_params_after_names
 
@@ -42,10 +44,15 @@ extract_fn_content <- function(corpus, lang_dictionnary){
    return(trimws(extracted))
  }
 
+ if (.verbose) {pb <- utils::txtProgressBar(min = 0, max = 100, style = 3) }
 
+funcs <- corpus$functions$name
+n_funcs <- length(funcs)
   #### lapply within names : extract fn parameters ####
  # here we iterate within lines of the functions df (!!)
-col_to_add <- lapply(seq_along(corpus$functions$name) , FUN = function(i){
+col_to_add <- lapply(seq_along(funcs) , FUN = function(i){
+
+   if (.verbose) utils::setTxtProgressBar(pb, i /n_funcs *100 )
 
   fn <- corpus$functions[i,]
 
@@ -94,6 +101,8 @@ results <- data.frame(parameters = trimws(extracted_text)
  return(results)
 }
 )
+
+if (.verbose) close(pb)
 
 col_to_add <- do.call(rbind, col_to_add)
 # add to the functions df

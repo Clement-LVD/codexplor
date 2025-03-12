@@ -49,7 +49,6 @@
 #' @examples
 #' # Example 1: Construct a corpus from local folders
 #'  corpus <- construct_corpus(folders = "~", languages = c( "R", "Python"))
-#'  # corpus <- construct_corpus(folders = "~", languages = c("Javascript"))
 #' \dontrun{
 #' # Example 2: Construct a corpus from GitHub repositories (default is R)
 #' cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
@@ -189,7 +188,7 @@ corpus <- clean_comments_from_lines(corpus = corpus
                                     , char_for_inline_comments = lang_desired$commented_line_char, .verbose = .verbose)
 
 #### 7) add a functions nodelist ####
-corpus <- add_functions_list_to_corpus(corpus, lang_dictionnary = lang_desired)
+corpus <- add_functions_list_to_corpus(corpus, lang_dictionnary = lang_desired, .verbose = .verbose)
 
 # if we want to suppress quoted text that is not the purpose of the corpus
 # corpus$codes$content_without_quote <- censor_quoted_text(text = corpus$codes$content, char_for_replacing_each_char = "_")

@@ -139,7 +139,7 @@ returned_network <- returned_network[ which( returned_network["from"] != returne
 colnames(returned_network) <- c(file_path_from_colname, file_path_to_colname, function_matched_colname, content_matched_colname,  line_number_matched_colname)
 
 # Compute the order after removing autolinks : this will be our last col
-returned_network[[order_fn_called_colname]] <- ave(
+returned_network[[order_fn_called_colname]] <- stats::ave(
   seq_along(returned_network[[line_number_matched_colname]]),
   returned_network[[file_path_from_colname]],
   FUN = seq_along
