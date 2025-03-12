@@ -31,6 +31,7 @@
 #'   \item{\code{commented}}{`character` (only in the `codes` df) Inlines comments or NA if there is no inline comments.}
 #'   \item{\code{parameters}}{`character` (only in the `functions` df) The content that define the default parameters of a function.}
 #'   \item{\code{code}}{`character` (only in the `functions` df) The code of a function.}
+#'   \item{\code{n_func}}{`integer` (only in the `files` df) The number of exposed functions within a file.}
 #' }
 #'
 #' @details
@@ -227,13 +228,15 @@ compute_nodelist <- function(df, group_col = "file_path"
    }
 
 # adding n_lines
-  # Aggregate by summing metrics by the group column
-  nodelist <- stats::aggregate(df[, metric_cols],
-                        by = list(df[[group_col]]),
-                        FUN = sum)
 
-  # Rename the grouping column to its original name
-  colnames(nodelist)[1] <- group_col
+  # Grouping and summing the columns
+  nodelist <- do.call(cbind,
+                      lapply(metric_cols, function(col) tapply(df[[col]], df[[group_col]], sum)))
+
+  # Renaming the grouping column to its original name
+nodelist <- data.frame(group_col = unique(df[[group_col]]), nodelist)
+
+colnames(nodelist) <- c(group_col, metric_cols)
 
   # add n_lines_of_code
   nodelist$n_total_lines <- tapply(df[[group_col]], df[[group_col]], length)[nodelist[[group_col]] ]

@@ -108,8 +108,8 @@ corpus <- get_doc_network_from_project(
     
 str(corpus, max.level = 1)
 #> List of 5
-#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1730 obs. of  9 variables:
-#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1174 obs. of  8 variables:
+#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1731 obs. of  9 variables:
+#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1176 obs. of  8 variables:
 #>  $ files                :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:
 #>  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:
 #>  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  64 obs. of  6 variables:

@@ -34,8 +34,8 @@ add_functions_list_to_corpus <- function(corpus
   # add n fonctions defined within the file to the 'files' df (nodelist of documents)
 
   n_functions_defined <- by(fn_nodelist$matches, INDICES = fn_nodelist$file_path, FUN = function(x) sum(!is.na(x)))
-
-  n_functions_defined <- data.frame(func = n_functions_defined, file_path = names(n_functions_defined))
+# here the colname in the returned df : n_func
+  n_functions_defined <- data.frame(n_func = n_functions_defined, file_path = names(n_functions_defined))
   n_functions_defined <- n_functions_defined[!duplicated(n_functions_defined),]
    # completing the files nodelist
   corpus$files <- .construct.nodelist(merge(corpus$files, n_functions_defined, by ="file_path"))
