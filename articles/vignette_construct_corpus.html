@@ -80,19 +80,21 @@ Python, JavaScript.</p>
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 1) Construct a corpus without a Citations network</span></span>
-<span>  <span class="va">corp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span>languages <span class="op">=</span> <span class="st">"R"</span>, repos <span class="op">=</span>  <span class="st">"clement-LVD/codexplor"</span><span class="op">)</span></span>
+<span>  <span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span>languages <span class="op">=</span> <span class="st">"R"</span></span>
+<span>                           , repos <span class="op">=</span>  <span class="st">"clement-LVD/codexplor"</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corp</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corpus</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 4</span></span>
-<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1726 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1172 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1730 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1174 obs. of  8 variables:</span></span>
 <span><span class="co">#&gt;  $ files    :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  8 variables:</span></span>
 <span><span class="co">#&gt;  $ functions:Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
-<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-11"</span></span>
+<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-12"</span></span>
 <span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi FALSE</span></span>
 <span><span class="co">#&gt;  - attr(*, "languages_patterns")=List of 1</span></span>
 <span><span class="co">#&gt;  - attr(*, "repos")= chr "clement-LVD/codexplor"</span></span></code></pre></div>
@@ -128,8 +130,8 @@ of 4 dataframes :</p>
 list, e.g., a network of internal dependencies (classes
 <code>citations.network</code>, <code>internal.dependencies</code> &amp;
 <code>data.frame</code>). This <code>corpus.list</code> of df offers
-insights from system level to the module level (complete
-<code>citations.network</code> &gt; <code>files</code> &gt;
+insights on the programming project, from system level to module level
+(complete <code>citations.network</code> &gt; <code>files</code> &gt;
 <code>functions</code>).</p>
 <p><strong>Details.</strong></p>
 <ul>
@@ -146,7 +148,8 @@ text-mining metrics related to each lines).</p></li>
 <p>The <code>codes</code> <code>data.frame</code> (one of the
 <code>corpus.lines</code> dataframes) have more columns, such as :</p>
 <ul>
-<li>a <code>commented</code> column (inline comment at the end of a
+<li>
+<code>commented</code> column (inline comment at the end of a
 codeline)
 <!-- - and a `matches` column that contain internally-exposed functions names, e.g., if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry for this line will be `'pol'`. -->
 </li>
@@ -180,8 +183,8 @@ metrics are added to the <code>files</code> data.frame of the
 <tr class="odd">
 <td align="left"><code>functions</code></td>
 <td align="left">Function-level metrics</td>
-<td align="left">e.g., quantify the longest func’ and those with several
-internal dependencies</td>
+<td align="left">e.g., quantify the longest function and those with
+multiple internal dependencies</td>
 </tr>
 <tr class="even">
 <td align="left"><code>files</code></td>
