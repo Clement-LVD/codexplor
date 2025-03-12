@@ -38,70 +38,18 @@ Supported languages are : R, Python, JavaScript
 
 ------------------------------------------------------------------------
 
-### Example
-
-**1. Turn a programming project into a corpus.** Given folder(s) and/or
-github repo(s) and programming language(s),
-`codexplor::get_doc_network_from_project` will return a `list` of
-dataframes :
-
-``` r
-library(codexplor)
-
- # Construct a corpus and a Citations network
-corpus <- get_doc_network_from_project(
-  folders = getwd()
-  , languages = "R" )
-    
-str(corpus, max.level = 1)
-#> List of 5
-#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1726 obs. of  10 variables:
-#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1172 obs. of  9 variables:
-#>  $ files                :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:
-#>  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:
-#>  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  64 obs. of  6 variables:
-#>  - attr(*, "class")= chr [1:2] "list" "corpus.list"
-#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-11"
-#>  - attr(*, "have_citations_network")= logi TRUE
-```
-
-This corpus is a standardized way to analyze a programming project as a
-collection of documents. Here a quick look on the returned df :
-
-**2. See a dataviz’ from a corpus.list.** Given a `corpus.list`, look at
-the dataviz’ of a `citations.network` `data.frame` with
-`codexplor::get_networkd3_from_igraph` :
-
-``` r
-# Produce an interactive dataviz' with the network of internal.dependencies
-dataviz <- get_networkd3_from_igraph(corpus$internal.dependencies
-, title_h1 = "Graph of internal dependancies"
-, subtitle_h2 = "codexplor"
-, endnotes_h3 = "Color and links = indegrees") 
-
-# herafter an image (non-interactive) of the interactive dataviz ↓
-```
-
-<img src="man/figures/force_network.png" width="100%" />
-
-> These dataviz are useful for pinpointing where to start a polishing
-> loop, identifying all the functions impacted by upcoming changes,
-> \[…\] or assessing the impact of a new dev loop on the project’s
-> complexity.
-
-------------------------------------------------------------------------
-
 ### Features
 
-`codexplor` will compute several metrics, in order to gain global and
-local insights on a programming project.
+Given a programming project `codexplor` will compute several
+standardized metrics, in order to gain global and local insights on the
+project.
 
-| Computed Methods | Global insights | Local insights on files |
-|:---|:---|:---|
-| ![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network%20of%20internal%20dependencies&labelColor=black&color=green) | Appreciate global complexity | Reveal critical files, e.g., major internal dependancies |
-| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=orange) | Reveal clusters of ‘difficult-to-read’ files | Assess each file with text-mining metrics, e.g., length and files readability |
-| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Function-level%20metrics&labelColor=grey&color=orange) | Reveal the most complex functions | Identify problematic functions, e.g., the longest ones |
-| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Line-level%20metrics&labelColor=grey&color=green) | ↑ (used by global level metric) | Identify problematic lines |
+| Computed Methods | Level of insights |
+|:---|:---|
+| ![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network%20of%20internal%20dependencies&labelColor=black&color=green) | Appreciate global complexity and reveal critical files, e.g., major internal dependancies, clusters of ‘difficult-to-read’ files |
+| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=orange) | Assess each file, e.g., length and files readability, number of functions within a file |
+| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Function-level%20metrics&labelColor=grey&color=orange) | Assess each function, e.g., those with a lot of internal dependencies |
+| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Line-level%20metrics&labelColor=grey&color=green) | Assess each line, e.g., find the longest |
 
 <!-- FEATURES are on 3 flex-columns : -->
 
@@ -142,6 +90,61 @@ Other languages are planned.
 </div>
 
 </div>
+
+### Example
+
+**1. Turn a programming project into a corpus.** Given folder(s) and/or
+github repo(s) and programming language(s),
+`codexplor::get_doc_network_from_project` will return a `list` of
+dataframes :
+
+``` r
+library(codexplor)
+
+ # Construct a corpus and a Citations network
+corpus <- get_doc_network_from_project(
+  folders = getwd()
+  , languages = "R" )
+    
+str(corpus, max.level = 1)
+#> List of 5
+#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1725 obs. of  9 variables:
+#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1173 obs. of  8 variables:
+#>  $ files                :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:
+#>  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:
+#>  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  64 obs. of  6 variables:
+#>  - attr(*, "class")= chr [1:2] "list" "corpus.list"
+#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-12"
+#>  - attr(*, "have_citations_network")= logi TRUE
+```
+
+This corpus of dataframes is a standardized way to analyze a programming
+project as a collection of documents. Learn more about these df with the
+[vignette of
+`construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html).
+
+**2. See a dataviz’ from a corpus.list.** Given a `corpus.list`, look at
+the dataviz’ of a `citations.network` `data.frame` with
+`codexplor::get_networkd3_from_igraph` :
+
+``` r
+# Produce an interactive dataviz' with the network of internal.dependencies
+dataviz <- get_networkd3_from_igraph(corpus$internal.dependencies
+, title_h1 = "Graph of internal dependancies"
+, subtitle_h2 = "codexplor"
+, endnotes_h3 = "Color and links = indegrees") 
+
+# herafter an image (non-interactive) of the interactive dataviz ↓
+```
+
+<img src="man/figures/force_network.png" width="100%" />
+
+> These dataviz are useful for pinpointing where to start a polishing
+> loop, identifying all the functions impacted by upcoming changes,
+> \[…\] or assessing the impact of a new dev loop on the project’s
+> complexity.
+
+------------------------------------------------------------------------
 
 ### Vignettes
 

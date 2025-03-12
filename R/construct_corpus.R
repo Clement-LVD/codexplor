@@ -154,13 +154,14 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
   complete_files <- readlines_in_df(files_path = files_path, .verbose = .verbose, ... )
   # add real files ext (checking if an extension default pattern return a fake file)
 
+  if(is.null(complete_files)) return(NA)
 
-  complete_files$file_ext <- gsub(x = basename(complete_files$file_path), ".*\\." ,replacement = "")
+  # complete_files$file_ext <- gsub(x = basename(complete_files$file_path), ".*\\." ,replacement = "")
 
   if(.verbose) cat("\n ==> Compute a corpus")
 
   # 4.1.) ADD LINES TEXT-METRICS ON ENTIRE FILES
-  complete_files <- cbind(complete_files, compute_nchar_metrics(complete_files[[3]]) )
+  complete_files <- cbind(complete_files, compute_nchar_metrics(complete_files[["content"]]) )
 
   # compute a nodelist FROM LINES : sum of these metrics is supposed to be document-level metrics
   # this func' is hereafter : a grouped stat' (end of this .R file)

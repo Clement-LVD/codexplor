@@ -26,22 +26,27 @@ compute_nchar_metrics <- function(text,
                                   word_count_colname = "n_word",
                                   vowel_count_colname = "n_vowel") {
 
-  # Remove spaces and newlines for character count without spaces
+    # Remove spaces and newlines for character count without spaces
   txt_wo_space <- gsub(x = text, pattern = " |\n", "")
 
-  # Compute metrics
+  # Compute words metrics
+    words = strsplit(text, "\\s+")
+    word_count = lengths(words)
+word_count[is.na(words)] = NA
+
+# compute all other metrics
   result <- data.frame(
     # Character count
-    nchar_colname = as.integer(nchar(text)),
+    nchar = as.integer(nchar(text)),
 
     # Character count without spaces
     n_char_wo_space_line = as.integer(nchar(txt_wo_space)),
 
     # Word count
-    word_count = as.integer(lengths(strsplit(text, "\\s+"))),
+    word_count = as.integer(word_count) ,
 
     # Approximate syllable count (counting vowel groups as syllables)
-    vowel_count = as.integer(sapply(gregexpr("[aeiouyAEIOUY]+", text), function(x) sum(x > 0)))
+    vowel_count =  as.integer(sapply(gregexpr("[aeiouyAEIOUY]+", text), function(x) sum(x > 0)))
   )
 
   # Rename columns to custom names

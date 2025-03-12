@@ -51,53 +51,9 @@ The default settings of `codexplor` are optimized for analyzing a project in ![R
 
 ---
 
-### Example
-
-**1. Turn a programming project into a corpus.** Given folder(s) and/or github repo(s) and programming language(s), `codexplor::get_doc_network_from_project` will return a `list` of dataframes :
-
-
-
-```{r compute-corpus-of-func, echo=TRUE}
-library(codexplor)
-
- # Construct a corpus and a Citations network
-corpus <- get_doc_network_from_project(
-  folders = getwd()
-  , languages = "R" )
-    
-str(corpus, max.level = 1)
-  
-```
-
-This corpus is a standardized way to analyze a programming project as a collection of documents. Here a quick look on the returned df : 
-
-**2. See a dataviz' from a corpus.list.** Given a `corpus.list`, look at the dataviz' of a `citations.network` `data.frame` with `codexplor::get_networkd3_from_igraph` :
-
-```{r compute-network-of-func,  results='asis', echo=TRUE}
-# Produce an interactive dataviz' with the network of internal.dependencies
-dataviz <- get_networkd3_from_igraph(corpus$internal.dependencies
-, title_h1 = "Graph of internal dependancies"
-, subtitle_h2 = "codexplor"
-, endnotes_h3 = "Color and links = indegrees") 
-
-# herafter an image (non-interactive) of the interactive dataviz ↓
-```
-
-```{r save-plot, include=FALSE, results='asis'}
- 
-networkD3::saveNetwork( dataviz, "man/figures/network_codexplor_fn.html")   
-webshot2::webshot("man/figures/network_codexplor_fn.html", file = "man/figures/force_network.png"  )
-
-```
-
-`r knitr::include_graphics("man/figures/force_network.png")`
-
-> These dataviz are useful for pinpointing where to start a polishing loop, identifying all the functions impacted by upcoming changes, [...] or assessing the impact of a new dev loop on the project's complexity.
-
----
 
 ### Features 
-`codexplor` will compute several metrics, in order to gain global and local insights on a programming project. 
+Given a programming project `codexplor` will compute several standardized metrics, in order to gain global and local insights on the project. 
 
 ```{r table-features, echo=FALSE}
 # library(knitr)
@@ -114,20 +70,14 @@ features <- data.frame(Feature = c(
  
 ) #2 : documement-level text-mining
            
-        , Global_insights = c( "Appreciate global complexity" 
-                               , "Reveal clusters of 'difficult-to-read' files"
-  , "Reveal the most complex functions"
-
-                               , "↑ (used by global level metric)"
-                               ) # 2 : documement-level text-mining
-          
-        , Local_insights = c( "Reveal critical files, e.g., major internal dependancies" 
-          ,  "Assess each file with text-mining metrics, e.g., length and files readability"  # 2 : documement-level text-mining
-           , "Identify problematic functions, e.g., the longest ones"
-           , "Identify problematic lines")
+         , Local_insights = c( "Appreciate global complexity and reveal critical files, e.g., major internal dependancies, clusters of 'difficult-to-read' files" 
+          ,  "Assess each file, e.g., length and files readability, number of functions within a file"  # 2 : document-level text-mining
+           , "Assess each function, e.g., those with a lot of internal dependencies"
+           , "Assess each line, e.g., find the longest")
 )
 
-names(features) <- c("Computed Methods","Global insights" , "Local insights on files")
+names(features) <- c("Computed Methods" #,"Global insights"
+                     , "Level of insights")
 
 knitr::kable(features)
 
@@ -184,6 +134,52 @@ Other languages are planned.
 
 
 </div>
+
+
+### Example
+
+**1. Turn a programming project into a corpus.** Given folder(s) and/or github repo(s) and programming language(s), `codexplor::get_doc_network_from_project` will return a `list` of dataframes :
+
+
+
+```{r compute-corpus-of-func, echo=TRUE}
+library(codexplor)
+
+ # Construct a corpus and a Citations network
+corpus <- get_doc_network_from_project(
+  folders = getwd()
+  , languages = "R" )
+    
+str(corpus, max.level = 1)
+  
+```
+
+This corpus of dataframes is a standardized way to analyze a programming project as a collection of documents. Learn more about these df with the [vignette of `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html).
+
+**2. See a dataviz' from a corpus.list.** Given a `corpus.list`, look at the dataviz' of a `citations.network` `data.frame` with `codexplor::get_networkd3_from_igraph` :
+
+```{r compute-network-of-func,  results='asis', echo=TRUE}
+# Produce an interactive dataviz' with the network of internal.dependencies
+dataviz <- get_networkd3_from_igraph(corpus$internal.dependencies
+, title_h1 = "Graph of internal dependancies"
+, subtitle_h2 = "codexplor"
+, endnotes_h3 = "Color and links = indegrees") 
+
+# herafter an image (non-interactive) of the interactive dataviz ↓
+```
+
+```{r save-plot, include=FALSE, results='asis'}
+ 
+networkD3::saveNetwork( dataviz, "man/figures/network_codexplor_fn.html")   
+webshot2::webshot("man/figures/network_codexplor_fn.html", file = "man/figures/force_network.png"  )
+
+```
+
+`r knitr::include_graphics("man/figures/force_network.png")`
+
+> These dataviz are useful for pinpointing where to start a polishing loop, identifying all the functions impacted by upcoming changes, [...] or assessing the impact of a new dev loop on the project's complexity.
+
+---
 
 ### Vignettes
 

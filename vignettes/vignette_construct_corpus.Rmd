@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
 library(codexplor)
 
 ```
@@ -26,13 +27,15 @@ library(codexplor)
 ## Examples
 
 
-```{r example, result = 'asis',eval = T}
+```{r example, echo=TRUE}
+
 library(codexplor)
 
 # 1) Construct a corpus without a Citations network
-  corp <- construct_corpus(languages = "R", repos =  "clement-LVD/codexplor")
+  corpus <- construct_corpus(languages = "R"
+                           , repos =  "clement-LVD/codexplor")
   
-  str(corp, max.level = 1) 
+  str(corpus, max.level = 1) 
   
 ```
 
@@ -53,7 +56,7 @@ library(codexplor)
 - `files` (classes `corpus.nodelist` & `data.frame`)
 - `functions` (classes `corpus.nodelist` & `data.frame`)
 
-Further complementary analyzes will add others dataframes to the list, e.g., a network of internal dependencies (classes `citations.network`, `internal.dependencies` & `data.frame`). This `corpus.list` of df offers insights from system level to the module level (complete `citations.network` > `files` > `functions`).
+Further complementary analyzes will add others dataframes to the list, e.g., a network of internal dependencies (classes `citations.network`, `internal.dependencies` & `data.frame`). This `corpus.list` of df offers insights on the programming project, from system level to module level (complete `citations.network` > `files` > `functions`).
 
 
 **Details.** 
@@ -66,7 +69,7 @@ Further complementary analyzes will add others dataframes to the list, e.g., a n
 
 The `codes` `data.frame` (one of the `corpus.lines` dataframes) have more columns, such as :
 
-- a `commented` column (inline comment at the end of a codeline)
+- `commented` column (inline comment at the end of a codeline)
 <!-- - and a `matches` column that contain internally-exposed functions names, e.g., if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry for this line will be `'pol'`. -->
 
 Further complementary analyzes will add others columns, e.g., as soon as a network of `internal.dependencies` is computed, some metrics are added to the `files` data.frame of the `corpus.list`.
@@ -78,7 +81,7 @@ knitr::kable(data.frame(Name = c("`codes`", "`comments`", "`functions`", "`files
 , Level = c("Line of code" , "Commented line","Function-level metrics"
               , "File-level metrics"
               , "Network of internal dependencies - file of function level" )
- , e.g. = c( "Identify problematics lines, e.g., longest ones", '.', "e.g., quantify the longest func' and those with several internal dependencies", "e.g., quantify number of functions within files and critical internal dependencies", "Doc-to-doc (add metrics to the `files` level) or functions network (add metrics to the `functions` level)" )
+ , e.g. = c( "Identify problematics lines, e.g., longest ones", '.', "e.g., quantify the longest function and those with multiple internal dependencies", "e.g., quantify number of functions within files and critical internal dependencies", "Doc-to-doc (add metrics to the `files` level) or functions network (add metrics to the `functions` level)" )
 ))
 
 ```
