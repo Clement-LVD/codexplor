@@ -86,7 +86,7 @@ edgelist<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-co
 graph (&lt;a href="https://igraph.org/r/doc/as_edgelist.html" class="external-link uri"&gt;https://igraph.org/r/doc/as_edgelist.html&lt;/a&gt;).&lt;/p&gt;'><sup>1</sup></a>
 that symbolize the programming project as a document-to-document
 citations network : a network of documents, citing each others.</p>
-<p><code>codexplor</code> offers several ‘document’ levels, e.g., the
+<p><code>codexplor</code> offers several levels-of-depth, e.g., the
 nodes of a <code>citations.network</code> <code>data.frame</code> could
 be the functions or the programming files of the corpus.</p>
 <blockquote>
@@ -157,18 +157,21 @@ of documents network</a></p>
 <h2 id="technical-details">Technical details<a class="anchor" aria-label="anchor" href="#technical-details"></a>
 </h2>
 <p><strong>Cascading matching.</strong> Given a <code>corpus.list</code>
-created with <code>construct_corpus</code> a ‘cascading matching’ :</p>
-<ul>
-<li>The 1st matches of <code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> will
-extract exposed functions names from files where these functions are
-<em>defined</em>, e.g., have found ‘Pier’, ‘pol’ and ‘jak’ function
-names in 3 separate files.</li>
-<li>The 2nd matches show the files or the functions that <em>calls</em>
-these functions, e.g., a programming file is citing ‘Pier(’, ‘pol(’ and
-‘jak(’ and thus this file is linked to the 3 files where these functions
-are defined or to these precise functions, depending on the desired
-level-of-depth.</li>
-</ul>
+created with <code>construct_corpus</code> a cascading matching :</p>
+<ol style="list-style-type: decimal">
+<li>
+<code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> extract exposed functions
+names from files where these functions are defined, e.g., have found
+‘Pier’, ‘pol’ and ‘jak’ function names in 3 separate files.</li>
+<li>The functions that calls these functions are identified, e.g., a
+function is calling <code>'Pier('</code>, <code>'pol('</code> and
+<code>'jak('</code> and the function is linked to these 3
+functions.</li>
+<li>Similarly, a network of files is constructed, e.g., the code of a
+programming file is calling <code>'Pier('</code>, <code>'pol('</code>
+and <code>'jak('</code> and this file is linked to the files where these
+functions are defined.</li>
+</ol>
 <p><strong>Match functions names.</strong> <code>construct_corpus</code>
 rely on some default patterns, designed to analyze a programming project
 in a standardized way. Accordingly to these patterns,

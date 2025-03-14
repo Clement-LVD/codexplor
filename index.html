@@ -108,11 +108,11 @@
 <!-- FEATURES are on 3 flex-columns : --><div style="display: flex;font-size: 12px;">
 <div style="flex: 35%; padding: 10px; border: 2px solid #000; border-radius: 10px; margin-right: 8px;">
 <p><strong>Availables features :</strong></p>
-<p><img src="https://img.shields.io/badge/%7BConstruct--corpus%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Read%20files%20from%20github%20and/or%20locally&amp;labelColor=black&amp;color=green" alt=" "><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Line-level%20metrics&amp;labelColor=grey&amp;color=green" alt="."><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Compute%20a%20network%20of%20internal%20dependencies&amp;labelColor=black&amp;color=green" alt=" "><img src="https://img.shields.io/badge/%7BnetworkD3%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Dataviz%20from%20a%20network&amp;labelColor=black&amp;color=green" alt=" "></p>
+<p><img src="https://img.shields.io/badge/%7BConstruct--corpus%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Read%20files%20from%20github%20and/or%20locally&amp;labelColor=black&amp;color=green" alt=" "><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Compute%20a%20network%20of%20internal%20dependencies&amp;labelColor=black&amp;color=green" alt=" "><img src="https://img.shields.io/badge/%7BnetworkD3%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Dataviz%20from%20a%20network&amp;labelColor=black&amp;color=green" alt=" "><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Global%20text-mining%20metrics&amp;labelColor=grey&amp;color=orange" alt="."><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Document-level%20metrics&amp;labelColor=grey&amp;color=yellow" alt="."><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Networks%20metrics&amp;labelColor=grey&amp;color=yellow" alt="."></p>
 </div>
 <div style="flex: 40%; padding: 10px; border: 2px solid #000; border-radius: 10px; margin-right: 8px;">
 <p><strong>Planned features :</strong></p>
-<p><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Document-level%20metrics&amp;labelColor=grey&amp;color=yellow" alt="."><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Global%20text-mining%20metrics&amp;labelColor=grey&amp;color=orange" alt="."><img src="https://img.shields.io/badge/%7BExport%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Reporting&amp;labelColor=grey&amp;color=orange" alt="."><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Function-level%20metrics&amp;labelColor=grey&amp;color=orange" alt="."></p>
+<p><img src="https://img.shields.io/badge/%7BExport%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Reporting&amp;labelColor=grey&amp;color=orange" alt="."><img src="https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=Function-level%20metrics&amp;labelColor=grey&amp;color=orange" alt="."></p>
 </div>
 <div style="flex: 20%; padding: 10px; border: 2px solid #000; border-radius: 20px">
 <p><strong>Supported language(s) :</strong></p>
@@ -135,14 +135,14 @@
 <span>    </span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corpus</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 6</span></span>
-<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    1747 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    1769 obs. of  9 variables:</span></span>
 <span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    1195 obs. of  8 variables:</span></span>
-<span><span class="co">#&gt;  $ files            :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  8 variables:</span></span>
-<span><span class="co">#&gt;  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:</span></span>
-<span><span class="co">#&gt;  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  39 obs. of  4 variables:</span></span>
-<span><span class="co">#&gt;  $ documents.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  33 obs. of  4 variables:</span></span>
+<span><span class="co">#&gt;  $ files            :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:</span></span>
+<span><span class="co">#&gt;  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 42 obs. of  8 variables:</span></span>
+<span><span class="co">#&gt;  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  41 obs. of  4 variables:</span></span>
+<span><span class="co">#&gt;  $ files.network    :Classes 'citations.network', 'internal.dependancies' and 'data.frame':  34 obs. of  4 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
-<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-14"</span></span>
+<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-15"</span></span>
 <span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi TRUE</span></span>
 <span><span class="co">#&gt;  - attr(*, "languages_patterns")=List of 1</span></span>
 <span><span class="co">#&gt;  - attr(*, "folders")= chr "C:/Users/CLEM/Documents/PROJETS_EN_R/codexplor"</span></span></code></pre></div>
