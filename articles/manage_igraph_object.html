@@ -70,16 +70,16 @@
 <code>igraph</code> object : turn an edgelist into an igraph object,
 filter some nodes accordingly to their indegrees or outdegrees, etc.</p>
 <p>Once you have a network such as the network of internal dependancies
-within a project computed by
-<code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code> (see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">vignette
-of <code>get_doc_network_from_project()</code></a>).</p>
-<pre><code><span>    <span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="st">"clement-lvd/codexplor"</span><span class="op">)</span></span>
+within a project computed by <code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code>
+(see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette
+of <code>construct_corpus()</code></a>).</p>
+<pre><code><span>    <span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="st">"clement-lvd/codexplor"</span><span class="op">)</span></span>
 <span>    <span class="co"># by default, codexplor deal with R project</span></span></code></pre>
 <ul>
 <li>
 <p>Turn your Citations Network into a directed <code>igraph</code>
 network with <img src="https://img.shields.io/badge/%7Bigraph%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_igraph_from_df()&amp;labelColor=green&amp;color=black" alt="."></p>
-<pre><code><span>  <span class="va">netig</span> <span class="op">&lt;-</span> <span class="fu">codexplor</span><span class="fu">::</span><span class="fu"><a href="../reference/get_igraph_from_df.html">get_igraph_from_df</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span> </span></code></pre>
+<pre><code><span>  <span class="va">netig</span> <span class="op">&lt;-</span> <span class="fu">codexplor</span><span class="fu">::</span><span class="fu"><a href="../reference/get_igraph_from_df.html">get_igraph_from_df</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">functions.network</span><span class="op">)</span> </span></code></pre>
 </li>
 <li>
 <p>Once you have an igraph object, extract the egonetwork of a
@@ -92,7 +92,7 @@ precise function with <img src="https://img.shields.io/badge/%7Bigraph%7D-bold?s
 <pre><code>    dataviz_filtered &lt;- get_networkd3_from_igraph(filter_net)
 
     or pass a citations.network data.frame
-    dataviz &lt;- get_networkd3_from_igraph(net$internal.dependencies)</code></pre>
+    dataviz &lt;- get_networkd3_from_igraph(net$functions.network)</code></pre>
 </li>
 <li>
 <p>And tweak the legend of the interactive <code>networkD3</code>
