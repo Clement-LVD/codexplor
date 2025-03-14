@@ -138,7 +138,7 @@ Other languages are planned.
 
 ### Example
 
-**1. Turn a programming project into a corpus.** Given folder(s) and/or github repo(s) and programming language(s), `codexplor::get_doc_network_from_project` will return a `list` of dataframes :
+**1. Turn a programming project into a corpus.** Given folder(s) and/or github repo(s) and programming language(s), `codexplor::construct_corpus` will return a `list` of dataframes :
 
 
 
@@ -146,7 +146,7 @@ Other languages are planned.
 library(codexplor)
 
  # Construct a corpus and a Citations network
-corpus <- get_doc_network_from_project(
+corpus <- construct_corpus(
   folders = getwd()
   , languages = "R" )
     
@@ -160,10 +160,9 @@ This corpus of dataframes is a standardized way to analyze a programming project
 
 ```{r compute-network-of-func,  results='asis', echo=TRUE}
 # Produce an interactive dataviz' with the network of internal.dependencies
-dataviz <- get_networkd3_from_igraph(corpus$internal.dependencies
-, title_h1 = "Graph of internal dependancies"
-, subtitle_h2 = "codexplor"
-, endnotes_h3 = "Color and links = indegrees") 
+dataviz <- get_networkd3_from_igraph(corpus$functions.network
+, title_h1 = "codexplor. Graph of internal dependancies : functions network"
+, subtitle_h2 = "Color and links = indegrees") 
 
 # herafter an image (non-interactive) of the interactive dataviz ↓
 ```
@@ -183,15 +182,13 @@ webshot2::webshot("man/figures/network_codexplor_fn.html", file = "man/figures/f
 
 ### Vignettes
 
-*WIP* [🔧🔨]
-
 `codexplor` offers functions that are dedicated to analyze a programming project, accordingly to subanalysis tools. 
 
 ```{r table-functions, echo=FALSE}
 
 fn_segmentation <- data.frame(
 "High-level" = c(
-"Construct a network of internal dependancies from a programming project folder path(s) and/or github repo(s) : [vignette of `get_doc_network_from_project()`](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html)"
+"Turn a programming project into a corpus and look at a dataviz of the files : [vignette of example of documents network](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html)"
 
 , " "
                 )
@@ -203,7 +200,7 @@ fn_segmentation <- data.frame(
                               )
 )
 
-names(fn_segmentation) <- c("Complete reporting" , "Underlying functions" )
+names(fn_segmentation) <- c("Quick example" , "Underlying details" )
 
 knitr::kable(fn_segmentation, row.names = F)
 

@@ -9,20 +9,25 @@
 #' @param ... Additionnal attributes (e.g., keep trace of the languages analyzed).
 #' @return A dataframe of class 'corpus.list'.
 .construct.corpus.list <- function(corpus, df_to_add = NULL, names_of_df_to_add = NULL, ...) {
+  names_new_df <- names_of_df_to_add
+  # get old names
+old_names <- names(corpus)
 
   # 1) add additionnal df if there is a df_to_add element
 if (!is.null(df_to_add)) {
 
-  # get old names
-old_names <- names(corpus)
+  if(is.data.frame(df_to_add) & !is.null(names_of_df_to_add)){
+    df_to_add <-  list(df_to_add)
+   names(df_to_add) <- names_of_df_to_add}
+
 
  # we verify if it's a named list (supposed to define each names)
-if(length(names(df_to_add)) > 0){
+if(!is.data.frame(df_to_add) & length(names(df_to_add)) > 0){
   names_new_df <- names(df_to_add)
 
     }
 
-if(length(names(df_to_add)) == 0){ # Controlling for names
+if(!is.data.frame(df_to_add) & length(names(df_to_add)) == 0){ # Controlling for names
 stopifnot("To append a df to a corpus.list, you should provide :
 - A vector of name(s) with same length than the vector of data.frame(s).
 - Or a named list of data.frame"
@@ -70,27 +75,34 @@ check_dataframes_for_corpus.list <- function(corpus
 
    , required_columns = c("file_path","content", "n_char", "n_word")) {
 
+# here func on one class of df : will be played hereafter
+  check_internal.dependencies <- function(df){
+    if (!any( class(df) %in% "internal.dependencies")) return(TRUE)
+    required_col <- c("from", "to", "function_order")
+    if(all( required_col %in% colnames(df))) return(TRUE)
+    warning("Missing column(s) in an internal.dependencies data.frame of the corpus.list !" )
+    return(FALSE)
+  }
 
   # return a logical - column are existing or not - and a warning if not
-  check_columns <- function(df) {
+  check_columns_corpus.lines <- function(df) {
 
-     if (!any( class(df) %in% "corpus.lines")) { return(TRUE) }
+     if (!any( class(df) %in% "corpus.lines")) return(TRUE)
 
     checks_cols <- required_columns %in% colnames(df) # boolean for each col'
 
     if(all(checks_cols)) return(TRUE)
 
     missing_cols <- required_columns[!checks_cols]
-    warning("Missing column(s) in a corpus.lines data.frame of the corpus.list (classes : "
-            , paste0(class(df), collapse = " & ") , ")\n => "
+    warning("Missing column(s) in a corpus.lines data.frame of the corpus.list : "
             , paste0(collapse = ", ", missing_cols))
     return(FALSE)
   }
 
   # Here list all the individuals tests on the df
   tests_list <- list(
-    "A corpus.files data.frame must have the required columns" = \(df) check_columns(df),
-    "A corpus.files dataframe should not be empty" = \(df) nrow(df) > 0 | any( class(df) %in% omit_class)
+    "A corpus.files data.frame must have the required columns" = \(df) check_columns_corpus.lines(df)
+    ,"An internal.dependencies data.frame must have the required columns" = \(df) check_internal.dependencies(df)
   )
 
   # apply these tests_list elements on a df =>

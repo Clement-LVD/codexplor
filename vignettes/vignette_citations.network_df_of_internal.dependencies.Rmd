@@ -14,41 +14,49 @@ knitr::opts_chunk$set(
 )
 ```
 
-This Vignette explain the `data.frame` with additional classes `citations.network` and `internal.dependencies`. This `data.frame` is the edgelist of a Citations Network of functions within programming project(s).  
+This Vignette explain the `data.frame` with additional classes `citations.network` and `internal.dependencies`. This type of `data.frame` is the edgelist of a Citations Network of functions or files within programming project(s).  
 
 ## Network properties
 
 ### Overall Considerations : about the `citations.network` `data.frame` 
-Some of the `codexplor` protocols add a `citations.network` class of `data.frame` to the main `corpus.list`, e.g., `codexplor::get_doc_network_from_project()`. 
+`codexplor::construct_corpus` protocols add a `citations.network` class of `data.frame` to the main `corpus.list`. 
 
-This `citations.network` `data.frame` is an edgelist^[Edgelist is the one of the standard representation of a graph (https://igraph.org/r/doc/as_edgelist.html).] that symbolize the programming project as a document-to-document citations network : a network of documents that cite each others. 
+This `citations.network` `data.frame` is an edgelist^[Edgelist is the one of the standard representation of a graph (https://igraph.org/r/doc/as_edgelist.html).] that symbolize the programming project as a document-to-document citations network : a network of documents, citing each others. 
 
-Thus, the nodes of a `citations.network` `data.frame` are the programming files of the corpus. 
+`codexplor` offers several 'document' levels, e.g., the nodes of a `citations.network` `data.frame` could be the functions or the programming files of the corpus.
 
 > A citations network have theoretical network properties, not covered here (e.g., a citations network is a directed network). 
 
-### Network of `internal.dependencies`
-A `data.frame` of the `corpus.list` have additional classes `citations.network` and `internal.dependencies`.  In this network :
+### Networks of `internal.dependencies`
+Some `data.frame` of the `corpus.list` have additional classes `citations.network` and `internal.dependencies` : the `files.network` and `functions.network` df. In these networks :
 
-- Nodes are the programming files, like any other `citations.network`. 
-- A link start from a programming file that calls a function and point to the programming file where the function is defined.
-- °← Indegree of a file is "how many files are calling the function(s) defined in this file" ;
-- °→ Outdegree of a file is "how many functions are used by this file" ; 
-- ⟲ Auto-mentioning refear to 'recursivity' (`codexplor` default is to filter autolinks).
+```{r echo=FALSE}
+nett <- t(data.frame(Name= c("`files.network`", "`functions.network`" )
+,  Nodes = c("Programming files", "Functions")
+, Links = c("Start from a programming file that calls a function and point to the programming file where the function is defined", "start from a function that call another function and point to this 2nd function")
+, Indegrees = c("°← How many files of the project(s) are calling the function(s) defined in this file", "°← How many functions of the project(s) are calling this function" )
+, Outdegrees = c("°→ How many functions of the project(s) are used by this file", "°→ How many functions of the project(s) are used by this function")
+, Automentioning = c("(`codexplor` default is to filter out autolinks within files)" ,"Recursivity")
+) )
+
+
+
+knitr::kable(nett)
+```
 
 ## Technical details
 
-### Cascading matching operated by `compute_doc_network_from_corpus`
-Given a `corpus.list` created with `construct_corpus`, `codexplor::compute_doc_network_from_corpus()` perform a 'cascading matching' :
+### Cascading matching
+Given a `corpus.list` created with `construct_corpus` a 'cascading matching' :
 
 ```{r table-cascading-matches, echo=FALSE}
 
-match_2 <- data.frame(Step = c("⏩ `construct_corpus` extract *functions names* from the files where these functions are defined"
+match_2 <- data.frame(Step = c("⏩ `construct_corpus` firstly extract *functions names* from the files where these functions are defined"
                     , "⏩ Search for these patterns and compute a Citations Network")
              
              , Examples = c("e.g., have found 'Pier', 'pol' and 'jak' function names in 3 separate files" 
                           
-,"e.g., a programming file is citing 'Pier(', 'pol(' and 'jak(' and thus this file is linked to the 3 files where these functions are defined (Step 1)"))
+,"e.g., a programming file is citing 'Pier(', 'pol(' and 'jak(' and thus this file is linked to the 3 files where these functions are defined or to these precise functions, depending on the desired level-of-depth"))
 
 
 rownames(match_2) <- c("1st matches" , "2nd matches" )
@@ -58,7 +66,10 @@ knitr::kable(match_2, row.names = T)
 
 ```
 
-Thus, the 1st matches of `codexplor::construct_corpus` indicates some files that *defines* a function, and the 2nd matches of `compute_doc_network_from_corpus` show the files that *used* these functions. 
+Thus :
+
+- the 1st matches of `codexplor::construct_corpus` will extract exposed functions names from files where these functions are *defined*, 
+- and the 2nd matches show the files or the functions that *used* these functions. 
 
 ### Function call that are non-supported during 2nd matches
 Some way of writing a program are not fully supported during the 2nd matches.
@@ -75,15 +86,15 @@ class A:
 obj = A()
 obj.method() # Return : 'My custom method'
 
-# get_doc_network_from_project don't identify the 2nd match because of the prefix ("obj.")
+# construct_corpus don't identify the 2nd match because of the prefix ("obj.")
 ```
 
 
 ### Filter undesired match
-`get_doc_network_from_project` offer several parameters for dealing with your style of writing a program.
+`codexplor::construct_corpus` offer several parameters for dealing with your style of writing a program.
 
-Junk nodes needs to be excluded from the network. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. For this type of false positive, `get_doc_network_from_project` offer the `exclude_quoted_content` parameter, in order to exclude quoted text from the matches and avoid this false positive case. Be aware that all the quoted text will be avoided, if you've included some - fancy - way of *call* a function as a quoted `character` chain.
+Junk nodes needs to be excluded from the returned networks. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. For this type of false positive, `construct_corpus` offer the `exclude_quoted_content` parameter, in order to exclude quoted text from the matches and avoid this false positive case. Be aware that all the quoted text will be avoided, if you've included some - fancy - way of *call* a function as a quoted `character` chain.
 
-      get_doc_network_from_project("~", languages = "R", exclude_quoted_content = TRUE)
+      construct_corpus("~", languages = "R", exclude_quoted_content = TRUE)
 
-
+See a sample dataviz' of a `files.network` in the [vignette of example of documents network](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html)

@@ -14,40 +14,39 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette give a basic understanding of the `citations.network` returned within a list by `codexplor::get_doc_network_from_project`.
+This vignette give a basic understanding of the `files.network` `data.frame`, one of the df returned within a list by `codexplor::construct_corpus` (see [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html)).
 
 ## Overview
+The `corpus.list` computed by `codexplor::construct_corpus` have some `data.frame` with additional classes `citations.network` and `internal.dependencies` (see the [vignette of the `citations.network` `data.frame`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html)). These are the edgelists of networks of internal dependencies, such as :
 
-`codexplor::get_doc_network_from_project` :
+- a network of the functions defined within the files of the corpus,
+- or a network of files. 
 
-1. compute a `corpus.list` as it is returned by `codexplor::construct_corpus` (see [vignette of `construct_corpus`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html))
-2. and add a new `data.frame` with additional classes `citations.network` and `internal.dependencies`. This is the edgelist of a network of the functions defined within the files of the corpus (see the [vignette of the `citations.network` `data.frame`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html)). 
-
-In such a `citations.network` of `internal.dependencies`, links start from the programming file that calls a function and point to the programming file where the function is defined.
+In the `files.network` (one of the `citations.network` of `internal.dependencies` from the `corpus.list`), links start from the programming file that calls a function and point to the programming file where the function is defined.
 
 ### Example
 Given folders path(s) and/or github repo(s), compute a *citations network* of the internal dependencies with ![.](https://img.shields.io/badge/{Method}-bold?style=flat&logoColor=black&logoSize=2&label=get_doc_network_from_project()&labelColor=yellow&color=black)
 
 ```{r construct-corpus-and-network, eval = F, echo=TRUE}
 require(codexplor)
-net <- get_doc_network_from_project(
+net <- construct_corpus(
   repos =  "tidyverse/stringr")
         # by default, codexplor deal with R project
 
-get_networkd3_from_igraph(net$internal.dependencies)
+get_networkd3_from_igraph(net$files.network)
         # Return an interactive dataviz' from networkD3
 ```
 
 
-By default, `get_networkd3_from_igraph` will colorize the nodes accordingly to their indegrees. This reveal the local dependencies of the programming project (i.e. functions used by others files of the project). 
+By default, `get_networkd3_from_igraph` will colorize the nodes accordingly to their indegrees. This reveal the local dependencies of the programming project, here the files with exposed functions that are used by others files of the project. 
 
 ![.](../man/figures/example_net3d_dataviz.png){width=90%}
 
-For example, the most-common local dependency inside the tidyverse/stringr repo are `modifiers.R` and `compat-types-check.R`. Next, there is other text-mining metrics that will give us insights about these files, e.g., one should verify that the local complexity of this `compat-types-check.R` file is reported as a 'trivial' level (see next section).
+For example, the most-common local dependency inside the tidyverse/stringr repo is `modifiers.R`. Next, there is other text-mining metrics that will give us insights about these files, e.g., one should verify that the local complexity of this `modifiers.R` file is reported as a 'trivial' level (see next section).
 
 Playing with the parameters of `get_networkd3_from_igraph` will reveal others insights, e.g., you should try to color nodes accordingly to their outdegrees, in order to reveal the files that contain high-level functions of the project.
 
-      get_networkd3_from_igraph(net$internal.dependencies,  color_outdeg_instead_of_indeg = T)
+      get_networkd3_from_igraph(net$documents.network,  color_outdeg_instead_of_indeg = T)
       
 #### Mix Network Analysis and Document-level Metrics
 [WIP]

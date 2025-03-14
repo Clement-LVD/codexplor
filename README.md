@@ -95,27 +95,29 @@ Other languages are planned.
 
 **1. Turn a programming project into a corpus.** Given folder(s) and/or
 github repo(s) and programming language(s),
-`codexplor::get_doc_network_from_project` will return a `list` of
-dataframes :
+`codexplor::construct_corpus` will return a `list` of dataframes :
 
 ``` r
 library(codexplor)
 
  # Construct a corpus and a Citations network
-corpus <- get_doc_network_from_project(
+corpus <- construct_corpus(
   folders = getwd()
   , languages = "R" )
     
 str(corpus, max.level = 1)
-#> List of 5
-#>  $ codes                :Classes 'corpus.lines' and 'data.frame':    1722 obs. of  9 variables:
-#>  $ comments             :Classes 'corpus.lines' and 'data.frame':    1200 obs. of  8 variables:
-#>  $ files                :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:
-#>  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:
-#>  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  64 obs. of  6 variables:
+#> List of 6
+#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    1749 obs. of  9 variables:
+#>  $ comments         :Classes 'corpus.lines' and 'data.frame':    1195 obs. of  8 variables:
+#>  $ files            :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  8 variables:
+#>  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:
+#>  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  40 obs. of  4 variables:
+#>  $ documents.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  34 obs. of  4 variables:
 #>  - attr(*, "class")= chr [1:2] "list" "corpus.list"
-#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-13"
+#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-14"
 #>  - attr(*, "have_citations_network")= logi TRUE
+#>  - attr(*, "languages_patterns")=List of 1
+#>  - attr(*, "folders")= chr "C:/Users/CLEM/Documents/PROJETS_EN_R/codexplor"
 ```
 
 This corpus of dataframes is a standardized way to analyze a programming
@@ -129,10 +131,9 @@ the dataviz’ of a `citations.network` `data.frame` with
 
 ``` r
 # Produce an interactive dataviz' with the network of internal.dependencies
-dataviz <- get_networkd3_from_igraph(corpus$internal.dependencies
-, title_h1 = "Graph of internal dependancies"
-, subtitle_h2 = "codexplor"
-, endnotes_h3 = "Color and links = indegrees") 
+dataviz <- get_networkd3_from_igraph(corpus$functions.network
+, title_h1 = "codexplor. Graph of internal dependancies : functions network"
+, subtitle_h2 = "Color and links = indegrees") 
 
 # herafter an image (non-interactive) of the interactive dataviz ↓
 ```
@@ -148,14 +149,12 @@ dataviz <- get_networkd3_from_igraph(corpus$internal.dependencies
 
 ### Vignettes
 
-*WIP* \[🔧🔨\]
-
 `codexplor` offers functions that are dedicated to analyze a programming
 project, accordingly to subanalysis tools.
 
-| Complete reporting | Underlying functions |
+| Quick example | Underlying details |
 |:---|:---|
-| Construct a network of internal dependancies from a programming project folder path(s) and/or github repo(s) : [vignette of `get_doc_network_from_project()`](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html) |
+| Turn a programming project into a corpus and look at a dataviz of the files : [vignette of example of documents network](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html) |
 |  | Understand the citations.network of internal dependancies : [vignette of `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html) |
 
 `codexplor` also offers helper functions, e.g., for create and filter a

@@ -6,21 +6,26 @@
 \usage{
 add_doc_network_to_corpus(
   corpus,
+  matches_colname = "name",
+  content_colname = "code",
+  node_id_colname = NULL,
   prefix_for_2nd_matches = "\\\\b",
   suffix_for_2nd_matches = "\\\\(",
   n_char_to_add_suffix = 3,
   filter_egolink_within_a_file = TRUE,
   exclude_quoted_content = F,
-  file_path_from_colname = "from",
-  file_path_to_colname = "to",
-  function_matched_colname = "function",
-  line_number_matched_colname = "line_number",
-  content_matched_colname = "content",
-  order_fn_called_colname = "order"
+  entry_name = "internal.dependencies"
 )
 }
 \arguments{
 \item{corpus}{\code{character} A \code{corpus.list} object from the construct_corpus function}
+
+\item{matches_colname}{\code{character}, default = \code{'name'} The name of the column of the \code{functions} df that will be used for construct a regex.}
+
+\item{content_colname}{\code{character}, default = \code{'code'} The name of the column of the \code{functions} df that will be used for search a match and extract text.}
+
+\item{node_id_colname}{\code{character}, default = \code{NULL} (optionnal) If \code{NULL} - default - the entries of \code{content_colname} will be used for construct a network.
+Otherwise, use this parameter to design the name of the column of the \code{functions} df to use to group the results, e.g., by file or by book.}
 
 \item{prefix_for_2nd_matches}{\code{character} A string representing the prefix to add
 to each 1st match that will be turned into a new regular expressions. The default is an empty string.}
@@ -36,37 +41,21 @@ of each match, in order to have a complete regular expression. The default is an
 \item{exclude_quoted_content}{\code{logical}, default = \code{FALSE}. A logical value indicating if the quoted content should be take into consideration.
 If set to \code{TRUE}, text within " or ' over the same line will be suppressed, before to realize the matches}
 
-\item{file_path_from_colname}{\code{character}, default = \code{'from'} The column name (as a string) representing the "from" file path
-in the result data frame.}
-
-\item{file_path_to_colname}{\code{character}, default = \code{'to'} The column name (as a string) representing the "to" file path in
-the result data frame.}
-
-\item{function_matched_colname}{\code{character}, default = \code{'function'} The column name for the matched text
-(default is a function name) in the result data frame.}
-
-\item{line_number_matched_colname}{\code{character}, default = \code{'line_number'}  The column name (as a string) for the line number
-of the second match in the result data frame.}
-
-\item{content_matched_colname}{\code{character}, default = \code{'content_matched'} The column name (as a string)
-for the full line where a match have occurred.}
-
-\item{order_fn_called_colname}{\code{character}, default = \code{'order_call'} The order of the functions called in a file, based on line number.}
+\item{entry_name}{\code{character}, default = \code{'internal.dependencies'} The name of the df added to the corpus.list.}
 }
 \value{
-A \code{list} of \code{dataframe} symbolizing the edgelist of a document-to-document citations network
+A \code{list} of \code{data.frame}, with a supplementary df that is the edgelist of a document-to-document citations network
 \describe{
 \item{\code{from}}{\code{character} Citations Network - The local file path or GitHub URL that call a function.}
 \item{\code{to}}{\code{character} Citations Network - The local file path or constructed GitHub URL where the function called is defined.}
 \item{\code{file_path}}{\code{character} Corpus - The local file path or constructed GitHub URL.}
-\item{\code{line_number}}{\code{integer} Corpus - The line number within the file.}
-\item{\code{content}}{\code{character} The content where a match could occur (\code{citations.network}), within a file (\code{corpus.nodelist}) or a line (\code{corpus.lines}).}
-\item{\code{match}}{\code{character} Corpus - The matched text on this line, \code{NA} if there is no match.}
+\item{\code{row_number}}{\code{integer} Corpus - The line number within the file.}
+\item{\code{function_order}}{\code{character} The order of citation within a text entry.}
 }
 }
 \description{
 This function read a standard \code{list} of \code{data.frame} (class \code{corpus.list})
-select the \code{codes} \code{data.frame} and append a Citations Network to the corpus
+select the \code{functions} \code{data.frame} and append a Citations Network to the corpus
 (see hereafter). The classes of this new entry are \code{data.frame} \code{citations.network}
 }
 \details{
@@ -74,7 +63,7 @@ It is designed to generate a network of text by cascading text research,
 assuming the 1st matches are already realized by \code{construct_corpus} :
 
 The function will craft a pattern by appending all the 1st matches (\code{matches} column elements)
-, eventually adding a suffix and a prefix to these elements.
+, eventually adding a suffix and a prefix to these elements, depending on the number of characters.
 
 Then it will perform a direct extraction with this pattern,
 and return the corpus with a new \code{data.frame} of class \code{citations.network}

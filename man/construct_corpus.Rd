@@ -25,8 +25,8 @@ construct_corpus(
 
 \item{pattern_to_exclude}{\code{character}. Default = \code{NULL}. A character chain with a regex (used to filter out files path)}
 
-\item{...}{Additional arguments passed to \code{srch_pattern_in_files_get_df}
-(filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).}
+\item{...}{Additional arguments passed to \code{add_doc_network_to_corpus}, to configure both the functions network and the files network
+(prefix or suffix, nchar to append a suffix, etc.).}
 }
 \value{
 A \code{list} of 4 \code{data.frame} containing the corpus of collected files and a nodelist :
@@ -85,7 +85,7 @@ cr3 <- construct_corpus("~", "R", c("tidyverse/stringr", "tidyverse/readr"))
 }
 }
 \seealso{
-\code{\link{readlines_in_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}
+\code{\link{readlines_in_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}, \code{\link{add_doc_network_to_corpus}}
 
 \url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html}
 }

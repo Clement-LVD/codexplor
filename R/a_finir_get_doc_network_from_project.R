@@ -41,8 +41,6 @@ get_doc_network_from_project <- function(folders = NULL, repos = NULL, languages
  # We will rename in the end
 corpus <- construct_corpus(folders = folders,   repos = repos, languages = languages)
 
-corpus <- add_doc_network_to_corpus(corpus = corpus, ...)
-
 # compute stats
 corpus <- add.stats.corpus.list(corpus)
 

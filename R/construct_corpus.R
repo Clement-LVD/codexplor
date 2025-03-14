@@ -1,17 +1,18 @@
-#' Construct a list of 3 Data Frames of Lines Readed From Files
+#' Construct a list of Data Frames of Lines Readed From Files
 #' Within a Local GitHub Repositories and/or Local Folders
 #'
 #' Given a Language, a folder path(s) and/or github repo(s)
 #' Return a `list` of 4 dataframes. The list have an additionnal `corpus.list` class. The df are :
 #'  (1) `codes` and (2) `comments` with text-metrics about each line;
-#'  (3) `files` with global metrics over the files, and (4) `functions` with metrics about the functions of the programming project.
+#'  (3) `files` with global metrics over the files, (4) `functions` with metrics about the functions of the programming project,
+#'  (4) `files.network` and `functions.network`
 #' @param folders `character`. Default = `NULL`. A character vector of local folder paths to scan for code files.
 #' @param languages `character`. Default = `"R"`. A character vector specifying the programming language(s) to include in the corpus.
 #' @param repos `character`. Default = `NULL`. A character vector of GitHub repository URLs or repository identifiers to extract files from (e.g., `"user/repo"`).
 #' @param .verbose `logical`. Default = `TRUE`. A logical used to silent the message in console.
 #' @param pattern_to_exclude `character`. Default = `NULL`. A character chain with a regex (used to filter out files path)
-#' @param ... Additional arguments passed to `srch_pattern_in_files_get_df`
-#' (filtering options, depth of folder scanning, names of the returned df columns, .verbose parameter, etc.).
+#' @param ... Additional arguments passed to `add_doc_network_to_corpus`, to configure both the functions network and the files network
+#' (prefix or suffix, nchar to append a suffix, etc.).
 #'
 #' @return A `list` of 4 `data.frame` containing the corpus of collected files and a nodelist :
 #' `codes` and `comments` (classes `data.frame` & `corpus.lines`),
@@ -32,6 +33,8 @@
 #'   \item{\code{parameters}}{`character` (only in the `functions` df) The content that define the default parameters of a function.}
 #'   \item{\code{code}}{`character` (only in the `functions` df) The code of a function.}
 #'   \item{\code{n_func}}{`integer` (only in the `files` df) The number of exposed functions within a file.}
+#'   \item{\code{from}}{`character` (only in the `citations.network` df) The function that call another function (`functions.network` df) or the local file path or GitHub URL that call a function of another file (`files.network` df).}
+#'   \item{\code{to}}{`character` (only in the `citations.network` df) The function called (`functions.network` df) or the local file path or constructed GitHub URL where the function called is defined (`files.network` df).}
 #' }
 #'
 #' @details
@@ -56,7 +59,7 @@
 #' # Example 3: Combine local folders and GitHub repositories
 #' cr3 <- construct_corpus("~", "R", c("tidyverse/stringr", "tidyverse/readr"))
 #' }
-#' @seealso \code{\link{readlines_in_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}
+#' @seealso \code{\link{readlines_in_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}, \code{\link{add_doc_network_to_corpus}}
 #' @seealso
 #'   \url{https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html}
 #' @export
@@ -99,7 +102,7 @@ if(length(corpus[[1]] ) == 1 ){
   warning("Elements are missing => create_corpus have failed to build a complete corpus.list of dataframes")
   }
 
-# 3) rbind each list according to their position
+
 combined <- do.call(mapply, c(FUN = function(...) rbind(...), corpus, SIMPLIFY = FALSE))
 # stockpile by names (default) when structures are coherent (here we have a proper structure definition)
 
@@ -151,7 +154,7 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
   if(.verbose) cat("\n ==> Reading", length(files_path) ,"files")
 
   # 3) extract lines from files
-  complete_files <- readlines_in_df(files_path = files_path, .verbose = .verbose, ... )
+  complete_files <- readlines_in_df(files_path = files_path, .verbose = .verbose)
   # add real files ext (checking if an extension default pattern return a fake file)
 
   if(is.null(complete_files)) return(NA)
@@ -190,13 +193,11 @@ corpus <- clean_comments_from_lines(corpus = corpus
 #### 7) add a functions nodelist ####
 corpus <- add_functions_list_to_corpus(corpus, lang_dictionnary = lang_desired, .verbose = .verbose)
 
-# if we want to suppress quoted text that is not the purpose of the corpus
-# corpus$codes$content_without_quote <- censor_quoted_text(text = corpus$codes$content, char_for_replacing_each_char = "_")
+# add a network of files and functions
+corpus <- add_doc_network_to_corpus(corpus = corpus, matches_colname = "name", content_colname = "code", entry_name = "functions.network", ...  )
+corpus <- add_doc_network_to_corpus(corpus = corpus, matches_colname = "name", content_colname = "code"
+                                    , node_id_colname = "file_path", entry_name = "files.network", ...  )
 
- # 8. Get precise lines of these 1st matches (risk of duplicated lines here)
-  # corpus$codes <- srch_pattern_in_df( df =  corpus$codes
-  #                                     , content_col_name = "exposed_content"
-  #                                     ,  pattern = lang_desired$fn_regex )
 
   if(.verbose) cat("\nCorpus created")
 
