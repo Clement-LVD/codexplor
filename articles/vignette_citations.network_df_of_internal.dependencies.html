@@ -147,62 +147,32 @@ autolinks within files)</td>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p>See a dataviz’ of a <code>files.network</code> in the short <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">example
+of documents network</a></p>
+</blockquote>
 </div>
 </div>
 <div class="section level2">
 <h2 id="technical-details">Technical details<a class="anchor" aria-label="anchor" href="#technical-details"></a>
 </h2>
-<div class="section level3">
-<h3 id="cascading-matching">Cascading matching<a class="anchor" aria-label="anchor" href="#cascading-matching"></a>
-</h3>
-<p>Given a <code>corpus.list</code> created with
-<code>construct_corpus</code> a ‘cascading matching’ :</p>
-<table class="table">
-<colgroup>
-<col width="3%">
-<col width="32%">
-<col width="64%">
-</colgroup>
-<thead><tr class="header">
-<th align="left"></th>
-<th align="left">Step</th>
-<th align="left">Examples</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">1st matches</td>
-<td align="left">⏩ <code>construct_corpus</code> firstly extract
-<em>functions names</em> from the files where these functions are
-defined</td>
-<td align="left">e.g., have found ‘Pier’, ‘pol’ and ‘jak’ function names
-in 3 separate files</td>
-</tr>
-<tr class="even">
-<td align="left">2nd matches</td>
-<td align="left">⏩ Search for these patterns and compute a Citations
-Network</td>
-<td align="left">e.g., a programming file is citing ‘Pier(’, ‘pol(’ and
+<p><strong>Cascading matching.</strong> Given a <code>corpus.list</code>
+created with <code>construct_corpus</code> a ‘cascading matching’ :</p>
+<ul>
+<li>The 1st matches of <code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> will
+extract exposed functions names from files where these functions are
+<em>defined</em>, e.g., have found ‘Pier’, ‘pol’ and ‘jak’ function
+names in 3 separate files.</li>
+<li>The 2nd matches show the files or the functions that <em>calls</em>
+these functions, e.g., a programming file is citing ‘Pier(’, ‘pol(’ and
 ‘jak(’ and thus this file is linked to the 3 files where these functions
 are defined or to these precise functions, depending on the desired
-level-of-depth</td>
-</tr>
-</tbody>
-</table>
-<p>Thus :</p>
-<ul>
-<li>the 1st matches of <code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> will
-extract exposed functions names from files where these functions are
-<em>defined</em>,</li>
-<li>and the 2nd matches show the files or the functions that
-<em>used</em> these functions.</li>
+level-of-depth.</li>
 </ul>
-</div>
-<div class="section level3">
-<h3 id="match-functions-names">Match functions names<a class="anchor" aria-label="anchor" href="#match-functions-names"></a>
-</h3>
-<p><code>construct_corpus</code> rely on some default patterns, designed
-to analyze a programming project in a standardized way. Accordingly to
-these patterns, <code>construct_corpus</code> will :</p>
+<p><strong>Match functions names.</strong> <code>construct_corpus</code>
+rely on some default patterns, designed to analyze a programming project
+in a standardized way. Accordingly to these patterns,
+<code>construct_corpus</code> will :</p>
 <ol style="list-style-type: decimal">
 <li>read the files accordingly to their extension, e.g., R language is
 associated with <code>'.R'</code> files.</li>
@@ -214,10 +184,10 @@ comments, contrary to JavaScript.</li>
 <li>extract functions names from the exposed content, in order to list
 the internally exposed functions of the programming project.</li>
 </ol>
-<p>The hereafter table show some examples of a <code>hello</code>
-function defined in several languages : <code>construct_corpus</code>
-have to match <code>'hello'</code>, despite of the differences between
-languages.</p>
+<p><strong>Examples.</strong> The hereafter table show some examples of
+a <code>hello</code> function defined in several languages :
+<code>construct_corpus</code> have to match <code>'hello'</code>,
+despite of the differences between languages.</p>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="3%">
@@ -271,9 +241,9 @@ object. Thus, contrary to other languages, we have to find the name of R
 functions before the keyword ‘function’, R parameters names are within
 the parenthesis after ‘function(’, etc.</p>
 </div>
-<div class="section level3">
-<h3 id="unmatched-definition-1st-match">Unmatched definition (1st match)<a class="anchor" aria-label="anchor" href="#unmatched-definition-1st-match"></a>
-</h3>
+<div class="section level2">
+<h2 id="unmatched-definition">Unmatched definition<a class="anchor" aria-label="anchor" href="#unmatched-definition"></a>
+</h2>
 <p><strong>Python.</strong> The function ‘hello’ defined as a lambda
 (anonymous) function within the Python line hereafter is not matched yet
 by <code>construct_corpus</code> :</p>
@@ -286,9 +256,9 @@ new R object is not supported yet :</p>
 <!-- **JS.** Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter : -->
 <!--      const hello = (a, b) => a + b; -->
 </div>
-<div class="section level3">
-<h3 id="function-call-that-are-non-supported-during-2nd-matches">Function call that are non-supported during 2nd matches<a class="anchor" aria-label="anchor" href="#function-call-that-are-non-supported-during-2nd-matches"></a>
-</h3>
+<div class="section level2">
+<h2 id="function-call-that-are-non-supported-during-2nd-matches">Function call that are non-supported during 2nd matches<a class="anchor" aria-label="anchor" href="#function-call-that-are-non-supported-during-2nd-matches"></a>
+</h2>
 <p>Some way of writing a program are not fully supported during the 2nd
 matches.</p>
 <p><strong>Python instantiated methods.</strong> If we take this Python
@@ -306,25 +276,20 @@ the instantiated Python methods, i.e. <code>obj.method()</code>.</p>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a></span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co"># construct_corpus don't identify the 2nd match because of the prefix ("obj.")</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="filter-undesired-match">Filter undesired match<a class="anchor" aria-label="anchor" href="#filter-undesired-match"></a>
-</h3>
-<p><code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> offer several parameters for
-dealing with your style of writing a program.</p>
-<p>Junk nodes needs to be excluded from the returned networks. Typical
-“false positive” matches are the lines where you use the name of another
-function in a message,
-e.g. <code>message("my_func() is deprecated. You should use this_function() instead)</code>.
-For this type of false positive, <code>construct_corpus</code> offer the
+<div class="section level2">
+<h2 id="filter-undesired-match">Filter undesired match<a class="anchor" aria-label="anchor" href="#filter-undesired-match"></a>
+</h2>
+<p>Junk nodes needs to be excluded from the returned networks, such as
+the lines where you use the name of another function in a message,
+e.g. <code>message("my_func() is deprecated. You should use this_function() instead)</code>.</p>
+<p><code>construct_corpus</code> offer the
 <code>exclude_quoted_content</code> parameter, in order to exclude
-quoted text from the matches and avoid this false positive case. Be
-aware that all the quoted text will be avoided, if you’ve included some
-- fancy - way of <em>call</em> a function as a quoted
+quoted text from the matches and avoid this false positive case.</p>
+<pre><code><span>  <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span><span class="st">"~"</span>, languages <span class="op">=</span> <span class="st">"R"</span>, exclude_quoted_content <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
+<span>  </span></code></pre>
+<p>Be aware that all the quoted text will be avoided, if you’ve included
+some - fancy - way of <em>call</em> a function as a quoted
 <code>character</code> chain.</p>
-<pre><code><span>  <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span><span class="st">"~"</span>, languages <span class="op">=</span> <span class="st">"R"</span>, exclude_quoted_content <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
-<p>See a sample dataviz’ of a <code>files.network</code> in the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">vignette
-of example of documents network</a></p>
-</div>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
