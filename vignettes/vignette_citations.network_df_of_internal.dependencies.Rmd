@@ -44,37 +44,17 @@ nett <- t(data.frame(Name= c("`files.network`", "`functions.network`" )
 knitr::kable(nett)
 ```
 
+> See a dataviz' of a `files.network` in the short [example of documents network](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html)
+
 ## Technical details
 
-### Cascading matching
-Given a `corpus.list` created with `construct_corpus` a 'cascading matching' :
+**Cascading matching.** Given a `corpus.list` created with `construct_corpus` a 'cascading matching' :
 
-```{r table-cascading-matches, echo=FALSE}
-
-match_2 <- data.frame(Step = c("⏩ `construct_corpus` firstly extract *functions names* from the files where these functions are defined"
-                    , "⏩ Search for these patterns and compute a Citations Network")
-             
-             , Examples = c("e.g., have found 'Pier', 'pol' and 'jak' function names in 3 separate files" 
-                          
-,"e.g., a programming file is citing 'Pier(', 'pol(' and 'jak(' and thus this file is linked to the 3 files where these functions are defined or to these precise functions, depending on the desired level-of-depth"))
+- The 1st matches of `codexplor::construct_corpus` will extract exposed functions names from files where these functions are *defined*, e.g., have found 'Pier', 'pol' and 'jak' function names in 3 separate files.
+- The 2nd matches show the files or the functions that *calls* these functions, e.g., a programming file is citing 'Pier(', 'pol(' and 'jak(' and thus this file is linked to the 3 files where these functions are defined or to these precise functions, depending on the desired level-of-depth. 
 
 
-rownames(match_2) <- c("1st matches" , "2nd matches" )
-
-knitr::kable(match_2, row.names = T)
-
-
-```
-
-Thus :
-
-- the 1st matches of `codexplor::construct_corpus` will extract exposed functions names from files where these functions are *defined*, 
-- and the 2nd matches show the files or the functions that *used* these functions. 
-
-
-
-### Match functions names
-`construct_corpus` rely on some default patterns, designed to analyze a programming project in a standardized way. 
+**Match functions names.** `construct_corpus` rely on some default patterns, designed to analyze a programming project in a standardized way. 
 Accordingly to these patterns, `construct_corpus` will :
 
 1. read the files accordingly to their extension, e.g., R language is associated with `'.R'` files. 
@@ -82,8 +62,7 @@ Accordingly to these patterns, `construct_corpus` will :
 3. isolate the exposed content, i.e. not quoted and not within a `'{ }'`.
 4. extract functions names from the exposed content, in order to list the internally exposed functions of the programming project.
 
-
-The hereafter table show some examples of a `hello` function defined in several languages : `construct_corpus` have to match `'hello'`, despite of the differences between languages.
+**Examples.** The hereafter table show some examples of a `hello` function defined in several languages : `construct_corpus` have to match `'hello'`, despite of the differences between languages.
 
 ```{r table-langages-differences, echo=FALSE, message=FALSE, warning=FALSE}
 require(codexplor)
@@ -103,7 +82,7 @@ knitr::kable(table)
 
 Here, R is the only language that assign an anonymous function to an object. Thus, contrary to other languages, we have to find the name of R functions before the keyword 'function', R parameters names are within the parenthesis after 'function(', etc. 
 
-### Unmatched definition (1st match)
+## Unmatched definition
 **Python.** The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched yet by `construct_corpus` :
 
      hello = lambda: None
@@ -118,7 +97,7 @@ Here, R is the only language that assign an anonymous function to an object. Thu
 
 <!--      const hello = (a, b) => a + b; -->
 
-### Function call that are non-supported during 2nd matches
+## Function call that are non-supported during 2nd matches
 Some way of writing a program are not fully supported during the 2nd matches.
 
 **Python instantiated methods.** If we take this Python code sample hereafter, the 1st match is realized by `construct_corpus`, but `codexplor` can't match the instantiated Python methods, i.e. `obj.method()`.
@@ -137,11 +116,13 @@ obj.method() # Return : 'My custom method'
 ```
 
 
-### Filter undesired match
-`codexplor::construct_corpus` offer several parameters for dealing with your style of writing a program.
+## Filter undesired match
+Junk nodes needs to be excluded from the returned networks, such as the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. 
 
-Junk nodes needs to be excluded from the returned networks. Typical "false positive" matches are the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. For this type of false positive, `construct_corpus` offer the `exclude_quoted_content` parameter, in order to exclude quoted text from the matches and avoid this false positive case. Be aware that all the quoted text will be avoided, if you've included some - fancy - way of *call* a function as a quoted `character` chain.
+`construct_corpus` offer the `exclude_quoted_content` parameter, in order to exclude quoted text from the matches and avoid this false positive case.
 
-      construct_corpus("~", languages = "R", exclude_quoted_content = TRUE)
+      construct_corpus("~", languages = "R", exclude_quoted_content = TRUE) 
+      
+Be aware that all the quoted text will be avoided, if you've included some - fancy - way of *call* a function as a quoted `character` chain.
 
-See a sample dataviz' of a `files.network` in the [vignette of example of documents network](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html)
+
