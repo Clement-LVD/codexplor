@@ -1,11 +1,11 @@
 #' Construct a list of Data Frames of Lines Readed From Files
 #' Within a Local GitHub Repositories and/or Local Folders
 #'
-#' Given a Language, a folder path(s) and/or github repo(s)
-#' Return a `list` of 4 dataframes. The list have an additionnal `corpus.list` class. The df are :
+#' Given a Language, a folder path(s) and/or github repo(s),
+#' return a `list` of 4 dataframes. The list have an additionnal `corpus.list` class. The df are :
 #'  (1) `codes` and (2) `comments` with text-metrics about each line;
 #'  (3) `files` with global metrics over the files, (4) `functions` with metrics about the functions of the programming project,
-#'  (4) `files.network` and `functions.network`
+#'  (4) `files.network` and (5) `functions.network` (networks of internal dependencies).
 #' @param folders `character`. Default = `NULL`. A character vector of local folder paths to scan for code files.
 #' @param languages `character`. Default = `"R"`. A character vector specifying the programming language(s) to include in the corpus.
 #' @param repos `character`. Default = `NULL`. A character vector of GitHub repository URLs or repository identifiers to extract files from (e.g., `"user/repo"`).
@@ -14,14 +14,11 @@
 #' @param ... Additional arguments passed to `add_doc_network_to_corpus`, to configure both the functions network and the files network
 #' (prefix or suffix, nchar to append a suffix, etc.).
 #'
-#' @return A `list` of 4 `data.frame` containing the corpus of collected files and a nodelist :
-#' `codes` and `comments` (classes `data.frame` & `corpus.lines`),
-#' `functions` and `files` (classes `data.frame` & `corpus.nodelist`)
-#' The data frames typically includes columns such as:
+#' @return A `list` of `data.frame` containing the corpus of collected files. The data frames includes columns such as:
 #' \describe{
 #'   \item{\code{file_path}}{ `character` The local file path or constructed GitHub URL.}
 #'   \item{\code{line_number}}{`integer` The line number of the file.}
-#'   \item{\code{content}}{`character` The content in a line for the `corpus.lines` df, or the full content of the file (`corpus.nodelist` df).}
+#'   \item{\code{content}}{`character` The content in a line for the `corpus.lines` df, or the full content of the file.}
 #'   \item{\code{file_ext}}{`character` File extension of the file.}
 #'   \item{\code{n_char}}{`integer` Number of characters - including spacing - in a line, the file for the `files` df, or the function code for the `functions` df).}
 #'   \item{\code{n_char_wo_space}}{`integer` Number of characters - without spacing - in a line, the file for the `files` df, or the function code for the `functions` df)}
@@ -35,6 +32,8 @@
 #'   \item{\code{n_func}}{`integer` (only in the `files` df) The number of exposed functions within a file.}
 #'   \item{\code{from}}{`character` (only in the `citations.network` df) The function that call another function (`functions.network` df) or the local file path or GitHub URL that call a function of another file (`files.network` df).}
 #'   \item{\code{to}}{`character` (only in the `citations.network` df) The function called (`functions.network` df) or the local file path or constructed GitHub URL where the function called is defined (`files.network` df).}
+#'   \item{\code{indeg_fn}}{`integer` (only in the `files` and `functions` df) Number of functions that call this function (`functions` df) or number of files with functions that call the functions of this file (`files` df).}
+#'   \item{\code{outdeg_fn}}{`integer` (only in the `files` and `functions` df) Number of functions called by this function (`functions` df) or number of files where the functions called by the functions of this file are defined (`files` df).}
 #' }
 #'
 #' @details
@@ -113,6 +112,7 @@ combined <- .construct.corpus.list(combined
                                    , repos = repos)
 
 # 5) add class attributes and structure (optionnal doc' & methods heritated)
+combined <- add.stats.corpus.list(combined)
 
 return(combined)
 }

@@ -35,7 +35,7 @@ nett <- t(data.frame(Name= c("`files.network`", "`functions.network`" )
 ,  Nodes = c("Programming files", "Functions")
 , Links = c("Start from a programming file that calls a function and point to the programming file where the function is defined", "start from a function that call another function and point to this 2nd function")
 , Indegrees = c("°← How many files of the project(s) are calling the function(s) defined in this file", "°← How many functions of the project(s) are calling this function" )
-, Outdegrees = c("°→ How many functions of the project(s) are used by this file", "°→ How many functions of the project(s) are used by this function")
+, Outdegrees = c("°→ Number of files of the project(s) where the functions used by this file are defined", "°→ How many functions of the project(s) are used by this function")
 , Automentioning = c("(`codexplor` default is to filter out autolinks within files)" ,"Recursivity")
 ) )
 

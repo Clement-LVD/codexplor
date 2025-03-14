@@ -2,7 +2,7 @@
 % Please edit documentation in R/construct_corpus.R
 \name{construct_corpus}
 \alias{construct_corpus}
-\title{Construct a list of 3 Data Frames of Lines Readed From Files
+\title{Construct a list of Data Frames of Lines Readed From Files
 Within a Local GitHub Repositories and/or Local Folders}
 \usage{
 construct_corpus(
@@ -29,14 +29,11 @@ construct_corpus(
 (prefix or suffix, nchar to append a suffix, etc.).}
 }
 \value{
-A \code{list} of 4 \code{data.frame} containing the corpus of collected files and a nodelist :
-\code{codes} and \code{comments} (classes \code{data.frame} & \code{corpus.lines}),
-\code{functions} and \code{files} (classes \code{data.frame} & \code{corpus.nodelist})
-The data frames typically includes columns such as:
+A \code{list} of \code{data.frame} containing the corpus of collected files. The data frames includes columns such as:
 \describe{
 \item{\code{file_path}}{ \code{character} The local file path or constructed GitHub URL.}
 \item{\code{line_number}}{\code{integer} The line number of the file.}
-\item{\code{content}}{\code{character} The content in a line for the \code{corpus.lines} df, or the full content of the file (\code{corpus.nodelist} df).}
+\item{\code{content}}{\code{character} The content in a line for the \code{corpus.lines} df, or the full content of the file.}
 \item{\code{file_ext}}{\code{character} File extension of the file.}
 \item{\code{n_char}}{\code{integer} Number of characters - including spacing - in a line, the file for the \code{files} df, or the function code for the \code{functions} df).}
 \item{\code{n_char_wo_space}}{\code{integer} Number of characters - without spacing - in a line, the file for the \code{files} df, or the function code for the \code{functions} df)}
@@ -48,13 +45,18 @@ The data frames typically includes columns such as:
 \item{\code{parameters}}{\code{character} (only in the \code{functions} df) The content that define the default parameters of a function.}
 \item{\code{code}}{\code{character} (only in the \code{functions} df) The code of a function.}
 \item{\code{n_func}}{\code{integer} (only in the \code{files} df) The number of exposed functions within a file.}
+\item{\code{from}}{\code{character} (only in the \code{citations.network} df) The function that call another function (\code{functions.network} df) or the local file path or GitHub URL that call a function of another file (\code{files.network} df).}
+\item{\code{to}}{\code{character} (only in the \code{citations.network} df) The function called (\code{functions.network} df) or the local file path or constructed GitHub URL where the function called is defined (\code{files.network} df).}
+\item{\code{indeg_fn}}{\code{integer} (only in the \code{files} and \code{functions} df) Number of functions that call this function (\code{functions} df) or number of files with functions that call the functions of this file (\code{files} df).}
+\item{\code{outdeg_fn}}{\code{integer} (only in the \code{files} and \code{functions} df) Number of functions called by this function (\code{functions} df) or number of files where the functions called by the functions of this file are defined (\code{files} df).}
 }
 }
 \description{
-Given a Language, a folder path(s) and/or github repo(s)
-Return a \code{list} of 4 dataframes. The list have an additionnal \code{corpus.list} class. The df are :
+Given a Language, a folder path(s) and/or github repo(s),
+return a \code{list} of 4 dataframes. The list have an additionnal \code{corpus.list} class. The df are :
 (1) \code{codes} and (2) \code{comments} with text-metrics about each line;
-(3) \code{files} with global metrics over the files, and (4) \code{functions} with metrics about the functions of the programming project.
+(3) \code{files} with global metrics over the files, (4) \code{functions} with metrics about the functions of the programming project,
+(4) \code{files.network} and (5) \code{functions.network} (networks of internal dependencies).
 }
 \details{
 \itemize{
