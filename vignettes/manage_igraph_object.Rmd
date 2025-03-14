@@ -16,16 +16,16 @@ knitr::opts_chunk$set(
 
 `codexplor` offering functions to manage `igraph` object : turn an edgelist into an igraph object, filter some nodes accordingly to their indegrees or outdegrees, etc. 
 
-Once you have a network such as the network of internal dependancies within a project computed by `codexplor::get_doc_network_from_project` (see the [vignette of `get_doc_network_from_project()`](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html)).
+Once you have a network such as the network of internal dependancies within a project computed by `codexplor::construct_corpus` (see the [vignette of `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html)).
 
-        net <- get_doc_network_from_project(repos = "clement-lvd/codexplor")
+        net <- construct_corpus(repos = "clement-lvd/codexplor")
         # by default, codexplor deal with R project
 
         
 
 - Turn your Citations Network into a directed `igraph`  network with ![.](https://img.shields.io/badge/{igraph}-bold?style=flat&logoColor=black&logoSize=2&label=get_igraph_from_df()&labelColor=green&color=black)
 
-        netig <- codexplor::get_igraph_from_df(net) 
+        netig <- codexplor::get_igraph_from_df(net$functions.network) 
         
 - Once you have an igraph object, extract the egonetwork of a precise function with 
 ![.](https://img.shields.io/badge/{igraph}-bold?style=flat&logoColor=black&logoSize=2&label=filter_igraph_egonetwork()&labelColor=green&color=black)
@@ -37,7 +37,7 @@ Once you have a network such as the network of internal dependancies within a pr
           dataviz_filtered <- get_networkd3_from_igraph(filter_net)
           
           or pass a citations.network data.frame
-          dataviz <- get_networkd3_from_igraph(net$internal.dependencies)
+          dataviz <- get_networkd3_from_igraph(net$functions.network)
 
 - And tweak the legend of the interactive `networkD3` dataviz with ![.](https://img.shields.io/badge/{networkD3}-bold?style=flat&logoColor=black&logoSize=2&label=move_networkd3_legend()&labelColor=green&color=black)
 
