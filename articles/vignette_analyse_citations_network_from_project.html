@@ -67,24 +67,29 @@
     
     
 <p>This vignette give a basic understanding of the
-<code>citations.network</code> returned within a list by
-<code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code>.</p>
+<code>files.network</code> <code>data.frame</code>, one of the df
+returned within a list by <code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> (see
+<a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette
+of <code>construct_corpus</code></a>).</p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p><code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code> :</p>
-<ol style="list-style-type: decimal">
-<li>compute a <code>corpus.list</code> as it is returned by
-<code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> (see <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette
-of <code>construct_corpus</code></a>)</li>
-<li>and add a new <code>data.frame</code> with additional classes
-<code>citations.network</code> and <code>internal.dependencies</code>.
-This is the edgelist of a network of the functions defined within the
-files of the corpus (see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html">vignette
-of the <code>citations.network</code> <code>data.frame</code></a>).</li>
-</ol>
-<p>In such a <code>citations.network</code> of
-<code>internal.dependencies</code>, links start from the programming
+<p>The <code>corpus.list</code> computed by
+<code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> have some
+<code>data.frame</code> with additional classes
+<code>citations.network</code> and <code>internal.dependencies</code>
+(see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html">vignette
+of the <code>citations.network</code> <code>data.frame</code></a>).
+These are the edgelists of networks of internal dependencies, such as
+:</p>
+<ul>
+<li>a network of the functions defined within the files of the
+corpus,</li>
+<li>or a network of files.</li>
+</ul>
+<p>In the <code>files.network</code> (one of the
+<code>citations.network</code> of <code>internal.dependencies</code>
+from the <code>corpus.list</code>), links start from the programming
 file that calls a function and point to the programming file where the
 function is defined.</p>
 <div class="section level3">
@@ -94,31 +99,30 @@ function is defined.</p>
 network</em> of the internal dependencies with <img src="https://img.shields.io/badge/%7BMethod%7D-bold?style=flat&amp;logoColor=black&amp;logoSize=2&amp;label=get_doc_network_from_project()&amp;labelColor=yellow&amp;color=black" alt="."></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
-<span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span></span>
+<span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span></span>
 <span>  repos <span class="op">=</span>  <span class="st">"tidyverse/stringr"</span><span class="op">)</span></span>
 <span>        <span class="co"># by default, codexplor deal with R project</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">internal.dependencies</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">files.network</span><span class="op">)</span></span>
 <span>        <span class="co"># Return an interactive dataviz' from networkD3</span></span></code></pre></div>
 <p>By default, <code>get_networkd3_from_igraph</code> will colorize the
 nodes accordingly to their indegrees. This reveal the local dependencies
-of the programming project (i.e. functions used by others files of the
-project).</p>
+of the programming project, here the files with exposed functions that
+are used by others files of the project.</p>
 <div class="float">
 <img src="../reference/figures/example_net3d_dataviz.png" style="width:90.0%" alt="."><div class="figcaption">.</div>
 </div>
 <p>For example, the most-common local dependency inside the
-tidyverse/stringr repo are <code>modifiers.R</code> and
-<code>compat-types-check.R</code>. Next, there is other text-mining
-metrics that will give us insights about these files, e.g., one should
-verify that the local complexity of this
-<code>compat-types-check.R</code> file is reported as a ‘trivial’ level
-(see next section).</p>
+tidyverse/stringr repo is <code>modifiers.R</code>. Next, there is other
+text-mining metrics that will give us insights about these files, e.g.,
+one should verify that the local complexity of this
+<code>modifiers.R</code> file is reported as a ‘trivial’ level (see next
+section).</p>
 <p>Playing with the parameters of <code>get_networkd3_from_igraph</code>
 will reveal others insights, e.g., you should try to color nodes
 accordingly to their outdegrees, in order to reveal the files that
 contain high-level functions of the project.</p>
-<pre><code><span>  <span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">internal.dependencies</span>,  color_outdeg_instead_of_indeg <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<pre><code><span>  <span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">documents.network</span>,  color_outdeg_instead_of_indeg <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span>  </span></code></pre>
 <div class="section level4">
 <h4 id="mix-network-analysis-and-document-level-metrics">Mix Network Analysis and Document-level Metrics<a class="anchor" aria-label="anchor" href="#mix-network-analysis-and-document-level-metrics"></a>

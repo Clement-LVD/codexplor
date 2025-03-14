@@ -124,33 +124,35 @@
 <div class="section level3">
 <h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h3>
-<p><strong>1. Turn a programming project into a corpus.</strong> Given folder(s) and/or github repo(s) and programming language(s), <code><a href="reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code> will return a <code>list</code> of dataframes :</p>
+<p><strong>1. Turn a programming project into a corpus.</strong> Given folder(s) and/or github repo(s) and programming language(s), <code><a href="reference/construct_corpus.html">codexplor::construct_corpus</a></code> will return a <code>list</code> of dataframes :</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
 <span></span>
 <span> <span class="co"># Construct a corpus and a Citations network</span></span>
-<span><span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span></span>
+<span><span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span></span>
 <span>  folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  , languages <span class="op">=</span> <span class="st">"R"</span> <span class="op">)</span></span>
 <span>    </span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corpus</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; List of 5</span></span>
-<span><span class="co">#&gt;  $ codes                :Classes 'corpus.lines' and 'data.frame':    1722 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ comments             :Classes 'corpus.lines' and 'data.frame':    1200 obs. of  8 variables:</span></span>
-<span><span class="co">#&gt;  $ files                :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ functions            :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:</span></span>
-<span><span class="co">#&gt;  $ internal.dependencies:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  64 obs. of  6 variables:</span></span>
+<span><span class="co">#&gt; List of 6</span></span>
+<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    1749 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    1195 obs. of  8 variables:</span></span>
+<span><span class="co">#&gt;  $ files            :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  8 variables:</span></span>
+<span><span class="co">#&gt;  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:</span></span>
+<span><span class="co">#&gt;  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  40 obs. of  4 variables:</span></span>
+<span><span class="co">#&gt;  $ documents.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  34 obs. of  4 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
-<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-13"</span></span>
-<span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-14"</span></span>
+<span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi TRUE</span></span>
+<span><span class="co">#&gt;  - attr(*, "languages_patterns")=List of 1</span></span>
+<span><span class="co">#&gt;  - attr(*, "folders")= chr "C:/Users/CLEM/Documents/PROJETS_EN_R/codexplor"</span></span></code></pre></div>
 <p>This corpus of dataframes is a standardized way to analyze a programming project as a collection of documents. Learn more about these df with the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette of <code>construct_corpus()</code></a>.</p>
 <p><strong>2. See a dataviz’ from a corpus.list.</strong> Given a <code>corpus.list</code>, look at the dataviz’ of a <code>citations.network</code> <code>data.frame</code> with <code><a href="reference/get_networkd3_from_igraph.html">codexplor::get_networkd3_from_igraph</a></code> :</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Produce an interactive dataviz' with the network of internal.dependencies</span></span>
-<span><span class="va">dataviz</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">corpus</span><span class="op">$</span><span class="va">internal.dependencies</span></span>
-<span>, title_h1 <span class="op">=</span> <span class="st">"Graph of internal dependancies"</span></span>
-<span>, subtitle_h2 <span class="op">=</span> <span class="st">"codexplor"</span></span>
-<span>, endnotes_h3 <span class="op">=</span> <span class="st">"Color and links = indegrees"</span><span class="op">)</span> </span>
+<span><span class="va">dataviz</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">corpus</span><span class="op">$</span><span class="va">functions.network</span></span>
+<span>, title_h1 <span class="op">=</span> <span class="st">"codexplor. Graph of internal dependancies : functions network"</span></span>
+<span>, subtitle_h2 <span class="op">=</span> <span class="st">"Color and links = indegrees"</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="co"># herafter an image (non-interactive) of the interactive dataviz ↓</span></span></code></pre></div>
 <p><img src="reference/figures/force_network.png" width="100%"></p>
@@ -162,7 +164,6 @@
 <div class="section level3">
 <h3 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
 </h3>
-<p><em>WIP</em> [🔧🔨]</p>
 <p><code>codexplor</code> offers functions that are dedicated to analyze a programming project, accordingly to subanalysis tools.</p>
 <table class="table">
 <colgroup>
@@ -170,12 +171,12 @@
 <col width="50%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">Complete reporting</th>
-<th align="left">Underlying functions</th>
+<th align="left">Quick example</th>
+<th align="left">Underlying details</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Construct a network of internal dependancies from a programming project folder path(s) and/or github repo(s) : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">vignette of <code>get_doc_network_from_project()</code></a>
+<td align="left">Turn a programming project into a corpus and look at a dataviz of the files : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">vignette of example of documents network</a>
 </td>
 <td align="left">Construct a corpus : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette of <code>construct_corpus()</code></a>
 </td>

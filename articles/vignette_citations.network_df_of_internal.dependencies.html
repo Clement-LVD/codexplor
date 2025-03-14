@@ -68,9 +68,9 @@
     
 <p>This Vignette explain the <code>data.frame</code> with additional
 classes <code>citations.network</code> and
-<code>internal.dependencies</code>. This <code>data.frame</code> is the
-edgelist of a Citations Network of functions within programming
-project(s).</p>
+<code>internal.dependencies</code>. This type of <code>data.frame</code>
+is the edgelist of a Citations Network of functions or files within
+programming project(s).</p>
 <div class="section level2">
 <h2 id="network-properties">Network properties<a class="anchor" aria-label="anchor" href="#network-properties"></a>
 </h2>
@@ -78,58 +78,90 @@ project(s).</p>
 <h3 id="overall-considerations-about-the-citations-network-data-frame">Overall Considerations : about the <code>citations.network</code>
 <code>data.frame</code><a class="anchor" aria-label="anchor" href="#overall-considerations-about-the-citations-network-data-frame"></a>
 </h3>
-<p>Some of the <code>codexplor</code> protocols add a
+<p><code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> protocols add a
 <code>citations.network</code> class of <code>data.frame</code> to the
-main <code>corpus.list</code>, e.g.,
-<code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project()</a></code>.</p>
+main <code>corpus.list</code>.</p>
 <p>This <code>citations.network</code> <code>data.frame</code> is an
 edgelist<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Edgelist is the one of the standard representation of a
 graph (&lt;a href="https://igraph.org/r/doc/as_edgelist.html" class="external-link uri"&gt;https://igraph.org/r/doc/as_edgelist.html&lt;/a&gt;).&lt;/p&gt;'><sup>1</sup></a>
 that symbolize the programming project as a document-to-document
-citations network : a network of documents that cite each others.</p>
-<p>Thus, the nodes of a <code>citations.network</code>
-<code>data.frame</code> are the programming files of the corpus.</p>
+citations network : a network of documents, citing each others.</p>
+<p><code>codexplor</code> offers several ‘document’ levels, e.g., the
+nodes of a <code>citations.network</code> <code>data.frame</code> could
+be the functions or the programming files of the corpus.</p>
 <blockquote>
 <p>A citations network have theoretical network properties, not covered
 here (e.g., a citations network is a directed network).</p>
 </blockquote>
 </div>
 <div class="section level3">
-<h3 id="network-of-internal-dependencies">Network of <code>internal.dependencies</code><a class="anchor" aria-label="anchor" href="#network-of-internal-dependencies"></a>
+<h3 id="networks-of-internal-dependencies">Networks of <code>internal.dependencies</code><a class="anchor" aria-label="anchor" href="#networks-of-internal-dependencies"></a>
 </h3>
-<p>A <code>data.frame</code> of the <code>corpus.list</code> have
+<p>Some <code>data.frame</code> of the <code>corpus.list</code> have
 additional classes <code>citations.network</code> and
-<code>internal.dependencies</code>. In this network :</p>
-<ul>
-<li>Nodes are the programming files, like any other
-<code>citations.network</code>.</li>
-<li>A link start from a programming file that calls a function and point
-to the programming file where the function is defined.</li>
-<li>°← Indegree of a file is “how many files are calling the function(s)
-defined in this file” ;</li>
-<li>°→ Outdegree of a file is “how many functions are used by this file”
-;</li>
-<li>⟲ Auto-mentioning refear to ‘recursivity’ (<code>codexplor</code>
-default is to filter autolinks).</li>
-</ul>
+<code>internal.dependencies</code> : the <code>files.network</code> and
+<code>functions.network</code> df. In these networks :</p>
+<table class="table">
+<colgroup>
+<col width="7%">
+<col width="54%">
+<col width="37%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left"><code>files.network</code></td>
+<td align="left"><code>functions.network</code></td>
+</tr>
+<tr class="even">
+<td align="left">Nodes</td>
+<td align="left">Programming files</td>
+<td align="left">Functions</td>
+</tr>
+<tr class="odd">
+<td align="left">Links</td>
+<td align="left">Start from a programming file that calls a function and
+point to the programming file where the function is defined</td>
+<td align="left">start from a function that call another function and
+point to this 2nd function</td>
+</tr>
+<tr class="even">
+<td align="left">Indegrees</td>
+<td align="left">°← How many files of the project(s) are calling the
+function(s) defined in this file</td>
+<td align="left">°← How many functions of the project(s) are calling
+this function</td>
+</tr>
+<tr class="odd">
+<td align="left">Outdegrees</td>
+<td align="left">°→ How many functions of the project(s) are used by
+this file</td>
+<td align="left">°→ How many functions of the project(s) are used by
+this function</td>
+</tr>
+<tr class="even">
+<td align="left">Automentioning</td>
+<td align="left">(<code>codexplor</code> default is to filter out
+autolinks within files)</td>
+<td align="left">Recursivity</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section level2">
 <h2 id="technical-details">Technical details<a class="anchor" aria-label="anchor" href="#technical-details"></a>
 </h2>
 <div class="section level3">
-<h3 id="cascading-matching-operated-by-compute_doc_network_from_corpus">Cascading matching operated by
-<code>compute_doc_network_from_corpus</code><a class="anchor" aria-label="anchor" href="#cascading-matching-operated-by-compute_doc_network_from_corpus"></a>
+<h3 id="cascading-matching">Cascading matching<a class="anchor" aria-label="anchor" href="#cascading-matching"></a>
 </h3>
 <p>Given a <code>corpus.list</code> created with
-<code>construct_corpus</code>,
-<code>codexplor::compute_doc_network_from_corpus()</code> perform a
-‘cascading matching’ :</p>
+<code>construct_corpus</code> a ‘cascading matching’ :</p>
 <table class="table">
 <colgroup>
-<col width="4%">
-<col width="37%">
-<col width="57%">
+<col width="3%">
+<col width="32%">
+<col width="64%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
@@ -139,8 +171,9 @@ default is to filter autolinks).</li>
 <tbody>
 <tr class="odd">
 <td align="left">1st matches</td>
-<td align="left">⏩ <code>construct_corpus</code> extract <em>functions
-names</em> from the files where these functions are defined</td>
+<td align="left">⏩ <code>construct_corpus</code> firstly extract
+<em>functions names</em> from the files where these functions are
+defined</td>
 <td align="left">e.g., have found ‘Pier’, ‘pol’ and ‘jak’ function names
 in 3 separate files</td>
 </tr>
@@ -150,14 +183,19 @@ in 3 separate files</td>
 Network</td>
 <td align="left">e.g., a programming file is citing ‘Pier(’, ‘pol(’ and
 ‘jak(’ and thus this file is linked to the 3 files where these functions
-are defined (Step 1)</td>
+are defined or to these precise functions, depending on the desired
+level-of-depth</td>
 </tr>
 </tbody>
 </table>
-<p>Thus, the 1st matches of <code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code>
-indicates some files that <em>defines</em> a function, and the 2nd
-matches of <code>compute_doc_network_from_corpus</code> show the files
-that <em>used</em> these functions.</p>
+<p>Thus :</p>
+<ul>
+<li>the 1st matches of <code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> will
+extract exposed functions names from files where these functions are
+<em>defined</em>,</li>
+<li>and the 2nd matches show the files or the functions that
+<em>used</em> these functions.</li>
+</ul>
 </div>
 <div class="section level3">
 <h3 id="function-call-that-are-non-supported-during-2nd-matches">Function call that are non-supported during 2nd matches<a class="anchor" aria-label="anchor" href="#function-call-that-are-non-supported-during-2nd-matches"></a>
@@ -177,25 +215,26 @@ the instantiated Python methods, i.e. <code>obj.method()</code>.</p>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>obj <span class="ot">=</span> <span class="fu">A</span>()</span>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">obj.method</span>() <span class="co"># Return : 'My custom method'</span></span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># get_doc_network_from_project don't identify the 2nd match because of the prefix ("obj.")</span></span></code></pre></div>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># construct_corpus don't identify the 2nd match because of the prefix ("obj.")</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="filter-undesired-match">Filter undesired match<a class="anchor" aria-label="anchor" href="#filter-undesired-match"></a>
 </h3>
-<p><code>get_doc_network_from_project</code> offer several parameters
-for dealing with your style of writing a program.</p>
-<p>Junk nodes needs to be excluded from the network. Typical “false
-positive” matches are the lines where you use the name of another
+<p><code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> offer several parameters for
+dealing with your style of writing a program.</p>
+<p>Junk nodes needs to be excluded from the returned networks. Typical
+“false positive” matches are the lines where you use the name of another
 function in a message,
 e.g. <code>message("my_func() is deprecated. You should use this_function() instead)</code>.
-For this type of false positive,
-<code>get_doc_network_from_project</code> offer the
+For this type of false positive, <code>construct_corpus</code> offer the
 <code>exclude_quoted_content</code> parameter, in order to exclude
 quoted text from the matches and avoid this false positive case. Be
 aware that all the quoted text will be avoided, if you’ve included some
 - fancy - way of <em>call</em> a function as a quoted
 <code>character</code> chain.</p>
-<pre><code><span>  <span class="fu"><a href="../reference/get_doc_network_from_project.html">get_doc_network_from_project</a></span><span class="op">(</span><span class="st">"~"</span>, languages <span class="op">=</span> <span class="st">"R"</span>, exclude_quoted_content <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
+<pre><code><span>  <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span><span class="st">"~"</span>, languages <span class="op">=</span> <span class="st">"R"</span>, exclude_quoted_content <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
+<p>See a sample dataviz’ of a <code>files.network</code> in the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">vignette
+of example of documents network</a></p>
 </div>
 </div>
 

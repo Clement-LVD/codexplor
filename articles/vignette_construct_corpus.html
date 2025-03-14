@@ -88,14 +88,16 @@ Python.</p>
 <span>                           , repos <span class="op">=</span>  <span class="st">"clement-LVD/codexplor"</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corpus</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; List of 4</span></span>
-<span><span class="co">#&gt;  $ codes    :Classes 'corpus.lines' and 'data.frame':    1722 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ comments :Classes 'corpus.lines' and 'data.frame':    1200 obs. of  8 variables:</span></span>
-<span><span class="co">#&gt;  $ files    :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  8 variables:</span></span>
-<span><span class="co">#&gt;  $ functions:Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:</span></span>
+<span><span class="co">#&gt; List of 6</span></span>
+<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    1747 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    1195 obs. of  8 variables:</span></span>
+<span><span class="co">#&gt;  $ files            :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  8 variables:</span></span>
+<span><span class="co">#&gt;  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:</span></span>
+<span><span class="co">#&gt;  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  39 obs. of  4 variables:</span></span>
+<span><span class="co">#&gt;  $ files.network    :Classes 'citations.network', 'internal.dependancies' and 'data.frame':  33 obs. of  4 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
-<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-12"</span></span>
-<span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi FALSE</span></span>
+<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-14"</span></span>
+<span><span class="co">#&gt;  - attr(*, "have_citations_network")= logi TRUE</span></span>
 <span><span class="co">#&gt;  - attr(*, "languages_patterns")=List of 1</span></span>
 <span><span class="co">#&gt;  - attr(*, "repos")= chr "clement-LVD/codexplor"</span></span></code></pre></div>
 <pre><code> # Example : several local folders and repos
