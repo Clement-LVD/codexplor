@@ -107,12 +107,12 @@ corpus <- construct_corpus(
     
 str(corpus, max.level = 1)
 #> List of 6
-#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    1749 obs. of  9 variables:
+#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    1747 obs. of  9 variables:
 #>  $ comments         :Classes 'corpus.lines' and 'data.frame':    1195 obs. of  8 variables:
 #>  $ files            :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  8 variables:
 #>  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:
-#>  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  40 obs. of  4 variables:
-#>  $ documents.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  34 obs. of  4 variables:
+#>  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  39 obs. of  4 variables:
+#>  $ documents.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  33 obs. of  4 variables:
 #>  - attr(*, "class")= chr [1:2] "list" "corpus.list"
 #>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-14"
 #>  - attr(*, "have_citations_network")= logi TRUE
@@ -155,7 +155,7 @@ project, accordingly to subanalysis tools.
 | Quick example | Underlying details |
 |:---|:---|
 | Turn a programming project into a corpus and look at a dataviz of the files : [vignette of example of documents network](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html) |
-|  | Understand the citations.network of internal dependancies : [vignette of `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html) |
+|  | Understand the `citations.network` of `internaldependencies` : [vignette of `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html) |
 
 `codexplor` also offers helper functions, e.g., for create and filter a
 network with the `igraph` package, see the [vignette of helper functions

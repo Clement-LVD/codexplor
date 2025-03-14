@@ -17,12 +17,14 @@ library(codexplor)
 
 ```
 
-**`codexplor::construct_corpus`** turn a programming project into a text-mining corpus, given :
+## construct_corpus
+
+**Minimum Requirements.** `codexplor::construct_corpus` turn a programming project into a text-mining corpus, given :
 
 - folder(s) path(s) and/or github repo(s) of the project ;
 - and programming language(s) - default is `'R'`.
 
-**Supported languages.** By default `construct_corpus` will analyze .R files, but one or several `languages` could be indicated. Recognized languages are `r paste0(names(get_def_regex_by_language()) , collapse = ", ")`. 
+**Supported languages.** By default `construct_corpus` will analyze .R files. One or several `languages` could be indicated. Recognized languages are `r paste0(names(get_def_regex_by_language()) , collapse = ", ")`. 
 
 ## Examples
 
@@ -55,81 +57,31 @@ library(codexplor)
 - `comments` (classes `corpus.lines` & `data.frame`)
 - `files` (classes `corpus.nodelist` & `data.frame`)
 - `functions` (classes `corpus.nodelist` & `data.frame`)
+- `files.network` (classes `citations.network`, `internal.dependencies` & `data.frame`)
+- and a `functions.network` (classes `citations.network`, `internal.dependencies` & `data.frame`)
 
-Further complementary analyzes will add others dataframes to the list, e.g., a network of internal dependencies (classes `citations.network`, `internal.dependencies` & `data.frame`). This `corpus.list` of df offers insights on the programming project, from system level to module level (complete `citations.network` > `files` > `functions`).
+
+**Returned df.** This `corpus.list` of df offers insights on the programming project, at various levels :
 
 
-**Details.** 
+<!-- - The `files` `data.frame` contains the files path and/or url, and overall text-mining metrics about each files of the corpus (e.g., number of characters, words count; number of functions within the file). -->
 
-- The `files` `data.frame` contains the files path and/or url, and overall text-mining metrics about each files of the corpus (e.g., number of characters, words count; number of functions within the file).
+<!-- - The `functions` `data.frame` contains the functions names and text-mining metrics about these functions. -->
 
-- The `functions` `data.frame` contains the functions names and text-mining metrics about these functions.
+<!-- - The 2 `corpus.lines` `data.frame` are related to `comments` or `codes` lines (file path and content of each lines, line number, and text-mining metrics related to each lines).  -->
 
-- The 2 `corpus.lines` `data.frame` are related to `comments` or `codes` lines (file path and content of each lines, line number, and text-mining metrics related to each lines). 
-
-The `codes` `data.frame` (one of the `corpus.lines` dataframes) have a `commented` column (inline comment at the end of a codeline).
-<!-- - and a `matches` column that contain internally-exposed functions names, e.g., if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry for this line will be `'pol'`. -->
-
-Further complementary analyzes will add others columns, e.g., as soon as a network of `internal.dependencies` is computed, some metrics are added to the `files` data.frame of the `corpus.list`.
+<!-- - The 2 `citations.network` of `internal.dependencies` are a `files.network` and a `functions.network` within the corpus.  -->
 
 
 ```{r examples, echo=FALSE}
 
-knitr::kable(data.frame(Name = c("`codes`", "`comments`", "`functions`", "`files`", "`internal.dependencies`" )
+knitr::kable(data.frame(Name = c("`codes`", "`comments`", "`functions`", "`files`", "`files.network`" , "`functions.network`")
 , Level = c("Line of code" , "Commented line","Function-level metrics"
               , "File-level metrics"
-              , "Network of internal dependencies - file of function level" )
- , e.g. = c( "Identify problematics lines, e.g., longest ones", '.', "e.g., quantify the longest function and those with multiple internal dependencies", "e.g., quantify number of functions within files and critical internal dependencies", "Doc-to-doc (add metrics to the `files` level) or functions network (add metrics to the `functions` level)" )
+              , "Network (file-level)", "Network (function-level)" )
+ , e.g. = c( "Identify problematics lines, e.g., longest ones", '.', "e.g., quantify the longest function and those with multiple internal dependencies", "e.g., quantify number of functions within files and critical internal dependencies", "Documents network / add metrics to the `files` df", "Functions network / add metrics to the `functions` df" )
 ))
 
 ```
 
-## Default patterns
-`construct_corpus` rely on some default patterns, designed to analyze a programming project in a standardized way. 
-Accordingly to these patterns, `construct_corpus` will :
-
-1. read the files accordingly to their extension, e.g., R language is associated with `'.R'` files. 
-2. process commented lines accordingly to each language definition, e.g., R & Python use `'#'` and don't allow multi-lines comments, contrary to JavaScript.
-3. isolate the exposed content, i.e. not quoted and not within a `'{ }'`.
-4. extract functions names from the exposed content, in order to list the internally exposed functions of the programming project.
-
-
-The hereafter table show some examples of a `hello` function defined in several languages : `construct_corpus` have to match `'hello'`, despite of the differences between languages.
-
-```{r table-langages-differences, echo=FALSE}
-require(codexplor)
-listee <- get_def_regex_by_language(return_examples = T)
-# from our function in raw-data
-tablee <- do.call(rbind.data.frame,  listee) 
-
-table <- tablee[,!colnames(tablee) %in% c("regex_func_name" , "fn_regex", "local_file_ext", "nested_codes")]
-
-colnames(table) <- gsub(x=colnames(table), "_|delim_pair_", " ")
-
-table <- table[order(rownames(table)), ]  
-
-knitr::kable(table)
-
-```
-
-Here, R is the only language that assign an anonymous function to an object. Thus, contrary to other languages, we have to find the name of R functions before the keyword 'function', R parameters names are within the parenthesis after 'function(', etc. 
-
-## Unmatched func' def'
-**Python.** The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched yet by `construct_corpus` :
-
-     hello = lambda: None
-
-**R.** The re-assigning of an anonymous R function to a new R object is not supported yet :
-      
-      aaa <- function(i, a){i + a} # construct_corpus match the 'aaa' function
-       my_func_a <- aaa    #  but don't notice the creation of an alias
-      my_func_a(1,2) # will not be matched during the post-processing 
-
-<!-- **JS.** Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter : -->
-
-<!--      const hello = (a, b) => a + b; -->
-
-
-
-### Helper functions that rely on `construct_corpus`
-`codexplor::get_doc_network_from_project` is an helper 'high-level' function that perform an analysis of the internal dependencies by performing a 2nd matches from the 1st matches of `construct_corpus`, e.g., see the [vignette about analyzing a network of internal dependencies with `get_doc_network_from_project`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html).
+In order to understand the `citations.network` of `internal.dependencies`, see the [vignette of `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html)

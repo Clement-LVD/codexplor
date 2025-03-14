@@ -71,6 +71,53 @@ Thus :
 - the 1st matches of `codexplor::construct_corpus` will extract exposed functions names from files where these functions are *defined*, 
 - and the 2nd matches show the files or the functions that *used* these functions. 
 
+
+
+### Match functions names
+`construct_corpus` rely on some default patterns, designed to analyze a programming project in a standardized way. 
+Accordingly to these patterns, `construct_corpus` will :
+
+1. read the files accordingly to their extension, e.g., R language is associated with `'.R'` files. 
+2. process commented lines accordingly to each language definition, e.g., R & Python use `'#'` and don't allow multi-lines comments, contrary to JavaScript.
+3. isolate the exposed content, i.e. not quoted and not within a `'{ }'`.
+4. extract functions names from the exposed content, in order to list the internally exposed functions of the programming project.
+
+
+The hereafter table show some examples of a `hello` function defined in several languages : `construct_corpus` have to match `'hello'`, despite of the differences between languages.
+
+```{r table-langages-differences, echo=FALSE, message=FALSE, warning=FALSE}
+require(codexplor)
+listee <- get_def_regex_by_language(return_examples = T)
+# from our function in raw-data
+tablee <- do.call(rbind.data.frame,  listee) 
+
+table <- tablee[,!colnames(tablee) %in% c("regex_func_name" , "fn_regex", "local_file_ext", "nested_codes")]
+
+colnames(table) <- gsub(x=colnames(table), "_|delim_pair_", " ")
+
+table <- table[order(rownames(table)), ]  
+
+knitr::kable(table)
+
+```
+
+Here, R is the only language that assign an anonymous function to an object. Thus, contrary to other languages, we have to find the name of R functions before the keyword 'function', R parameters names are within the parenthesis after 'function(', etc. 
+
+### Unmatched definition (1st match)
+**Python.** The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched yet by `construct_corpus` :
+
+     hello = lambda: None
+
+**R.** The re-assigning of an anonymous R function to a new R object is not supported yet :
+      
+      aaa <- function(i, a){i + a} # construct_corpus match the 'aaa' function
+       my_func_a <- aaa    #  but don't notice the creation of an alias
+      my_func_a(1,2) # will not be matched during the post-processing 
+
+<!-- **JS.** Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter : -->
+
+<!--      const hello = (a, b) => a + b; -->
+
 ### Function call that are non-supported during 2nd matches
 Some way of writing a program are not fully supported during the 2nd matches.
 
