@@ -66,16 +66,21 @@
 
     
     
-<p><strong><code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code></strong> turn a
-programming project into a text-mining corpus, given :</p>
+<div class="section level2">
+<h2 id="construct_corpus">construct_corpus<a class="anchor" aria-label="anchor" href="#construct_corpus"></a>
+</h2>
+<p><strong>Minimum Requirements.</strong>
+<code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> turn a programming project into
+a text-mining corpus, given :</p>
 <ul>
 <li>folder(s) path(s) and/or github repo(s) of the project ;</li>
 <li>and programming language(s) - default is <code>'R'</code>.</li>
 </ul>
 <p><strong>Supported languages.</strong> By default
-<code>construct_corpus</code> will analyze .R files, but one or several
+<code>construct_corpus</code> will analyze .R files. One or several
 <code>languages</code> could be indicated. Recognized languages are R,
 Python.</p>
+</div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
@@ -127,40 +132,24 @@ of 4 dataframes :</p>
 <li>
 <code>functions</code> (classes <code>corpus.nodelist</code> &amp;
 <code>data.frame</code>)</li>
-</ul>
-<p>Further complementary analyzes will add others dataframes to the
-list, e.g., a network of internal dependencies (classes
+<li>
+<code>files.network</code> (classes <code>citations.network</code>,
+<code>internal.dependencies</code> &amp; <code>data.frame</code>)</li>
+<li>and a <code>functions.network</code> (classes
 <code>citations.network</code>, <code>internal.dependencies</code> &amp;
-<code>data.frame</code>). This <code>corpus.list</code> of df offers
-insights on the programming project, from system level to module level
-(complete <code>citations.network</code> &gt; <code>files</code> &gt;
-<code>functions</code>).</p>
-<p><strong>Details.</strong></p>
-<ul>
-<li><p>The <code>files</code> <code>data.frame</code> contains the files
-path and/or url, and overall text-mining metrics about each files of the
-corpus (e.g., number of characters, words count; number of functions
-within the file).</p></li>
-<li><p>The <code>functions</code> <code>data.frame</code> contains the
-functions names and text-mining metrics about these functions.</p></li>
-<li><p>The 2 <code>corpus.lines</code> <code>data.frame</code> are
-related to <code>comments</code> or <code>codes</code> lines (file path
-and content of each lines, line number, and text-mining metrics related
-to each lines).</p></li>
+<code>data.frame</code>)</li>
 </ul>
-<p>The <code>codes</code> <code>data.frame</code> (one of the
-<code>corpus.lines</code> dataframes) have a <code>commented</code>
-column (inline comment at the end of a codeline).
-<!-- - and a `matches` column that contain internally-exposed functions names, e.g., if a `pol  <- function` is defined within a file, the 1st `matches` corresponding entry for this line will be `'pol'`. --></p>
-<p>Further complementary analyzes will add others columns, e.g., as soon
-as a network of <code>internal.dependencies</code> is computed, some
-metrics are added to the <code>files</code> data.frame of the
-<code>corpus.list</code>.</p>
+<p><strong>Returned df.</strong> This <code>corpus.list</code> of df
+offers insights on the programming project, at various levels :</p>
+<!-- - The `files` `data.frame` contains the files path and/or url, and overall text-mining metrics about each files of the corpus (e.g., number of characters, words count; number of functions within the file). -->
+<!-- - The `functions` `data.frame` contains the functions names and text-mining metrics about these functions. -->
+<!-- - The 2 `corpus.lines` `data.frame` are related to `comments` or `codes` lines (file path and content of each lines, line number, and text-mining metrics related to each lines).  -->
+<!-- - The 2 `citations.network` of `internal.dependencies` are a `files.network` and a `functions.network` within the corpus.  -->
 <table class="table">
 <colgroup>
-<col width="12%">
-<col width="30%">
-<col width="56%">
+<col width="15%">
+<col width="19%">
+<col width="64%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">Name</th>
@@ -191,114 +180,22 @@ multiple internal dependencies</td>
 critical internal dependencies</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>internal.dependencies</code></td>
-<td align="left">Network of internal dependencies - file of function
-level</td>
-<td align="left">Doc-to-doc (add metrics to the <code>files</code>
-level) or functions network (add metrics to the <code>functions</code>
-level)</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level2">
-<h2 id="default-patterns">Default patterns<a class="anchor" aria-label="anchor" href="#default-patterns"></a>
-</h2>
-<p><code>construct_corpus</code> rely on some default patterns, designed
-to analyze a programming project in a standardized way. Accordingly to
-these patterns, <code>construct_corpus</code> will :</p>
-<ol style="list-style-type: decimal">
-<li>read the files accordingly to their extension, e.g., R language is
-associated with <code>'.R'</code> files.</li>
-<li>process commented lines accordingly to each language definition,
-e.g., R &amp; Python use <code>'#'</code> and don’t allow multi-lines
-comments, contrary to JavaScript.</li>
-<li>isolate the exposed content, i.e. not quoted and not within a
-<code>'{ }'</code>.</li>
-<li>extract functions names from the exposed content, in order to list
-the internally exposed functions of the programming project.</li>
-</ol>
-<p>The hereafter table show some examples of a <code>hello</code>
-function defined in several languages : <code>construct_corpus</code>
-have to match <code>'hello'</code>, despite of the differences between
-languages.</p>
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="3%">
-<col width="13%">
-<col width="10%">
-<col width="12%">
-<col width="11%">
-<col width="15%">
-<col width="9%">
-<col width="17%">
-<col width="5%">
-</colgroup>
-<thead><tr class="header">
-<th align="left"></th>
-<th align="left">Example</th>
-<th align="left">Definition Keyword</th>
-<th align="left">Operator After Keyword</th>
-<th align="left">Operator After Name</th>
-<th align="left">Start Instructions operator</th>
-<th align="left">prefix to exclude</th>
-<th align="left">regex fn parameters after names</th>
-<th align="left">anonymous</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">Python</td>
-<td align="left">def hello(): pass</td>
-<td align="left">def</td>
-<td align="left"></td>
-<td align="left">(</td>
-<td align="left">:</td>
-<td align="left"></td>
-<td align="left">(</td>
-<td align="left">FALSE</td>
+<td align="left"><code>files.network</code></td>
+<td align="left">Network (file-level)</td>
+<td align="left">Documents network / add metrics to the
+<code>files</code> df</td>
 </tr>
 <tr class="even">
-<td align="left">R</td>
-<td align="left">hello &lt;- function() { }</td>
-<td align="left">function</td>
-<td align="left">(</td>
-<td align="left">&lt;-|=</td>
-<td align="left">{</td>
-<td align="left">FUN</td>
-<td align="left">(&lt;-|=)function(</td>
-<td align="left">TRUE</td>
+<td align="left"><code>functions.network</code></td>
+<td align="left">Network (function-level)</td>
+<td align="left">Functions network / add metrics to the
+<code>functions</code> df</td>
 </tr>
 </tbody>
 </table>
-<p>Here, R is the only language that assign an anonymous function to an
-object. Thus, contrary to other languages, we have to find the name of R
-functions before the keyword ‘function’, R parameters names are within
-the parenthesis after ‘function(’, etc.</p>
-</div>
-<div class="section level2">
-<h2 id="unmatched-func-def">Unmatched func’ def’<a class="anchor" aria-label="anchor" href="#unmatched-func-def"></a>
-</h2>
-<p><strong>Python.</strong> The function ‘hello’ defined as a lambda
-(anonymous) function within the Python line hereafter is not matched yet
-by <code>construct_corpus</code> :</p>
-<pre><code><span> <span class="va">hello</span> <span class="op">=</span> <span class="va">lambda</span><span class="op">:</span> <span class="va">None</span></span></code></pre>
-<p><strong>R.</strong> The re-assigning of an anonymous R function to a
-new R object is not supported yet :</p>
-<pre><code><span>  <span class="va">aaa</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span>, <span class="va">a</span><span class="op">)</span><span class="op">{</span><span class="va">i</span> <span class="op">+</span> <span class="va">a</span><span class="op">}</span> <span class="co"># construct_corpus match the 'aaa' function</span></span>
-<span>   <span class="va">my_func_a</span> <span class="op">&lt;-</span> <span class="va">aaa</span>    <span class="co">#  but don't notice the creation of an alias</span></span>
-<span>  <span class="fu">my_func_a</span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span> <span class="co"># will not be matched during the post-processing </span></span></code></pre>
-<!-- **JS.** Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter : -->
-<!--      const hello = (a, b) => a + b; -->
-<div class="section level3">
-<h3 id="helper-functions-that-rely-on-construct_corpus">Helper functions that rely on <code>construct_corpus</code><a class="anchor" aria-label="anchor" href="#helper-functions-that-rely-on-construct_corpus"></a>
-</h3>
-<p><code><a href="../reference/get_doc_network_from_project.html">codexplor::get_doc_network_from_project</a></code> is an helper
-‘high-level’ function that perform an analysis of the internal
-dependencies by performing a 2nd matches from the 1st matches of
-<code>construct_corpus</code>, e.g., see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html">vignette
-about analyzing a network of internal dependencies with
-<code>get_doc_network_from_project</code></a>.</p>
-</div>
+<p>In order to understand the <code>citations.network</code> of
+<code>internal.dependencies</code>, see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html">vignette
+of <code>citations.network</code> <code>dataframe</code></a></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
