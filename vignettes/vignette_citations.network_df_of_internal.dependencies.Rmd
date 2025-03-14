@@ -23,7 +23,7 @@ This Vignette explain the `data.frame` with additional classes `citations.networ
 
 This `citations.network` `data.frame` is an edgelist^[Edgelist is the one of the standard representation of a graph (https://igraph.org/r/doc/as_edgelist.html).] that symbolize the programming project as a document-to-document citations network : a network of documents, citing each others. 
 
-`codexplor` offers several 'document' levels, e.g., the nodes of a `citations.network` `data.frame` could be the functions or the programming files of the corpus.
+`codexplor` offers several levels-of-depth, e.g., the nodes of a `citations.network` `data.frame` could be the functions or the programming files of the corpus.
 
 > A citations network have theoretical network properties, not covered here (e.g., a citations network is a directed network). 
 
@@ -48,11 +48,11 @@ knitr::kable(nett)
 
 ## Technical details
 
-**Cascading matching.** Given a `corpus.list` created with `construct_corpus` a 'cascading matching' :
+**Cascading matching.** Given a `corpus.list` created with `construct_corpus` a cascading matching :
 
-- The 1st matches of `codexplor::construct_corpus` will extract exposed functions names from files where these functions are *defined*, e.g., have found 'Pier', 'pol' and 'jak' function names in 3 separate files.
-- The 2nd matches show the files or the functions that *calls* these functions, e.g., a programming file is citing 'Pier(', 'pol(' and 'jak(' and thus this file is linked to the 3 files where these functions are defined or to these precise functions, depending on the desired level-of-depth. 
-
+1. `codexplor::construct_corpus` extract exposed functions names from files where these functions are defined, e.g., have found 'Pier', 'pol' and 'jak' function names in 3 separate files.
+2. The functions that calls these functions are identified, e.g., a function is calling `'Pier('`, `'pol('` and `'jak('` and the function is linked to these 3 functions.
+3. Similarly, a network of files is constructed, e.g., the code of a programming file is calling `'Pier('`, `'pol('` and `'jak('` and this file is linked to the files where these functions are defined.
 
 **Match functions names.** `construct_corpus` rely on some default patterns, designed to analyze a programming project in a standardized way. 
 Accordingly to these patterns, `construct_corpus` will :

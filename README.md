@@ -60,9 +60,11 @@ project.
 **Availables features :**
 
 ![ ](https://img.shields.io/badge/%7BConstruct--corpus%7D-bold?style=flat&logoColor=black&logoSize=2&label=Read%20files%20from%20github%20and/or%20locally&labelColor=black&color=green)
-![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Line-level%20metrics&labelColor=grey&color=green)
 ![ ](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Compute%20a%20network%20of%20internal%20dependencies&labelColor=black&color=green)
 ![ ](https://img.shields.io/badge/%7BnetworkD3%7D-bold?style=flat&logoColor=black&logoSize=2&label=Dataviz%20from%20a%20network&labelColor=black&color=green)
+![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Global%20text-mining%20metrics&labelColor=grey&color=orange)
+![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=yellow)
+![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Networks%20metrics&labelColor=grey&color=yellow)
 
 </div>
 
@@ -70,8 +72,6 @@ project.
 
 **Planned features :**
 
-![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=yellow)
-![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Global%20text-mining%20metrics&labelColor=grey&color=orange)
 ![.](https://img.shields.io/badge/%7BExport%7D-bold?style=flat&logoColor=black&logoSize=2&label=Reporting&labelColor=grey&color=orange)
 ![.](https://img.shields.io/badge/%7BAnalyze%7D-bold?style=flat&logoColor=black&logoSize=2&label=Function-level%20metrics&labelColor=grey&color=orange)
 
@@ -107,14 +107,14 @@ corpus <- construct_corpus(
     
 str(corpus, max.level = 1)
 #> List of 6
-#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    1747 obs. of  9 variables:
+#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    1769 obs. of  9 variables:
 #>  $ comments         :Classes 'corpus.lines' and 'data.frame':    1195 obs. of  8 variables:
-#>  $ files            :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  8 variables:
-#>  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 41 obs. of  6 variables:
-#>  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  39 obs. of  4 variables:
-#>  $ documents.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  33 obs. of  4 variables:
+#>  $ files            :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:
+#>  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 42 obs. of  8 variables:
+#>  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  41 obs. of  4 variables:
+#>  $ files.network    :Classes 'citations.network', 'internal.dependancies' and 'data.frame':  34 obs. of  4 variables:
 #>  - attr(*, "class")= chr [1:2] "list" "corpus.list"
-#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-14"
+#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-15"
 #>  - attr(*, "have_citations_network")= logi TRUE
 #>  - attr(*, "languages_patterns")=List of 1
 #>  - attr(*, "folders")= chr "C:/Users/CLEM/Documents/PROJETS_EN_R/codexplor"
