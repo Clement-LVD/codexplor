@@ -110,16 +110,16 @@ return a <code>list</code> of 4 dataframes. The list have an additionnal <code>c
 <dd><p><code>character</code> File extension of the file.</p></dd>
 
 <dt><code>n_char</code></dt>
-<dd><p><code>integer</code> Number of characters - including spacing - in a line, the file for the <code>files</code> df, or the function code for the <code>functions</code> df).</p></dd>
+<dd><p><code>integer</code> Number of characters - including spacing - in the entire file (<code>files</code> df), a line of the file (<code>codes</code> and <code>comments</code> df), or within the function code (<code>functions</code> df).</p></dd>
 
 <dt><code>n_char_wo_space</code></dt>
-<dd><p><code>integer</code> Number of characters - without spacing - in a line, the file for the <code>files</code> df, or the function code for the <code>functions</code> df)</p></dd>
+<dd><p><code>integer</code> Number of characters - without spacing - in the entire file (<code>files</code> df), a line of the file (<code>codes</code> and <code>comments</code> df), or within the function code (<code>functions</code> df)</p></dd>
 
 <dt><code>n_word</code></dt>
-<dd><p><code>integer</code> Number of words in a line, the file for the <code>files</code> df, or the function code for the <code>functions</code> df).</p></dd>
+<dd><p><code>integer</code> Number of words in the entire file (<code>files</code> df), a line of the file (<code>codes</code> and <code>comments</code> df), or within the function code (<code>functions</code> df).</p></dd>
 
 <dt><code>n_vowel</code></dt>
-<dd><p><code>integer</code> Number of voyel in a line, the file for the <code>files</code> df, or the function code for the <code>functions</code> df).</p></dd>
+<dd><p><code>integer</code> Number of voyel in the entire file (<code>files</code> df), a line of the file (<code>codes</code> and <code>comments</code> df), or within the function code (<code>functions</code> df).</p></dd>
 
 <dt><code>n_total_lines</code></dt>
 <dd><p><code>integer</code> Number of commented lines (<code>comments</code> df), code lines (<code>codes</code> df), within the file (<code>files</code> df), or the function code (<code>functions</code> df).</p></dd>
@@ -144,6 +144,12 @@ return a <code>list</code> of 4 dataframes. The list have an additionnal <code>c
 
 <dt><code>to</code></dt>
 <dd><p><code>character</code> (only in the <code>citations.network</code> df) The function called (<code>functions.network</code> df) or the local file path or constructed GitHub URL where the function called is defined (<code>files.network</code> df).</p></dd>
+
+<dt><code>file_path_from</code></dt>
+<dd><p><code>character</code> (only in the <code>functions.network</code> df) The file path of the function that call another function.</p></dd>
+
+<dt><code>file_path_to</code></dt>
+<dd><p><code>character</code> (only in the <code>functions.network</code> df) The file path where the function called is defined.</p></dd>
 
 <dt><code>indeg_fn</code></dt>
 <dd><p><code>integer</code> (only in the <code>files</code> and <code>functions</code> df) Number of functions that call this function (<code>functions</code> df) or number of files with functions that call the functions of this file (<code>files</code> df).</p></dd>

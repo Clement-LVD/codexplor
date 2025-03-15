@@ -54,13 +54,11 @@ select the <code>functions</code> <code>data.frame</code> and append a Citations
 <span>  <span class="va">corpus</span>,</span>
 <span>  matches_colname <span class="op">=</span> <span class="st">"name"</span>,</span>
 <span>  content_colname <span class="op">=</span> <span class="st">"code"</span>,</span>
-<span>  node_id_colname <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  prefix_for_2nd_matches <span class="op">=</span> <span class="st">"\\b"</span>,</span>
 <span>  suffix_for_2nd_matches <span class="op">=</span> <span class="st">"\\("</span>,</span>
 <span>  n_char_to_add_suffix <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  filter_egolink_within_a_file <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  exclude_quoted_content <span class="op">=</span> <span class="cn">F</span>,</span>
-<span>  entry_name <span class="op">=</span> <span class="st">"internal.dependencies"</span></span>
+<span>  exclude_quoted_content <span class="op">=</span> <span class="cn">F</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -78,11 +76,6 @@ select the <code>functions</code> <code>data.frame</code> and append a Citations
 
 <dt id="arg-content-colname">content_colname<a class="anchor" aria-label="anchor" href="#arg-content-colname"></a></dt>
 <dd><p><code>character</code>, default = <code>'code'</code> The name of the column of the <code>functions</code> df that will be used for search a match and extract text.</p></dd>
-
-
-<dt id="arg-node-id-colname">node_id_colname<a class="anchor" aria-label="anchor" href="#arg-node-id-colname"></a></dt>
-<dd><p><code>character</code>, default = <code>NULL</code> (optionnal) If <code>NULL</code> - default - the entries of <code>content_colname</code> will be used for construct a network.
-Otherwise, use this parameter to design the name of the column of the <code>functions</code> df to use to group the results, e.g., by file or by book.</p></dd>
 
 
 <dt id="arg-prefix-for-nd-matches">prefix_for_2nd_matches<a class="anchor" aria-label="anchor" href="#arg-prefix-for-nd-matches"></a></dt>
@@ -108,10 +101,6 @@ of each match, in order to have a complete regular expression. The default is an
 <dd><p><code>logical</code>, default = <code>FALSE</code>. A logical value indicating if the quoted content should be take into consideration.
 If set to <code>TRUE</code>, text within " or ' over the same line will be suppressed, before to realize the matches</p></dd>
 
-
-<dt id="arg-entry-name">entry_name<a class="anchor" aria-label="anchor" href="#arg-entry-name"></a></dt>
-<dd><p><code>character</code>, default = <code>'internal.dependencies'</code> The name of the df added to the corpus.list.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -124,11 +113,14 @@ If set to <code>TRUE</code>, text within " or ' over the same line will be suppr
 <dt><code>file_path</code></dt>
 <dd><p><code>character</code> Corpus - The local file path or constructed GitHub URL.</p></dd>
 
-<dt><code>row_number</code></dt>
-<dd><p><code>integer</code> Corpus - The line number within the file.</p></dd>
+<dt><code>file_path_from</code></dt>
+<dd><p><code>character</code> The file_path of the 'from' function.</p></dd>
 
 <dt><code>function_order</code></dt>
 <dd><p><code>character</code> The order of citation within a text entry.</p></dd>
+
+<dt><code>n_fn_call</code></dt>
+<dd><p><code>integer</code> The number of call of a function defined in another file.</p></dd>
 
 
 </dl></div>
