@@ -71,9 +71,6 @@ classes <code>citations.network</code> and
 <code>internal.dependencies</code>. This type of <code>data.frame</code>
 is the edgelist of a Citations Network of functions or files within
 programming project(s).</p>
-<div class="section level2">
-<h2 id="network-properties">Network properties<a class="anchor" aria-label="anchor" href="#network-properties"></a>
-</h2>
 <div class="section level3">
 <h3 id="overall-considerations-about-the-citations-network-data-frame">Overall Considerations : about the <code>citations.network</code>
 <code>data.frame</code><a class="anchor" aria-label="anchor" href="#overall-considerations-about-the-citations-network-data-frame"></a>
@@ -95,12 +92,11 @@ here (e.g., a citations network is a directed network).</p>
 </blockquote>
 </div>
 <div class="section level3">
-<h3 id="networks-of-internal-dependencies">Networks of <code>internal.dependencies</code><a class="anchor" aria-label="anchor" href="#networks-of-internal-dependencies"></a>
+<h3 id="network-properties">Network properties<a class="anchor" aria-label="anchor" href="#network-properties"></a>
 </h3>
-<p>Some <code>data.frame</code> of the <code>corpus.list</code> have
-additional classes <code>citations.network</code> and
-<code>internal.dependencies</code> : the <code>files.network</code> and
-<code>functions.network</code> df. In these networks :</p>
+<p>Hereafter, some of the properties of 2 <code>citations.network</code>
+df of the <code>corpus.list</code> : the <code>files.network</code> and
+<code>functions.network</code> df.</p>
 <table class="table">
 <colgroup>
 <col width="7%">
@@ -122,7 +118,7 @@ additional classes <code>citations.network</code> and
 <td align="left">Links</td>
 <td align="left">Start from a programming file that calls a function and
 point to the programming file where the function is defined</td>
-<td align="left">start from a function that call another function and
+<td align="left">Start from a function that call another function and
 point to this 2nd function</td>
 </tr>
 <tr class="even">
@@ -151,18 +147,18 @@ autolinks within files)</td>
 <p>See a dataviz’ of a <code>files.network</code> in the short <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">example
 of documents network</a></p>
 </blockquote>
-</div>
+<hr>
 </div>
 <div class="section level2">
 <h2 id="technical-details">Technical details<a class="anchor" aria-label="anchor" href="#technical-details"></a>
 </h2>
-<p><strong>Cascading matching.</strong> Given a <code>corpus.list</code>
-created with <code>construct_corpus</code> a cascading matching :</p>
+<p><strong>Cascading matching.</strong>
+<code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> perform a cascading matching
+:</p>
 <ol style="list-style-type: decimal">
-<li>
-<code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> extract exposed functions
-names from files where these functions are defined, e.g., have found
-‘Pier’, ‘pol’ and ‘jak’ function names in 3 separate files.</li>
+<li>The names of the exposed functions names are extracted from files
+where these functions are defined, e.g., have found ‘Pier’, ‘pol’ and
+‘jak’ function names in 3 separate files.</li>
 <li>The functions that calls these functions are identified, e.g., a
 function is calling <code>'Pier('</code>, <code>'pol('</code> and
 <code>'jak('</code> and the function is linked to these 3
