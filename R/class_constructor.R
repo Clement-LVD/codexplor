@@ -179,18 +179,3 @@ print.corpus.lines <- function(x,...) {
 
   return(df)
 }
-
-#' Print a corpus.nodelist dataframe
-#' @title Print Method for corpus_lines
-#' @description
-#' Custom print method for objects of class 'corpus.nodelist'. Adds a header before printing the object.
-#'
-#' @param x An object of class 'corpus.nodelist'.
-#' @param ... Additional parameters for the print function.
-#'
-#' @export
-print.corpus.nodelist<- function(x,...) {
-  cat("corpus.nodelist : files are decomposed by files path(s) or url(s).", nrow(x), " row(s) from "
-      , length(x$file_path),"files \n")
-  NextMethod("print", x)
-}
