@@ -30,7 +30,7 @@
 #'   \item{\code{parameters}}{`character` (only in the `functions` df) The content that define the default parameters of a function.}
 #'   \item{\code{code}}{`character` (only in the `functions` df) The code of a function.}
 #'   \item{\code{n_func}}{`integer` (only in the `files` df) The number of exposed functions within a file.}
-#'   \item{\code{from}}{`character` (only in the `citations.network` df) The function that call another function (`functions.network` df) or the local file path or GitHub URL that call a function of another file (`files.network` df).}
+#'   \item{\code{from}}{`character` (only in the `citations.network` df) The function that call another function (`functions.network` df) or the local file path or GitHub URL that call a function defined in another file (`files.network` df).}
 #'   \item{\code{to}}{`character` (only in the `citations.network` df) The function called (`functions.network` df) or the local file path or constructed GitHub URL where the function called is defined (`files.network` df).}
 #'   \item{\code{indeg_fn}}{`integer` (only in the `files` and `functions` df) Number of functions that call this function (`functions` df) or number of files with functions that call the functions of this file (`files` df).}
 #'   \item{\code{outdeg_fn}}{`integer` (only in the `files` and `functions` df) Number of functions called by this function (`functions` df) or number of files where the functions called by the functions of this file are defined (`files` df).}

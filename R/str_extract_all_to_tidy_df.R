@@ -16,11 +16,12 @@
 #'   \item{row_number}{2nd col is the position of the match within the vector. Colname is indicated with the `row_number_colname` parameter (default is 'row_number')}
 #'   }
 #' @examples
+#' \dontrun{
 #' text_data <- c("Here is funcA and funcB", "Nothing here", "funcC is present")
 #' pattern <- "func[A-C]"
 #' result_df <- str_extract_all_to_tidy_df(text_data, pattern)
 #' print(result_df)
-#' @export
+#' }
 str_extract_all_to_tidy_df <- function(string, pattern
                                        , matches_colname = "matches"
                                        , row_number_colname = "row_number"){

@@ -41,6 +41,7 @@ a number of escaping char. to add (default is \code{num_escapes = 2}),
 the escaping char. to consider, etc.
 }
 \examples{
+\dontrun{
 # Example 1: Create a regex pattern for a vector of words
 words <- c("apple", "banana", "cherry")
 rgx <- get_regex_from_vector(words, "^", "$")
@@ -49,7 +50,7 @@ rgx <- get_regex_from_vector(words, "^", "$")
 words <- c("foo(bar)", "baz(qux)")
 rgx <- get_regex_from_vector(words, "(", ")?", fix_escaping = TRUE)
 #custom pattern "(" and ")?" will no be escaped, contrary to other texts
-
+}
 }
 \seealso{
 \code{\link{fix_escaping}},

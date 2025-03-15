@@ -14,7 +14,6 @@
 #' \dontrun{
 #' readr_fp <- get_github_raw_filespath(repo = "tidyverse/stringr", pattern = "\\.R")
 #' }
-#' @export
 get_github_raw_filespath <- function(repo = "tidyverse/stringr", branch = NULL, pattern = "\\.R") {
 
    branches  <- c("main", "master", "develop")

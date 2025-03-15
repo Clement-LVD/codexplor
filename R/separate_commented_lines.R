@@ -17,6 +17,7 @@
 #' }
 #'
 #' @examples
+#' \dontrun{
 #' texts <- c(
 #'   "Code snippet /* first comment */ and more code /* second comment */",
 #'   "Another line /* only a comment */",
@@ -24,8 +25,7 @@
 #' )
 #'
 #' separate_commented_lines(texts, delim_pair = c("/*" = "*/"), .verbose = FALSE)
-#'
-#' @export
+#' }
 separate_commented_lines <- function( texts
                                       , delim_pair = c( "/*" = "*/" )
                                       , .verbose = T

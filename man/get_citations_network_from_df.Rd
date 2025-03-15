@@ -53,10 +53,12 @@ The returned data frame has 5 columns:
 }
 }
 \examples{
+\dontrun{
 df <- data.frame(content = c("Citation (Bob, 2021)", "Another Bob"), first_match = c("Bob" , NA))
 get_citations_network_from_df(df  ) # Return only the 2nd line (match 'Bob')
 get_citations_network_from_df(df,  keep_only_row_without_a_pattern = FALSE)
 #will return the lines (matching 'Bob')
+}
 }
 \seealso{
 \code{\link{get_regex_from_vector}}, \code{\link{str_extract_all_to_tidy_df}}

@@ -27,6 +27,8 @@ A corrected string with the right number of escape characters.
 This function adds the designated number of escape characters (\verb{\\}) before special characters.
 }
 \examples{
+\dontrun{
 rgx <- fix_escaping("This (is) (a) test.", special_chars = c("(", ")", "?"), num_escapes = 4)
 # Returns: "This \\\\(is\\\\) \\\\(a\\\\) test."
+}
 }

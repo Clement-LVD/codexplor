@@ -35,8 +35,10 @@ and returns a 2 columns unested dataframe :
 Option offered : customizable colnames
 }
 \examples{
+\dontrun{
 text_data <- c("Here is funcA and funcB", "Nothing here", "funcC is present")
 pattern <- "func[A-C]"
 result_df <- str_extract_all_to_tidy_df(text_data, pattern)
 print(result_df)
+}
 }

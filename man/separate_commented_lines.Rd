@@ -28,6 +28,7 @@ It uses a specified delimiter pair to identify comments and returns a data frame
 extracted comments, and remaining code lines.
 }
 \examples{
+\dontrun{
 texts <- c(
   "Code snippet /* first comment */ and more code /* second comment */",
   "Another line /* only a comment */",
@@ -35,5 +36,5 @@ texts <- c(
 )
 
 separate_commented_lines(texts, delim_pair = c("/*" = "*/"), .verbose = FALSE)
-
+}
 }

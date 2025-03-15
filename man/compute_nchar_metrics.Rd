@@ -37,8 +37,10 @@ Given a \code{character} vector, return a \code{data.frame} with lines text-mini
 values are related to each element of the vector provided by the user.
 }
 \examples{
+\dontrun{
 # Example 1: Construct a corpus from local folders
  texts = c("the lazy rat terrier jump over the quick brown fox"
  , "cause lazy rat terrier are the best dog")
  compute_nchar_metrics(texts)
+}
 }

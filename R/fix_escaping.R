@@ -8,9 +8,10 @@
 #' @param use.names Boolean Should a named list with preserved name be returned. Default is `FALSE`.
 #' @return A corrected string with the right number of escape characters.
 #' @examples
+#' \dontrun{
 #' rgx <- fix_escaping("This (is) (a) test.", special_chars = c("(", ")", "?"), num_escapes = 4)
 #' # Returns: "This \\\\(is\\\\) \\\\(a\\\\) test."
-#' @export
+#' }
 fix_escaping <- function(text, special_chars = c("(", ")", ".", "{", "}", "[", "]"), num_escapes = 2, use.names = F) {
   if (!is.character(special_chars) || length(special_chars) == 0) stop("special_chars must be a non-empty character vector.")
   if (!is.numeric(num_escapes) || num_escapes < 0) stop("num_escapes must be a non-negative integer.")

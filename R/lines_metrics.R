@@ -15,11 +15,12 @@
 #'   \item{\code{vowel_count_colname}}{`character` Number of vowels in a line.}
 #' }
 #' @examples
+#' \dontrun{
 #' # Example 1: Construct a corpus from local folders
 #'  texts = c("the lazy rat terrier jump over the quick brown fox"
 #'  , "cause lazy rat terrier are the best dog")
 #'  compute_nchar_metrics(texts)
-#' @export
+#' }
 compute_nchar_metrics <- function(text,
                                   nchar_colname = "n_char",
                                   nchar_nospace_colname = "n_char_wo_space",

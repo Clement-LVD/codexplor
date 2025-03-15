@@ -30,7 +30,6 @@
 #'   file_path_readed <-  df[[1]]
 #' }
 #' @importFrom utils txtProgressBar setTxtProgressBar
-#' @export
 readlines_in_df <- function(files_path,
                             return_lowered_text = FALSE,
                             .verbose = TRUE

@@ -20,6 +20,7 @@
 #' created by concatenating all elements from the input vector,
 #' with the specified prefix and suffix applied, and special characters escaped.
 #' @examples
+#' \dontrun{
 #' # Example 1: Create a regex pattern for a vector of words
 #' words <- c("apple", "banana", "cherry")
 #' rgx <- get_regex_from_vector(words, "^", "$")
@@ -28,8 +29,7 @@
 #' words <- c("foo(bar)", "baz(qux)")
 #' rgx <- get_regex_from_vector(words, "(", ")?", fix_escaping = TRUE)
 #' #custom pattern "(" and ")?" will no be escaped, contrary to other texts
-#'
-#' @export
+#' }
 get_regex_from_vector <- function(vector, prefix_for_regex = "", suffix_for_regex =""
                                   ,  fix_escaping = TRUE
                                   , n_char_to_add_suffix = 0

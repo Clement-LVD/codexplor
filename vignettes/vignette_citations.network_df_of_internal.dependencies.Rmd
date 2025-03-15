@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 
 This Vignette explain the `data.frame` with additional classes `citations.network` and `internal.dependencies`. This type of `data.frame` is the edgelist of a Citations Network of functions or files within programming project(s).  
 
-## Network properties
 
 ### Overall Considerations : about the `citations.network` `data.frame` 
 `codexplor::construct_corpus` protocols add a `citations.network` class of `data.frame` to the main `corpus.list`. 
@@ -27,13 +26,13 @@ This `citations.network` `data.frame` is an edgelist^[Edgelist is the one of the
 
 > A citations network have theoretical network properties, not covered here (e.g., a citations network is a directed network). 
 
-### Networks of `internal.dependencies`
-Some `data.frame` of the `corpus.list` have additional classes `citations.network` and `internal.dependencies` : the `files.network` and `functions.network` df. In these networks :
+### Network properties
+Hereafter, some of the properties of 2 `citations.network` df of the `corpus.list` : the `files.network` and `functions.network` df.
 
 ```{r echo=FALSE}
 nett <- t(data.frame(Name= c("`files.network`", "`functions.network`" )
 ,  Nodes = c("Programming files", "Functions")
-, Links = c("Start from a programming file that calls a function and point to the programming file where the function is defined", "start from a function that call another function and point to this 2nd function")
+, Links = c("Start from a programming file that calls a function and point to the programming file where the function is defined", "Start from a function that call another function and point to this 2nd function")
 , Indegrees = c("°← How many files of the project(s) are calling the function(s) defined in this file", "°← How many functions of the project(s) are calling this function" )
 , Outdegrees = c("°→ Number of files of the project(s) where the functions used by this file are defined", "°→ How many functions of the project(s) are used by this function")
 , Automentioning = c("(`codexplor` default is to filter out autolinks within files)" ,"Recursivity")
@@ -46,11 +45,13 @@ knitr::kable(nett)
 
 > See a dataviz' of a `files.network` in the short [example of documents network](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html)
 
+---
+
 ## Technical details
 
-**Cascading matching.** Given a `corpus.list` created with `construct_corpus` a cascading matching :
+**Cascading matching.** `codexplor::construct_corpus` perform a cascading matching :
 
-1. `codexplor::construct_corpus` extract exposed functions names from files where these functions are defined, e.g., have found 'Pier', 'pol' and 'jak' function names in 3 separate files.
+1. The names of the exposed functions names are extracted from files where these functions are defined, e.g., have found 'Pier', 'pol' and 'jak' function names in 3 separate files.
 2. The functions that calls these functions are identified, e.g., a function is calling `'Pier('`, `'pol('` and `'jak('` and the function is linked to these 3 functions.
 3. Similarly, a network of files is constructed, e.g., the code of a programming file is calling `'Pier('`, `'pol('` and `'jak('` and this file is linked to the files where these functions are defined.
 

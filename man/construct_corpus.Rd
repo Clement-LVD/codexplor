@@ -45,7 +45,7 @@ A \code{list} of \code{data.frame} containing the corpus of collected files. The
 \item{\code{parameters}}{\code{character} (only in the \code{functions} df) The content that define the default parameters of a function.}
 \item{\code{code}}{\code{character} (only in the \code{functions} df) The code of a function.}
 \item{\code{n_func}}{\code{integer} (only in the \code{files} df) The number of exposed functions within a file.}
-\item{\code{from}}{\code{character} (only in the \code{citations.network} df) The function that call another function (\code{functions.network} df) or the local file path or GitHub URL that call a function of another file (\code{files.network} df).}
+\item{\code{from}}{\code{character} (only in the \code{citations.network} df) The function that call another function (\code{functions.network} df) or the local file path or GitHub URL that call a function defined in another file (\code{files.network} df).}
 \item{\code{to}}{\code{character} (only in the \code{citations.network} df) The function called (\code{functions.network} df) or the local file path or constructed GitHub URL where the function called is defined (\code{files.network} df).}
 \item{\code{indeg_fn}}{\code{integer} (only in the \code{files} and \code{functions} df) Number of functions that call this function (\code{functions} df) or number of files with functions that call the functions of this file (\code{files} df).}
 \item{\code{outdeg_fn}}{\code{integer} (only in the \code{files} and \code{functions} df) Number of functions called by this function (\code{functions} df) or number of files where the functions called by the functions of this file are defined (\code{files} df).}

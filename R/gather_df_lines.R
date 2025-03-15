@@ -16,7 +16,6 @@
 #' # text = c("Hello ", "world ", " !", "How", "are    you?", " Test "))
 #' # Use the function to concatenate text by 'id'
 #' # gather_df_lines(df, key = "id", text = "text")
-#' @export
 gather_df_lines <- function(df, key_colname, text, sep = " ", trimws = T, text_colname = "content") {
 
   if (!is.data.frame(df)) {
