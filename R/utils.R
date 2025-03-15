@@ -52,6 +52,20 @@ filter_if_na <- function(df, col_to_verify){
 if(length(lines_to_filter_out) > 0) df <- df[-lines_to_filter_out, ]
 return(df)}
 
+#### rbind several df = do.call(rbind) robust to empty entry
+combine_dfs_by_name <- function(corpus) {
+  all_df_names <- unique(unlist(lapply(corpus, names)))  # Tous les noms uniques
+
+  combined <- lapply(all_df_names, function(df_name) {
+    dfs <- lapply(corpus, function(lst) lst[[df_name]])  # Récupère les dfs s'ils existent
+    dfs <- dfs[!sapply(dfs, is.null)]  # Supprime les NULL
+    if (length(dfs) > 0) do.call(rbind, dfs) else NULL  # rbind si au moins un df existe
+  })
+
+  names(combined) <- all_df_names
+  return(combined)
+}
+
 #### 0) remove comments ####
 # Function to remove text after a specific character, excluding content inside quotes
 remove_text_after_char <- function(text, char = "#"

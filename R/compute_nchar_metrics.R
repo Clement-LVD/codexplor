@@ -27,6 +27,12 @@ compute_nchar_metrics <- function(text,
                                   word_count_colname = "n_word",
                                   vowel_count_colname = "n_vowel") {
 
+desired_colnames <- c(nchar_colname, nchar_nospace_colname, word_count_colname, vowel_count_colname)
+
+if (length(text) == 0) {
+  return(data.frame(matrix(ncol = length(desired_colnames), nrow = 0, dimnames = list(NULL, desired_colnames))))
+}
+
     # Remove spaces and newlines for character count without spaces
   txt_wo_space <- gsub(x = text, pattern = " |\n", "")
 
@@ -51,7 +57,7 @@ word_count[is.na(words)] = NA
   )
 
   # Rename columns to custom names
-  colnames(result) <- c(nchar_colname, nchar_nospace_colname, word_count_colname, vowel_count_colname)
+  colnames(result) <- desired_colnames
 
   return(result)
 }

@@ -8,13 +8,11 @@ add_doc_network_to_corpus(
   corpus,
   matches_colname = "name",
   content_colname = "code",
-  node_id_colname = NULL,
   prefix_for_2nd_matches = "\\\\b",
   suffix_for_2nd_matches = "\\\\(",
   n_char_to_add_suffix = 3,
   filter_egolink_within_a_file = TRUE,
-  exclude_quoted_content = F,
-  entry_name = "internal.dependencies"
+  exclude_quoted_content = F
 )
 }
 \arguments{
@@ -23,9 +21,6 @@ add_doc_network_to_corpus(
 \item{matches_colname}{\code{character}, default = \code{'name'} The name of the column of the \code{functions} df that will be used for construct a regex.}
 
 \item{content_colname}{\code{character}, default = \code{'code'} The name of the column of the \code{functions} df that will be used for search a match and extract text.}
-
-\item{node_id_colname}{\code{character}, default = \code{NULL} (optionnal) If \code{NULL} - default - the entries of \code{content_colname} will be used for construct a network.
-Otherwise, use this parameter to design the name of the column of the \code{functions} df to use to group the results, e.g., by file or by book.}
 
 \item{prefix_for_2nd_matches}{\code{character} A string representing the prefix to add
 to each 1st match that will be turned into a new regular expressions. The default is an empty string.}
@@ -40,8 +35,6 @@ of each match, in order to have a complete regular expression. The default is an
 
 \item{exclude_quoted_content}{\code{logical}, default = \code{FALSE}. A logical value indicating if the quoted content should be take into consideration.
 If set to \code{TRUE}, text within " or ' over the same line will be suppressed, before to realize the matches}
-
-\item{entry_name}{\code{character}, default = \code{'internal.dependencies'} The name of the df added to the corpus.list.}
 }
 \value{
 A \code{list} of \code{data.frame}, with a supplementary df that is the edgelist of a document-to-document citations network
@@ -49,8 +42,9 @@ A \code{list} of \code{data.frame}, with a supplementary df that is the edgelist
 \item{\code{from}}{\code{character} Citations Network - The local file path or GitHub URL that call a function.}
 \item{\code{to}}{\code{character} Citations Network - The local file path or constructed GitHub URL where the function called is defined.}
 \item{\code{file_path}}{\code{character} Corpus - The local file path or constructed GitHub URL.}
-\item{\code{row_number}}{\code{integer} Corpus - The line number within the file.}
+\item{\code{file_path_from}}{\code{character} The file_path of the 'from' function.}
 \item{\code{function_order}}{\code{character} The order of citation within a text entry.}
+\item{\code{n_fn_call}}{\code{integer} The number of call of a function defined in another file.}
 }
 }
 \description{

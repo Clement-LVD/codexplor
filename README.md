@@ -107,8 +107,8 @@ corpus <- construct_corpus(
     
 str(corpus, max.level = 1)
 #> List of 6
-#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    1769 obs. of  9 variables:
-#>  $ comments         :Classes 'corpus.lines' and 'data.frame':    1195 obs. of  8 variables:
+#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    1792 obs. of  9 variables:
+#>  $ comments         :Classes 'corpus.lines' and 'data.frame':    1193 obs. of  8 variables:
 #>  $ files            :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:
 #>  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 42 obs. of  8 variables:
 #>  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  41 obs. of  4 variables:

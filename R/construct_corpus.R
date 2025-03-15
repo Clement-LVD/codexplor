@@ -20,18 +20,21 @@
 #'   \item{\code{line_number}}{`integer` The line number of the file.}
 #'   \item{\code{content}}{`character` The content in a line for the `corpus.lines` df, or the full content of the file.}
 #'   \item{\code{file_ext}}{`character` File extension of the file.}
-#'   \item{\code{n_char}}{`integer` Number of characters - including spacing - in a line, the file for the `files` df, or the function code for the `functions` df).}
-#'   \item{\code{n_char_wo_space}}{`integer` Number of characters - without spacing - in a line, the file for the `files` df, or the function code for the `functions` df)}
-#'   \item{\code{n_word}}{`integer` Number of words in a line, the file for the `files` df, or the function code for the `functions` df).}
-#'   \item{\code{n_vowel}}{`integer` Number of voyel in a line, the file for the `files` df, or the function code for the `functions` df).}
+#'   \item{\code{n_char}}{`integer` Number of characters - including spacing - in the entire file (`files` df), a line of the file (`codes` and `comments` df), or within the function code (`functions` df).}
+#'   \item{\code{n_char_wo_space}}{`integer` Number of characters - without spacing - in the entire file (`files` df), a line of the file (`codes` and `comments` df), or within the function code (`functions` df)}
+#'   \item{\code{n_word}}{`integer` Number of words in the entire file (`files` df), a line of the file (`codes` and `comments` df), or within the function code (`functions` df).}
+#'   \item{\code{n_vowel}}{`integer` Number of voyel in the entire file (`files` df), a line of the file (`codes` and `comments` df), or within the function code (`functions` df).}
 #'   \item{\code{n_total_lines}}{`integer` Number of commented lines (`comments` df), code lines (`codes` df), within the file (`files` df), or the function code (`functions` df).}
 #'   \item{\code{comments}}{`logical` `TRUE` if the entire line is commented. Set to `FALSE` for the `codes` df and `TRUE` for the `comments` df.}
 #'   \item{\code{commented}}{`character` (only in the `codes` df) Inlines comments or NA if there is no inline comments.}
 #'   \item{\code{parameters}}{`character` (only in the `functions` df) The content that define the default parameters of a function.}
 #'   \item{\code{code}}{`character` (only in the `functions` df) The code of a function.}
 #'   \item{\code{n_func}}{`integer` (only in the `files` df) The number of exposed functions within a file.}
+#'   \item{\code{n_fn_call}}{`integer` (only in the `files.network` df) The number of functions defined in another file that are called within a file.}
 #'   \item{\code{from}}{`character` (only in the `citations.network` df) The function that call another function (`functions.network` df) or the local file path or GitHub URL that call a function defined in another file (`files.network` df).}
 #'   \item{\code{to}}{`character` (only in the `citations.network` df) The function called (`functions.network` df) or the local file path or constructed GitHub URL where the function called is defined (`files.network` df).}
+#'   \item{\code{file_path_from}}{`character` (only in the `functions.network` df) The file path of the function that call another function.}
+#'   \item{\code{file_path_to}}{`character` (only in the `functions.network` df) The file path where the function called is defined.}
 #'   \item{\code{indeg_fn}}{`integer` (only in the `files` and `functions` df) Number of functions that call this function (`functions` df) or number of files with functions that call the functions of this file (`files` df).}
 #'   \item{\code{outdeg_fn}}{`integer` (only in the `files` and `functions` df) Number of functions called by this function (`functions` df) or number of files where the functions called by the functions of this file are defined (`files` df).}
 #' }
@@ -71,7 +74,7 @@ construct_corpus <- function(
 , ...
 ){
 
-if(.verbose) cat("\n Constructing a corpus of programming files (", languages, ") : 1. Reading files\n")
+if(.verbose) cat("\n Constructing a corpus of programming files (", languages, ")")
 #serialized over a "language" = specific treatment from a dictionnary
 # 1) get files infos associated to a language
 lang_dictionnary <- get_def_regex_by_language(languages)
@@ -88,6 +91,8 @@ corpus <- lapply(sequens_of_languages, function(i) {
 
   lang_desired <- lang_dictionnary[[i]]
 
+  if(.verbose) cat("Language ", i , ":", lang_desired$file_extension )
+
   create_corpus(folders = folders,  repos= repos
                 , lang_desired = lang_desired
                 , .verbose = .verbose, pattern_to_exclude = pattern_to_exclude, ...)
@@ -101,9 +106,9 @@ if(length(corpus[[1]] ) == 1 ){
   warning("Elements are missing => create_corpus have failed to build a complete corpus.list of dataframes")
   }
 
-
-combined <- do.call(mapply, c(FUN = function(...) rbind(...), corpus, SIMPLIFY = FALSE))
-# stockpile by names (default) when structures are coherent (here we have a proper structure definition)
+combined <- combine_dfs_by_name(corpus) # in utils.r, equiv to :
+# combined <- do.call(mapply, c(FUN = function(...) rbind(...), corpus, SIMPLIFY = FALSE))
+# (do.call need a constant structure definition)
 
 # 4) add our global attributes of class corpus.list such as the language dictionnary used
 combined <- .construct.corpus.list(combined
@@ -192,11 +197,11 @@ corpus <- clean_comments_from_lines(corpus = corpus
 
 #### 7) add a functions nodelist ####
 corpus <- add_functions_list_to_corpus(corpus, lang_dictionnary = lang_desired, .verbose = .verbose)
+# add functions text metrics
+corpus$functions <- cbind(corpus$functions, compute_nchar_metrics(text = corpus$functions$code ) )
 
 # add a network of files and functions
-corpus <- add_doc_network_to_corpus(corpus = corpus, matches_colname = "name", content_colname = "code", entry_name = "functions.network", ...  )
-corpus <- add_doc_network_to_corpus(corpus = corpus, matches_colname = "name", content_colname = "code"
-                                    , node_id_colname = "file_path", entry_name = "files.network", ...  )
+corpus <- add_doc_network_to_corpus(corpus = corpus, matches_colname = "name", content_colname = "code",  ...  )
 
 
   if(.verbose) cat("\nCorpus created")

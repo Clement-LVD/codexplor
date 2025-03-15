@@ -29,6 +29,7 @@ Given folders path(s) and/or github repo(s),  `codexplor::construct_corpus` comp
 
 ```{r construct-corpus-and-network, eval = F, echo=TRUE}
 require(codexplor)
+
 net <- construct_corpus(
   repos =  "tidyverse/stringr")
 # by default, codexplor deal with R project
