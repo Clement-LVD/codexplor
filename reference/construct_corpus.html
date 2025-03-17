@@ -139,6 +139,9 @@ return a <code>list</code> of 4 dataframes. The list have an additionnal <code>c
 <dt><code>n_func</code></dt>
 <dd><p><code>integer</code> (only in the <code>files</code> df) The number of exposed functions within a file.</p></dd>
 
+<dt><code>n_fn_call</code></dt>
+<dd><p><code>integer</code> (only in the <code>files.network</code> df) The number of functions defined in another file that are called within a file.</p></dd>
+
 <dt><code>from</code></dt>
 <dd><p><code>character</code> (only in the <code>citations.network</code> df) The function that call another function (<code>functions.network</code> df) or the local file path or GitHub URL that call a function defined in another file (<code>files.network</code> df).</p></dd>
 
