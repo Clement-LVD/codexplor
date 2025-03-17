@@ -118,7 +118,7 @@ obj.method() # Return : 'My custom method'
 
 
 ## Filter undesired match
-Junk nodes needs to be excluded from the returned networks, such as the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead)`. 
+Junk nodes needs to be excluded from the returned networks, such as the lines where you use the name of another function in a message, e.g. `message("my_func() is deprecated. You should use this_function() instead")`. 
 
 `construct_corpus` offer the `exclude_quoted_content` parameter, in order to exclude quoted text from the matches and avoid this false positive case.
 
