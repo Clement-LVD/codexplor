@@ -106,8 +106,10 @@ project(s).</p>
 <span>  repos <span class="op">=</span>  <span class="st">"tidyverse/stringr"</span><span class="op">)</span></span>
 <span><span class="co"># by default, codexplor deal with R project</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">files.network</span><span class="op">)</span></span>
-<span>        <span class="co"># Return an interactive dataviz' from networkD3</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/get_networkd3_from_igraph.html">get_networkd3_from_igraph</a></span><span class="op">(</span><span class="va">net</span><span class="op">$</span><span class="va">files.network</span></span>
+<span>  , title_h1 <span class="op">=</span> <span class="st">"stringr"</span></span>
+<span>  , subtitle_h2 <span class="op">=</span> <span class="st">"files.network"</span><span class="op">)</span></span>
+<span><span class="co"># Return an interactive dataviz' from networkD3</span></span></code></pre></div>
 <p>By default, <code>get_networkd3_from_igraph</code> will colorize the
 nodes accordingly to their indegrees. This reveal the local dependencies
 of the programming project, here the files with exposed functions that
@@ -116,11 +118,11 @@ are used by others files of the project.</p>
 <img src="../reference/figures/example_net3d_dataviz.png" style="width:90.0%" alt="."><div class="figcaption">.</div>
 </div>
 <p>For example, the most-common local dependency inside the
-tidyverse/stringr repo is <code>modifiers.R</code>. Next, there is other
-text-mining metrics that will give us insights about these files, e.g.,
-one should verify that the local complexity of this
-<code>modifiers.R</code> file is reported as a ‘trivial’ level (see next
-section).</p>
+tidyverse/stringr repo is <code>modifiers.R</code> and
+<code>compat-types-check.R</code>. Next, there is other text-mining
+metrics that will give us insights about these files, e.g., one should
+verify that the local complexity of these files are reported as a
+‘trivial’ level (see next section).</p>
 <p>Playing with the parameters of <code>get_networkd3_from_igraph</code>
 will reveal others insights, e.g., you should try to color nodes
 accordingly to their outdegrees, in order to reveal the files that

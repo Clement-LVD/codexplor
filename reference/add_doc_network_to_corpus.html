@@ -54,8 +54,8 @@ select the <code>functions</code> <code>data.frame</code> and append a Citations
 <span>  <span class="va">corpus</span>,</span>
 <span>  matches_colname <span class="op">=</span> <span class="st">"name"</span>,</span>
 <span>  content_colname <span class="op">=</span> <span class="st">"code"</span>,</span>
-<span>  prefix_for_2nd_matches <span class="op">=</span> <span class="st">"\\b"</span>,</span>
-<span>  suffix_for_2nd_matches <span class="op">=</span> <span class="st">"\\("</span>,</span>
+<span>  prefix_for_2nd_matches <span class="op">=</span> <span class="st">"(?&lt;!\\w)"</span>,</span>
+<span>  suffix_for_2nd_matches <span class="op">=</span> <span class="st">"(\\b|\\()"</span>,</span>
 <span>  n_char_to_add_suffix <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  filter_egolink_within_a_file <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  exclude_quoted_content <span class="op">=</span> <span class="cn">F</span></span>
