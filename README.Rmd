@@ -138,9 +138,7 @@ Other languages are planned.
 
 ### Example
 
-**1. Turn a programming project into a corpus.** Given folder(s) and/or github repo(s) and programming language(s), `codexplor::construct_corpus` will return a `list` of dataframes :
-
-
+**1. Turn a programming project into a corpus.** Given folder(s) and/or github repo(s) and programming language(s), `codexplor::construct_corpus` will return a `list` of dataframes : the programming project is turned into a corpus.
 
 ```{r compute-corpus-of-func, echo=TRUE}
 library(codexplor)
@@ -149,8 +147,6 @@ library(codexplor)
 corpus <- construct_corpus(
   folders = getwd()
   , languages = "R" )
-    
-str(corpus, max.level = 1)
   
 ```
 

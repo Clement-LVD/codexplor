@@ -8,8 +8,8 @@ add_doc_network_to_corpus(
   corpus,
   matches_colname = "name",
   content_colname = "code",
-  prefix_for_2nd_matches = "\\\\b",
-  suffix_for_2nd_matches = "\\\\(",
+  prefix_for_2nd_matches = "(?<!\\\\w)",
+  suffix_for_2nd_matches = "(\\\\b|\\\\()",
   n_char_to_add_suffix = 3,
   filter_egolink_within_a_file = TRUE,
   exclude_quoted_content = F

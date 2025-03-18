@@ -8,7 +8,7 @@
 #' assuming the 1st matches are already realized by `construct_corpus` :
 #'
 #' The function will craft a pattern by appending all the 1st matches (`matches` column elements)
-#' , eventually adding a suffix and a prefix to these elements, depending on the number of characters.
+#' , adding a prefix to these elements and maybe a suffix (depending on the number of characters).
 #'
 #' Then it will perform a direct extraction with this pattern,
 #'  and return the corpus with a new `data.frame` of class `citations.network`
@@ -53,9 +53,9 @@ add_doc_network_to_corpus <- function(corpus
                                       , matches_colname = "name"
                                       , content_colname = "code"
 
-                                      , prefix_for_2nd_matches = "\\b" # text before the 1st match
+                                      , prefix_for_2nd_matches = "(?<!\\w)" # text before the 1st match
 
-                                      ,  suffix_for_2nd_matches = "\\("# add text after the 1st match
+                                      ,  suffix_for_2nd_matches = "(\\b|\\()"# add text after the 1st match
 
                                       , n_char_to_add_suffix = 3
 
@@ -86,9 +86,6 @@ if(nrow(corpus$functions ) == 0) { return(corpus)  }
 
   # 2.1) Get an HYBRID nodelist of the 1st matches and files path (default names from the corpus func')
   # by default we're supposed to catch lines where functions are defined, but there is maybe several functions in a file
-
- # if there is no special binding for an arbitrary level (e.g., document name or file path, chapter, page, etc.)
-  # our matches are directly the network, e.g., a person-to-person network or a func' network
 
   #c("name","file_path") # we ask for a precise variable : doc-to-doc is file.path / func-to-func is name
 

@@ -58,7 +58,11 @@ dff <- df
 dff$row_number <- seq_len(nrow(df))
 
 ### 1) construct a regex with the string
-regexx_complete <- get_regex_from_vector(vector = df[[pattern_varname]], prefix_for_regex_from_string, suffix_for_regex_from_string, fix_escaping = T , n_char_to_add_suffix = n_char_to_add_suffix )
+regexx_complete <- get_regex_from_vector(vector = df[[pattern_varname]]
+                                         ,prefix_for_regex =  prefix_for_regex_from_string
+                                         , suffix_for_regex = suffix_for_regex_from_string
+                                         , fix_escaping = T
+                                         , n_char_to_add_suffix = n_char_to_add_suffix )
 
 #we will retrieve this object and these var later
 
@@ -71,10 +75,10 @@ fns_called_df <- str_extract_all_to_tidy_df(string =  dff[[content_varname]]
  # we have added row_number colname in both fns_called_df AND dff !
 
 # 3) remove our pattern added (suffix or prefix) =>
-fns_called_df[[varname_for_matches]] <- gsub(x = fns_called_df[[varname_for_matches]]
+fns_called_df[[varname_for_matches]] <- gsub(perl = T, x = fns_called_df[[varname_for_matches]]
                                    , pattern = paste0("^", prefix_for_regex_from_string), replacement = "")
 
-fns_called_df[[varname_for_matches]]  <- gsub(x = fns_called_df[[varname_for_matches]]
+fns_called_df[[varname_for_matches]]  <- gsub(perl = T, x = fns_called_df[[varname_for_matches]]
                                    , pattern = paste0(  suffix_for_regex_from_string, "$"), replacement = "")
 
 #### 4) construct the network of func' ####

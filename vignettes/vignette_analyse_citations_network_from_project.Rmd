@@ -34,8 +34,10 @@ net <- construct_corpus(
   repos =  "tidyverse/stringr")
 # by default, codexplor deal with R project
 
-get_networkd3_from_igraph(net$files.network)
-        # Return an interactive dataviz' from networkD3
+get_networkd3_from_igraph(net$files.network
+  , title_h1 = "stringr"
+  , subtitle_h2 = "files.network")
+# Return an interactive dataviz' from networkD3
 ```
 
 
@@ -43,7 +45,7 @@ By default, `get_networkd3_from_igraph` will colorize the nodes accordingly to t
 
 ![.](../man/figures/example_net3d_dataviz.png){width=90%}
 
-For example, the most-common local dependency inside the tidyverse/stringr repo is `modifiers.R`. Next, there is other text-mining metrics that will give us insights about these files, e.g., one should verify that the local complexity of this `modifiers.R` file is reported as a 'trivial' level (see next section).
+For example, the most-common local dependency inside the tidyverse/stringr repo is `modifiers.R` and `compat-types-check.R`. Next, there is other text-mining metrics that will give us insights about these files, e.g., one should verify that the local complexity of these files are reported as a 'trivial' level (see next section).
 
 Playing with the parameters of `get_networkd3_from_igraph` will reveal others insights, e.g., you should try to color nodes accordingly to their outdegrees, in order to reveal the files that contain high-level functions of the project.
 

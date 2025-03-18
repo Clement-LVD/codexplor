@@ -59,7 +59,7 @@ Given a Language, a folder path(s) and/or github repo(s),
 return a \code{list} of 4 dataframes. The list have an additionnal \code{corpus.list} class. The df are :
 (1) \code{codes} and (2) \code{comments} with text-metrics about each line;
 (3) \code{files} with global metrics over the files, (4) \code{functions} with metrics about the functions of the programming project,
-(4) \code{files.network} and (5) \code{functions.network} (networks of internal dependencies).
+(5) \code{files.network} and (6) \code{functions.network} (networks of internal dependencies).
 }
 \details{
 \itemize{

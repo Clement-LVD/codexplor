@@ -5,7 +5,7 @@
 #' return a `list` of 4 dataframes. The list have an additionnal `corpus.list` class. The df are :
 #'  (1) `codes` and (2) `comments` with text-metrics about each line;
 #'  (3) `files` with global metrics over the files, (4) `functions` with metrics about the functions of the programming project,
-#'  (4) `files.network` and (5) `functions.network` (networks of internal dependencies).
+#'  (5) `files.network` and (6) `functions.network` (networks of internal dependencies).
 #' @param folders `character`. Default = `NULL`. A character vector of local folder paths to scan for code files.
 #' @param languages `character`. Default = `"R"`. A character vector specifying the programming language(s) to include in the corpus.
 #' @param repos `character`. Default = `NULL`. A character vector of GitHub repository URLs or repository identifiers to extract files from (e.g., `"user/repo"`).
@@ -135,7 +135,7 @@ create_corpus <- function(folders = NULL
 
   lang_desired <- lang_desired
 
-  # 1) verif' dictionnary
+  # 1) verif' dictionnary : lang_desired is our standard dictionnary
 
 # names hardcoded herafter are dictionnary names (from the begining)
 needed_var <- c("pattern_to_exclude" , "file_extension"  ,"commented_line_char"  , "delim_pair_comments_block" )

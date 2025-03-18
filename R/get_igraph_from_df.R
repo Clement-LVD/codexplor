@@ -11,8 +11,6 @@
 #' @param filter_min_centrality `numeric`, default = `0` (filter of the orphans)
 #'   Strict minimum total degree (sum of in-degree and out-degree) required to keep a node.
 #'   You have to indicate `-1` for keep the orphans (i.e. with degree = '0')
-#' @param clean_egolink `logical`, default = `TRUE`
-#'   If `TRUE`, self-loops (edges where `from == to`) are removed from the edge list before processing.
 #' @param ... Additional arguments passed to `igraph::graph_from_dataframe` for node selection (e.g., `ignore.case = TRUE`).
 #'
 #' @return An `igraph` object representing the processed graph.
@@ -39,11 +37,9 @@
 get_igraph_from_df <- function(edgelist
                               , directed =T
                               ,filter_min_centrality = 0
-, clean_egolink = T
 , ...
 ){
-  # Supprimer les auto-liens si clean_egolink est TRUE
-  if (clean_egolink) edgelist <- edgelist[edgelist[[1]] != edgelist[[2]], ]
+
 
   # Craft a graph
   g <- igraph::graph_from_data_frame(edgelist, directed = directed, ...)

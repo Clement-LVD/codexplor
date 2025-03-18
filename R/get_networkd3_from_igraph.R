@@ -48,7 +48,7 @@ get_networkd3_from_igraph <- function(graph_igraph
       {
         if(inherits(graph_igraph, "citations.network"))
 
-        graph_igraph <- codexplor::get_igraph_from_df(graph_igraph)
+        graph_igraph <- get_igraph_from_df(graph_igraph)
 
       },
       error = function(e) {

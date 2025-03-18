@@ -95,7 +95,8 @@ Other languages are planned.
 
 **1. Turn a programming project into a corpus.** Given folder(s) and/or
 github repo(s) and programming language(s),
-`codexplor::construct_corpus` will return a `list` of dataframes :
+`codexplor::construct_corpus` will return a `list` of dataframes : the
+programming project is turned into a corpus.
 
 ``` r
 library(codexplor)
@@ -104,20 +105,7 @@ library(codexplor)
 corpus <- construct_corpus(
   folders = getwd()
   , languages = "R" )
-    
-str(corpus, max.level = 1)
-#> List of 6
-#>  $ codes            :Classes 'corpus.lines' and 'data.frame':    1792 obs. of  9 variables:
-#>  $ comments         :Classes 'corpus.lines' and 'data.frame':    1193 obs. of  8 variables:
-#>  $ files            :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:
-#>  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 42 obs. of  8 variables:
-#>  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  41 obs. of  4 variables:
-#>  $ files.network    :Classes 'citations.network', 'internal.dependancies' and 'data.frame':  34 obs. of  4 variables:
-#>  - attr(*, "class")= chr [1:2] "list" "corpus.list"
-#>  - attr(*, "date_creation")= Date[1:1], format: "2025-03-15"
-#>  - attr(*, "have_citations_network")= logi TRUE
-#>  - attr(*, "languages_patterns")=List of 1
-#>  - attr(*, "folders")= chr "C:/Users/CLEM/Documents/PROJETS_EN_R/codexplor"
+  
 ```
 
 This corpus of dataframes is a standardized way to analyze a programming
