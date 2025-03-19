@@ -43,8 +43,6 @@ names(corpus) <- c(old_names, names_new_df) #complete names
 }
 
   # we'll apply a class corpus.list => before we have boring checks
-# 2) GLOBAL CHECK ON THE LIST of df
-  has_citations_network <- any(sapply(corpus, function(df) inherits(df, "citations.network")))
 
   # 3) individuals checks are in a function hereafter
   # return a boolean if all checks are ok
@@ -61,7 +59,6 @@ n_duplines = length(duplines)
     corpus
    , class = c("list", "corpus.list")
    , date_creation = Sys.Date()
-  ,  have_citations_network = has_citations_network
    , duplicated_corpus_lines = duplines
    , ...
   )

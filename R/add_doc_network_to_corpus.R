@@ -22,7 +22,6 @@
 #' to each 1st match that will be turned into a new regular expressions. The default is an empty string.
 #' @param suffix_for_2nd_matches `character` A string representing a regex to add as a suffix
 #'  of each match, in order to have a complete regular expression. The default is an empty string.
-#' @param n_char_to_add_suffix `double`, default = `3` Minimum number of characters to add the suffix.
 #' @param filter_egolink_within_a_file `logical`, default = `TRUE`. A logical value indicating whether to filter results based on
 #' "ego links" (a document referring to itself)
 #'
@@ -56,8 +55,6 @@ add_doc_network_to_corpus <- function(corpus
                                       , prefix_for_2nd_matches = "(?<!\\w)" # text before the 1st match
 
                                       ,  suffix_for_2nd_matches = "(\\b|\\()"# add text after the 1st match
-
-                                      , n_char_to_add_suffix = 3
 
                                       , filter_egolink_within_a_file = TRUE
 
@@ -97,7 +94,6 @@ if(nrow(corpus$functions ) == 0) { return(corpus)  }
                                                 , prefix_for_regex_from_string = prefix_for_2nd_matches
                                                 , suffix_for_regex_from_string = suffix_for_2nd_matches
                                                 ,  keep_only_row_without_a_pattern = FALSE
-                                                ,  n_char_to_add_suffix = n_char_to_add_suffix
   )
 
   colnames(fn_2nd_match)[colnames(fn_2nd_match) == matches_colname] <- "from" # construct colnames : 2nd matches are "from"

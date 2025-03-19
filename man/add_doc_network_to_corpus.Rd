@@ -10,7 +10,6 @@ add_doc_network_to_corpus(
   content_colname = "code",
   prefix_for_2nd_matches = "(?<!\\\\w)",
   suffix_for_2nd_matches = "(\\\\b|\\\\()",
-  n_char_to_add_suffix = 3,
   filter_egolink_within_a_file = TRUE,
   exclude_quoted_content = F
 )
@@ -27,8 +26,6 @@ to each 1st match that will be turned into a new regular expressions. The defaul
 
 \item{suffix_for_2nd_matches}{\code{character} A string representing a regex to add as a suffix
 of each match, in order to have a complete regular expression. The default is an empty string.}
-
-\item{n_char_to_add_suffix}{\code{double}, default = \code{3} Minimum number of characters to add the suffix.}
 
 \item{filter_egolink_within_a_file}{\code{logical}, default = \code{TRUE}. A logical value indicating whether to filter results based on
 "ego links" (a document referring to itself)}
@@ -57,7 +54,7 @@ It is designed to generate a network of text by cascading text research,
 assuming the 1st matches are already realized by \code{construct_corpus} :
 
 The function will craft a pattern by appending all the 1st matches (\code{matches} column elements)
-, eventually adding a suffix and a prefix to these elements, depending on the number of characters.
+, adding a prefix to these elements and maybe a suffix (depending on the number of characters).
 
 Then it will perform a direct extraction with this pattern,
 and return the corpus with a new \code{data.frame} of class \code{citations.network}

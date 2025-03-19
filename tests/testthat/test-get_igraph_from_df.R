@@ -9,17 +9,11 @@ df_regex <- data.frame(from = c("A1", "A2", "B1", "B2", "C1", "C2"),
                        to   = c("B1", "B2", "C1", "C2", "A1", "A2"))  # Pour tester les regex
 
 test_that("Graph creation and structure", {
-  g <- get_igraph_from_df(df_base, clean_egolink = TRUE)
+  g <- get_igraph_from_df(df_base)
 
   expect_s3_class(g, "igraph")
   expect_equal(vcount(g), 5)
   expect_equal(ecount(g), 6)  # 🔥 Correction ici
-})
-test_that("Self-loops are removed when requested", {
-  g <- get_igraph_from_df(df_base, clean_egolink = TRUE)
-
-  edge_list_after <- as_data_frame(g, what = "edges")
-  expect_false(any(edge_list_after$from == edge_list_after$to))  # Aucun self-loop
 })
 
 test_that("Filter by centrality correctly removes low-degree nodes", {

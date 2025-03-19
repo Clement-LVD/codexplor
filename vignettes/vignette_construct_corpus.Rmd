@@ -41,17 +41,13 @@ library(codexplor)
   
 ```
 
-     # Example : several local folders and repos
-    corpus <- construct_corpus(c("~", "M:/") languages = "R"
-    , repos =  c("clement-LVD/codexplor","tidyverse/stringr"))
+     # Example : several local folders and/or repos
+    corpus <- construct_corpus(c("~", "M:/") 
+    ,languages = c("Python", "R")
+    , repos =  c("clement-LVD/codexplor","secdev/scapy"))
    
-    # Example : several languages
-    corpus_py <- construct_corpus(repos = "secdev/scapy"
-    , languages = c("Python", "R"), .verbose = T) #take a while
-
-
 ## Understand the corpus.list
-**List of dataframes.** `construct_corpus` return a `corpus.list` object, a standard `list` of 4 dataframes : 
+**List of dataframes.** `construct_corpus` return a `corpus.list` object, a standard `list` of dataframes : 
 
 - `codes` (classes `corpus.lines` & `data.frame`)
 - `comments` (classes `corpus.lines` & `data.frame`)

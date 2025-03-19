@@ -11,8 +11,7 @@ get_citations_network_from_df(
   prefix_for_regex_from_string = "",
   suffix_for_regex_from_string = "",
   keep_only_row_without_a_pattern = TRUE,
-  varname_for_matches = "matches",
-  n_char_to_add_suffix = 3
+  varname_for_matches = "matches"
 )
 }
 \arguments{
@@ -32,8 +31,6 @@ Default is "first_match".}
 (i.e. lines with a character in the \code{pattern_varname} column of the df passed by the user will be filter out)}
 
 \item{varname_for_matches}{\code{character}, default = \code{"matches"} A character string specifying the name of the column of matches in the returned df.}
-
-\item{n_char_to_add_suffix}{\code{double}, default = \code{3}. Minimum number of characters to add the suffix.}
 }
 \value{
 A data frame with the extracted citations network.

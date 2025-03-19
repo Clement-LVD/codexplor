@@ -4,13 +4,7 @@
 \alias{get_igraph_from_df}
 \title{Convert an edge list into an igraph network}
 \usage{
-get_igraph_from_df(
-  edgelist,
-  directed = T,
-  filter_min_centrality = 0,
-  clean_egolink = T,
-  ...
-)
+get_igraph_from_df(edgelist, directed = T, filter_min_centrality = 0, ...)
 }
 \arguments{
 \item{edgelist}{\code{data.frame}
@@ -22,9 +16,6 @@ Indicates whether the graph should be directed (\code{TRUE}) or undirected (\cod
 \item{filter_min_centrality}{\code{numeric}, default = \code{0} (filter of the orphans)
 Strict minimum total degree (sum of in-degree and out-degree) required to keep a node.
 You have to indicate \code{-1} for keep the orphans (i.e. with degree = '0')}
-
-\item{clean_egolink}{\code{logical}, default = \code{TRUE}
-If \code{TRUE}, self-loops (edges where \code{from == to}) are removed from the edge list before processing.}
 
 \item{...}{Additional arguments passed to \code{igraph::graph_from_dataframe} for node selection (e.g., \code{ignore.case = TRUE}).}
 }

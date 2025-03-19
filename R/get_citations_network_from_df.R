@@ -14,7 +14,6 @@
 #' @param keep_only_row_without_a_pattern `logical`, default = `TRUE` If `TRUE`, keeps only rows with an initial entry for constructing the pattern
 #'  (i.e. lines with a character in the `pattern_varname` column of the df passed by the user will be filter out)
 #' @param varname_for_matches `character`, default = `"matches"` A character string specifying the name of the column of matches in the returned df.
-#' @param n_char_to_add_suffix `double`, default = `3`. Minimum number of characters to add the suffix.
 #' @return A data frame with the extracted citations network.
 #' @details
 #' The returned data frame has 5 columns:
@@ -42,7 +41,6 @@ get_citations_network_from_df <- function(df
 , keep_only_row_without_a_pattern  = TRUE
 
 , varname_for_matches = "matches"
-, n_char_to_add_suffix = 3
 ){
 
   required_cols <- c(content_varname, pattern_varname)
@@ -61,8 +59,7 @@ dff$row_number <- seq_len(nrow(df))
 regexx_complete <- get_regex_from_vector(vector = df[[pattern_varname]]
                                          ,prefix_for_regex =  prefix_for_regex_from_string
                                          , suffix_for_regex = suffix_for_regex_from_string
-                                         , fix_escaping = T
-                                         , n_char_to_add_suffix = n_char_to_add_suffix )
+                                         , fix_escaping = T)
 
 #we will retrieve this object and these var later
 

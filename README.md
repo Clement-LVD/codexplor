@@ -109,9 +109,12 @@ corpus <- construct_corpus(
 ```
 
 This corpus of dataframes is a standardized way to analyze a programming
-project as a collection of documents. Learn more about these df with the
-[vignette of
+project as a collection of documents, see the [vignette of
 `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html).
+Some of these df have classes `citations.network` of
+`internal.dependencies`, a network of functions or files. See the
+[vignette of `citations.network`
+`dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html).
 
 **2. See a dataviz’ from a corpus.list.** Given a `corpus.list`, look at
 the dataviz’ of a `citations.network` `data.frame` with
@@ -133,6 +136,10 @@ dataviz <- get_networkd3_from_igraph(corpus$functions.network
 > \[…\] or assessing the impact of a new dev loop on the project’s
 > complexity.
 
+Look a dataviz of the *files* (`corpus$functions.network`) : [vignette
+of example of files
+network](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html)
+
 ------------------------------------------------------------------------
 
 ### Vignettes
@@ -142,8 +149,8 @@ project, accordingly to subanalysis tools.
 
 | Quick example | Underlying details |
 |:---|:---|
-| Turn a programming project into a corpus and look at a dataviz of the files : [vignette of example of documents network](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html) | Construct a corpus : [vignette of `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html) |
-|  | Understand the `citations.network` of `internaldependencies` : [vignette of `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html) |
+|  | Construct a corpus : [vignette of `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html) |
+|  |  |
 
 `codexplor` also offers helper functions, e.g., for create and filter a
 network with the `igraph` package, see the [vignette of helper functions
