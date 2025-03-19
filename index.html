@@ -133,7 +133,7 @@
 <span>  folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  , languages <span class="op">=</span> <span class="st">"R"</span> <span class="op">)</span></span>
 <span>  </span></code></pre></div>
-<p>This corpus of dataframes is a standardized way to analyze a programming project as a collection of documents. Learn more about these df with the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette of <code>construct_corpus()</code></a>.</p>
+<p>This corpus of dataframes is a standardized way to analyze a programming project as a collection of documents, see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette of <code>construct_corpus()</code></a>. Some of these df have classes <code>citations.network</code> of <code>internal.dependencies</code>, a network of functions or files. See the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html">vignette of <code>citations.network</code> <code>dataframe</code></a>.</p>
 <p><strong>2. See a dataviz’ from a corpus.list.</strong> Given a <code>corpus.list</code>, look at the dataviz’ of a <code>citations.network</code> <code>data.frame</code> with <code><a href="reference/get_networkd3_from_igraph.html">codexplor::get_networkd3_from_igraph</a></code> :</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Produce an interactive dataviz' with the network of internal.dependencies</span></span>
@@ -146,6 +146,7 @@
 <blockquote>
 <p>These dataviz are useful for pinpointing where to start a polishing loop, identifying all the functions impacted by upcoming changes, […] or assessing the impact of a new dev loop on the project’s complexity.</p>
 </blockquote>
+<p>Look a dataviz of the <em>files</em> (<code>corpus$functions.network</code>) : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">vignette of example of files network</a></p>
 <hr>
 </div>
 <div class="section level3">
@@ -163,15 +164,13 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Turn a programming project into a corpus and look at a dataviz of the files : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">vignette of example of documents network</a>
-</td>
+<td align="left"></td>
 <td align="left">Construct a corpus : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette of <code>construct_corpus()</code></a>
 </td>
 </tr>
 <tr class="even">
 <td align="left"></td>
-<td align="left">Understand the <code>citations.network</code> of <code>internaldependencies</code> : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html">vignette of <code>citations.network</code> <code>dataframe</code></a>
-</td>
+<td align="left"></td>
 </tr>
 </tbody>
 </table>

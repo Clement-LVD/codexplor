@@ -50,13 +50,7 @@ It construct a directed network</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_igraph_from_df</span><span class="op">(</span></span>
-<span>  <span class="va">edgelist</span>,</span>
-<span>  directed <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>  filter_min_centrality <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  clean_egolink <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_igraph_from_df</span><span class="op">(</span><span class="va">edgelist</span>, directed <span class="op">=</span> <span class="cn">T</span>, filter_min_centrality <span class="op">=</span> <span class="fl">0</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -77,11 +71,6 @@ Indicates whether the graph should be directed (<code>TRUE</code>) or undirected
 <dd><p><code>numeric</code>, default = <code>0</code> (filter of the orphans)
 Strict minimum total degree (sum of in-degree and out-degree) required to keep a node.
 You have to indicate <code>-1</code> for keep the orphans (i.e. with degree = '0')</p></dd>
-
-
-<dt id="arg-clean-egolink">clean_egolink<a class="anchor" aria-label="anchor" href="#arg-clean-egolink"></a></dt>
-<dd><p><code>logical</code>, default = <code>TRUE</code>
-If <code>TRUE</code>, self-loops (edges where <code>from == to</code>) are removed from the edge list before processing.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
