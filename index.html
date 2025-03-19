@@ -133,7 +133,7 @@
 <span>  folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  , languages <span class="op">=</span> <span class="st">"R"</span> <span class="op">)</span></span>
 <span>  </span></code></pre></div>
-<p>This corpus of dataframes is a standardized way to analyze a programming project as a collection of documents, see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette of <code>construct_corpus()</code></a>. Some of these df have classes <code>citations.network</code> of <code>internal.dependencies</code>, a network of functions or files. See the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html">vignette of <code>citations.network</code> <code>dataframe</code></a>.</p>
+<p>This corpus of dataframes is a standardized way to analyze a programming project as a collection of documents, see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette of <code>construct_corpus()</code></a>. Some of these df have classes <code>citations.network</code> of <code>internal.dependencies</code>, a network of functions or files. See the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html">vignette of these <code>citations.network</code> <code>dataframes</code></a>.</p>
 <p><strong>2. See a dataviz’ from a corpus.list.</strong> Given a <code>corpus.list</code>, look at the dataviz’ of a <code>citations.network</code> <code>data.frame</code> with <code><a href="reference/get_networkd3_from_igraph.html">codexplor::get_networkd3_from_igraph</a></code> :</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Produce an interactive dataviz' with the network of internal.dependencies</span></span>
@@ -146,35 +146,19 @@
 <blockquote>
 <p>These dataviz are useful for pinpointing where to start a polishing loop, identifying all the functions impacted by upcoming changes, […] or assessing the impact of a new dev loop on the project’s complexity.</p>
 </blockquote>
-<p>Look a dataviz of the <em>files</em> (<code>corpus$functions.network</code>) : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">vignette of example of files network</a></p>
+<p>Similarly, you have the possibility to look for a dataviz of the <em>files</em> with the following :</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>  <span class="fu">get_networkd3_from_igraph</span>(corpus<span class="sc">$</span>files.network)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  </span></code></pre></div>
+<p>See an <a href="https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html">example of a files network</a>.</p>
 <hr>
 </div>
 <div class="section level3">
 <h3 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
 </h3>
-<p><code>codexplor</code> offers functions that are dedicated to analyze a programming project, accordingly to subanalysis tools.</p>
-<table class="table">
-<colgroup>
-<col width="50%">
-<col width="50%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">Quick example</th>
-<th align="left">Underlying details</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">Construct a corpus : <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette of <code>construct_corpus()</code></a>
-</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-</tbody>
-</table>
-<p><code>codexplor</code> also offers helper functions, e.g., for create and filter a network with the <code>igraph</code> package, see the <a href="https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html">vignette of helper functions for igraph object and dataviz</a></p>
+<ul>
+<li><p>See the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html">vignette of <code>construct_corpus()</code></a>.</p></li>
+<li><p><code>codexplor</code> also offers helper functions, e.g., for create and filter a network with the <code>igraph</code> package, see the <a href="https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html">vignette of helper functions for igraph object and dataviz</a></p></li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
