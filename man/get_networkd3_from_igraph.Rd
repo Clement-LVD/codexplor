@@ -12,7 +12,6 @@ get_networkd3_from_igraph(
   colors_for_nodes = c("green", "grey", "black", "red"),
   color_outdeg_instead_of_indeg = F,
   color_for_na_link = colors_for_nodes[[1]],
-  add_html_div_code_before_graph = NULL,
   charge = -200,
   ...
 )
@@ -33,9 +32,6 @@ the func' will try to realize (based on indegrees or outdegrees). Default is \co
 
 \item{color_for_na_link}{\code{character}. Color assigned to links when data is missing.
 Default is the 1st color of \code{colors_for_node} (\code{"green"}).}
-
-\item{add_html_div_code_before_graph}{\code{character} (optional). Custom HTML code inserted after the end of the network.
-Default is \code{NULL} (no additional HTML).}
 
 \item{charge}{\code{integer}, default = \code{-200} Numeric value indicating
 either the strength of the node repulsion (negative value) or attraction (positive value).

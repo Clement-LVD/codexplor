@@ -22,8 +22,7 @@ expect_equal(nrow(result$x$links), n_nodes)
     g, title_h1 = "test", subtitle_h2 = "test", endnotes_h3 = "test",
     colors_for_nodes = c("blue", "orange"),
     color_outdeg_instead_of_indeg = TRUE,
-    color_for_na_link = "pink",
-    add_html_div_code_before_graph = "<div>Custom HTML</div>"
+    color_for_na_link = "pink"
   )
 
 

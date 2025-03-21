@@ -30,15 +30,22 @@ library(codexplor)
 
 
 ```{r example, echo=TRUE}
-
 library(codexplor)
+# Construct a corpus from github
+corpus <- construct_corpus(repos =  "tidyverse/stringr")
+str(corpus, max.level = 1) 
+  
+```
 
-# 1) Construct a corpus without a Citations network
-  corpus <- construct_corpus(languages = "R"
-                           , repos =  "clement-LVD/codexplor")
-  
-  str(corpus, max.level = 1) 
-  
+
+```{r ex, echo=TRUE, eval = !is.na(corpus)}
+# pseudo-example : find dependencies within functions
+corpus$functions$name[grepl(x = corpus$functions$code, "cli\\:\\:")]
+# e.g., cli:: dependencies within stringr func'
+
+# or find the functions with more than 6 parameters and print their params
+ tm_params <- corpus$functions[corpus$functions$n_params > 6, c("name", "params")]
+ knitr::kable(head(tm_params, 2)) # only 2 lines of example hereafter
 ```
 
      # Example : several local folders and/or repos

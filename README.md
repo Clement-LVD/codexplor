@@ -47,7 +47,7 @@ Supported languages are : R, Python
 **1. Turn a programming project into a corpus.** Given folder(s) and/or
 github repo(s) and programming language(s),
 `codexplor::construct_corpus` will return a `list` of dataframes : the
-programming project is turned into a corpus.
+programming project is turned into a text-mining corpus.
 
 ``` r
 library(codexplor)
@@ -56,8 +56,11 @@ corpus <- construct_corpus(folders = getwd(), languages = "R" )
 ```
 
 This corpus of dataframes is a standardized way to analyze a programming
-project as a collection of documents, see the [vignette of
+project as a collection of documents and get insights on the functions
+and the files of the project, see the [vignette of
 `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html).
+
+------------------------------------------------------------------------
 
 **2. See a dataviz’ from a corpus.list.** Given a `corpus.list`, look at
 the dataviz’ of an `internal.dependencies` network with

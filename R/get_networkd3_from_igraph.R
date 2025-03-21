@@ -12,8 +12,6 @@
 #' @param color_outdeg_instead_of_indeg `logical`. If `TRUE`, node colors are assigned based on out-degree instead of in-degree. Default is `FALSE`.
 #' @param color_for_na_link `character`. Color assigned to links when data is missing.
 #'  Default is the 1st color of `colors_for_node` (`"green"`).
-#' @param add_html_div_code_before_graph `character` (optional). Custom HTML code inserted after the end of the network.
-#' Default is `NULL` (no additional HTML).
 #' @param charge `integer`, default = `-200` Numeric value indicating
 #' either the strength of the node repulsion (negative value) or attraction (positive value).
 #' Passed to `networkD3::forceNetwork`.
@@ -37,7 +35,6 @@ get_networkd3_from_igraph <- function(graph_igraph
                                      , colors_for_nodes =  c("green","grey",  "black",  "red")
                                      , color_outdeg_instead_of_indeg = F
                                      , color_for_na_link = colors_for_nodes[[1]]
-                                     , add_html_div_code_before_graph = NULL
                                      , charge = -200
                                      , ...
 
@@ -170,11 +167,6 @@ n_intervals <- length(colors_for_nodes)
     if(!is.null(endnotes_h3) ){
     dataviz_network <-  htmlwidgets::appendContent(dataviz_network  ,htmltools::tags$h3(endnotes_h3) )
   }
- # dataviz_network$x$html
-  #optionnal) add custom html code after graph :
-if(!is.null(add_html_div_code_before_graph)) dataviz_network <- htmlwidgets::appendContent(dataviz_network, htmltools::HTML(add_html_div_code_before_graph))
-# user should pass custom div style as :
-  # "<div style='display:flex; align-items:center;'><div style='width:15px; height:15px; background:grey; margin-right:5px;'></div> texte du user</div>"
 
   # return a list and our dataviz (html widget)
   return(dataviz_network)

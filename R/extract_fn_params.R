@@ -62,14 +62,25 @@ if (.verbose) close(pb)
 
 col_to_add <- do.call(rbind, col_to_add)
 
+junks_params <- censor_quoted_text(col_to_add$params)
 # add metrics to the functions df
 # match all content separated by a , or end of line
-matches <- gregexpr("(?<!['\"]).+?(?=,|$)(?![^']*['\"])", col_to_add$params, perl = TRUE)
+# matches <- gregexpr("(?<!['\"]).+?(?=,|$)(?![^']*['\"])", col_to_add$params, perl = TRUE)
 
   # Extract matched elements
-  extracted_args <- regmatches( col_to_add$params, matches)
+  # extracted_args <- regmatches( col_to_add$params, matches)
+
+split_params <- function(txt) {
+  parts <- strsplit(txt, ",(?![^()]*\\))", perl = TRUE)[[1]]
+  trimws(parts)
+}
+
+# Appliquer cette fonction à chaque élément du vecteur
+result <- lapply(col_to_add$params, split_params)
+
+
 #   add a n_params metrics :
-  col_to_add$n_params <- sapply(extracted_args, length)
+  col_to_add$n_params <- sapply(result, length)
 
 return(col_to_add)
 

@@ -47,8 +47,9 @@ find_quoted_positions <- function(text) {
 if(length(text) > 1){
 
  texts <- sapply(X = text, FUN = function(txt){
+if(is.na(txt)) return(txt)
 
-    censor_quoted_text(text = txt
+   censor_quoted_text(text = txt
                        , char_for_replacing_each_char = char_for_replacing_each_char
                        , suppress_quoting_char =suppress_quoting_char )
 
