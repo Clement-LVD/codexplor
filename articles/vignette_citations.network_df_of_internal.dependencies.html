@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">codexplor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.92</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.93</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -168,92 +168,6 @@ programming file is calling <code>'Pier('</code>, <code>'pol('</code>
 and <code>'jak('</code> and this file is linked to the files where these
 functions are defined.</li>
 </ol>
-<p><strong>Match functions names.</strong> <code>construct_corpus</code>
-rely on some default patterns, designed to analyze a programming project
-in a standardized way. Accordingly to these patterns,
-<code>construct_corpus</code> will :</p>
-<ol style="list-style-type: decimal">
-<li>read the files accordingly to their extension, e.g., R language is
-associated with <code>'.R'</code> files.</li>
-<li>process commented lines accordingly to each language definition,
-e.g., R &amp; Python use <code>'#'</code> and don’t allow multi-lines
-comments, contrary to JavaScript.</li>
-<li>isolate the exposed content, i.e. not quoted and not within a
-<code>'{ }'</code>.</li>
-<li>extract functions names from the exposed content, in order to list
-the internally exposed functions of the programming project.</li>
-</ol>
-<p><strong>Examples.</strong> The hereafter table show some examples of
-a <code>hello</code> function defined in several languages :
-<code>construct_corpus</code> have to match <code>'hello'</code>,
-despite of the differences between languages.</p>
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="3%">
-<col width="13%">
-<col width="10%">
-<col width="12%">
-<col width="11%">
-<col width="15%">
-<col width="9%">
-<col width="17%">
-<col width="5%">
-</colgroup>
-<thead><tr class="header">
-<th align="left"></th>
-<th align="left">Example</th>
-<th align="left">Definition Keyword</th>
-<th align="left">Operator After Keyword</th>
-<th align="left">Operator After Name</th>
-<th align="left">Start Instructions operator</th>
-<th align="left">prefix to exclude</th>
-<th align="left">regex fn parameters after names</th>
-<th align="left">anonymous</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">Python</td>
-<td align="left">def hello(): pass</td>
-<td align="left">def</td>
-<td align="left"></td>
-<td align="left">(</td>
-<td align="left">:</td>
-<td align="left"></td>
-<td align="left">(</td>
-<td align="left">FALSE</td>
-</tr>
-<tr class="even">
-<td align="left">R</td>
-<td align="left">hello &lt;- function() { }</td>
-<td align="left">function</td>
-<td align="left">(</td>
-<td align="left">&lt;-|=</td>
-<td align="left">{</td>
-<td align="left">FUN</td>
-<td align="left">(&lt;-|=)function(</td>
-<td align="left">TRUE</td>
-</tr>
-</tbody>
-</table>
-<p>Here, R is the only language that assign an anonymous function to an
-object. Thus, contrary to other languages, we have to find the name of R
-functions before the keyword ‘function’, R parameters names are within
-the parenthesis after ‘function(’, etc.</p>
-</div>
-<div class="section level2">
-<h2 id="unmatched-definition">Unmatched definition<a class="anchor" aria-label="anchor" href="#unmatched-definition"></a>
-</h2>
-<p><strong>Python.</strong> The function ‘hello’ defined as a lambda
-(anonymous) function within the Python line hereafter is not matched yet
-by <code>construct_corpus</code> :</p>
-<pre><code><span> <span class="va">hello</span> <span class="op">=</span> <span class="va">lambda</span><span class="op">:</span> <span class="va">None</span></span></code></pre>
-<p><strong>R.</strong> The re-assigning of an anonymous R function to a
-new R object is not supported yet :</p>
-<pre><code><span>  <span class="va">aaa</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span>, <span class="va">a</span><span class="op">)</span><span class="op">{</span><span class="va">i</span> <span class="op">+</span> <span class="va">a</span><span class="op">}</span> <span class="co"># construct_corpus match the 'aaa' function</span></span>
-<span>   <span class="va">my_func_a</span> <span class="op">&lt;-</span> <span class="va">aaa</span>    <span class="co">#  but don't notice the creation of an alias</span></span>
-<span>  <span class="fu">my_func_a</span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span> <span class="co"># will not be matched during the post-processing </span></span></code></pre>
-<!-- **JS.** Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter : -->
-<!--      const hello = (a, b) => a + b; -->
 </div>
 <div class="section level2">
 <h2 id="function-call-that-are-non-supported-during-2nd-matches">Function call that are non-supported during 2nd matches<a class="anchor" aria-label="anchor" href="#function-call-that-are-non-supported-during-2nd-matches"></a>
@@ -264,16 +178,16 @@ matches.</p>
 code sample hereafter, the 1st match is realized by
 <code>construct_corpus</code>, but <code>codexplor</code> can’t match
 the instantiated Python methods, i.e. <code>obj.method()</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#  Consider the Python code herafter </span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>class A<span class="sc">:</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    def <span class="fu">method</span>(self)<span class="sc">:</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>        return <span class="st">"My custom method"</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a> <span class="co"># construct_corpus return 'method' as a 1stly matched function name</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>obj <span class="ot">=</span> <span class="fu">A</span>()</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">obj.method</span>() <span class="co"># Return : 'My custom method'</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co"># construct_corpus don't identify the 2nd match because of the prefix ("obj.")</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">#  Consider the Python code herafter </span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>class A<span class="sc">:</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    def <span class="fu">method</span>(self)<span class="sc">:</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>        return <span class="st">"My custom method"</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a> <span class="co"># construct_corpus return 'method' as a 1stly matched function name</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>obj <span class="ot">=</span> <span class="fu">A</span>()</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">obj.method</span>() <span class="co"># Return : 'My custom method'</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># construct_corpus don't identify the 2nd match because of the prefix ("obj.")</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="filter-undesired-match">Filter undesired match<a class="anchor" aria-label="anchor" href="#filter-undesired-match"></a>
@@ -286,9 +200,9 @@ e.g. <code>message("my_func() is deprecated. You should use this_function() ins
 quoted text from the matches and avoid this false positive case.</p>
 <pre><code><span>  <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span><span class="st">"~"</span>, languages <span class="op">=</span> <span class="st">"R"</span>, exclude_quoted_content <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
 <span>  </span></code></pre>
-<p>Be aware that all the quoted text will be avoided, if you’ve included
-some - fancy - way of <em>call</em> a function as a quoted
-<code>character</code> chain.</p>
+<p>Be aware that all the quoted text will be avoided during the search
+for functions names, if you’ve included some - fancy - way of
+<em>call</em> a function as a quoted <code>character</code> chain.</p>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

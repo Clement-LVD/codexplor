@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">codexplor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.92</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.93</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,14 +94,14 @@ Python.</p>
 <span>  </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corpus</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 6</span></span>
-<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    1775 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    1188 obs. of  8 variables:</span></span>
-<span><span class="co">#&gt;  $ files            :Classes 'corpus.nodelist' and 'data.frame': 28 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 42 obs. of  12 variables:</span></span>
-<span><span class="co">#&gt;  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  50 obs. of  5 variables:</span></span>
-<span><span class="co">#&gt;  $ files.network    :Classes 'citations.network', 'internal.dependancies' and 'data.frame':  40 obs. of  3 variables:</span></span>
+<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    1832 obs. of  10 variables:</span></span>
+<span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    1223 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ files            :Classes 'corpus.nodelist' and 'data.frame': 30 obs. of  11 variables:</span></span>
+<span><span class="co">#&gt;  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 49 obs. of  14 variables:</span></span>
+<span><span class="co">#&gt;  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  63 obs. of  5 variables:</span></span>
+<span><span class="co">#&gt;  $ files.network    :Classes 'citations.network', 'internal.dependancies' and 'data.frame':  42 obs. of  3 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
-<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-19"</span></span>
+<span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-21"</span></span>
 <span><span class="co">#&gt;  - attr(*, "languages_patterns")=List of 1</span></span>
 <span><span class="co">#&gt;  - attr(*, "repos")= chr "clement-LVD/codexplor"</span></span></code></pre></div>
 <pre><code><span> <span class="co"># Example : several local folders and/or repos</span></span>
@@ -143,9 +143,9 @@ offers insights on the programming project, at various levels :</p>
 <!-- - The 2 `citations.network` of `internal.dependencies` are a `files.network` and a `functions.network` within the corpus.  -->
 <table class="table">
 <colgroup>
+<col width="12%">
 <col width="15%">
-<col width="19%">
-<col width="64%">
+<col width="71%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">Name</th>
@@ -166,8 +166,8 @@ offers insights on the programming project, at various levels :</p>
 <tr class="odd">
 <td align="left"><code>functions</code></td>
 <td align="left">Function-level metrics</td>
-<td align="left">e.g., quantify the longest function and those with
-multiple internal dependencies</td>
+<td align="left">e.g., see the number of parameters, number of internal
+dependencies, length of the code, etc. for each function</td>
 </tr>
 <tr class="even">
 <td align="left"><code>files</code></td>
@@ -189,9 +189,114 @@ critical internal dependencies</td>
 </tr>
 </tbody>
 </table>
-<p>In order to understand the <code>citations.network</code> of
-<code>internal.dependencies</code>, see the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html">vignette
-of <code>citations.network</code> <code>dataframe</code></a></p>
+<p>The <code>files.network</code> and <code>functions.network</code> df
+have classes <code>citations.network</code> of
+<code>internal.dependencies</code>. See the <a href="https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html">vignette
+of these <code>citations.network</code> <code>dataframes</code></a>.</p>
+<div class="section level3">
+<h3 id="technical-details">Technical Details<a class="anchor" aria-label="anchor" href="#technical-details"></a>
+</h3>
+<p><strong>Match functions names.</strong> <code>construct_corpus</code>
+rely on some default patterns, in order to analyze a programming project
+in a standardized way. Accordingly to these patterns,
+<code>construct_corpus</code> will :</p>
+<ol style="list-style-type: decimal">
+<li>read the files accordingly to their extension, e.g., R language is
+associated with <code>'.R'</code> files.</li>
+<li>process commented lines accordingly to each language definition,
+e.g., R &amp; Python use <code>'#'</code> and don’t allow multi-lines
+comments, contrary to JavaScript.</li>
+<li>isolate the exposed content, e.g., not quoted and not within a
+<code>'{ }'</code> for most of the programming languages.</li>
+<li>extract functions names from the exposed content, in order to list
+the internally exposed functions of the programming project.</li>
+</ol>
+<p><strong>Examples.</strong> The hereafter table show some examples of
+a <code>hello</code> function defined in several languages :
+<code>construct_corpus</code> have to match <code>'hello'</code>,
+despite of the differences between languages.</p>
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="3%">
+<col width="13%">
+<col width="10%">
+<col width="12%">
+<col width="11%">
+<col width="15%">
+<col width="9%">
+<col width="17%">
+<col width="5%">
+</colgroup>
+<thead><tr class="header">
+<th align="left"></th>
+<th align="left">Example</th>
+<th align="left">Definition Keyword</th>
+<th align="left">Operator After Keyword</th>
+<th align="left">Operator After Name</th>
+<th align="left">Start Instructions operator</th>
+<th align="left">prefix to exclude</th>
+<th align="left">regex fn parameters after names</th>
+<th align="left">anonymous</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Python</td>
+<td align="left">def hello(): pass</td>
+<td align="left">def</td>
+<td align="left"></td>
+<td align="left">(</td>
+<td align="left">:</td>
+<td align="left"></td>
+<td align="left">(</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td align="left">R</td>
+<td align="left">hello &lt;- function() { }</td>
+<td align="left">function</td>
+<td align="left">(</td>
+<td align="left">&lt;-|=</td>
+<td align="left">{</td>
+<td align="left">FUN|error</td>
+<td align="left">(&lt;-|=)function(</td>
+<td align="left">TRUE</td>
+</tr>
+</tbody>
+</table>
+<p>Here, R is the only language that assign an anonymous function to an
+object. Thus, contrary to other languages, we have to find the name of R
+functions before the keyword ‘function’, R parameters names are within
+the parenthesis after ‘function(’, etc.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="unmatched-definition">Unmatched definition<a class="anchor" aria-label="anchor" href="#unmatched-definition"></a>
+</h2>
+<p><strong>Python.</strong> The function ‘hello’ defined as a lambda
+(anonymous) function within the Python line hereafter is not matched yet
+by <code>construct_corpus</code> :</p>
+<pre><code><span> <span class="va">hello</span> <span class="op">=</span> <span class="va">lambda</span><span class="op">:</span> <span class="va">None</span></span></code></pre>
+<p><strong>R.</strong> The re-assigning of an anonymous R function to a
+new R object is not supported yet :</p>
+<pre><code><span>  <span class="va">aaa</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span>, <span class="va">a</span><span class="op">)</span><span class="op">{</span><span class="va">i</span> <span class="op">+</span> <span class="va">a</span><span class="op">}</span> <span class="co"># construct_corpus match the 'aaa' function</span></span>
+<span>   <span class="va">my_func_a</span> <span class="op">&lt;-</span> <span class="va">aaa</span>    <span class="co">#  but don't notice the creation of an alias</span></span>
+<span>  <span class="fu">my_func_a</span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span> <span class="co"># will not be matched during the post-processing </span></span></code></pre>
+<!-- **JS.** Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter : -->
+<!--      const hello = (a, b) => a + b; -->
+</div>
+<div class="section level2">
+<h2 id="one-liner-code-extraction-limits">One-liner code-extraction limits<a class="anchor" aria-label="anchor" href="#one-liner-code-extraction-limits"></a>
+</h2>
+<p>Usually the code of a function is within ‘{’ and ‘}’ brackets (e.g.,
+R, C, C++, C#, Java, JavaScript, Swift, Kotlin, Go). This way,
+programming languages don’t need to rely on indentation.
+<code><a href="../reference/construct_corpus.html">codexplor::construct_corpus</a></code> rely on these brackets, in
+order to extract the code of a function in the <code>functions</code>
+<code>data.frame</code> of the <code>corpus.list</code>. Thus, the
+one-liners <em>codes</em> are excluded from the <code>functions</code>
+<code>data.frame</code> if they are not within brackets. Contrary to
+this standardized pattern, Python use indentation to create a block and
+one-liner function code is matched.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
