@@ -55,7 +55,6 @@ It allows customization of titles, node colors, missing link colors, and additio
 <span>  colors_for_nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"green"</span>, <span class="st">"grey"</span>, <span class="st">"black"</span>, <span class="st">"red"</span><span class="op">)</span>,</span>
 <span>  color_outdeg_instead_of_indeg <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  color_for_na_link <span class="op">=</span> <span class="va">colors_for_nodes</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
-<span>  add_html_div_code_before_graph <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  charge <span class="op">=</span> <span class="op">-</span><span class="fl">200</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -93,11 +92,6 @@ the func' will try to realize (based on indegrees or outdegrees). Default is <co
 <dt id="arg-color-for-na-link">color_for_na_link<a class="anchor" aria-label="anchor" href="#arg-color-for-na-link"></a></dt>
 <dd><p><code>character</code>. Color assigned to links when data is missing.
 Default is the 1st color of <code>colors_for_node</code> (<code>"green"</code>).</p></dd>
-
-
-<dt id="arg-add-html-div-code-before-graph">add_html_div_code_before_graph<a class="anchor" aria-label="anchor" href="#arg-add-html-div-code-before-graph"></a></dt>
-<dd><p><code>character</code> (optional). Custom HTML code inserted after the end of the network.
-Default is <code>NULL</code> (no additional HTML).</p></dd>
 
 
 <dt id="arg-charge">charge<a class="anchor" aria-label="anchor" href="#arg-charge"></a></dt>

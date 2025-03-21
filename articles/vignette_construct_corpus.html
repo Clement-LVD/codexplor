@@ -85,25 +85,60 @@ Python.</p>
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 1) Construct a corpus without a Citations network</span></span>
-<span>  <span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span>languages <span class="op">=</span> <span class="st">"R"</span></span>
-<span>                           , repos <span class="op">=</span>  <span class="st">"clement-LVD/codexplor"</span><span class="op">)</span></span>
-<span>  </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corpus</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
+<span><span class="co"># Construct a corpus from github</span></span>
+<span><span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span>repos <span class="op">=</span>  <span class="st">"tidyverse/stringr"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corpus</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 6</span></span>
-<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    1832 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    1223 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ files            :Classes 'corpus.nodelist' and 'data.frame': 30 obs. of  11 variables:</span></span>
-<span><span class="co">#&gt;  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 49 obs. of  14 variables:</span></span>
-<span><span class="co">#&gt;  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  63 obs. of  5 variables:</span></span>
-<span><span class="co">#&gt;  $ files.network    :Classes 'citations.network', 'internal.dependancies' and 'data.frame':  42 obs. of  3 variables:</span></span>
+<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    2089 obs. of  10 variables:</span></span>
+<span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    1460 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ files            :Classes 'corpus.nodelist' and 'data.frame': 37 obs. of  11 variables:</span></span>
+<span><span class="co">#&gt;  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 159 obs. of  14 variables:</span></span>
+<span><span class="co">#&gt;  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  516 obs. of  5 variables:</span></span>
+<span><span class="co">#&gt;  $ files.network    :Classes 'citations.network', 'internal.dependancies' and 'data.frame':  94 obs. of  3 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
 <span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-03-21"</span></span>
 <span><span class="co">#&gt;  - attr(*, "languages_patterns")=List of 1</span></span>
-<span><span class="co">#&gt;  - attr(*, "repos")= chr "clement-LVD/codexplor"</span></span></code></pre></div>
+<span><span class="co">#&gt;  - attr(*, "repos")= chr "tidyverse/stringr"</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># pseudo-example : find dependencies within functions</span></span>
+<span><span class="va">corpus</span><span class="op">$</span><span class="va">functions</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">corpus</span><span class="op">$</span><span class="va">functions</span><span class="op">$</span><span class="va">code</span>, <span class="st">"cli\\:\\:"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt;  [1] "str_like"             "str_ilike"            "str_match"           </span></span>
+<span><span class="co">#&gt;  [4] "str_match_all"        "type.character"       "type.default"        </span></span>
+<span><span class="co">#&gt;  [7] "str_transform_all"    "str_split_i"          "str_trunc"           </span></span>
+<span><span class="co">#&gt; [10] "no_boundary"          "no_empty"             "str_view_highlighter"</span></span>
+<span><span class="co">#&gt; [13] "str_view_special"     "print.stringr_view"</span></span>
+<span><span class="co"># e.g., cli:: dependencies within stringr func'</span></span>
+<span></span>
+<span><span class="co"># or find the functions with more than 6 parameters and print their params</span></span>
+<span> <span class="va">tm_params</span> <span class="op">&lt;-</span> <span class="va">corpus</span><span class="op">$</span><span class="va">functions</span><span class="op">[</span><span class="va">corpus</span><span class="op">$</span><span class="va">functions</span><span class="op">$</span><span class="va">n_params</span> <span class="op">&gt;</span> <span class="fl">6</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"params"</span><span class="op">)</span><span class="op">]</span></span>
+<span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">tm_params</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co"># only 2 lines of example hereafter</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="2%">
+<col width="12%">
+<col width="85%">
+</colgroup>
+<thead><tr class="header">
+<th align="left"></th>
+<th align="left">name</th>
+<th align="left">params</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">15</td>
+<td align="left">stop_input_type</td>
+<td align="left">x, what, …, allow_na = FALSE, allow_null = FALSE,
+show_value = TRUE, arg = caller_arg(x), call = caller_env()</td>
+</tr>
+<tr class="even">
+<td align="left">58</td>
+<td align="left">check_string</td>
+<td align="left">x, …, allow_empty = TRUE, allow_na = FALSE, allow_null
+= FALSE, arg = caller_arg(x), call = caller_env()</td>
+</tr>
+</tbody>
+</table>
 <pre><code><span> <span class="co"># Example : several local folders and/or repos</span></span>
 <span><span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"~"</span>, <span class="st">"M:/"</span><span class="op">)</span> </span>
 <span>,languages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Python"</span>, <span class="st">"R"</span><span class="op">)</span></span>
