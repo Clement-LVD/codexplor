@@ -8,7 +8,7 @@ gather_df_lines(
   df,
   key_colname,
   text,
-  sep = " ",
+  sep = "\\\\n",
   trimws = T,
   text_colname = "content"
 )

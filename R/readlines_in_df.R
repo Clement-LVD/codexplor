@@ -15,6 +15,7 @@
 #'   Column name for the file content in the output dataframe.
 #' @param line_number_col_name `character`, default = `"line_number"`
 #'   Column name for the line numbers in the output dataframe.
+#' @param trimws_line `logical`, default = `FALSE`.  trim white space(s) at the end and the begining of each line
 #' @return Return a `data.frame` with 3 columns.
 #' The *last* column (`content` by default) contain the readed lines from the file.
 #' \describe{
@@ -36,6 +37,7 @@ readlines_in_df <- function(files_path,
   , file_path_col_name = "file_path"
  , content_col_name = "content"
  , line_number_col_name = "line_number"
+ , trimws_line = FALSE
  ) {
   files_path <- files_path[!is.na(files_path)]
   n_files_to_read <- length(files_path)
@@ -53,7 +55,7 @@ if (.verbose) {pb <- utils::txtProgressBar(min = 0, max = 100, style = 3) }
       lignes <- tryCatch(readLines(files_path[i], warn = FALSE), error = function(e) e$message)
 
       # clean com'
-      lignes <- trimws(lignes)
+      if(trimws_line) lignes <- trimws(lignes)
       if (return_lowered_text) lignes <- tolower(lignes)
 
       # NO LINE = return empty df

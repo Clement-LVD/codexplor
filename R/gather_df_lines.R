@@ -16,7 +16,7 @@
 #' # text = c("Hello ", "world ", " !", "How", "are    you?", " Test "))
 #' # Use the function to concatenate text by 'id'
 #' # gather_df_lines(df, key = "id", text = "text")
-gather_df_lines <- function(df, key_colname, text, sep = " ", trimws = T, text_colname = "content") {
+gather_df_lines <- function(df, key_colname, text, sep = "\\n", trimws = T, text_colname = "content") {
 
   if (!is.data.frame(df)) {
     stop("'df' must be a data.frame.")
@@ -26,6 +26,8 @@ gather_df_lines <- function(df, key_colname, text, sep = " ", trimws = T, text_c
   if (!key_colname %in% names(df) | !text %in% names(df)) {
     stop("No ", key_colname, " column in the data.frame.")
   }
+
+  df <- df[nchar(df[[text]]) > 0, ]
 
   #  tapply concatenate text
   text_concat <- tapply(

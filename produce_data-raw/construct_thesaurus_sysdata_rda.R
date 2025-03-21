@@ -18,7 +18,7 @@ ref_languages <- list(
            , Operator_After_Keyword = "\\("
            , Operator_After_Name ="<-|="
           , Start_Instructions_operator = "{"
-          , prefix_to_exclude = "FUN"
+          , prefix_to_exclude = "FUN|error"
           , regex_fn_parameters_after_names = "\\s*(<-|=)\\s*function\\("
            , anonymous = T # this is a random func assigned in an object
            ),
@@ -91,6 +91,7 @@ list_language_patterns <- list(
     , pattern_to_exclude = "\\.Rcheck|test-|vignettes|/doc/"
     , escaping_char = '\\'
     ,  fn_regex_params_after_names = ref_languages$R$regex_fn_parameters_after_names
+    , delimited_fn_codes = TRUE
   ),
   Python = list(
     fn_regex = list(main_definition = ref_languages$Python$regex_func_name   # [^\\(]+: 1 or + char BUT NOT A  '(' (function name).
@@ -102,7 +103,8 @@ list_language_patterns <- list(
     , pattern_to_exclude = NULL
     , escaping_char = "\\"
     ,  fn_regex_params_after_names = ref_languages$Python$regex_fn_parameters_after_names
-    )
+   , delimited_fn_codes = FALSE
+     )
 
   # ,  JavaScript = list(
   #   fn_regex = list(
@@ -122,7 +124,6 @@ list_language_patterns <- list(
 
 # add pattern at the end of existing values
 language_pattern <- lapply( list_language_patterns, FUN = function(entry) {
-  entry$delim_pair_nested_codes = c("\\{" = "\\}")
   # entry$local_file_ext <- paste0(entry$file_ext, "$" )
   entry$fn_regex <- paste0(entry$fn_regex, collapse = "|" )
   return(entry)

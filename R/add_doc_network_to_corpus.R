@@ -126,11 +126,11 @@ if(nrow(corpus$functions ) == 0) { return(corpus)  }
   # set a valid class (in order to pass tests from .construct.corpus.list)
   returned_network <- structure(returned_network, class = c( "citations.network", 'internal.dependancies', "data.frame") )
 
-  #### And compute a files network with file_path_from et file_path_to
+  #### And compute a files network with file_path_from & file_path_to
   files.network <- as.data.frame(table(returned_network$file_path_from, returned_network$file_path_to))
   files.network <- files.network[files.network$Freq > 0, ]
   # table : answer a 'Freq' column
-colnames(files.network) <- c("from", "to", "n_fn_call")
+colnames(files.network) <- c("from", "to", "freq")
 files.network <- structure(files.network, class = c( "citations.network", 'internal.dependancies', "data.frame") )
 
 # construct a list entry

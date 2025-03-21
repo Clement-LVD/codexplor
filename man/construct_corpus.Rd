@@ -45,7 +45,8 @@ A \code{list} of \code{data.frame} containing the corpus of collected files. The
 \item{\code{parameters}}{\code{character} (only in the \code{functions} df) The content that define the default parameters of a function.}
 \item{\code{code}}{\code{character} (only in the \code{functions} df) The code of a function.}
 \item{\code{n_func}}{\code{integer} (only in the \code{files} df) The number of exposed functions within a file.}
-\item{\code{n_fn_call}}{\code{integer} (only in the \code{files.network} df) The number of functions defined in another file that are called within a file.}
+\item{\code{n_params}}{\code{integer} (only in the \code{functions} df) The number of parameters of a function.}
+\item{\code{freq}}{\code{integer} (only in the \code{files.network} df) The number of functions defined in the 'to' file that are called within a 'from' file.}
 \item{\code{from}}{\code{character} (only in the \code{citations.network} df) The function that call another function (\code{functions.network} df) or the local file path or GitHub URL that call a function defined in another file (\code{files.network} df).}
 \item{\code{to}}{\code{character} (only in the \code{citations.network} df) The function called (\code{functions.network} df) or the local file path or constructed GitHub URL where the function called is defined (\code{files.network} df).}
 \item{\code{file_path_from}}{\code{character} (only in the \code{functions.network} df) The file path of the function that call another function.}
@@ -86,7 +87,7 @@ requested languages.
 cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
 
 # Example 3: Combine local folders and GitHub repositories
-cr3 <- construct_corpus("~", "R", c("tidyverse/stringr", "tidyverse/readr"))
+cr3 <- construct_corpus("~", "Python", "prabhupant/python-ds", .verbose = TRUE)
 }
 }
 \seealso{

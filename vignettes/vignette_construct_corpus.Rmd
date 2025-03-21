@@ -75,9 +75,58 @@ knitr::kable(data.frame(Name = c("`codes`", "`comments`", "`functions`", "`files
 , Level = c("Line of code" , "Commented line","Function-level metrics"
               , "File-level metrics"
               , "Network (file-level)", "Network (function-level)" )
- , e.g. = c( "Identify problematics lines, e.g., longest ones", '.', "e.g., quantify the longest function and those with multiple internal dependencies", "e.g., quantify number of functions within files and critical internal dependencies", "Documents network / add metrics to the `files` df", "Functions network / add metrics to the `functions` df" )
+ , e.g. = c( "Identify problematics lines, e.g., longest ones", '.', "e.g., see the number of parameters, number of internal dependencies, length of the code, etc. for each function", "e.g., quantify number of functions within files and critical internal dependencies", "Documents network / add metrics to the `files` df", "Functions network / add metrics to the `functions` df" )
 ))
 
 ```
 
-In order to understand the `citations.network` of `internal.dependencies`, see the [vignette of `citations.network` `dataframe`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html)
+
+The `files.network` and `functions.network` df have classes `citations.network` of `internal.dependencies`. See the [vignette of these `citations.network` `dataframes`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html).
+
+### Technical Details
+**Match functions names.** `construct_corpus` rely on some default patterns, in order to analyze a programming project in a standardized way. 
+Accordingly to these patterns, `construct_corpus` will :
+
+1. read the files accordingly to their extension, e.g., R language is associated with `'.R'` files. 
+2. process commented lines accordingly to each language definition, e.g., R & Python use `'#'` and don't allow multi-lines comments, contrary to JavaScript.
+3. isolate the exposed content, e.g., not quoted and not within a `'{ }'` for most of the programming languages.
+4. extract functions names from the exposed content, in order to list the internally exposed functions of the programming project.
+
+**Examples.** The hereafter table show some examples of a `hello` function defined in several languages : `construct_corpus` have to match `'hello'`, despite of the differences between languages.
+
+```{r table-langages-differences, echo=FALSE, message=FALSE, warning=FALSE}
+require(codexplor)
+listee <- get_def_regex_by_language(return_examples = T)
+# from our function in raw-data
+tablee <- do.call(rbind.data.frame,  listee) 
+
+table <- tablee[,!colnames(tablee) %in% c("regex_func_name" , "fn_regex", "local_file_ext", "nested_codes")]
+
+colnames(table) <- gsub(x=colnames(table), "_|delim_pair_", " ")
+
+table <- table[order(rownames(table)), ]  
+
+knitr::kable(table)
+
+```
+
+Here, R is the only language that assign an anonymous function to an object. Thus, contrary to other languages, we have to find the name of R functions before the keyword 'function', R parameters names are within the parenthesis after 'function(', etc. 
+
+## Unmatched definition
+**Python.** The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched yet by `construct_corpus` :
+
+     hello = lambda: None
+
+**R.** The re-assigning of an anonymous R function to a new R object is not supported yet :
+      
+      aaa <- function(i, a){i + a} # construct_corpus match the 'aaa' function
+       my_func_a <- aaa    #  but don't notice the creation of an alias
+      my_func_a(1,2) # will not be matched during the post-processing 
+
+<!-- **JS.** Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter : -->
+
+<!--      const hello = (a, b) => a + b; -->
+
+## One-liner code-extraction limits
+Usually the code of a function is within '{' and '}' brackets (e.g., R, C, C++, C#, Java, JavaScript, Swift, Kotlin, Go). This way, programming languages don't need to rely on indentation. `codexplor::construct_corpus` rely on these brackets, in order to extract the code of a function in the `functions` `data.frame` of the `corpus.list`. Thus, the one-liners *codes* are excluded from the `functions` `data.frame` if they are not within brackets. Contrary to this standardized pattern, Python use indentation to create a block and one-liner function code is matched.
+

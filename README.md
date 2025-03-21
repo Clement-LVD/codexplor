@@ -15,11 +15,15 @@ status](https://www.r-pkg.org/badges/version/codexplor)](https://CRAN.R-project.
 monitor a programming project.
 
 Given a programming project, `codexplor` compute standardized text
-mining metrics and dataviz’ about the project. Get rid of global
-complexity with a network of internal dependancies, and assess local
-complexity with document-level and function-level metrics (e.g.,
-identify files with many functions, the longest functions, and those
-with numerous internal dependencies within the project).
+mining metrics and dataviz’ about the project.
+
+- Get rid of global complexity with **networks of internal
+  dependencies**,
+- Assess local complexity with
+  - **document-level** (e.g., identify files with many functions defined
+    in)
+  - and **function-level metrics** (e.g., longest functions, those with
+    numerous parameters or internal dependencies).
 
 > `codexplor` help me to figure out the big picture of a programming
 > project faster, and to manage it more efficiently.
@@ -38,17 +42,87 @@ Supported languages are : R, Python
 
 ------------------------------------------------------------------------
 
+### Example
+
+**1. Turn a programming project into a corpus.** Given folder(s) and/or
+github repo(s) and programming language(s),
+`codexplor::construct_corpus` will return a `list` of dataframes : the
+programming project is turned into a corpus.
+
+``` r
+library(codexplor)
+# Construct a corpus with local folder
+corpus <- construct_corpus(folders = getwd(), languages = "R" )
+```
+
+This corpus of dataframes is a standardized way to analyze a programming
+project as a collection of documents, see the [vignette of
+`construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html).
+
+**2. See a dataviz’ from a corpus.list.** Given a `corpus.list`, look at
+the dataviz’ of an `internal.dependencies` network with
+`codexplor::get_networkd3_from_igraph` :
+
+``` r
+# Produce an interactive dataviz' with the network of internal.dependencies
+dataviz <- get_networkd3_from_igraph(corpus$functions.network
+, title_h1 = "codexplor. Graph of internal dependancies : functions network"
+, subtitle_h2 = "Color and links = indegrees") 
+# herafter an image (non-interactive) of the interactive dataviz ↓
+```
+
+<img src="man/figures/force_network.png" width="100%" />
+
+> These dataviz are useful for pinpointing where to start a polishing
+> loop, identifying all the functions impacted by upcoming changes,
+> \[…\] or assessing the impact of a new dev loop on the project’s
+> complexity.
+
+Or look for a dataviz of the *files* with the following :
+
+      get_networkd3_from_igraph(corpus$files.network)
+      
+
+See an [example of a files
+network](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html).
+
+------------------------------------------------------------------------
+
+### Vignettes
+
+- See the [vignette of
+  `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html).
+
+- See the [vignette of the `citations.network` of
+  `internal.dependencies`
+  dataframes](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html).
+
+- `codexplor` also offers helper functions, e.g., for create and filter
+  a network with the `igraph` package, see the [vignette of helper
+  functions for igraph object and networkD3
+  dataviz](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html)
+
 ### Features
 
-Given a programming project `codexplor` will compute several
-standardized metrics, in order to gain global and local insights on the
-project.
+Given programming project(s), `codexplor::construct_corpus` will compute
+several standardized metrics and answer a `corpus.list` of dataframes :
+
+- The `functions` `data.frame` give insights about each functions of the
+  project(s), e.g., number of parameters, number of internal
+  dependencies, length of the code.
+
+- The `files` `data.frame` give insights about each files, e.g.,
+  quantify number of functions within files and assess critical internal
+  dependencies.
+
+- The `files.network` and `functions.network` are networks of internal
+  dependencies within the project(s).
 
 | Computed Methods | Level of insights |
 |:---|:---|
 | ![.](https://img.shields.io/badge/✔️-bold?style=flat&logoColor=black&logoSize=2&label=Network%20of%20internal%20dependencies&labelColor=black&color=green) | Appreciate **global** complexity and reveal critical files, e.g., major internal dependancies, clusters of ‘difficult-to-read’ files |
 | ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Document-level%20metrics&labelColor=grey&color=yellow) | Assess each **file**, e.g., length and files readability, number of functions within a file |
-| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Function-level%20metrics&labelColor=grey&color=orange) | Assess each **function**, e.g., those with a lot of internal dependencies |
+| ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Function-level%20metrics&labelColor=grey&color=orange) | Assess each **function**, e.g., number of parameters or number of internal dependencies |
 | ![.](https://img.shields.io/badge/%7B🚧%7D-bold?style=flat&logoColor=black&logoSize=2&label=Line-level%20metrics&labelColor=grey&color=green) | Assess each **line**, e.g., find the longest |
 
 <!-- FEATURES are on 3 flex-columns : -->
@@ -90,69 +164,3 @@ Other languages are planned.
 </div>
 
 </div>
-
-### Example
-
-**1. Turn a programming project into a corpus.** Given folder(s) and/or
-github repo(s) and programming language(s),
-`codexplor::construct_corpus` will return a `list` of dataframes : the
-programming project is turned into a corpus.
-
-``` r
-library(codexplor)
-
- # Construct a corpus and a Citations network
-corpus <- construct_corpus(
-  folders = getwd()
-  , languages = "R" )
-  
-```
-
-This corpus of dataframes is a standardized way to analyze a programming
-project as a collection of documents, see the [vignette of
-`construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html).
-Some of these df have classes `citations.network` of
-`internal.dependencies`, a network of functions or files. See the
-[vignette of these `citations.network`
-`dataframes`](https://clement-lvd.github.io/codexplor/articles/vignette_citations.network_df_of_internal.dependencies.html).
-
-**2. See a dataviz’ from a corpus.list.** Given a `corpus.list`, look at
-the dataviz’ of a `citations.network` `data.frame` with
-`codexplor::get_networkd3_from_igraph` :
-
-``` r
-# Produce an interactive dataviz' with the network of internal.dependencies
-dataviz <- get_networkd3_from_igraph(corpus$functions.network
-, title_h1 = "codexplor. Graph of internal dependancies : functions network"
-, subtitle_h2 = "Color and links = indegrees") 
-
-# herafter an image (non-interactive) of the interactive dataviz ↓
-```
-
-<img src="man/figures/force_network.png" width="100%" />
-
-> These dataviz are useful for pinpointing where to start a polishing
-> loop, identifying all the functions impacted by upcoming changes,
-> \[…\] or assessing the impact of a new dev loop on the project’s
-> complexity.
-
-Similarly, you have the possibility to look for a dataviz of the *files*
-with the following :
-
-      get_networkd3_from_igraph(corpus$files.network)
-      
-
-See an [example of a files
-network](https://clement-lvd.github.io/codexplor/articles/vignette_analyse_citations_network_from_project.html).
-
-------------------------------------------------------------------------
-
-### Vignettes
-
-- See the [vignette of
-  `construct_corpus()`](https://clement-lvd.github.io/codexplor/articles/vignette_construct_corpus.html).
-
-- `codexplor` also offers helper functions, e.g., for create and filter
-  a network with the `igraph` package, see the [vignette of helper
-  functions for igraph object and
-  dataviz](https://clement-lvd.github.io/codexplor/articles/manage_igraph_object.html)

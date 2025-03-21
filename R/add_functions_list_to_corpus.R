@@ -3,27 +3,28 @@
 #' @param corpus A `corpus.list` object with at least the 'codes' dataframe
 #' @param lang_dictionnary `list` A language patterns dictionnary specific to one language
 #' @param .verbose `logical`, default = `FALSE`. If set to `TRUE`, show a progress bar when extracting content
+#' @param sep `character`, default = `' '` A character chain of separator, in order to concatenate lines
 #' @return a `list` of class `corpus.list` with exposed functions names and file path
 add_functions_list_to_corpus <- function(corpus
-   , lang_dictionnary, .verbose = F
+   , lang_dictionnary, .verbose = F, sep = " "
   ){
 
   lang_desired <- lang_dictionnary
 
   #unify code into a single bloc
   fn_nodelist <- compute_nodelist(corpus$codes, group_col = "file_path"
-                                  , colname_content_to_concatenate = "content" )
+                                  , colname_content_to_concatenate = "content",sep = sep )
 
   # suppress the texts
   fn_nodelist$censored_content <- censor_quoted_text(text = fn_nodelist$content, char_for_replacing_each_char = "_")
 
-  paired_delim <- lang_desired$delim_pair_nested_codes
-
-  # and extract unested text
+  # and extract unested text if necessary (R files)
+  if( lang_desired$delimited_fn_codes ){
   fn_nodelist$exposed_content <- extract_text_outside_separators(texts = fn_nodelist$censored_content
-                                                                 , open_sep = names(paired_delim)
-                                                                 , close_sep = paired_delim
+                                                                 , open_sep = "{"
+                                                                 , close_sep = "}"
                                                                  ,escape_char = lang_desired$escaping_char)
+  } else fn_nodelist$exposed_content  <-  fn_nodelist$censored_content
 
   # 5-A} Get 1st matches
   fn_nodelist <- srch_pattern_in_df( df =  fn_nodelist
@@ -41,13 +42,11 @@ add_functions_list_to_corpus <- function(corpus
    # completing the files nodelist
   corpus$files <- .construct.nodelist(merge(corpus$files, n_functions_defined, by ="file_path"))
 
-  # corpus of func'
+  # creation of a corpus of func'
   corpus$functions <- fn_nodelist[!is.na(fn_nodelist$matches), c("matches", "file_path", "content", "exposed_content")]
 
   colnames(corpus$functions)[1] <- "name"
-  corpus$functions <- corpus$functions[!duplicated(corpus$functions), ]
-# another func that add "parameters" and "content" col and return a corpus list object
-corpus <- extract_fn_content(corpus,  lang_dictionnary, .verbose = .verbose )
+  corpus$functions <- .construct.nodelist(corpus$functions[!duplicated(corpus$functions), ]  )
 
 return(corpus)
 }

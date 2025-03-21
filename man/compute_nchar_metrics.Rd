@@ -4,24 +4,10 @@
 \alias{compute_nchar_metrics}
 \title{Get lines text-metrics from a df}
 \usage{
-compute_nchar_metrics(
-  text,
-  nchar_colname = "n_char",
-  nchar_nospace_colname = "n_char_wo_space",
-  word_count_colname = "n_word",
-  vowel_count_colname = "n_vowel"
-)
+compute_nchar_metrics(text)
 }
 \arguments{
 \item{text}{\code{character}. A character vector of texts.}
-
-\item{nchar_colname}{\code{character}. Default = \verb{""n_char""}. \code{character} indicating the colname for total nchar().}
-
-\item{nchar_nospace_colname}{\code{character}. Default = \code{"n_char_wo_space"}. \code{character} indicating the colname for nchar() without space.}
-
-\item{word_count_colname}{\code{character}. Default = \code{"n_word"}. \code{character} indicating the colname for a word count.}
-
-\item{vowel_count_colname}{\code{character}. Default = \code{"n_vowel"}. \code{character} indicating the colname for a vowel count (as a syllab count).}
 }
 \value{
 A \code{data.frame} sorted in the same order as the \code{character} vector provided by the user, providing for each element of the vector :
@@ -39,8 +25,8 @@ values are related to each element of the vector provided by the user.
 \examples{
 \dontrun{
 # Example 1: Construct a corpus from local folders
- texts = c("the lazy rat terrier jump over the quick brown fox"
+ text = c("the lazy lazy lazy rat terrier jump over the quick brown fox"
  , "cause lazy rat terrier are the best dog")
- compute_nchar_metrics(texts)
+ compute_nchar_metrics(text)
 }
 }

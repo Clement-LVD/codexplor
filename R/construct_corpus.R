@@ -30,7 +30,8 @@
 #'   \item{\code{parameters}}{`character` (only in the `functions` df) The content that define the default parameters of a function.}
 #'   \item{\code{code}}{`character` (only in the `functions` df) The code of a function.}
 #'   \item{\code{n_func}}{`integer` (only in the `files` df) The number of exposed functions within a file.}
-#'   \item{\code{n_fn_call}}{`integer` (only in the `files.network` df) The number of functions defined in another file that are called within a file.}
+#'   \item{\code{n_params}}{`integer` (only in the `functions` df) The number of parameters of a function.}
+#'   \item{\code{freq}}{`integer` (only in the `files.network` df) The number of functions defined in the 'to' file that are called within a 'from' file.}
 #'   \item{\code{from}}{`character` (only in the `citations.network` df) The function that call another function (`functions.network` df) or the local file path or GitHub URL that call a function defined in another file (`files.network` df).}
 #'   \item{\code{to}}{`character` (only in the `citations.network` df) The function called (`functions.network` df) or the local file path or constructed GitHub URL where the function called is defined (`files.network` df).}
 #'   \item{\code{file_path_from}}{`character` (only in the `functions.network` df) The file path of the function that call another function.}
@@ -59,7 +60,7 @@
 #' cr2 <- construct_corpus(repos = c("tidyverse/stringr", "tidyverse/readr") )
 #'
 #' # Example 3: Combine local folders and GitHub repositories
-#' cr3 <- construct_corpus("~", "R", c("tidyverse/stringr", "tidyverse/readr"))
+#' cr3 <- construct_corpus("~", "Python", "prabhupant/python-ds", .verbose = TRUE)
 #' }
 #' @seealso \code{\link{readlines_in_df}}, \code{\link{get_github_raw_filespath}}, \code{\link{get_def_regex_by_language}}, \code{\link{add_doc_network_to_corpus}}
 #' @seealso
@@ -159,7 +160,7 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
   if(.verbose) cat("\n ==> Reading", length(files_path) ,"files")
 
   # 3) extract lines from files
-  complete_files <- readlines_in_df(files_path = files_path, .verbose = .verbose)
+  complete_files <- readlines_in_df(files_path = files_path, .verbose = .verbose, trimws_line = lang_desired$delimited_fn_codes)
   # add real files ext (checking if an extension default pattern return a fake file)
 
   if(is.null(complete_files)) return(NA)
@@ -174,8 +175,9 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
   # compute a nodelist FROM LINES : sum of these metrics is supposed to be document-level metrics
   # this func' is hereafter : a grouped stat' (end of this .R file)
   # 4.2) Aggregate by group_colname = "file_path" + sum of all the col' with a suffix ("n_")
+  sepp <- ifelse(lang_desired$delimited_fn_codes, " ", "\\n")
   files_list <- compute_nodelist(df = complete_files, group_col = "file_path"
-                               , colname_content_to_concatenate = "content")
+                               , colname_content_to_concatenate = "content", trimws = lang_desired$delimited_fn_codes, sep = sepp)
   #we've made sum of metrics on each entire file, e.g., total nchar value
 
   # 5.) detect the full commented lines (never clean the pseudo comments on the same line)
@@ -196,15 +198,31 @@ corpus <- clean_comments_from_lines(corpus = corpus
                                     , char_for_inline_comments = lang_desired$commented_line_char, .verbose = .verbose)
 
 #### 7) add a functions nodelist ####
-corpus <- add_functions_list_to_corpus(corpus, lang_dictionnary = lang_desired, .verbose = .verbose)
+corpus <- add_functions_list_to_corpus(corpus, lang_dictionnary = lang_desired, .verbose = .verbose, sep = sepp)
+
+# need a function df with "name" of the func' and full 'content' of the file
+
+# answer a df with pos of the params : we want to take code AFTER these position indications
+corpus$functions <- cbind(corpus$functions, extract_fn_params(corpus, lang_dictionnary = lang_desired, .verbose = .verbose) )
+# there is an end_pos and max_pos column here, to erase after
+
+# cause for each files, code are after the close_pos of params
+# AND before open pos of the next entry
+# sadly Python use indentation but near to all other languages use '{'
+if(lang_desired$delimited_fn_codes){
+  corpus$functions$code <- extract_delimited_fn_code(corpus, lang_dictionnary = lang_desired, .verbose = .verbose)
+  } else corpus$functions$code <- extract_indented_fn_code(corpus, lang_dictionnary = lang_desired, .verbose = .verbose)
+# only a vector
+#  we want to clean our intermediaries entries
+corpus$functions[, c('end_pos', "max_pos")] <- NULL
+
 # add functions text metrics
 corpus$functions <- cbind(corpus$functions, compute_nchar_metrics(text = corpus$functions$code ) )
 
 # add a network of files and functions
 corpus <- add_doc_network_to_corpus(corpus = corpus, matches_colname = "name", content_colname = "code",  ...  )
 
-
-  if(.verbose) cat("\nCorpus created")
+if(.verbose) cat("\nCorpus created")
 
   # return a basic list of df with all our col'
   return(corpus)
@@ -216,21 +234,20 @@ corpus <- add_doc_network_to_corpus(corpus = corpus, matches_colname = "name", c
 # AND aggregating the text with gather_lines_to_df !
 compute_nodelist <- function(df, group_col = "file_path"
                              , metric_pattern = "n_"
-                             , colname_content_to_concatenate = NULL) {
+                             , colname_content_to_concatenate = NULL, sep = "\\n", trimws = F) {
 
   # Check if the grouping column exists
   if (!group_col %in% colnames(df)) {
     stop(paste("Column", group_col, "does not exist in the dataframe."))
   }
 
+    if (length(metric_pattern) > 0) {
+ # we have to compute sum of numeric values
   # Find columns matching the metric pattern
   metric_cols <- grep(metric_pattern, colnames(df), value = TRUE)
+
+
   metric_cols <- metric_cols[sapply(df[, metric_cols], is.numeric)]
-
-  if (length(metric_cols) == 0) {
-    warning("No metric columns found with the pattern: ", metric_pattern)
-
-   }
 
 # adding n_lines
 
@@ -242,8 +259,9 @@ compute_nodelist <- function(df, group_col = "file_path"
 nodelist <- data.frame(group_col = unique(df[[group_col]]), nodelist)
 
 colnames(nodelist) <- c(group_col, metric_cols)
+ } else nodelist <- data.frame(df[group_col])
 
-  # add n_lines_of_code
+ # add n_lines_of_code
   nodelist$n_total_lines <- tapply(df[[group_col]], df[[group_col]], length)[nodelist[[group_col]] ]
 
   if("comments" %in% colnames(df)) {
@@ -266,7 +284,7 @@ colnames(max_values_df)[[1]] <- group_col
 # 2.) optionnally add a proper "text" column (full content) with gather_df_lines (add a content col' by default)
 if(!is.null(colname_content_to_concatenate)){
 
-  files_content <- gather_df_lines(df, group_col, colname_content_to_concatenate)
+  files_content <- gather_df_lines(df, key_colname = group_col, text = colname_content_to_concatenate, sep = sep, trimws = trimws) #add a linebreak with \n (default)
   files_content <- unique(files_content)
   nodelist <- merge(all.x = T, nodelist, files_content, by = group_col )
 

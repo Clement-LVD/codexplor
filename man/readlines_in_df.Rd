@@ -10,7 +10,8 @@ readlines_in_df(
   .verbose = TRUE,
   file_path_col_name = "file_path",
   content_col_name = "content",
-  line_number_col_name = "line_number"
+  line_number_col_name = "line_number",
+  trimws_line = FALSE
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ Column name for the file content in the output dataframe.}
 
 \item{line_number_col_name}{\code{character}, default = \code{"line_number"}
 Column name for the line numbers in the output dataframe.}
+
+\item{trimws_line}{\code{logical}, default = \code{FALSE}.  trim white space(s) at the end and the begining of each line}
 }
 \value{
 Return a \code{data.frame} with 3 columns.
