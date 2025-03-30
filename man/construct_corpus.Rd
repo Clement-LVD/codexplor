@@ -11,6 +11,7 @@ construct_corpus(
   repos = NULL,
   .verbose = F,
   pattern_to_exclude = NULL,
+  fn_to_exclude = "warning",
   ...
 )
 }
@@ -25,8 +26,24 @@ construct_corpus(
 
 \item{pattern_to_exclude}{\code{character}. Default = \code{NULL}. A character chain with a regex (used to filter out files path)}
 
-\item{...}{Additional arguments passed to \code{add_doc_network_to_corpus}, to configure both the functions network and the files network
+\item{fn_to_exclude}{\code{character} A vector of values that will not be returned such as a match.
 (prefix or suffix, nchar to append a suffix, etc.).}
+
+\item{...}{
+  Arguments passed on to \code{\link[=add_doc_network_to_corpus]{add_doc_network_to_corpus}}
+  \describe{
+    \item{\code{corpus}}{\code{character} A \code{corpus.list} object from the construct_corpus function}
+    \item{\code{matches_colname}}{\code{character}, default = \code{'name'} The name of the column of the \code{functions} df that will be used for construct a regex.}
+    \item{\code{content_colname}}{\code{character}, default = \code{'code'} The name of the column of the \code{functions} df that will be used for search a match and extract text.}
+    \item{\code{prefix_for_2nd_matches}}{\code{character} A string representing the prefix to add
+to each 1st match that will be turned into a new regular expressions. The default is an empty string.}
+    \item{\code{suffix_for_2nd_matches}}{\code{character} A string representing a regex to add as a suffix
+of each match, in order to have a complete regular expression. The default is an empty string.}
+    \item{\code{filter_egolink_within_a_file}}{\code{logical}, default = \code{TRUE}. A logical value indicating whether to filter results based on
+"ego links" (a document referring to itself)}
+    \item{\code{exclude_quoted_content}}{\code{logical}, default = \code{FALSE}. A logical value indicating if the quoted content should be take into consideration.
+If set to \code{TRUE}, text within " or ' over the same line will be suppressed, before to realize the matches}
+  }}
 }
 \value{
 A \code{list} of \code{data.frame} containing the corpus of collected files. The data frames includes columns such as:

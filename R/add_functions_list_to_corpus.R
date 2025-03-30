@@ -4,9 +4,11 @@
 #' @param lang_dictionnary `list` A language patterns dictionnary specific to one language
 #' @param .verbose `logical`, default = `FALSE`. If set to `TRUE`, show a progress bar when extracting content
 #' @param sep `character`, default = `' '` A character chain of separator, in order to concatenate lines
+#' @param fn_to_exclude `character` A vector of values that will not be returned such as a match.
 #' @return a `list` of class `corpus.list` with exposed functions names and file path
 add_functions_list_to_corpus <- function(corpus
    , lang_dictionnary, .verbose = F, sep = " "
+   , fn_to_exclude = NULL
   ){
 
   lang_desired <- lang_dictionnary
@@ -31,6 +33,7 @@ add_functions_list_to_corpus <- function(corpus
                                      , content_col_name = "exposed_content"
                                      ,  pattern = lang_desired$fn_regex
                                      , duplicated_lines_are_normal = T
+                                     , match_to_exclude = fn_to_exclude
   )
   # files without func => matches = NA / Creation order within the file is the order(!)
   # add n fonctions defined within the file to the 'files' df (nodelist of documents)

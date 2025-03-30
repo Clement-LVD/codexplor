@@ -11,7 +11,8 @@
 #' @param repos `character`. Default = `NULL`. A character vector of GitHub repository URLs or repository identifiers to extract files from (e.g., `"user/repo"`).
 #' @param .verbose `logical`. Default = `TRUE`. A logical used to silent the message in console.
 #' @param pattern_to_exclude `character`. Default = `NULL`. A character chain with a regex (used to filter out files path)
-#' @param ... Additional arguments passed to `add_doc_network_to_corpus`, to configure both the functions network and the files network
+#' @inheritDotParams  add_doc_network_to_corpus
+#' @param fn_to_exclude `character` A vector of values that will not be returned such as a match.
 #' (prefix or suffix, nchar to append a suffix, etc.).
 #'
 #' @return A `list` of `data.frame` containing the corpus of collected files. The data frames includes columns such as:
@@ -72,6 +73,7 @@ construct_corpus <- function(
  , repos = NULL
 , .verbose = F
 , pattern_to_exclude = NULL
+, fn_to_exclude = "warning"
 , ...
 ){
 
@@ -96,7 +98,9 @@ corpus <- lapply(sequens_of_languages, function(i) {
 
   create_corpus(folders = folders,  repos= repos
                 , lang_desired = lang_desired
-                , .verbose = .verbose, pattern_to_exclude = pattern_to_exclude, ...)
+                , .verbose = .verbose, pattern_to_exclude = pattern_to_exclude
+                , fn_to_exclude = fn_to_exclude
+                , ...)
   #defined hereafter for a single language
 })
 
@@ -132,6 +136,7 @@ create_corpus <- function(folders = NULL
                           , repos = NULL
                           , .verbose = F
                           , pattern_to_exclude = NULL
+                          , fn_to_exclude = NULL
                           , ...){
 
   lang_desired <- lang_desired
@@ -198,7 +203,8 @@ corpus <- clean_comments_from_lines(corpus = corpus
                                     , char_for_inline_comments = lang_desired$commented_line_char, .verbose = .verbose)
 
 #### 7) add a functions nodelist ####
-corpus <- add_functions_list_to_corpus(corpus, lang_dictionnary = lang_desired, .verbose = .verbose, sep = sepp)
+corpus <- add_functions_list_to_corpus(corpus, lang_dictionnary = lang_desired, .verbose = .verbose, sep = sepp
+                                       , fn_to_exclude = fn_to_exclude)
 
 # need a function df with "name" of the func' and full 'content' of the file
 

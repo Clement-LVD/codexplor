@@ -4,7 +4,13 @@
 \alias{add_functions_list_to_corpus}
 \title{Compute a function list from the codes df of a corpus.list object}
 \usage{
-add_functions_list_to_corpus(corpus, lang_dictionnary, .verbose = F, sep = " ")
+add_functions_list_to_corpus(
+  corpus,
+  lang_dictionnary,
+  .verbose = F,
+  sep = " ",
+  fn_to_exclude = NULL
+)
 }
 \arguments{
 \item{corpus}{A \code{corpus.list} object with at least the 'codes' dataframe}
@@ -14,6 +20,8 @@ add_functions_list_to_corpus(corpus, lang_dictionnary, .verbose = F, sep = " ")
 \item{.verbose}{\code{logical}, default = \code{FALSE}. If set to \code{TRUE}, show a progress bar when extracting content}
 
 \item{sep}{\code{character}, default = \code{' '} A character chain of separator, in order to concatenate lines}
+
+\item{fn_to_exclude}{\code{character} A vector of values that will not be returned such as a match.}
 }
 \value{
 a \code{list} of class \code{corpus.list} with exposed functions names and file path
