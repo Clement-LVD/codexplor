@@ -48,8 +48,9 @@ corpus$functions$name[grepl(x = corpus$functions$code, "cli\\:\\:")]
  knitr::kable(head(tm_params, 2)) # only 2 lines of example hereafter
 ```
 
-     # Example : several local folders and/or repos
-    corpus <- construct_corpus(c("~", "M:/") 
+`construct_corpus()` deal with several local folders and/or repos.
+
+     corpus <- construct_corpus(c("~", "M:/") 
     ,languages = c("Python", "R")
     , repos =  c("clement-LVD/codexplor","secdev/scapy"))
    
@@ -64,7 +65,7 @@ corpus$functions$name[grepl(x = corpus$functions$code, "cli\\:\\:")]
 - and a `functions.network` (classes `citations.network`, `internal.dependencies` & `data.frame`)
 
 
-**Returned df.** This `corpus.list` of df offers insights on the programming project, at various levels :
+**Returned data.frame.** This `corpus.list` of df offers insights on the programming project, at various levels :
 
 
 <!-- - The `files` `data.frame` contains the files path and/or url, and overall text-mining metrics about each files of the corpus (e.g., number of characters, words count; number of functions within the file). -->
@@ -120,20 +121,28 @@ knitr::kable(table)
 Here, R is the only language that assign an anonymous function to an object. Thus, contrary to other languages, we have to find the name of R functions before the keyword 'function', R parameters names are within the parenthesis after 'function(', etc. 
 
 ## Unmatched definition
-**Python.** The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched yet by `construct_corpus` :
+**R.** Some way of assigning a function in R are currently not supported. These caveat are planned feature, such as:
 
-     hello = lambda: None
+- The right-hand assignment style is not recognized yet by `codexplor::construct_corpus()`. According to the Google’s R Style Guide :
 
-**R.** The re-assigning of an anonymous R function to a new R object is not supported yet :
+> This convention differs substantially from practices in other languages and makes it harder to see in code where an object is defined. E.g. searching for `foo <-` is easier than searching for `foo <-` and `-> foo` (https://google.github.io/styleguide/Rguide.html#pipes).
+
+- The re-assigning of a R function to a new object is not supported yet, see hereafter.
       
       aaa <- function(i, a){i + a} # construct_corpus match the 'aaa' function
        my_func_a <- aaa    #  but don't notice the creation of an alias
       my_func_a(1,2) # will not be matched during the post-processing 
 
+Depending on the number of letters of the function' name, this will lead `codexplor::construct_corpus()` to a little mistake about this function, i.e. recognize the `'aaa'` call as a function call instead of a proper catching of this scenario as a 'reassigning' and not a normal call of the function.
+
+**Python.** The function 'hello' defined as a lambda (anonymous) function within the Python line hereafter is not matched yet by `construct_corpus` :
+
+     hello = lambda: None
+     
 <!-- **JS.** Another caveat unsupported - yet - is the 'hello' javascript function defined hereafter : -->
 
 <!--      const hello = (a, b) => a + b; -->
 
 ## One-liner code-extraction limits
-Usually the code of a function is within '{' and '}' brackets (e.g., R, C, C++, C#, Java, JavaScript, Swift, Kotlin, Go). This way, programming languages don't need to rely on indentation. `codexplor::construct_corpus` rely on these brackets, in order to extract the code of a function in the `functions` `data.frame` of the `corpus.list`. Thus, the one-liners *codes* are excluded from the `functions` `data.frame` if they are not within brackets. Contrary to this standardized pattern, Python use indentation to create a block and one-liner function code is matched.
+Usually the code of a function is within '{' and '}' brackets (e.g., R, C, C++, C#, Java, JavaScript, Swift, Kotlin, Go). `codexplor::construct_corpus` rely on these brackets, in order to extract the code of a function in the `functions` `data.frame` of the `corpus.list`. Thus, the one-liners *codes* are excluded from the `functions` `data.frame` if they are not within brackets. Contrary to this standardized pattern, Python use indentation to create a block and thus one-liner function code is matched.
 
