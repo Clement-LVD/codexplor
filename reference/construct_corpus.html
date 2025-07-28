@@ -141,19 +141,19 @@ If set to <code>TRUE</code>, text within " or ' over the same line will be suppr
 <dd><p><code>character</code> File extension of the file.</p></dd>
 
 <dt><code>n_char</code></dt>
-<dd><p><code>integer</code> Number of characters - including spacing - in the entire file (<code>files</code> df), a line of the file (<code>codes</code> and <code>comments</code> df), or within the function code (<code>functions</code> df).</p></dd>
+<dd><p><code>integer</code> Number of characters - including spacing - in the entire file (<code>files</code> df), a line of the file (<code>codes</code> and <code>comments</code> df), or within the function <em>code</em> - without commented content (<code>functions</code> df).</p></dd>
 
 <dt><code>n_char_wo_space</code></dt>
-<dd><p><code>integer</code> Number of characters - without spacing - in the entire file (<code>files</code> df), a line of the file (<code>codes</code> and <code>comments</code> df), or within the function code (<code>functions</code> df)</p></dd>
+<dd><p><code>integer</code> Number of characters - without spacing - in the entire file (<code>files</code> df), a line of the file (<code>codes</code> and <code>comments</code> df), or within the function <em>code</em> - without commented content (<code>functions</code> df)</p></dd>
 
 <dt><code>n_word</code></dt>
-<dd><p><code>integer</code> Number of words in the entire file (<code>files</code> df), a line of the file (<code>codes</code> and <code>comments</code> df), or within the function code (<code>functions</code> df).</p></dd>
+<dd><p><code>integer</code> Number of words in the entire file (<code>files</code> df), a line of the file (<code>codes</code> and <code>comments</code> df), or within the function <em>code</em> - without commented content (<code>functions</code> df).</p></dd>
 
 <dt><code>n_vowel</code></dt>
-<dd><p><code>integer</code> Number of voyel in the entire file (<code>files</code> df), a line of the file (<code>codes</code> and <code>comments</code> df), or within the function code (<code>functions</code> df).</p></dd>
+<dd><p><code>integer</code> Number of voyel in the entire file (<code>files</code> df), a line of the file (<code>codes</code> and <code>comments</code> df), or within the function <em>code</em> - without commented content (<code>functions</code> df).</p></dd>
 
 <dt><code>n_total_lines</code></dt>
-<dd><p><code>integer</code> Number of commented lines (<code>comments</code> df), code lines (<code>codes</code> df), within the file (<code>files</code> df), or the function code (<code>functions</code> df).</p></dd>
+<dd><p><code>integer</code> Number of commented lines (<code>comments</code> df), code lines (<code>codes</code> df), within the file (<code>files</code> df), or the function <em>code</em> - without commented content (<code>functions</code> df).</p></dd>
 
 <dt><code>comments</code></dt>
 <dd><p><code>logical</code> <code>TRUE</code> if the entire line is commented. Set to <code>FALSE</code> for the <code>codes</code> df and <code>TRUE</code> for the <code>comments</code> df.</p></dd>
@@ -189,10 +189,10 @@ If set to <code>TRUE</code>, text within " or ' over the same line will be suppr
 <dd><p><code>character</code> (only in the <code>functions.network</code> df) The file path where the function called is defined.</p></dd>
 
 <dt><code>indeg_fn</code></dt>
-<dd><p><code>integer</code> (only in the <code>files</code> and <code>functions</code> df) Number of functions that call this function (<code>functions</code> df) or number of files with functions that call the functions of this file (<code>files</code> df).</p></dd>
+<dd><p><code>integer</code> (only in the <code>files</code> and <code>functions</code> df) Number of functions that call this function (<code>functions</code> df) or number of files with functions that call the functions of this file (<code>files</code> df). Internal links are excluded from the indegree and outdegree metrics.</p></dd>
 
 <dt><code>outdeg_fn</code></dt>
-<dd><p><code>integer</code> (only in the <code>files</code> and <code>functions</code> df) Number of functions called by this function (<code>functions</code> df) or number of files where the functions called by the functions of this file are defined (<code>files</code> df).</p></dd>
+<dd><p><code>integer</code> (only in the <code>files</code> and <code>functions</code> df) Number of functions called by this function (<code>functions</code> df) or number of files where the functions called by the functions of this file are defined (<code>files</code> df). Internal links are excluded from the indegree and outdegree metrics.</p></dd>
 
 
 </dl></div>
@@ -201,8 +201,9 @@ If set to <code>TRUE</code>, text within " or ' over the same line will be suppr
 
 <ul><li><p>If <code>folders</code> is provided (one or a list), the function scans the directories and retrieves file paths matching the specified languages.</p></li>
 <li><p>If <code>repos</code> is provided (one or a list), it constructs URLs to the raw content of files from the specified GitHub repositories.</p></li>
-<li><p>Both local paths and GitHub URLs can be combined in the final output.</p></li>
-</ul><p>The returned list is tagged with the class <em>corpus.list</em>, and contains the following attributes:</p><ul><li><p><code>date_creation</code> : <code>Date</code> a Date indicating when the corpus list was created (as <code><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date()</a></code>).</p></li>
+<li><p>Both local paths and GitHub URLs can be combined in the final output.
+The returned list is tagged with the class <em>corpus.list</em>, and contains the following attributes:</p></li>
+<li><p><code>date_creation</code> : <code>Date</code> a Date indicating when the corpus list was created (as <code><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date()</a></code>).</p></li>
 <li><p><code>have_citations_network</code> : a <code>logical</code> indicating if a network of internal dependancies was processed
 (construct_corpus don't return a citations_network so it will be set to  <code>FALSE</code>)</p></li>
 <li><p><code>languages_patterns</code> : a list with the default patterns associated with the
@@ -238,7 +239,7 @@ requested languages.</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
