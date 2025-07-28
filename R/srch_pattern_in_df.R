@@ -47,12 +47,17 @@ content_df$row_num <- 1:nrow(content_df)
 
 first_matches <- regmatches(content_df[[content_col_name]], gregexpr(pattern, content_df[[content_col_name]], perl = TRUE))
 # Unnest with base R
+
 flattened_df <- data.frame(row_num = rep( 1:length(first_matches)
                                          , sapply(first_matches, length)),
                            values = unlist(first_matches) )# and unlist give a raw vector.
  # We REP each row number until unnesting the list
 # sapply(expanded_df$matches, length) give length of each sublist, used for repeating value (sometimes 0 times when no match)
 
+flattened_df$values <- trimws(flattened_df$values)
+# cleaning out our indesired results as soon as possible :
+
+# default is filtering the custom warning, e.g., a 'warning' condition (trycatch or whatever)
 # Remove lines according to nchar limit and list passed by the user
 rows_to_remove <- c(which(nchar(flattened_df$values) < ignore_match_less_than_nchar),
                     which(flattened_df$values %in% match_to_exclude) )

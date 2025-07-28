@@ -1,6 +1,37 @@
 
 #### CORPUS.LIST TREATMENT METHODS ####
-# a corpus.list is a list of dataframes
+
+# a corpus.list is a list of dataframes: used herafter
+#' Add comments and codeslines metrics
+#' @param corpus `corpus.list` `list` of dataframes created by `construct_corpus()`.
+#' @return A dataframe of class 'corpus.list'.
+add.lines.metrics.to.corpus.files <- function(corpus){
+  if (!inherits(corpus, "corpus.list")) stop("Not a 'corpus.list' object")
+
+  # compute n lines over a file_path key
+  compute_n_lines <- function(df) {
+
+    count_by_grp <- by(df$line_number, df$file_path, function(x) length(unique(x)))
+
+    return(
+      data.frame(file_path = names(count_by_grp)
+                 , n_lines  = as.vector(count_by_grp))
+          )
+
+    }
+
+  n_commentslines <-   compute_n_lines(corpus$comments)
+colnames(n_commentslines)[2] <- "n_lines_comments"
+
+n_codelines <-  compute_n_lines(corpus$codes)
+colnames(n_codelines)[2] <- "n_lines_codes"
+
+result <- merge(n_codelines, n_commentslines, by = "file_path", all = TRUE)
+
+corpus$files <- merge(corpus$files, result, by = "file_path", all.y = F, all.x = T)
+
+return(corpus)
+}
 
 #' add network-metrics to nodelist & summarise a corpus.list
 #'
@@ -9,11 +40,9 @@
 add.stats.corpus.list <-  function(corpus) {
   if (!inherits(corpus, "corpus.list")) stop("Not a 'corpus.list' object")
 
-  if(!any(grepl(".network",x =  names(corpus)))) return(corpus)
-# if there is a network :
-
-    # 1) add degrees to the files and functions df
-corpus <-  add_degrees_to_corpus.nodelist(corpus)
+   corpus <- add.lines.metrics.to.corpus.files(corpus)
+  # 1) add degrees to the files and functions df
+  if(any(grepl(".network",x =  names(corpus)))) corpus <-  add_degrees_to_corpus.nodelist(corpus)
 
 return(corpus)
 }
@@ -36,13 +65,17 @@ add_degrees_to_corpus.nodelist <- function(corpus
 
   # 1) add degrees to the files
   indeg_outdeg_vec <- lapply(corpus[[df_name]][[key_name]], FUN = function(path){
-    indeg <- length(unique(corpus[[network_name]]$to[corpus[[network_name]]$from == path] ) )
-    outdeg <-length(unique(corpus[[network_name]]$from[corpus[[network_name]]$to == path] ) )
-    return(c(indeg,outdeg))
+    # for each file : FROM our path TO a unique number of fn (outdeg)
+    # => is equivalent to filter out the 'to' by keeping only lines 'from' our path
+    outdeg <- length(unique(corpus[[network_name]]$to[corpus[[network_name]]$from == path] ) )
+    # inverted logic :filter out the 'from' by keeping only when it's to our path : indeg of our path
+    indeg <- length(unique(corpus[[network_name]]$from[corpus[[network_name]]$to == path] ) )
+
+    return(c(outdeg,indeg)) #order hardcoded
   } )
 
   degrees <- data.frame(do.call(rbind, indeg_outdeg_vec))
-  colnames(degrees) <- c("indeg_fn", "outdeg_fn")
+  colnames(degrees) <- c("outdeg_fn","indeg_fn" )
 
   corpus[[df_name]] <- .construct.nodelist(cbind(corpus[[df_name]], degrees))
 

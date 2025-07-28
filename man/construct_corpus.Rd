@@ -52,11 +52,11 @@ A \code{list} of \code{data.frame} containing the corpus of collected files. The
 \item{\code{line_number}}{\code{integer} The line number of the file.}
 \item{\code{content}}{\code{character} The content in a line for the \code{corpus.lines} df, or the full content of the file.}
 \item{\code{file_ext}}{\code{character} File extension of the file.}
-\item{\code{n_char}}{\code{integer} Number of characters - including spacing - in the entire file (\code{files} df), a line of the file (\code{codes} and \code{comments} df), or within the function code (\code{functions} df).}
-\item{\code{n_char_wo_space}}{\code{integer} Number of characters - without spacing - in the entire file (\code{files} df), a line of the file (\code{codes} and \code{comments} df), or within the function code (\code{functions} df)}
-\item{\code{n_word}}{\code{integer} Number of words in the entire file (\code{files} df), a line of the file (\code{codes} and \code{comments} df), or within the function code (\code{functions} df).}
-\item{\code{n_vowel}}{\code{integer} Number of voyel in the entire file (\code{files} df), a line of the file (\code{codes} and \code{comments} df), or within the function code (\code{functions} df).}
-\item{\code{n_total_lines}}{\code{integer} Number of commented lines (\code{comments} df), code lines (\code{codes} df), within the file (\code{files} df), or the function code (\code{functions} df).}
+\item{\code{n_char}}{\code{integer} Number of characters - including spacing - in the entire file (\code{files} df), a line of the file (\code{codes} and \code{comments} df), or within the function \emph{code} - without commented content (\code{functions} df).}
+\item{\code{n_char_wo_space}}{\code{integer} Number of characters - without spacing - in the entire file (\code{files} df), a line of the file (\code{codes} and \code{comments} df), or within the function \emph{code} - without commented content (\code{functions} df)}
+\item{\code{n_word}}{\code{integer} Number of words in the entire file (\code{files} df), a line of the file (\code{codes} and \code{comments} df), or within the function \emph{code} - without commented content (\code{functions} df).}
+\item{\code{n_vowel}}{\code{integer} Number of voyel in the entire file (\code{files} df), a line of the file (\code{codes} and \code{comments} df), or within the function \emph{code} - without commented content (\code{functions} df).}
+\item{\code{n_total_lines}}{\code{integer} Number of commented lines (\code{comments} df), code lines (\code{codes} df), within the file (\code{files} df), or the function \emph{code} - without commented content (\code{functions} df).}
 \item{\code{comments}}{\code{logical} \code{TRUE} if the entire line is commented. Set to \code{FALSE} for the \code{codes} df and \code{TRUE} for the \code{comments} df.}
 \item{\code{commented}}{\code{character} (only in the \code{codes} df) Inlines comments or NA if there is no inline comments.}
 \item{\code{parameters}}{\code{character} (only in the \code{functions} df) The content that define the default parameters of a function.}
@@ -68,8 +68,8 @@ A \code{list} of \code{data.frame} containing the corpus of collected files. The
 \item{\code{to}}{\code{character} (only in the \code{citations.network} df) The function called (\code{functions.network} df) or the local file path or constructed GitHub URL where the function called is defined (\code{files.network} df).}
 \item{\code{file_path_from}}{\code{character} (only in the \code{functions.network} df) The file path of the function that call another function.}
 \item{\code{file_path_to}}{\code{character} (only in the \code{functions.network} df) The file path where the function called is defined.}
-\item{\code{indeg_fn}}{\code{integer} (only in the \code{files} and \code{functions} df) Number of functions that call this function (\code{functions} df) or number of files with functions that call the functions of this file (\code{files} df).}
-\item{\code{outdeg_fn}}{\code{integer} (only in the \code{files} and \code{functions} df) Number of functions called by this function (\code{functions} df) or number of files where the functions called by the functions of this file are defined (\code{files} df).}
+\item{\code{indeg_fn}}{\code{integer} (only in the \code{files} and \code{functions} df) Number of functions that call this function (\code{functions} df) or number of files with functions that call the functions of this file (\code{files} df). Internal links are excluded from the indegree and outdegree metrics.}
+\item{\code{outdeg_fn}}{\code{integer} (only in the \code{files} and \code{functions} df) Number of functions called by this function (\code{functions} df) or number of files where the functions called by the functions of this file are defined (\code{files} df). Internal links are excluded from the indegree and outdegree metrics.}
 }
 }
 \description{
@@ -84,10 +84,7 @@ return a \code{list} of 4 dataframes. The list have an additionnal \code{corpus.
 \item If \code{folders} is provided (one or a list), the function scans the directories and retrieves file paths matching the specified languages.
 \item If \code{repos} is provided (one or a list), it constructs URLs to the raw content of files from the specified GitHub repositories.
 \item Both local paths and GitHub URLs can be combined in the final output.
-}
-
 The returned list is tagged with the class \emph{corpus.list}, and contains the following attributes:
-\itemize{
 \item \code{date_creation} : \code{Date} a Date indicating when the corpus list was created (as \code{Sys.Date()}).
 \item \code{have_citations_network} : a \code{logical} indicating if a network of internal dependancies was processed
 (construct_corpus don't return a citations_network so it will be set to  \code{FALSE})

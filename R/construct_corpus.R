@@ -21,11 +21,11 @@
 #'   \item{\code{line_number}}{`integer` The line number of the file.}
 #'   \item{\code{content}}{`character` The content in a line for the `corpus.lines` df, or the full content of the file.}
 #'   \item{\code{file_ext}}{`character` File extension of the file.}
-#'   \item{\code{n_char}}{`integer` Number of characters - including spacing - in the entire file (`files` df), a line of the file (`codes` and `comments` df), or within the function code (`functions` df).}
-#'   \item{\code{n_char_wo_space}}{`integer` Number of characters - without spacing - in the entire file (`files` df), a line of the file (`codes` and `comments` df), or within the function code (`functions` df)}
-#'   \item{\code{n_word}}{`integer` Number of words in the entire file (`files` df), a line of the file (`codes` and `comments` df), or within the function code (`functions` df).}
-#'   \item{\code{n_vowel}}{`integer` Number of voyel in the entire file (`files` df), a line of the file (`codes` and `comments` df), or within the function code (`functions` df).}
-#'   \item{\code{n_total_lines}}{`integer` Number of commented lines (`comments` df), code lines (`codes` df), within the file (`files` df), or the function code (`functions` df).}
+#'   \item{\code{n_char}}{`integer` Number of characters - including spacing - in the entire file (`files` df), a line of the file (`codes` and `comments` df), or within the function *code* - without commented content (`functions` df).}
+#'   \item{\code{n_char_wo_space}}{`integer` Number of characters - without spacing - in the entire file (`files` df), a line of the file (`codes` and `comments` df), or within the function *code* - without commented content (`functions` df)}
+#'   \item{\code{n_word}}{`integer` Number of words in the entire file (`files` df), a line of the file (`codes` and `comments` df), or within the function *code* - without commented content (`functions` df).}
+#'   \item{\code{n_vowel}}{`integer` Number of voyel in the entire file (`files` df), a line of the file (`codes` and `comments` df), or within the function *code* - without commented content (`functions` df).}
+#'   \item{\code{n_total_lines}}{`integer` Number of commented lines (`comments` df), code lines (`codes` df), within the file (`files` df), or the function *code* - without commented content (`functions` df).}
 #'   \item{\code{comments}}{`logical` `TRUE` if the entire line is commented. Set to `FALSE` for the `codes` df and `TRUE` for the `comments` df.}
 #'   \item{\code{commented}}{`character` (only in the `codes` df) Inlines comments or NA if there is no inline comments.}
 #'   \item{\code{parameters}}{`character` (only in the `functions` df) The content that define the default parameters of a function.}
@@ -37,15 +37,14 @@
 #'   \item{\code{to}}{`character` (only in the `citations.network` df) The function called (`functions.network` df) or the local file path or constructed GitHub URL where the function called is defined (`files.network` df).}
 #'   \item{\code{file_path_from}}{`character` (only in the `functions.network` df) The file path of the function that call another function.}
 #'   \item{\code{file_path_to}}{`character` (only in the `functions.network` df) The file path where the function called is defined.}
-#'   \item{\code{indeg_fn}}{`integer` (only in the `files` and `functions` df) Number of functions that call this function (`functions` df) or number of files with functions that call the functions of this file (`files` df).}
-#'   \item{\code{outdeg_fn}}{`integer` (only in the `files` and `functions` df) Number of functions called by this function (`functions` df) or number of files where the functions called by the functions of this file are defined (`files` df).}
+#'   \item{\code{indeg_fn}}{`integer` (only in the `files` and `functions` df) Number of functions that call this function (`functions` df) or number of files with functions that call the functions of this file (`files` df). Internal links are excluded from the indegree and outdegree metrics.}
+#'   \item{\code{outdeg_fn}}{`integer` (only in the `files` and `functions` df) Number of functions called by this function (`functions` df) or number of files where the functions called by the functions of this file are defined (`files` df). Internal links are excluded from the indegree and outdegree metrics.}
 #' }
 #'
 #' @details
 #' - If `folders` is provided (one or a list), the function scans the directories and retrieves file paths matching the specified languages.
 #' - If `repos` is provided (one or a list), it constructs URLs to the raw content of files from the specified GitHub repositories.
 #' - Both local paths and GitHub URLs can be combined in the final output.
-#'
 #' The returned list is tagged with the class *corpus.list*, and contains the following attributes:
 #' - `date_creation` : `Date` a Date indicating when the corpus list was created (as `Sys.Date()`).
 #' - `have_citations_network` : a `logical` indicating if a network of internal dependancies was processed
@@ -181,12 +180,18 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
   # this func' is hereafter : a grouped stat' (end of this .R file)
   # 4.2) Aggregate by group_colname = "file_path" + sum of all the col' with a suffix ("n_")
   sepp <- ifelse(lang_desired$delimited_fn_codes, " ", "\\n")
-  files_list <- compute_nodelist(df = complete_files, group_col = "file_path"
-                               , colname_content_to_concatenate = "content", trimws = lang_desired$delimited_fn_codes, sep = sepp)
+
+   files_list <- compute_nodelist(df = complete_files, group_col = "file_path"
+                               , colname_content_to_concatenate = "content"
+                               , trimws = lang_desired$delimited_fn_codes
+                               , sep = sepp)
   #we've made sum of metrics on each entire file, e.g., total nchar value
 
+
   # 5.) detect the full commented lines (never clean the pseudo comments on the same line)
-  complete_files$comments <- grepl(x = complete_files$content, pattern =  paste0("^\\s*", lang_desired$commented_line_char))
+  complete_files$comments <- grepl(x = complete_files$content
+                                   , pattern =  paste0("^\\s*"
+                                                       , lang_desired$commented_line_char))
 # we will separate a 1st corpus then with this logical values :
 
   #### 6) Construct a corpus.list ####
@@ -196,14 +201,17 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
     , comments = .construct.corpus.lines(complete_files[complete_files$comments,  ])
     , files = .construct.nodelist(files_list)
   )
+
   # classe corpus.lines and corpus.nodelist
 # 'codes' will be cleaned from comments
 corpus <- clean_comments_from_lines(corpus = corpus
                                     , delim_pair = lang_desired$delim_pair_comments_block
-                                    , char_for_inline_comments = lang_desired$commented_line_char, .verbose = .verbose)
+                                    , char_for_inline_comments = lang_desired$commented_line_char
+                                    , .verbose = .verbose)
 
 #### 7) add a functions nodelist ####
-corpus <- add_functions_list_to_corpus(corpus, lang_dictionnary = lang_desired, .verbose = .verbose, sep = sepp
+corpus <- add_functions_list_to_corpus(corpus, lang_dictionnary = lang_desired
+                                       , .verbose = .verbose, sep = sepp
                                        , fn_to_exclude = fn_to_exclude)
 
 # need a function df with "name" of the func' and full 'content' of the file
@@ -219,11 +227,17 @@ if(lang_desired$delimited_fn_codes){
   corpus$functions$code <- extract_delimited_fn_code(corpus, lang_dictionnary = lang_desired, .verbose = .verbose)
   } else corpus$functions$code <- extract_indented_fn_code(corpus, lang_dictionnary = lang_desired, .verbose = .verbose)
 # only a vector
-#  we want to clean our intermediaries entries
+#  clean intermediaries entries
 corpus$functions[, c('end_pos', "max_pos")] <- NULL
 
-# add functions text metrics
-corpus$functions <- cbind(corpus$functions, compute_nchar_metrics(text = corpus$functions$code ) )
+# herafter we work the functions level : todo turn it into a special func'
+# add functions' code text-metrics
+codes_metrics <- compute_nchar_metrics(text = corpus$functions$code )
+
+colnames(codes_metrics) <- paste0("code_", colnames(codes_metrics) )
+# (renaming them with a code_ prefix)
+# and add them to the 'functions' df
+corpus$functions <- cbind(corpus$functions, codes_metrics )
 
 # add a network of files and functions
 corpus <- add_doc_network_to_corpus(corpus = corpus, matches_colname = "name", content_colname = "code",  ...  )
@@ -267,8 +281,12 @@ nodelist <- data.frame(group_col = unique(df[[group_col]]), nodelist)
 colnames(nodelist) <- c(group_col, metric_cols)
  } else nodelist <- data.frame(df[group_col])
 
- # add n_lines_of_code
-  nodelist$n_total_lines <- tapply(df[[group_col]], df[[group_col]], length)[nodelist[[group_col]] ]
+ # add n_lines (complete content or lines of codes)
+  # N LINES = max of the line number previously assigned or length of the group_col ^^
+ counting_table <- data.frame(base::table(df[[group_col]]) )
+# reordering and assigning : 1st col' is file_path and 'Freq' (from table() is counting)
+ nodelist$n_total_lines <- counting_table[ match(nodelist[[group_col]], counting_table[[1]]), "Freq"]
+
 
   if("comments" %in% colnames(df)) {
    df_filtered <- df[df$comments == FALSE, ]
