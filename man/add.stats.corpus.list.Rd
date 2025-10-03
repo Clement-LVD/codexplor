@@ -4,10 +4,12 @@
 \alias{add.stats.corpus.list}
 \title{add network-metrics to nodelist & summarise a corpus.list}
 \usage{
-add.stats.corpus.list(corpus)
+add.stats.corpus.list(corpus, .verbose)
 }
 \arguments{
-\item{corpus}{\code{corpus.list} \code{list} of dataframes created by \code{construct_corpus()}.}
+\item{corpus}{\code{corpus.list} - \code{list} of dataframes created by \code{construct_corpus()}.}
+
+\item{.verbose}{\code{logical} - show messages if \code{TRUE}.}
 }
 \value{
 A dataframe of class 'corpus.list'.

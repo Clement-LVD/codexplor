@@ -3,9 +3,10 @@
 
 # a corpus.list is a list of dataframes: used herafter
 #' Add comments and codeslines metrics
-#' @param corpus `corpus.list` `list` of dataframes created by `construct_corpus()`.
+#' @param corpus `corpus.list` - `list` of dataframes created by `construct_corpus()`.
+#' @param .verbose `logical` - Add messages if `TRUE`.
 #' @return A dataframe of class 'corpus.list'.
-add.lines.metrics.to.corpus.files <- function(corpus){
+add.lines.metrics.to.corpus.files <- function(corpus, .verbose = T){
   if (!inherits(corpus, "corpus.list")) stop("Not a 'corpus.list' object")
 
   # compute n lines over a file_path key
@@ -20,7 +21,7 @@ add.lines.metrics.to.corpus.files <- function(corpus){
 
     }
 
-  n_commentslines <-   compute_n_lines(corpus$comments)
+n_commentslines <-   compute_n_lines(corpus$comments)
 colnames(n_commentslines)[2] <- "n_lines_comments"
 
 n_codelines <-  compute_n_lines(corpus$codes)
@@ -30,17 +31,26 @@ result <- merge(n_codelines, n_commentslines, by = "file_path", all = TRUE)
 
 corpus$files <- merge(corpus$files, result, by = "file_path", all.y = F, all.x = T)
 
+# add lines-distance metrics (from lines to files)
+if(.verbose) cat("|==> Add files network : Levenshtein-distance lines similarity\n")
+results <- compute_similarity_network(corpus$codes, group_col = "file_path", text_col = "content")
+# add intrafile lines-level (mean) similarity metrics
+corpus$files  <- merge(corpus$files  , results$nodelist_files, by.x = "file_path", by.y = "file", all.x = T, all.y = F)
+# todo : add lines similarity network
+corpus$files.similarity.network <- results$edges_files_similarity
+
 return(corpus)
 }
 
 #' add network-metrics to nodelist & summarise a corpus.list
 #'
-#' @param corpus `corpus.list` `list` of dataframes created by `construct_corpus()`.
+#' @param corpus `corpus.list` - `list` of dataframes created by `construct_corpus()`.
+#' @param .verbose `logical` - show messages if `TRUE`.
 #' @return A dataframe of class 'corpus.list'.
-add.stats.corpus.list <-  function(corpus) {
+add.stats.corpus.list <-  function(corpus, .verbose = T) {
   if (!inherits(corpus, "corpus.list")) stop("Not a 'corpus.list' object")
 
-   corpus <- add.lines.metrics.to.corpus.files(corpus)
+   corpus <- add.lines.metrics.to.corpus.files(corpus, .verbose)
   # 1) add degrees to the files and functions df
   if(any(grepl(".network",x =  names(corpus)))) corpus <-  add_degrees_to_corpus.nodelist(corpus)
 

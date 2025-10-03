@@ -76,7 +76,7 @@ construct_corpus <- function(
 , ...
 ){
 
-if(.verbose) cat("\n Constructing a corpus of programming files (", languages, ")")
+if(.verbose) cat("| Constructing a corpus of programming files\n")
 #serialized over a "language" = specific treatment from a dictionnary
 # 1) get files infos associated to a language
 lang_dictionnary <- get_def_regex_by_language(languages)
@@ -93,7 +93,7 @@ corpus <- lapply(sequens_of_languages, function(i) {
 
   lang_desired <- lang_dictionnary[[i]]
 
-  if(.verbose) cat("Language ", i , ":", lang_desired$file_extension )
+  if(.verbose) cat("|=> Language ", i , ":", lang_desired$file_extension , "\n")
 
   create_corpus(folders = folders,  repos= repos
                 , lang_desired = lang_desired
@@ -120,8 +120,9 @@ combined <- .construct.corpus.list(combined
                                    , folders = folders
                                    , repos = repos)
 
-# 5) add class attributes and structure (optionnal doc' & methods heritated)
-combined <- add.stats.corpus.list(combined)
+# 5) add class attributes and structure (post-treatment here !)
+if(.verbose) cat("|======> Post-treatment\n")
+combined <- add.stats.corpus.list(combined, .verbose = .verbose)
 
 return(combined)
 }
@@ -161,7 +162,7 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
   if(is.null(files_path)) return(NA)
 
   # Here : if no file path a NA is converted to NULL return (+1 level)
-  if(.verbose) cat("\n ==> Reading", length(files_path) ,"files")
+  if(.verbose) cat("|==> Reading", length(files_path) ,"files\n")
 
   # 3) extract lines from files
   complete_files <- readlines_in_df(files_path = files_path, .verbose = .verbose, trimws_line = lang_desired$delimited_fn_codes)
@@ -171,7 +172,7 @@ if(is.null(pattern_to_exclude)) pattern_to_exclude <- lang_desired$pattern_to_ex
 
   # complete_files$file_ext <- gsub(x = basename(complete_files$file_path), ".*\\." ,replacement = "")
 
-  if(.verbose) cat("\n ==> Compute a corpus")
+  if(.verbose) cat("|===> Compute a corpus\n")
 
   # 4.1.) ADD LINES TEXT-METRICS ON ENTIRE FILES
   complete_files <- cbind(complete_files, compute_nchar_metrics(complete_files[["content"]]) )
@@ -242,7 +243,7 @@ corpus$functions <- cbind(corpus$functions, codes_metrics )
 # add a network of files and functions
 corpus <- add_doc_network_to_corpus(corpus = corpus, matches_colname = "name", content_colname = "code",  ...  )
 
-if(.verbose) cat("\nCorpus created")
+if(.verbose) cat("|=[OK]=> Corpus created\n")
 
   # return a basic list of df with all our col'
   return(corpus)

@@ -4,10 +4,12 @@
 \alias{add.lines.metrics.to.corpus.files}
 \title{Add comments and codeslines metrics}
 \usage{
-add.lines.metrics.to.corpus.files(corpus)
+add.lines.metrics.to.corpus.files(corpus, .verbose = T)
 }
 \arguments{
-\item{corpus}{\code{corpus.list} \code{list} of dataframes created by \code{construct_corpus()}.}
+\item{corpus}{\code{corpus.list} - \code{list} of dataframes created by \code{construct_corpus()}.}
+
+\item{.verbose}{\code{logical} - Add messages if \code{TRUE}.}
 }
 \value{
 A dataframe of class 'corpus.list'.

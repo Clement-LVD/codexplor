@@ -264,20 +264,20 @@ clean_paths <- function(df
 
 #### 2) inverted intervals ####
 reverse_intervals <- function(start, end, n_max) {
-  # Vérifier que start et end sont bien de la même longueur
+  # Verify other data.frame
   if (length(start) != length(end)) stop("start and end don't have the same length : they should be.")
 
   # user have passed an interval, e.g., start[1]:end[1] are non-desired values
 
   new_starts <- c(1, end + 1)
 
-    # Fin des nouveaux intervalles (juste avant chaque début d'intervalle suivant)
+    # end of new intervals (just before the next one)
   new_ends <- c(start - 1, n_max)
 
-  # Supprimer les intervalles invalides (cas où start[i] == end[i] + 1)
+  # suppress invalid interval : when start[i] == end[i] + 1)
   valid <- new_starts <= new_ends
 
-  # Retourner le dataframe des intervalles inversés
+  # Return data.fraùe
   return(data.frame(start = new_starts[valid], end = new_ends[valid]))
 }
 
