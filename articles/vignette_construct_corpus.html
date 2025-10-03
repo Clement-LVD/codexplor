@@ -88,14 +88,17 @@ Python.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://clement-lvd.github.io/codexplor/">codexplor</a></span><span class="op">)</span></span>
 <span><span class="co"># Construct a corpus from github</span></span>
 <span><span class="va">corpus</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_corpus.html">construct_corpus</a></span><span class="op">(</span>repos <span class="op">=</span>  <span class="st">"tidyverse/stringr"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Progress: [          ]Progress: [X         ]Progress: [XX        ]Progress: [XXX       ]Progress: [XXXX      ]Progress: [XXXXX     ]Progress: [XXXXXX    ]Progress: [XXXXXXX   ]Progress: [XXXXXXXX  ]Progress: [XXXXXXXXX ]Progress: [XXXXXXXXXX]Progress: [XXXXXXXXXX]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">corpus</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; List of 6</span></span>
-<span><span class="co">#&gt;  $ codes            :Classes 'corpus.lines' and 'data.frame':    2482 obs. of  10 variables:</span></span>
-<span><span class="co">#&gt;  $ comments         :Classes 'corpus.lines' and 'data.frame':    1489 obs. of  9 variables:</span></span>
-<span><span class="co">#&gt;  $ files            :Classes 'corpus.nodelist' and 'data.frame': 37 obs. of  13 variables:</span></span>
-<span><span class="co">#&gt;  $ functions        :Classes 'corpus.nodelist' and 'data.frame': 166 obs. of  14 variables:</span></span>
-<span><span class="co">#&gt;  $ functions.network:Classes 'citations.network', 'internal.dependancies' and 'data.frame':  566 obs. of  5 variables:</span></span>
-<span><span class="co">#&gt;  $ files.network    :Classes 'citations.network', 'internal.dependancies' and 'data.frame':  110 obs. of  3 variables:</span></span>
+<span><span class="co">#&gt; List of 7</span></span>
+<span><span class="co">#&gt;  $ codes                   :Classes 'corpus.lines' and 'data.frame': 2482 obs. of  10 variables:</span></span>
+<span><span class="co">#&gt;  $ comments                :Classes 'corpus.lines' and 'data.frame': 1489 obs. of  9 variables:</span></span>
+<span><span class="co">#&gt;  $ files                   :Classes 'corpus.nodelist' and 'data.frame':  37 obs. of  14 variables:</span></span>
+<span><span class="co">#&gt;  $ functions               :Classes 'corpus.nodelist' and 'data.frame':  166 obs. of  14 variables:</span></span>
+<span><span class="co">#&gt;  $ functions.network       :Classes 'citations.network', 'internal.dependancies' and 'data.frame':   566 obs. of  5 variables:</span></span>
+<span><span class="co">#&gt;  $ files.network           :Classes 'citations.network', 'internal.dependancies' and 'data.frame':   110 obs. of  3 variables:</span></span>
+<span><span class="co">#&gt;  $ files.similarity.network:'data.frame':    666 obs. of  3 variables:</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "corpus.list"</span></span>
 <span><span class="co">#&gt;  - attr(*, "date_creation")= Date[1:1], format: "2025-10-03"</span></span>
 <span><span class="co">#&gt;  - attr(*, "languages_patterns")=List of 1</span></span>
